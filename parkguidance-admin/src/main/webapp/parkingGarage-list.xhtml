@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:adm="http://github.com/adminfaces"
+                template="#{layoutMB.template}">
+
+    <ui:define name="metadata">
+        <ui:param name="title" value="Parking Garage"/> <!-- Automatic create breadCrumb and page title when param 'title' is provided. -->
+
+        <style type="text/css">
+            .ui-datatable .ui-datatable-header {
+                text-align: right !important;
+            }
+        </style>
+    </ui:define>
+
+    <ui:define name="description">
+
+    </ui:define>
+
+    <ui:define name="body">
+        <h:form>
+            <p:focus context="@form"/>
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <div id="main-buttons" class="hidden-sm hidden-xs">
+                        <p:commandButton action="/parkingGarage-form?faces-redirect=true" icon="fa fa-plus"
+                                         value="New" styleClass="btn-primary"/>
+                        <p:spacer width="5"/>
+                        <p:commandButton value="Delete Selected" icon="fa fa-trash" styleClass="btn-danger"
+                                         action="#{garageList.delete}"
+                                         disabled="#{garageList.model.selectedGarages.size() == 0}"
+                                         process="@this" update="@form"
+                        >
+                            <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-danger"/>
+                        </p:commandButton>
+                    </div>
+
+                    <p:splitButton value="New" action="/parkingGarage-form?faces-redirect=true"
+                                   icon="fa fa-plus"
+                                   styleClass="hidden-md hidden-lg btn-primary">
+                        <p:menuitem value="Delete Selected" action="#{garageList.delete}"
+                                    process="@this" update="@form"
+                                    disabled="#{garageList.model.selectedGarages.size() == 0}"
+                                    icon="fa fa-trash">
+                            <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-danger"/>
+                        </p:menuitem>
+                    </p:splitButton>
+
+                    <p:separator/>
+
+                    <p:dataTable widgetVar="carsTable" var="p" value="#{garageList.model.parkingGarages}" rows="5"
+                                 rowKey="#{p.id}" lazy="true" paginator="true"
+                                 filteredValue="#{garageList.model.filteredValue}"
+                                 paginatorPosition="bottom" selection="#{garageList.model.selectedGarages}"
+                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {JumpToPageDropdown}"
+                                 currentPageReportTemplate="[ {startRecord} to {endRecord} of {totalRecords} ]"
+                                 rowsPerPageTemplate="5,10,15,20,30">
+
+                        <p:ajax event="rowSelectCheckbox" update="@(.ui-button, .ui-confirm-dialog)"/>
+                        <p:ajax event="rowUnselectCheckbox" update="@(.ui-button, .ui-confirm-dialog)"/>
+                        <p:ajax event="rowSelect" update="@(.ui-button, .ui-confirm-dialog)"/>
+                        <p:ajax event="rowUnselect" update="@(.ui-button, .ui-confirm-dialog)"/>
+                        <p:ajax event="toggleSelect" update="@(.ui-button, .ui-confirm-dialog)"/>
+
+                        <p:column selectionMode="multiple" width="5%" styleClass="align-center"/>
+                        <p:column headerText="Name" sortBy="#{p.name}" filterBy="#{p.name}" filterMatchMode="contains">
+                            <f:facet name="filter">
+                                <p:inputText value="#{garageList.model.filter.entity.name}">
+                                    <p:ajax process="@this" update="@none" oncomplete="PF('carsTable').filter()"/>
+                                </p:inputText>
+                            </f:facet>
+                            <p:link value="#{p.name}" outcome="/car-form" >
+                                <f:param name="id" value="#{p.id}"/>
+                            </p:link>
+                        </p:column>
+                        <p:column headerText="Pläze">
+                            #{p.spaces}
+                        </p:column>
+                    </p:dataTable>
+                </div>
+            </div>
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" styleClass="box-danger box-solid">
+                <p:commandButton value="Yes" type="button" styleClass="btn-material btn-primary ui-confirmdialog-yes"
+                                 icon="fa fa-check"/>
+                <p:commandButton value="No" type="button" styleClass="btn-material btn-danger ui-confirmdialog-no"
+                                 icon="fa fa-close"/>
+            </p:confirmDialog>
+        </h:form>
+    </ui:define>
+</ui:composition>
