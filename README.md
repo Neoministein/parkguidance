@@ -1,1 +1,31 @@
-# parkguidance
+# Parkguidance
+## Datamodel
+ - ParkingGarage
+    - Name
+    - Spaces
+    - AccessKey
+    - Address
+    - Description
+    - Price
+ - Address
+    - Cityname
+    - PLZ
+    - Street
+    - Number
+ - ParkingData
+    - ParkingGarage
+    - Date
+    - Occupied
+ - Datasheet
+    - ParkingGarage
+    - Occupied
+    - Year
+    - Week
+    - HourOfWeek
+ - RegisteredUser
+    - Username
+    - Password
+    - Permissions
+ - Permission
+    - Name
+    - Description
