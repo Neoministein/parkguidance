@@ -31,8 +31,7 @@
                         <p:commandButton value="Delete Selected" icon="fa fa-trash" styleClass="btn-danger"
                                          action="#{garageList.delete}"
                                          disabled="#{garageList.model.selectedGarages.size() == 0}"
-                                         process="@this" update="@form"
-                        >
+                                         process="@this" update="@form">
                             <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-danger"/>
                         </p:commandButton>
                     </div>
@@ -65,6 +64,7 @@
                         <p:ajax event="toggleSelect" update="@(.ui-button, .ui-confirm-dialog)"/>
 
                         <p:column selectionMode="multiple" width="5%" styleClass="align-center"/>
+                        <!--
                         <p:column headerText="Name" sortBy="#{p.name}" filterBy="#{p.name}" filterMatchMode="contains">
                             <f:facet name="filter">
                                 <p:inputText value="#{garageList.model.filter.entity.name}">
@@ -72,6 +72,12 @@
                                 </p:inputText>
                             </f:facet>
                             <p:link value="#{p.name}" outcome="/car-form" >
+                                <f:param name="id" value="#{p.id}"/>
+                            </p:link>
+                        </p:column>
+                        -->
+                        <p:column headerText="Name">
+                            <p:link value="#{p.name}" outcome="/parkingGarage-form" >
                                 <f:param name="id" value="#{p.id}"/>
                             </p:link>
                         </p:column>
