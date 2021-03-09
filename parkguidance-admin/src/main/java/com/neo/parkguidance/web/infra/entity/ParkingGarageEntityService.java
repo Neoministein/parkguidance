@@ -1,7 +1,6 @@
 package com.neo.parkguidance.web.infra.entity;
 
 import com.github.adminfaces.starter.infra.model.SortOrder;
-import com.github.adminfaces.starter.model.Car;
 import com.neo.parkguidance.entity.ParkingGarage;
 import com.neo.parkguidance.web.infra.table.Filter;
 
@@ -18,7 +17,7 @@ public class ParkingGarageEntityService extends ParkingGarageEntityManager {
 
     public List<ParkingGarage> paginate(Filter<ParkingGarage> filter) {
         List<ParkingGarage> pagedCars = new ArrayList<>();
-        if(has(filter.getSortOrder()) && SortOrder.UNSORTED.equals(filter.getSortOrder())) {
+        if(has(filter.getSortOrder()) && !SortOrder.UNSORTED.equals(filter.getSortOrder())) {
             pagedCars = findAll().stream().
                     sorted((c1, c2) -> {
                         if (filter.getSortOrder().isAscending()) {
