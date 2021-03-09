@@ -8,19 +8,19 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 @RequestScoped
-@Named(value = GarageController.BEAN_NAME)
-public class GarageController {
+@Named(value = GarageListController.BEAN_NAME)
+public class GarageListController {
 
     public static final String BEAN_NAME = "garageList";
 
     @Inject
-    private GarageModel model;
+    private GarageListModel model;
 
     @Inject
     private UserBean userBean;
 
     @Inject
-    private GarageFacade facade;
+    private GarageListFacade facade;
 
     @PostConstruct
     public void initDataModel() {
@@ -43,7 +43,7 @@ public class GarageController {
         facade.delete(model);
     }
 
-    public GarageModel getModel() {
+    public GarageListModel getModel() {
         return model;
     }
 }

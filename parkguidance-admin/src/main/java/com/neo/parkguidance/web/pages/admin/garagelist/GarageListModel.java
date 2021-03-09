@@ -9,7 +9,7 @@ import java.io.Serializable;
 import java.util.List;
 
 @ViewScoped
-public class GarageModel implements Serializable {
+public class GarageListModel implements Serializable {
 
     private boolean instantiated = false;
 

@@ -16,12 +16,12 @@ import java.util.Map;
 import static com.github.adminfaces.starter.util.Utils.addDetailMessage;
 
 @Stateless
-public class GarageFacade {
+public class GarageListFacade {
 
     @Inject
     private ParkingGarageEntityService garageService;
 
-    public void initDataModel(GarageModel model) {
+    public void initDataModel(GarageListModel model) {
         model.setParkingGarages(new LazyDataModel<ParkingGarage>() {
 
             @Override
@@ -58,18 +58,18 @@ public class GarageFacade {
         });
     }
 
-    public void clearFilter(GarageModel model) {
+    public void clearFilter(GarageListModel model) {
         model.setFilter(new Filter<>(new ParkingGarage()));
     }
 
-    public void findGarageById(Integer id, GarageModel model) {
+    public void findGarageById(Integer id, GarageListModel model) {
         if (id == null) {
             throw new BusinessException("Provide Car ID to load");
         }
         model.getSelectedGarages().add(garageService.findById(id));
     }
 
-    public void delete(GarageModel model) {
+    public void delete(GarageListModel model) {
         int numCars = 0;
         List<ParkingGarage> list = model.getSelectedGarages();
         if(list != null) {
