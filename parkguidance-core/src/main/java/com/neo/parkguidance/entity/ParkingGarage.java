@@ -7,6 +7,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.Objects;
 
 @Entity
 @Table(name = ParkingGarage.TABLE_NAME)
@@ -21,7 +22,7 @@ public class ParkingGarage implements Serializable, Comparable<ParkingGarage> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
 
     @Column(name = C_NAME)
@@ -62,11 +63,11 @@ public class ParkingGarage implements Serializable, Comparable<ParkingGarage> {
 
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -121,5 +122,20 @@ public class ParkingGarage implements Serializable, Comparable<ParkingGarage> {
     @Override
     public int compareTo(ParkingGarage o) {
         return Long.compare(this.getId(), o.getId());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        ParkingGarage that = (ParkingGarage) o;
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }
