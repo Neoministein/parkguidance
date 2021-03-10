@@ -15,7 +15,7 @@
         Parking Garage Form
     </ui:define>
     <ui:define name="body">
-        <adm:breadcrumb title="#{empty garageForm.model.id ? 'New Car' : 'Car '.concat(garageForm.model.id)}" link="/parkingGarage-form.xhtml?id=#{garageForm.model.id}"/>
+        <adm:breadcrumb title="#{empty garageForm.model.id ? 'New ParkingGarage' : 'ParkingGarage '.concat(garageForm.model.parkingGarage.name)}" link="/parkingGarage-form.xhtml?id=#{garageForm.model.id}"/>
         <h:form id="form" prependId="false">
             <p:focus rendered="#{empty garageForm.model.id}"/>
             <p:panel styleClass="box-primary card">
