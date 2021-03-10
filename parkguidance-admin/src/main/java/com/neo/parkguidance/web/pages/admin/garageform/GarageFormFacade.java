@@ -8,6 +8,8 @@ import com.neo.parkguidance.web.infra.entity.ParkingGarageEntityService;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
+import java.util.List;
+
 import static com.github.adminfaces.template.util.Assert.has;
 
 @Stateless
@@ -38,10 +40,23 @@ public class GarageFormFacade {
     }
 
     public void create(ParkingGarage parkingGarage) {
-        if (parkingGarage.getAccessKey() == null || parkingGarage.getAccessKey().isEmpty()) {
-            parkingGarage.setAccessKey(new RandomString().nextString());
-        }
+        checkAccessKey(parkingGarage);
+
         addressManager.create(parkingGarage.getAddress());
         garageService.create(parkingGarage);
+    }
+
+    protected void checkAccessKey(ParkingGarage parkingGarage) {
+        if (parkingGarage.getAccessKey() == null || parkingGarage.getAccessKey().isEmpty()) {
+            String accesskey;
+            do {
+                accesskey = new RandomString().nextString();
+            }while (exists(accesskey));
+            parkingGarage.setAccessKey(accesskey);
+        }
+    }
+
+    protected boolean exists(String accessKey) {
+        return !garageService.findByColumn(ParkingGarage.C_ACCESS_KEY,accessKey).isEmpty();
     }
 }
