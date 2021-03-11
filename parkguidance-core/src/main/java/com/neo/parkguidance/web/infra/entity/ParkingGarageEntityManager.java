@@ -20,5 +20,4 @@ public class ParkingGarageEntityManager extends AbstractEntityFacade<ParkingGara
     public ParkingGarageEntityManager() {
         super(ParkingGarage.class);
     }
-
 }
