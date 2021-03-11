@@ -65,7 +65,7 @@ public class Dataloader {
             st.executeUpdate(
                     "INSERT INTO parkinggarage (accesskey ,name ,spaces ,address) VALUES (\'abc\',\'Home\',255,1);");
                 st.executeUpdate(
-                        "INSERT INTO parkinggarage (accesskey ,name ,spaces ,address) VALUES (\'abc\',\'BBB\',255,1);");
+                        "INSERT INTO parkinggarage (accesskey ,name ,spaces ,address) VALUES (\'cba\',\'BBB\',255,1);");
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
