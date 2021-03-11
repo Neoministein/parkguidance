@@ -19,8 +19,8 @@ public class Dataloader {
             String password = "DBACC";
 
             try (Connection con = DriverManager.getConnection(url, user, password)) {
-                //addAdminUser(con);
-                //addNormalUser(con);
+                addAdminUser(con);
+                addNormalUser(con);
                 addParkingGarage(con);
             } catch (SQLException ex) {
                 ex.printStackTrace();
