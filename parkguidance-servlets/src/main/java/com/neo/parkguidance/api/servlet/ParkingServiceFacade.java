@@ -1,0 +1,52 @@
+package com.neo.parkguidance.api.servlet;
+
+import com.neo.parkguidance.api.security.ParkingGarageAuthentication;
+import com.neo.parkguidance.entity.ParkingGarage;
+import com.neo.parkguidance.web.infra.entity.ParkingDataEntityManager;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import javax.ejb.Stateless;
+import javax.inject.Inject;
+import javax.servlet.http.HttpServletResponse;
+
+@Stateless
+public class ParkingServiceFacade {
+
+    private static final Object lock = new Object();
+
+    private static final int INCREASE = 1;
+    private static final int DECREASE = -1;
+
+    @Inject
+    private ParkingGarageAuthentication authentication;
+
+    @Inject
+    private ParkingDataEntityManager parkingDataManager;
+
+    public int test(String requestString) {
+        try {
+            JSONObject requestData = new JSONObject(requestString);
+            ParkingGarage parkingGarage = authentication.validate(requestData.getString(ParkingGarage.C_ACCESS_KEY));
+
+            if(parkingGarage == null) {
+                return HttpServletResponse.SC_FORBIDDEN;
+            }
+            synchronized (lock) {
+                switch (requestData.getString("type")) {
+                case "incr":
+                    parkingDataManager.create(parkingGarage,INCREASE);
+                    break;
+                case "decr":
+                    parkingDataManager.create(parkingGarage, DECREASE);
+                    break;
+                default:
+                    return HttpServletResponse.SC_BAD_REQUEST;
+                }
+                return HttpServletResponse.SC_ACCEPTED;
+            }
+        }catch (JSONException ex) {
+            return HttpServletResponse.SC_BAD_REQUEST;
+        }
+    }
+}
