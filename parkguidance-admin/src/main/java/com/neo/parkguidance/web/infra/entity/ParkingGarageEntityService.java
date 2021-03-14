@@ -1,8 +1,8 @@
 package com.neo.parkguidance.web.infra.entity;
 
-import com.github.adminfaces.starter.infra.model.SortOrder;
 import com.neo.parkguidance.entity.ParkingGarage;
 import com.neo.parkguidance.web.infra.table.Filter;
+import com.neo.parkguidance.web.infra.table.SortOrder;
 
 import javax.ejb.Stateless;
 import java.util.ArrayList;
