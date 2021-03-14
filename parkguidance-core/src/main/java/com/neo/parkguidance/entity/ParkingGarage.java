@@ -138,4 +138,9 @@ public class ParkingGarage implements Serializable, Comparable<ParkingGarage> {
     public int hashCode() {
         return Objects.hash(id);
     }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

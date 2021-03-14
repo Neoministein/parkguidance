@@ -13,9 +13,9 @@ public class GarageListModel implements Serializable {
 
     private boolean instantiated = false;
 
-    private LazyDataModel<ParkingGarage> parkingGarages;
+    private LazyDataModel<ParkingGarage> data;
 
-    private List<ParkingGarage> selectedGarages;
+    private List<ParkingGarage> selected;
 
     private List<ParkingGarage> filteredValue;
 
@@ -29,20 +29,20 @@ public class GarageListModel implements Serializable {
         this.instantiated = instantiated;
     }
 
-    public LazyDataModel<ParkingGarage> getParkingGarages() {
-        return parkingGarages;
+    public LazyDataModel<ParkingGarage> getData() {
+        return data;
     }
 
-    public void setParkingGarages(LazyDataModel<ParkingGarage> parkingGarages) {
-        this.parkingGarages = parkingGarages;
+    public void setData(LazyDataModel<ParkingGarage> data) {
+        this.data = data;
     }
 
-    public List<ParkingGarage> getSelectedGarages() {
-        return selectedGarages;
+    public List<ParkingGarage> getSelected() {
+        return selected;
     }
 
-    public void setSelectedGarages(List<ParkingGarage> selectedGarages) {
-        this.selectedGarages = selectedGarages;
+    public void setSelected(List<ParkingGarage> selected) {
+        this.selected = selected;
     }
 
     public List<ParkingGarage> getFilteredValue() {

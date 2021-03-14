@@ -1,6 +1,5 @@
 package com.neo.parkguidance.web.pages.admin.garagelist;
 
-import com.github.adminfaces.template.exception.BusinessException;
 import com.neo.parkguidance.entity.ParkingGarage;
 import com.neo.parkguidance.web.infra.entity.ParkingGarageEntityService;
 import com.neo.parkguidance.web.infra.table.Filter;
@@ -22,7 +21,7 @@ public class GarageListFacade {
     private ParkingGarageEntityService garageService;
 
     public void initDataModel(GarageListModel model) {
-        model.setParkingGarages(new LazyDataModel<ParkingGarage>() {
+        model.setData(new LazyDataModel<ParkingGarage>() {
 
             @Override
             public List<ParkingGarage> load(int first, int pageSize,
@@ -62,23 +61,16 @@ public class GarageListFacade {
         model.setFilter(new Filter<>(new ParkingGarage()));
     }
 
-    public void findGarageById(Integer id, GarageListModel model) {
-        if (id == null) {
-            throw new BusinessException("Provide Car ID to load");
-        }
-        model.getSelectedGarages().add(garageService.findById(id));
-    }
-
     public void delete(GarageListModel model) {
         int numCars = 0;
-        List<ParkingGarage> list = model.getSelectedGarages();
+        List<ParkingGarage> list = model.getSelected();
         if(list != null) {
             for (ParkingGarage selectedCar : list) {
                 numCars++;
                 garageService.remove(selectedCar);
 
             }
-            model.getSelectedGarages().clear();
+            model.getSelected().clear();
             addDetailMessage(numCars + "ParkingGarage deleted successfully!");
         }
     }

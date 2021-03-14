@@ -82,13 +82,4 @@ public class ParkingGarageEntityService extends ParkingGarageEntityManager {
                         .reduce(Predicate::or).orElse(t -> true))
                 .count();
     }
-    public ParkingGarage findById(Integer id) {
-        List<ParkingGarage> list = findByColumn(ParkingGarage.C_ID,id);
-        if(!list.isEmpty()) {
-
-            return list.get(0);
-        } else {
-            throw new IllegalArgumentException("ParkingGarage not found with id " + id);
-        }
-    }
 }

@@ -35,10 +35,6 @@ public class GarageListController {
         facade.clearFilter(model);
     }
 
-    public void findGarageById(Integer id) {
-        facade.findGarageById(id,model);
-    }
-
     public void delete() {
         facade.delete(model);
     }

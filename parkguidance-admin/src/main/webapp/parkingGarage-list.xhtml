@@ -30,7 +30,7 @@
                         <p:spacer width="5"/>
                         <p:commandButton value="Delete Selected" icon="fa fa-trash" styleClass="btn-danger"
                                          action="#{garageList.delete}"
-                                         disabled="#{garageList.model.selectedGarages.size() == 0}"
+                                         disabled="#{garageList.model.selected.size() == 0}"
                                          process="@this" update="@form">
                             <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-danger"/>
                         </p:commandButton>
@@ -41,7 +41,7 @@
                                    styleClass="hidden-md hidden-lg btn-primary">
                         <p:menuitem value="Delete Selected" action="#{garageList.delete}"
                                     process="@this" update="@form"
-                                    disabled="#{garageList.model.selectedGarages.size() == 0}"
+                                    disabled="#{garageList.model.selected.size() == 0}"
                                     icon="fa fa-trash">
                             <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-danger"/>
                         </p:menuitem>
@@ -49,10 +49,10 @@
 
                     <p:separator/>
 
-                    <p:dataTable widgetVar="carsTable" var="p" value="#{garageList.model.parkingGarages}" rows="5"
+                    <p:dataTable widgetVar="carsTable" var="p" value="#{garageList.model.data}" rows="5"
                                  rowKey="#{p.id}" lazy="true" paginator="true"
                                  filteredValue="#{garageList.model.filteredValue}"
-                                 paginatorPosition="bottom" selection="#{garageList.model.selectedGarages}"
+                                 paginatorPosition="bottom" selection="#{garageList.model.selected}"
                                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {JumpToPageDropdown}"
                                  currentPageReportTemplate="[ {startRecord} to {endRecord} of {totalRecords} ]"
                                  rowsPerPageTemplate="5,10,15,20,30">
