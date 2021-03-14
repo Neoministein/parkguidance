@@ -14,7 +14,7 @@ import javax.inject.Inject;
 import java.io.IOException;
 import java.util.List;
 
-import static com.github.adminfaces.starter.util.Utils.addDetailMessage;
+import static com.neo.parkguidance.web.utils.Utils.addDetailMessage;
 import static org.apache.commons.codec.digest.MessageDigestAlgorithms.SHA_224;
 
 @Stateless

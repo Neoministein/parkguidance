@@ -10,7 +10,7 @@ import javax.inject.Named;
 
 import java.io.IOException;
 
-import static com.github.adminfaces.starter.util.Utils.addDetailMessage;
+import static com.neo.parkguidance.web.utils.Utils.addDetailMessage;
 import static com.github.adminfaces.template.util.Assert.has;
 
 @RequestScoped

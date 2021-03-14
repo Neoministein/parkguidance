@@ -12,7 +12,7 @@ import javax.inject.Inject;
 import java.util.List;
 import java.util.Map;
 
-import static com.github.adminfaces.starter.util.Utils.addDetailMessage;
+import static com.neo.parkguidance.web.utils.Utils.addDetailMessage;
 
 @Stateless
 public class GarageListFacade {
