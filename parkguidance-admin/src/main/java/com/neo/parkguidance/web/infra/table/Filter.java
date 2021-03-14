@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class Filter<T extends Serializable> {
+public class Filter<T extends Serializable> implements Serializable{
     private T entity;
     private int first;
     private int pageSize;

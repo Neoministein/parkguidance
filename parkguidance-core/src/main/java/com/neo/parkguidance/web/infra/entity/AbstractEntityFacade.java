@@ -72,4 +72,14 @@ public abstract class AbstractEntityFacade<T> {
 
         return list1;
     }
+
+    public T findById(Integer id) {
+        List<T> list = findByColumn("id",id);
+        if(!list.isEmpty()) {
+
+            return list.get(0);
+        } else {
+            throw new IllegalArgumentException(getClass().getName() + " not found with id " + id);
+        }
+    }
 }
