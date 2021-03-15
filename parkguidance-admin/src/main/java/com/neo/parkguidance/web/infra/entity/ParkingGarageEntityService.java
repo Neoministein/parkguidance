@@ -17,7 +17,7 @@ public class ParkingGarageEntityService extends ParkingGarageEntityManager {
 
     public List<ParkingGarage> paginate(Filter<ParkingGarage> filter) {
         List<ParkingGarage> pagedCars = new ArrayList<>();
-        if(has(filter.getSortOrder()) && !SortOrder.UNSORTED.equals(filter.getSortOrder())) {
+        if(!SortOrder.UNSORTED.equals(filter.getSortOrder())) {
             pagedCars = findAll().stream().
                     sorted((c1, c2) -> {
                         if (filter.getSortOrder().isAscending()) {

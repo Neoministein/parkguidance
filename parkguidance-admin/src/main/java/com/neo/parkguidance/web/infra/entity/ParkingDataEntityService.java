@@ -16,7 +16,7 @@ import static com.github.adminfaces.template.util.Assert.has;
 public class ParkingDataEntityService extends ParkingDataEntityManager {
     public List<ParkingData> paginate(Filter<ParkingData> filter) {
         List<ParkingData> pagedCars = new ArrayList<>();
-        if(has(filter.getSortOrder()) && !SortOrder.UNSORTED.equals(filter.getSortOrder())) {
+        if(!SortOrder.UNSORTED.equals(filter.getSortOrder())) {
             pagedCars = findAll().stream().
                     sorted((c1, c2) -> {
                         if (filter.getSortOrder().isAscending()) {
