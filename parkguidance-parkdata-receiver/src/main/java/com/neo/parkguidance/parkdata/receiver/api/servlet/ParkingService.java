@@ -1,4 +1,6 @@
-package com.neo.parkguidance.api.parkdata.receiver.servlet;
+package com.neo.parkguidance.parkdata.receiver.api.servlet;
+
+import com.neo.parkguidance.parkdata.receiver.impl.ParkingServiceFacade;
 
 import javax.inject.Inject;
 import javax.servlet.ServletException;
