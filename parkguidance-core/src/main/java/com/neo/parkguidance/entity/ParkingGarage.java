@@ -1,7 +1,5 @@
 package com.neo.parkguidance.entity;
 
-import com.neo.parkguidance.web.infra.table.RandomString;
-
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -51,13 +49,6 @@ public class ParkingGarage implements Serializable, Comparable<ParkingGarage> {
 
     @Column(name = C_PRICE)
     private String price;
-
-    public ParkingGarage(@NotNull @Size(max = 50) String name, @Min(0) @NotNull int spaces, @NotNull Address address) {
-        this.name = name;
-        this.spaces = spaces;
-        this.accessKey = new RandomString().nextString();
-        this.address = address;
-    }
 
     public ParkingGarage() {
 
