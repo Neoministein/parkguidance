@@ -53,7 +53,7 @@
 		<module>parkguidance-core</module>
 
 		<module>parkguidance-admin</module>
-		<module>parkguidance-servlets</module>
+		<module>parkguidance-parkdata-receiver</module>
 		<module>parkguidance-user</module>
 	</modules>
 </project>

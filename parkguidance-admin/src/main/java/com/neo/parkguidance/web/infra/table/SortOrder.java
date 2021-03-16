@@ -7,4 +7,12 @@ public enum SortOrder {
     public boolean isAscending() {
         return ASCENDING.equals(this);
     }
+
+    public boolean isDescending() {
+        return DESCENDING.equals(this);
+    }
+
+    public boolean isUnsorted() {
+        return UNSORTED.equals(this);
+    }
 }

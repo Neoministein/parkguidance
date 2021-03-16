@@ -1,4 +1,4 @@
-package com.neo.parkguidance.api.security;
+package com.neo.parkguidance.api.parkdata.receiver.security;
 
 import com.neo.parkguidance.entity.ParkingGarage;
 import com.neo.parkguidance.web.infra.entity.ParkingGarageEntityManager;

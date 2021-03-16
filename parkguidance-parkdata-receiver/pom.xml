@@ -6,8 +6,8 @@
         <artifactId>parkguidance-main</artifactId>
         <version>0.1-SNAPSHOT</version>
     </parent>
-    <artifactId>parkguidance-servlets</artifactId>
-    <name>ParkGuidance Servlets POM</name>
+    <artifactId>parkguidance-parkdata-receiver</artifactId>
+    <name>ParkGuidance Parkdata Receiver POM</name>
     <packaging>war</packaging>
 
     <properties>

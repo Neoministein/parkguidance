@@ -1,6 +1,6 @@
-package com.neo.parkguidance.api.servlet;
+package com.neo.parkguidance.api.parkdata.receiver.servlet;
 
-import com.neo.parkguidance.api.security.ParkingGarageAuthentication;
+import com.neo.parkguidance.api.parkdata.receiver.security.ParkingGarageAuthentication;
 import com.neo.parkguidance.entity.ParkingGarage;
 import com.neo.parkguidance.web.infra.entity.ParkingDataEntityManager;
 import org.json.JSONException;
