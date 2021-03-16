@@ -1,8 +1,8 @@
 package com.neo.parkguidance.parkdata.receiver.impl;
 
 import com.neo.parkguidance.parkdata.receiver.impl.security.ParkingGarageAuthentication;
-import com.neo.parkguidance.entity.ParkingGarage;
-import com.neo.parkguidance.web.infra.entity.ParkingDataEntityManager;
+import com.neo.parkguidance.core.entity.ParkingGarage;
+import com.neo.parkguidance.core.impl.dao.ParkingDataEntityManager;
 import org.json.JSONException;
 import org.json.JSONObject;
 

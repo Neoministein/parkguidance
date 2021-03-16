@@ -1,7 +1,7 @@
 package com.neo.parkguidance.parkdata.receiver.impl.security;
 
-import com.neo.parkguidance.entity.ParkingGarage;
-import com.neo.parkguidance.web.infra.entity.ParkingGarageEntityManager;
+import com.neo.parkguidance.core.entity.ParkingGarage;
+import com.neo.parkguidance.core.impl.dao.ParkingGarageEntityManager;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
