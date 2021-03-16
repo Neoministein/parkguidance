@@ -19,7 +19,7 @@ public class ParkingDataEntityService extends ParkingDataEntityManager {
         List<ParkingData> pagedCars = new ArrayList<>();
         if(!SortOrder.UNSORTED.equals(filter.getSortOrder())) {
             pagedCars = findAll().stream().
-                    sorted((c1, c2) -> {
+                    sorted((c2, c1) -> {
                         if (filter.getSortOrder().isAscending()) {
                             return Long.compare(c1.getId(), c2.getId());
                         } else {
