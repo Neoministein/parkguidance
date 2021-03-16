@@ -54,6 +54,7 @@
 
 		<module>parkguidance-admin</module>
 		<module>parkguidance-parkdata-receiver</module>
+		<module>parkguidance-parkdata-sorter</module>
 		<module>parkguidance-user</module>
 	</modules>
 </project>

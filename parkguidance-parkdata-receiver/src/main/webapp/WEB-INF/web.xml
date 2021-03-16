@@ -5,7 +5,7 @@
 
 	<servlet>
 		<servlet-name>parkService</servlet-name>
-		<servlet-class>com.neo.parkguidance.api.parkdata.receiver.servlet.ParkingService</servlet-class>
+		<servlet-class>com.neo.parkguidance.parkdata.receiver.api.servlet.ParkingService</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>parkService</servlet-name>
