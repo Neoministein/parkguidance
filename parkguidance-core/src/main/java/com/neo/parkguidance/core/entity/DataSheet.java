@@ -16,6 +16,7 @@ public class DataSheet implements Serializable {
     public static final String C_DAY = "day";
     public static final String C_HALF_HOUR = "halfHour";
     public static final String C_OCCUPIED = "occupied";
+    public static final String C_WAITING_TIME = "waitingTime";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,7 +30,7 @@ public class DataSheet implements Serializable {
     @Min(1)
     @Max(53)
     @NotNull
-    private Enum week;
+    private Integer week;
 
     @Column(name = C_DAY)
     @Min(0)
@@ -47,6 +48,11 @@ public class DataSheet implements Serializable {
     @Min(0)
     @NotNull
     private Integer occupied;
+
+    @Column(name = C_WAITING_TIME)
+    @Min(0)
+    @NotNull
+    private Integer waitingTime;
 
     @ManyToOne
     @NotNull
@@ -68,11 +74,11 @@ public class DataSheet implements Serializable {
         this.year = year;
     }
 
-    public Enum getWeek() {
+    public Integer getWeek() {
         return week;
     }
 
-    public void setWeek(Enum week) {
+    public void setWeek(Integer week) {
         this.week = week;
     }
 
@@ -98,6 +104,14 @@ public class DataSheet implements Serializable {
 
     public void setOccupied(Integer occupied) {
         this.occupied = occupied;
+    }
+
+    public Integer getWaitingTime() {
+        return waitingTime;
+    }
+
+    public void setWaitingTime(Integer waitingTime) {
+        this.waitingTime = waitingTime;
     }
 
     public ParkingGarage getParkingGarage() {
