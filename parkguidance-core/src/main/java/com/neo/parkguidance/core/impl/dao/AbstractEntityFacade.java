@@ -10,7 +10,7 @@ import java.util.List;
 
 public abstract class AbstractEntityFacade<T> {
 
-    private final Class<T> entityClass;
+    protected final Class<T> entityClass;
 
     protected AbstractEntityFacade(Class<T> entityClass) {
         this.entityClass = entityClass;
