@@ -9,6 +9,7 @@
             <!-- Set value to update if I don't want to recreate database on Application startup -->
 <!--
             <property name="hibernate.hbm2ddl.auto" value="create" />
+            <property name="hibernate.hbm2ddl.auto" value="verify" />
             -->
             <property name="hibernate.hbm2ddl.auto" value="update" />
 
