@@ -12,7 +12,8 @@ import java.nio.charset.StandardCharsets;
 public class ServletConnection {
 
     public static void main(String[] args) throws Exception {
-        URL url = new URL("http://localhost:8080/park-guidance/park-data/receiver/api");
+        URL url = new URL("http://localhost:8080/park-guidance/park-data/sorter/api");
+        //URL url = new URL("http://localhost:8080/park-guidance/park-data/receiver/api");
         URLConnection con = url.openConnection();
         HttpURLConnection http = (HttpURLConnection) con;
         http.setRequestMethod("POST"); // PUT is another valid option
