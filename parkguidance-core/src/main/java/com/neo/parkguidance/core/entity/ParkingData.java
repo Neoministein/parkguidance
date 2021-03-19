@@ -11,7 +11,7 @@ import java.util.Date;
 public class ParkingData implements Serializable {
 
     public static final String TABLE_NAME = "parkingData";
-    public static final String C_DATE = "DATE";
+    public static final String C_DATE = "date";
     public static final String C_OCCUPIED = "occupied";
 
     public ParkingData() {}
