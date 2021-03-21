@@ -5,11 +5,13 @@ import com.neo.parkguidance.core.entity.ParkingGarage;
 import com.neo.parkguidance.core.impl.dao.ParkingDataEntityManager;
 import com.neo.parkguidance.core.impl.dao.ParkingGarageEntityManager;
 
+import javax.ejb.Stateless;
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+@Stateless
 public class ParkListFacade {
 
     private static final long TIME_BETWEEN_UPDATES = 0;
