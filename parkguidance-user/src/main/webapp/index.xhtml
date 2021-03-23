@@ -9,16 +9,16 @@
 </h:head>
 
 <h:body>
-    <p:dataTable id="garageTable" var="parkingData" value="#{parkList.model.parkingData}" rowKey="#{parkingData.parkingGarage.id}">
+    <p:dataTable id="garageTable" var="data" value="#{parkList.model.parkingData}" rowKey="#{data.parkingGrage.id}">
         <p:column headerText="Parkhäuser">
             <!--
             <p:link value="#{garage.name}" outcome="/parkingData" >
                 <f:param name="id" value="#{garage.id}"/>
             </p:link>-->
-            #{parkingData.parkingGarage.name}
+            #{data.parkingGarage.name}
         </p:column>
         <p:column headerText="Plätze">
-            <h:outputText value="#{parkingData.occupied}/#{parkingData.parkingGarage.spaces}" />
+            <h:outputText value="#{data.occupied}/#{data.parkingGarage.spaces}" />
         </p:column>
     </p:dataTable>
 </h:body>

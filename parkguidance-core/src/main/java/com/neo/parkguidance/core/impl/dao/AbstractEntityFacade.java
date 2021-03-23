@@ -2,10 +2,7 @@ package com.neo.parkguidance.core.impl.dao;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
-import javax.persistence.criteria.AbstractQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
+import javax.persistence.criteria.*;
 import java.util.List;
 
 public abstract class AbstractEntityFacade<T> {
@@ -73,6 +70,25 @@ public abstract class AbstractEntityFacade<T> {
         return list1;
     }
 
+    public T findHighestId() {
+        CriteriaBuilder cb= getEntityManager().getCriteriaBuilder();
+
+        AbstractQuery<T> cq1=cb.createQuery(entityClass);
+
+        Root<T> stud1=cq1.from(entityClass);
+
+        CriteriaQuery<T> select1 = ((CriteriaQuery<T>) cq1).select(stud1);
+        select1.orderBy(cb.desc(stud1.get("id")));
+        TypedQuery<T> tq1 = getEntityManager().createQuery(select1);
+        List<T> list1 = tq1.setMaxResults(1).getResultList();
+
+        if(!list1.isEmpty()) {
+
+            return list1.get(0);
+        }
+            throw new IllegalArgumentException(getClass().getName() + " no entries found");
+    }
+
     public T findById(Integer id) {
         List<T> list = findByColumn("id",id);
         if(!list.isEmpty()) {
@@ -82,4 +98,6 @@ public abstract class AbstractEntityFacade<T> {
             throw new IllegalArgumentException(getClass().getName() + " not found with id " + id);
         }
     }
+
+
 }
