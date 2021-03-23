@@ -1,12 +1,12 @@
 package com.neo.parkguidance.user.web.pages.parkdata;
 
 import com.neo.parkguidance.core.entity.ParkingGarage;
+import org.omnifaces.cdi.ViewScoped;
 import org.primefaces.model.charts.line.LineChartModel;
 
-import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 
-@SessionScoped
+@ViewScoped
 public class GarageDataModel implements Serializable {
 
     private boolean isInitialized = false;

@@ -11,11 +11,9 @@
 <h:body>
     <p:dataTable id="garageTable" var="data" value="#{parkList.model.parkingData}" rowKey="#{data.parkingGrage.id}">
         <p:column headerText="Parkhäuser">
-            <!--
-            <p:link value="#{garage.name}" outcome="/parkingData" >
-                <f:param name="id" value="#{garage.id}"/>
-            </p:link>-->
-            #{data.parkingGarage.name}
+            <p:link value="#{data.parkingGarage.name}" outcome="/garageData" >
+                <f:param name="id" value="#{data.parkingGarage.id}"/>
+            </p:link>
         </p:column>
         <p:column headerText="Plätze">
             <h:outputText value="#{data.occupied}/#{data.parkingGarage.spaces}" />

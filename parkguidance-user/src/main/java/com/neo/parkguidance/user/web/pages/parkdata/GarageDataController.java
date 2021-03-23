@@ -1,5 +1,7 @@
 package com.neo.parkguidance.user.web.pages.parkdata;
 
+import org.omnifaces.util.Faces;
+
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -20,8 +22,11 @@ public class GarageDataController {
     @Inject
     private GarageDataFacade facade;
 
-    @PostConstruct
     public void init() {
+        if(Faces.isAjaxRequest()){
+            return;
+        }
+
         if(!chartModel.isInitialized()) {
             chartModel.setDataSets(facade.loadDataSet());
             chartModel.setLabels(facade.createChartLabel());
@@ -29,7 +34,9 @@ public class GarageDataController {
         }
 
         if(!model.isInitialized()) {
-            model.setId(1);
+            if(model.getId() == null) {
+                model.setId(1);
+            }
             facade.createCartesianLinerModel(model, chartModel);
             model.setInitialized(true);
         }
