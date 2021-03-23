@@ -19,5 +19,9 @@
             <h:outputText value="#{data.occupied}/#{data.parkingGarage.spaces}" />
         </p:column>
     </p:dataTable>
+    <h:outputText value="Last update: "/>
+    <h:outputText value="#{parkList.model.lastUpdate}">
+        <f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss" type="date" />
+    </h:outputText>
 </h:body>
 </html>

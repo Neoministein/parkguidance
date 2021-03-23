@@ -14,7 +14,7 @@ import java.util.List;
 @Stateless
 public class ParkListFacade {
 
-    private static final long TIME_BETWEEN_UPDATES = 0;
+    private static final long TIME_BETWEEN_UPDATES = 5000;
 
     @Inject
     private ParkingDataEntityManager parkingDataManager;
