@@ -15,7 +15,7 @@
         Parking Data Form
     </ui:define>
     <ui:define name="body">
-        <adm:breadcrumb title="#{empty dataForm.model.id ? 'New ParkingGarage' : 'ParkingData '.concat(dataForm.model.item.date)}" link="/parkingGarage-form.xhtml?id=#{dataForm.model.id}"/>
+        <adm:breadcrumb title="#{empty dataForm.model.id ? 'New ParkingData' : 'ParkingData '.concat(dataForm.model.item.date)}" link="/parkingGarage-form.xhtml?id=#{dataForm.model.id}"/>
         <h:form id="form" prependId="false">
             <p:focus rendered="#{empty dataForm.model.id}"/>
             <p:panel styleClass="box-primary card">
