@@ -2,7 +2,7 @@ package com.neo.parkguidance.web.user.pages.parkdata;
 
 import com.neo.parkguidance.core.entity.DataSheet;
 import com.neo.parkguidance.core.entity.ParkingGarage;
-import com.neo.parkguidance.core.impl.dao.DataSheetEntityManager;
+import com.neo.parkguidance.web.infra.entity.DataSheetEntityService;
 import com.neo.parkguidance.web.infra.entity.ParkingGarageEntityService;
 import org.primefaces.model.charts.ChartData;
 import org.primefaces.model.charts.axes.cartesian.CartesianScales;
@@ -23,7 +23,7 @@ public class GarageDataFacade {
     private static final int HALF_HOURS_IN_DAY = 48;
 
     @Inject
-    private DataSheetEntityManager dataSheetManager;
+    private DataSheetEntityService dataSheetService;
 
     @Inject
     private ParkingGarageEntityService parkingGarageManager;
@@ -38,7 +38,7 @@ public class GarageDataFacade {
             for (int i = 0; i < HALF_HOURS_IN_DAY; i++) {
                 int sum = 0;
 
-                List<DataSheet> dataOfHour = dataSheetManager.findOfHour(i,parkingGarage);
+                List<DataSheet> dataOfHour = dataSheetService.findOfHour(i,parkingGarage);
                 if(!dataOfHour.isEmpty()) {
                     for (DataSheet dataSheet : dataOfHour) {
                         sum += dataSheet.getOccupied();
@@ -95,5 +95,9 @@ public class GarageDataFacade {
             labels.add(i/2 + ":" + (( i % 2 == 0 ) ? "00" : "30"));
         }
         return labels;
+    }
+
+    public void setParkingGarageById(GarageDataModel model) {
+       model.setParkingGarage(parkingGarageManager.find(Long.valueOf(model.getId())));
     }
 }
