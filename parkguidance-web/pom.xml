@@ -6,18 +6,20 @@
         <artifactId>parkguidance-main</artifactId>
         <version>0.1-SNAPSHOT</version>
     </parent>
-    <artifactId>parkguidance-admin</artifactId>
-    <name>ParkGuidance Admin POM</name>
-    <packaging>war</packaging>
+    <artifactId>parkguidance-web</artifactId>
+    <name>ParkGuidance Web POM</name>
+    <packaging>jar</packaging>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <adminfaces.version>1.2.0</adminfaces.version>
+        <primefaces-extensions.version>8.0.4</primefaces-extensions.version>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>parkguidance-web</artifactId>
+            <artifactId>parkguidance-core</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
@@ -25,6 +27,17 @@
             <artifactId>javaee-api</artifactId>
             <version>${javax.version}</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.github.adminfaces</groupId>
+            <artifactId>admin-template</artifactId>
+            <version>${adminfaces.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.primefaces.extensions</groupId>
+            <artifactId>primefaces-extensions</artifactId>
+            <version>${primefaces-extensions.version}</version>
+            <!-- only for gravatar, adminfaces doesn't depend on extensions-->
         </dependency>
     </dependencies>
 

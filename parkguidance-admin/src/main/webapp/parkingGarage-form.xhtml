@@ -119,6 +119,17 @@
                     </div>
                     <div class="ui-sm-12 ui-g-6 ui-g-nopad">
                         <div class="ui-sm-12 ui-g-11">
+                            <p:outputLabel value="Operator" for="inputOperator"/>
+                        </div>
+                        <div class="ui-sm-12 ui-g-11" >
+                            <p:inputTextarea id="inputOperator" value="#{garageForm.model.parkingGarage.operator}" required="false"/>
+                            <span class="help-block">
+                                <p:message for="inputOperator" />
+                            </span>
+                        </div>
+                    </div>
+                    <div class="ui-sm-12 ui-g-12 ui-g-nopad">
+                        <div class="ui-sm-12 ui-g-11">
                             <p:outputLabel value="Description" for="inputDescription"/>
                         </div>
                         <div class="ui-sm-12 ui-g-11" >

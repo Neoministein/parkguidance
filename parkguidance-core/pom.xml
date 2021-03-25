@@ -14,21 +14,29 @@
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
     <junit.version>5.7.0</junit.version>
+    <hibernate.version>4.3.1.Final</hibernate.version>
+    <json.version>20190722</json.version>
+    <postgresql.version>42.2.0</postgresql.version>
   </properties>
 
   <dependencies>
     <dependency>
       <groupId>javax</groupId>
       <artifactId>javaee-api</artifactId>
-      <version>7.0</version>
+      <version>${javax.version}</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.hibernate</groupId>
       <artifactId>hibernate-core</artifactId>
-      <version>4.3.1.Final</version>
+      <version>${hibernate.version}</version>
       <type>jar</type>
       <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.json</groupId>
+      <artifactId>json</artifactId>
+      <version>${json.version}</version>
     </dependency>
     <dependency>
       <groupId>commons-codec</groupId>
@@ -36,14 +44,9 @@
       <version>1.15</version>
     </dependency>
     <dependency>
-      <groupId>org.json</groupId>
-      <artifactId>json</artifactId>
-      <version>20190722</version>
-    </dependency>
-    <dependency>
       <groupId>org.postgresql</groupId>
       <artifactId>postgresql</artifactId>
-      <version>42.2.0</version>
+      <version>${postgresql.version}</version>
     </dependency>
     <dependency>
       <groupId>org.junit.jupiter</groupId>

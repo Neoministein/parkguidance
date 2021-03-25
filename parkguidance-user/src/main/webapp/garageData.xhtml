@@ -1,15 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui" xmlns:adm="http://github.com/adminfaces"
+                template="#{layoutMB.template}">
 
-<h:head>
-
-</h:head>
-
-<h:body>
     <ui:define name="metadata">
         <f:metadata>
             <f:viewParam name="id" value="#{parkingData.model.id}" converter="javax.faces.Long"/>
@@ -18,8 +12,23 @@
         <ui:param name="renderFormAsterisks" value="true"/>
     </ui:define>
 
-    <div class="card">
-        <p:lineChart model="#{parkingData.model.cartesianLinerModel}" style="width: 100%; height: 500px;"/>
-    </div>
-</h:body>
-</html>
+    <ui:define name="metadata">
+        <ui:param name="title" value="Parkhaus #{parkingData.model.parkingGarage.name}"/> <!-- Automatic create breadCrumb and page title when param 'title' is provided. -->
+
+        <style type="text/css">
+            .ui-datatable .ui-datatable-header {
+                text-align: right !important;
+            }
+        </style>
+    </ui:define>
+
+
+    <ui:define name="body">
+
+        <div class="card">
+            <p:lineChart model="#{parkingData.model.cartesianLinerModel}" style="width: 100%; height: 500px;"/>
+        </div>
+
+
+    </ui:define>
+</ui:composition>

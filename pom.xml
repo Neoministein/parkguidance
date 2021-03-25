@@ -11,6 +11,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
+		<javax.version>7.0</javax.version>
 	</properties>
 
 	<build>
@@ -51,10 +52,10 @@
 
 	<modules>
 		<module>parkguidance-core</module>
-
+		<module>parkguidance-web</module>
 		<module>parkguidance-admin</module>
+		<module>parkguidance-user</module>
 		<module>parkguidance-parkdata-receiver</module>
 		<module>parkguidance-parkdata-sorter</module>
-		<module>parkguidance-user</module>
 	</modules>
 </project>

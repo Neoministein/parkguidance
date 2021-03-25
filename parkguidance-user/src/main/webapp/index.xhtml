@@ -1,27 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui" xmlns:adm="http://github.com/adminfaces"
+                template="#{layoutMB.template}">
 
-<h:head>
+    <ui:param name="renderBreadCrumb" value="false"/>
 
-</h:head>
-
-<h:body>
-    <p:dataTable id="garageTable" var="data" value="#{parkList.model.parkingData}" rowKey="#{data.parkingGrage.id}">
-        <p:column headerText="Parkhäuser">
-            <p:link value="#{data.parkingGarage.name}" outcome="/garageData" >
-                <f:param name="id" value="#{data.parkingGarage.id}"/>
-            </p:link>
-        </p:column>
-        <p:column headerText="Plätze">
-            <h:outputText value="#{data.occupied}/#{data.parkingGarage.spaces}" />
-        </p:column>
-    </p:dataTable>
-    <h:outputText value="Last update: "/>
-    <h:outputText value="#{parkList.model.lastUpdate}">
-        <f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss" type="date" />
-    </h:outputText>
-</h:body>
-</html>
+    <ui:define name="body">
+        <p:dataTable id="garageTable" var="data" value="#{parkList.model.parkingData}" rowKey="#{data.parkingGrage.id}">
+            <p:column headerText="Parkhäuser">
+                <p:link value="#{data.parkingGarage.name}" outcome="/garageData" >
+                    <f:param name="id" value="#{data.parkingGarage.id}"/>
+                </p:link>
+            </p:column>
+            <p:column headerText="Plätze">
+                <h:outputText value="#{data.occupied}/#{data.parkingGarage.spaces}" />
+            </p:column>
+        </p:dataTable>
+        <h:outputText value="Last update: "/>
+        <h:outputText value="#{parkList.model.lastUpdate}">
+            <f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss" type="date" />
+        </h:outputText>
+    </ui:define>
+</ui:composition>

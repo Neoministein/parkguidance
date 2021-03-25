@@ -15,28 +15,16 @@
     </properties>
 
     <dependencies>
-        <!-- Project dependency version definition -->
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>parkguidance-core</artifactId>
+            <artifactId>parkguidance-web</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-api</artifactId>
-            <version>7.0</version>
+            <version>${javax.version}</version>
             <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.github.adminfaces</groupId>
-            <artifactId>admin-template</artifactId>
-            <version>1.2.0</version>
-        </dependency>
-        <dependency>
-            <groupId>org.primefaces.extensions</groupId>
-            <artifactId>primefaces-extensions</artifactId>
-            <version>8.0.4</version>
-            <!-- only for gravatar, adminfaces doesn't depend on extensions-->
         </dependency>
     </dependencies>
 

@@ -72,6 +72,10 @@ public class SortParkingDataImpl {
                 dataSheetManager.create(entrySheet);
             }
         }
+
+        for(ParkingData parkingData: parkingDataList) {
+            parkingDataManager.remove(parkingData);
+        }
     }
 
     protected int calculateWaitTime() {

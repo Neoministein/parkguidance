@@ -16,6 +16,7 @@ public class ParkingGarage implements Serializable, Comparable<ParkingGarage> {
     public static final String C_SPACES = "spaces";
     public static final String C_ACCESS_KEY = "accessKey";
     public static final String C_PRICE = "price";
+    public static final String C_OPERATOR = "operator";
     public static final String C_DESCRIPTION = "description";
 
     @Id
@@ -42,13 +43,15 @@ public class ParkingGarage implements Serializable, Comparable<ParkingGarage> {
     @NotNull
     private Address address;
 
+    @Column(name = C_PRICE)
+    private String price;
+
+    @Column(name = C_OPERATOR)
+    private String operator;
 
     @Column(name = C_DESCRIPTION)
     private String description;
 
-
-    @Column(name = C_PRICE)
-    private String price;
 
     public ParkingGarage() {
 
@@ -108,6 +111,14 @@ public class ParkingGarage implements Serializable, Comparable<ParkingGarage> {
 
     public void setPrice(String price) {
         this.price = price;
+    }
+
+    public String getOperator() {
+        return operator;
+    }
+
+    public void setOperator(String operator) {
+        this.operator = operator;
     }
 
     @Override
