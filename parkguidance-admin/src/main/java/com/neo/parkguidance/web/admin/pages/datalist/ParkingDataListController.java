@@ -17,8 +17,12 @@ public class ParkingDataListController {
     @Inject
     private ParkingDataListModel model;
 
-    @PostConstruct public void init() {
-        facade.initDataModel(model);
+    @PostConstruct
+    public void init() {
+        if(!model.isInstantiated()) {
+            facade.initDataModel(model);
+            model.setInstantiated(true);
+        }
     }
 
     public void clear() {
