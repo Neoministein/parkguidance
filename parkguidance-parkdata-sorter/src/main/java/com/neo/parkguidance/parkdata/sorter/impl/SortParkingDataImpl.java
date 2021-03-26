@@ -61,12 +61,8 @@ public class SortParkingDataImpl {
                     }
                     break;
                 }
-                int avgOccupied = 0;
-                for(ParkingData parkingData: entryDataList) {
-                    avgOccupied += parkingData.getOccupied();
-                }
-                avgOccupied = avgOccupied / entryDataList.size() + 1;
-                entrySheet.setOccupied(avgOccupied);
+
+                entrySheet.setOccupied(getAverageOccupation(entryDataList));
                 entrySheet.setWaitingTime(calculateWaitTime());
 
                 dataSheetManager.create(entrySheet);
@@ -80,6 +76,14 @@ public class SortParkingDataImpl {
 
     protected int calculateWaitTime() {
         return 0;
+    }
+
+    protected int getAverageOccupation(List<ParkingData> dataList) {
+        int avg = 0;
+        for(ParkingData parkingData: dataList) {
+            avg += parkingData.getOccupied();
+        }
+        return avg / dataList.size() + 1;
     }
 
     protected DataSheet createDataSheetWithDate(Date date) {
