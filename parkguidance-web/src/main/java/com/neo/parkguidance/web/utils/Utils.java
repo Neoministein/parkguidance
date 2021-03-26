@@ -3,6 +3,9 @@ package com.neo.parkguidance.web.utils;
 import org.omnifaces.util.Messages;
 
 import javax.faces.application.FacesMessage;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.*;
 
 public class Utils {
 
@@ -23,5 +26,16 @@ public class Utils {
             facesMessage.setSeverity(severity);
         }
         Messages.add(null, facesMessage);
+    }
+
+    public static boolean pingHost(String url) {
+        try {
+            URL con = new URL(url);
+            InputStream stream = con.openStream();
+            stream.close();
+            return true;
+        } catch (IOException e) {
+            return false;
+        }
     }
 }
