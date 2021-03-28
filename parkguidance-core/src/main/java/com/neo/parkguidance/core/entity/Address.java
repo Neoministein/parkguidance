@@ -92,4 +92,9 @@ public class Address implements Serializable {
     public void setNumber(int number) {
         this.number = number;
     }
+
+    @Override
+    public String toString() {
+        return street + " " + number + "\n" + plz + " " + cityName;
+    }
 }

@@ -3,6 +3,7 @@ package com.neo.parkguidance.web.user.pages.parkdata;
 import com.neo.parkguidance.core.entity.DataSheet;
 import com.neo.parkguidance.core.entity.ParkingGarage;
 import com.neo.parkguidance.web.infra.entity.DataSheetEntityService;
+import com.neo.parkguidance.web.infra.entity.ParkingDataEntityService;
 import com.neo.parkguidance.web.infra.entity.ParkingGarageEntityService;
 import org.primefaces.model.charts.ChartData;
 import org.primefaces.model.charts.axes.cartesian.CartesianScales;
@@ -27,6 +28,9 @@ public class GarageDataFacade {
 
     @Inject
     private ParkingGarageEntityService parkingGarageManager;
+
+    @Inject
+    private ParkingDataEntityService parkingDataService;
 
     public LineChartDataSet[] loadDataSet() {
         int sizeOfDataSet = parkingGarageManager.findHighestId().getId().intValue();
@@ -97,7 +101,8 @@ public class GarageDataFacade {
         return labels;
     }
 
-    public void setParkingGarageById(GarageDataModel model) {
+    public void setParkingGarage(GarageDataModel model) {
        model.setParkingGarage(parkingGarageManager.find(Long.valueOf(model.getId())));
+       model.setOccupied(parkingDataService.getCurrentCapacity(model.getParkingGarage()));
     }
 }

@@ -3,11 +3,15 @@ package com.neo.parkguidance.web.utils;
 import org.omnifaces.util.Messages;
 
 import javax.faces.application.FacesMessage;
+import javax.inject.Named;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.*;
 
+@Named(value = Utils.BEAN_NAME)
 public class Utils {
+
+    public static final String BEAN_NAME = "utils";
 
     private Utils(){}
 
@@ -37,5 +41,13 @@ public class Utils {
         } catch (IOException e) {
             return false;
         }
+    }
+
+    public static String formatted(String str) {
+        str = str.replace("<","");
+        str = str.replace(">","");
+        str = str.replace("\n","<br/>");
+        str = str.replace("\r","<br/>");
+        return str;
     }
 }

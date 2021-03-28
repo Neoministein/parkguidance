@@ -26,9 +26,52 @@
     <ui:define name="body">
         <adm:breadcrumb title="#{'Parkhaus '.concat(parkingData.model.parkingGarage.name)}" link="/garageData-form.xhtml?id=#{parkingData.model.id}"/>
 
-        <div class="card">
-            <p:lineChart model="#{parkingData.model.cartesianLinerModel}" style="width: 100%; height: 500px;"/>
-        </div>
+        <p:panel styleClass="box-primary card">
+            <div class="ui-g ui-fluid">
+                <div class="ui-sm-12 ui-g-6 ui-g-nopad">
+                    <div class="ui-sm-12 ui-g-11" >
+                        <p:panel id="spaces" header="Angebot">
+                            <h:outputText value="#{parkingData.model.occupied}/#{parkingData.model.parkingGarage.spaces}"/>
+                        </p:panel>
+                    </div>
+                </div>
+                <div class="ui-sm-12 ui-g-6 ui-g-nopad">
+                    <div class="ui-sm-12 ui-g-11" >
+                        <p:panel id="address" header="Addresse">
+                            <h:outputText value="#{utils.formatted(parkingData.model.parkingGarage.address)}" escape="false"/>
+                        </p:panel>
+                    </div>
+                </div>
+                <div class="ui-sm-12 ui-g-6 ui-g-nopad">
+                    <div class="ui-sm-12 ui-g-11" >
+                        <p:panel id="price" header="Tarife">
+                            <h:outputText value="#{utils.formatted(parkingData.model.parkingGarage.price)}" escape="false"/>
+                        </p:panel>
+                    </div>
+                </div>
+                <div class="ui-sm-12 ui-g-6 ui-g-nopad">
+                    <div class="ui-sm-12 ui-g-11" >
+                        <p:panel id="opeator" header="Betreiber">
+                            <h:outputText value="#{utils.formatted(parkingData.model.parkingGarage.operator)}" escape="false"/>
+                        </p:panel>
+                    </div>
+                </div>
+                <div class="ui-sm-12 ui-g-6 ui-g-nopad">
+                    <div class="ui-sm-12 ui-g-11" >
+                        <p:panel id="description" header="Beschreibung">
+                            <h:outputText value="#{utils.formatted(parkingData.model.parkingGarage.description)}" escape="false"/>
+                        </p:panel>
+                    </div>
+                </div>
+            </div>
+
+        </p:panel>
+
+        <p:panel styleClass="box-primary card">
+            <div class="card">
+                <p:lineChart model="#{parkingData.model.cartesianLinerModel}" style="width: 100%; height: 500px;"/>
+            </div>
+        </p:panel>
 
 
     </ui:define>
