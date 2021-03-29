@@ -12,13 +12,11 @@ import javax.inject.Inject;
 import java.util.List;
 import java.util.Map;
 
-import static com.neo.parkguidance.web.utils.Utils.addDetailMessage;
-
 @Stateless
 public class GarageListFacade {
 
     @Inject
-    private ParkingGarageEntityService garageService;
+    ParkingGarageEntityService garageService;
 
     public void initDataModel(GarageListModel model) {
         model.setData(new LazyDataModel<ParkingGarage>() {
@@ -57,21 +55,19 @@ public class GarageListFacade {
         });
     }
 
-    public void clearFilter(GarageListModel model) {
-        model.setFilter(new Filter<>(new ParkingGarage()));
+    public Filter<ParkingGarage> newFilter() {
+         return new Filter<>(new ParkingGarage());
     }
 
-    public void delete(GarageListModel model) {
+    public int delete(List<ParkingGarage> selected) {
         int numCars = 0;
-        List<ParkingGarage> list = model.getSelected();
-        if(list != null) {
-            for (ParkingGarage selectedCar : list) {
+        if(selected != null) {
+            for (ParkingGarage selectedCar : selected) {
                 numCars++;
                 garageService.remove(selectedCar);
 
             }
-            model.getSelected().clear();
-            addDetailMessage(numCars + "ParkingGarage deleted successfully!");
         }
+        return numCars;
     }
 }

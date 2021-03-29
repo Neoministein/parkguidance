@@ -1,11 +1,11 @@
 package com.neo.parkguidance.web.admin.pages.garagelist;
 
-import com.neo.parkguidance.web.admin.security.UserBean;
-
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+
+import static com.neo.parkguidance.web.utils.Utils.addDetailMessage;
 
 @RequestScoped
 @Named(value = GarageListController.BEAN_NAME)
@@ -14,13 +14,10 @@ public class GarageListController {
     public static final String BEAN_NAME = "garageList";
 
     @Inject
-    private GarageListModel model;
+    GarageListModel model;
 
     @Inject
-    private UserBean userBean;
-
-    @Inject
-    private GarageListFacade facade;
+    GarageListFacade facade;
 
     @PostConstruct
     public void initDataModel() {
@@ -32,11 +29,15 @@ public class GarageListController {
     }
 
     public void clear() {
-        facade.clearFilter(model);
+        model.setFilter(facade.newFilter());
     }
 
     public void delete() {
-        facade.delete(model);
+        int numCars = facade.delete(model.getSelected());
+        if(numCars != 0) {
+            addDetailMessage(numCars + "ParkingGarage deleted successfully!");
+            model.getSelected().clear();
+        }
     }
 
     public GarageListModel getModel() {
