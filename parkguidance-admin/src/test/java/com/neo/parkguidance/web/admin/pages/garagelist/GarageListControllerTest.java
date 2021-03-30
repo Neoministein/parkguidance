@@ -51,19 +51,8 @@ class GarageListControllerTest {
     }
 
     @Test
-    void deleteVerifyModel() {
-        when(facade.delete(any())).thenReturn(1);
-
-        subject.delete();
-
-        //Assert
-
-        verify(model).getSelected().clear();
-    }
-
-    @Test
     void deleteVerifyFacade() {
-        when(facade.delete(any())).thenReturn(1);
+        when(facade.delete(any())).thenReturn(0);
 
         subject.delete();
 

@@ -35,7 +35,7 @@ public class GarageListController {
     public void delete() {
         int numCars = facade.delete(model.getSelected());
         if(numCars != 0) {
-            addDetailMessage(numCars + "ParkingGarage deleted successfully!");
+            addDetailMessage(numCars + " ParkingGarage deleted successfully!");
             model.getSelected().clear();
         }
     }
