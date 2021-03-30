@@ -33,14 +33,14 @@ class GarageListFacadeTest {
     void deleteAmount() {
         //Arrange
 
-        List<ParkingGarage> parkingGarageList = new ArrayList<>();
-        parkingGarageList.add(new ParkingGarage());
-        parkingGarageList.add(new ParkingGarage());
-        parkingGarageList.add(new ParkingGarage());
+        List<ParkingGarage> list = new ArrayList<>();
+        list.add(new ParkingGarage());
+        list.add(new ParkingGarage());
+        list.add(new ParkingGarage());
 
         int expected = 3;
         //Act
-        int result = subject.delete(parkingGarageList);
+        int result = subject.delete(list);
 
         //Assert
 
@@ -51,14 +51,14 @@ class GarageListFacadeTest {
     void deleteVerifyDao() {
         //Arrange
 
-        List<ParkingGarage> parkingGarageList = new ArrayList<>();
-        parkingGarageList.add(new ParkingGarage());
+        List<ParkingGarage> list = new ArrayList<>();
+        list.add(new ParkingGarage());
 
         //Act
-        subject.delete(parkingGarageList);
+        subject.delete(list);
 
         //Assert
 
-        verify(garageService).remove(new ParkingGarage());
+        verify(garageService).remove(list.get(0));
     }
 }
