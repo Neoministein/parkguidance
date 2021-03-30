@@ -8,16 +8,14 @@ import javax.inject.Named;
 import static com.neo.parkguidance.web.utils.Utils.addDetailMessage;
 
 @RequestScoped
-@Named(value = SheetListController.BEAN_NAME)
-public class SheetListController {
+@Named(value = DataSheetListController.BEAN_NAME)
+public class DataSheetListController {
 
     public static final String BEAN_NAME = "dataSheetList";
 
-    @Inject
-    SheetListFacade facade;
+    @Inject DataSheetListFacade facade;
 
-    @Inject
-    SheetListModel model;
+    @Inject DataSheetListModel model;
 
     @PostConstruct
     public void init() {
@@ -44,7 +42,7 @@ public class SheetListController {
         facade.sortData();
     }
 
-    public SheetListModel getModel() {
+    public DataSheetListModel getModel() {
         return model;
     }
 }

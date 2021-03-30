@@ -21,12 +21,12 @@ import java.util.Map;
 import static com.neo.parkguidance.web.utils.Utils.pingHost;
 
 @Stateless
-public class SheetListFacade {
+public class DataSheetListFacade {
 
     @Inject
     DataSheetEntityService dataSheetService;
 
-    public void initDataModel(SheetListModel model) {
+    public void initDataModel(DataSheetListModel model) {
         model.setData(new LazyDataModel<DataSheet>() {
             @Override
             public List<DataSheet> load(int first, int pageSize,

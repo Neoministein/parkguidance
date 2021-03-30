@@ -9,7 +9,7 @@ import java.io.Serializable;
 import java.util.List;
 
 @ViewScoped
-public class SheetListModel implements Serializable {
+public class DataSheetListModel implements Serializable {
 
     private boolean instantiated = false;
     private boolean sorterOffline;

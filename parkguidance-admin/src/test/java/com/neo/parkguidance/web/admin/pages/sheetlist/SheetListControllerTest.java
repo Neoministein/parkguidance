@@ -9,20 +9,20 @@ import static org.mockito.Mockito.*;
 
 class SheetListControllerTest {
 
-    SheetListController subject;
+    DataSheetListController subject;
 
-    @Mock SheetListModel model;
+    @Mock DataSheetListModel model;
 
-    @Mock SheetListFacade facade;
+    @Mock DataSheetListFacade facade;
 
     @BeforeEach
     public void setUp() {
-        subject = Mockito.spy(SheetListController.class);
+        subject = Mockito.spy(DataSheetListController.class);
 
-        model = mock(SheetListModel.class);
+        model = mock(DataSheetListModel.class);
         subject.model = model;
 
-        facade = mock(SheetListFacade.class);
+        facade = mock(DataSheetListFacade.class);
         subject.facade = facade;
     }
 

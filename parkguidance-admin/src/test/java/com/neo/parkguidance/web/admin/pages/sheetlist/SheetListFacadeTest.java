@@ -1,7 +1,6 @@
 package com.neo.parkguidance.web.admin.pages.sheetlist;
 
 import com.neo.parkguidance.core.entity.DataSheet;
-import com.neo.parkguidance.core.entity.ParkingGarage;
 import com.neo.parkguidance.web.infra.entity.DataSheetEntityService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,14 +16,14 @@ import static org.mockito.Mockito.verify;
 
 class SheetListFacadeTest {
 
-    SheetListFacade subject;
+    DataSheetListFacade subject;
 
     @Mock
     DataSheetEntityService dataSheetService;
 
     @BeforeEach
     public void setUp() {
-        subject = Mockito.spy(SheetListFacade.class);
+        subject = Mockito.spy(DataSheetListFacade.class);
 
         dataSheetService = mock(DataSheetEntityService.class);
 
