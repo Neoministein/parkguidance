@@ -18,7 +18,7 @@ import static com.neo.parkguidance.web.utils.Utils.addDetailMessage;
 public class ParkingDataListFacade {
 
     @Inject
-    private ParkingDataEntityService parkingDataService;
+    ParkingDataEntityService parkingDataService;
 
     public void initDataModel(ParkingDataListModel model) {
         model.setData(new LazyDataModel<ParkingData>() {
@@ -56,25 +56,24 @@ public class ParkingDataListFacade {
         });
     }
 
-    public void clearFilter(ParkingDataListModel model) {
-        model.setFilter(new Filter<>(new ParkingData()));
+    public Filter<ParkingData> newFilter() {
+         return new Filter<>(new ParkingData());
     }
 
     public ParkingData findById(int id) {
         return parkingDataService.findById(id);
     }
 
-    public void delete(ParkingDataListModel model) {
-        int numCars = 0;
-        List<ParkingData> list = model.getSelected();
+    public int delete(List<ParkingData> list) {
+        int data = 0;
         if(list != null) {
             for (ParkingData selectedCar : list) {
-                numCars++;
+                data++;
                 parkingDataService.remove(selectedCar);
 
             }
-            model.getSelected().clear();
-            addDetailMessage(numCars + "ParkingGarage deleted successfully!");
+
         }
+        return data;
     }
 }
