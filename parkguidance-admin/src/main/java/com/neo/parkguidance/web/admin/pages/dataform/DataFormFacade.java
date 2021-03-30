@@ -16,10 +16,10 @@ import static com.github.adminfaces.template.util.Assert.has;
 public class DataFormFacade {
 
     @Inject
-    private ParkingDataEntityService dataService;
+    ParkingDataEntityService dataService;
 
     @Inject
-    private ParkingGarageEntityService parkingGarageManager;
+    ParkingGarageEntityService parkingGarageManager;
 
     public ParkingData findGarageById(Integer id) {
         return dataService.findById(id);

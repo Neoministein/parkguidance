@@ -18,10 +18,10 @@ public class DataFormController {
     public static final String BEAN_NAME = "dataForm";
 
     @Inject
-    private DataFormModel model;
+    DataFormModel model;
 
     @Inject
-    private DataFormFacade facade;
+    DataFormFacade facade;
 
     public void init() {
         if(Faces.isAjaxRequest()){
@@ -49,7 +49,7 @@ public class DataFormController {
     }
 
     public void save() {
-        StringBuilder msg = new StringBuilder("Parking Data for" + model.getItem().getParkingGarage().getName());
+        StringBuilder msg = new StringBuilder("Parking Data for " + model.getItem().getParkingGarage().getName());
 
         if (model.getItem().getId() == null) {
             facade.create(model.getItem());
