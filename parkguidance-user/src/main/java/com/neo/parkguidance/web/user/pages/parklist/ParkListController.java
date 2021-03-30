@@ -12,10 +12,10 @@ public class ParkListController {
     public static final String BEAN_NAME = "parkList";
 
     @Inject
-    private ParkListModel model;
+    ParkListModel model;
 
     @Inject
-    private ParkListFacade  facade;
+    ParkListFacade  facade;
 
     @PostConstruct
     public void init() {

@@ -21,12 +21,13 @@ public class SortParkingDataImpl {
     private static final int MILLISECONDS_IN_HALF_AN_HOUR = MILLISECONDS_IN_HOUR / 2;
 
     @Inject
-    private ParkingDataEntityManager parkingDataManager;
-
-    @Inject ParkingGarageEntityManager parkingGarageManager;
+    ParkingDataEntityManager parkingDataManager;
 
     @Inject
-    private DataSheetEntityManager dataSheetManager;
+    ParkingGarageEntityManager parkingGarageManager;
+
+    @Inject
+    DataSheetEntityManager dataSheetManager;
 
     public void sortParkingData() {
         List<ParkingData> parkingDataList = parkingDataManager.findAll();
