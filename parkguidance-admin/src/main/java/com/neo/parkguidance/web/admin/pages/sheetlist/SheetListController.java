@@ -5,6 +5,8 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import static com.neo.parkguidance.web.utils.Utils.addDetailMessage;
+
 @RequestScoped
 @Named(value = SheetListController.BEAN_NAME)
 public class SheetListController {
@@ -12,10 +14,10 @@ public class SheetListController {
     public static final String BEAN_NAME = "dataSheetList";
 
     @Inject
-    private SheetListFacade facade;
+    SheetListFacade facade;
 
     @Inject
-    private SheetListModel model;
+    SheetListModel model;
 
     @PostConstruct
     public void init() {
@@ -27,11 +29,15 @@ public class SheetListController {
     }
 
     public void clear() {
-        facade.clearFilter(model);
+        model.setFilter(facade.newFilter());
     }
 
     public void delete() {
-        facade.delete(model);
+        int numCars = facade.delete(model.getSelected());
+        if(numCars != 0) {
+            addDetailMessage(numCars + " ParkingGarage deleted successfully!");
+            model.getSelected().clear();
+        }
     }
 
     public void sortData() {

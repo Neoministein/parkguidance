@@ -1,9 +1,7 @@
 package com.neo.parkguidance.web.admin.pages.sheetlist;
 
 import com.neo.parkguidance.core.entity.DataSheet;
-import com.neo.parkguidance.core.entity.ParkingData;
 import com.neo.parkguidance.web.infra.entity.DataSheetEntityService;
-import com.neo.parkguidance.web.infra.entity.ParkingDataEntityService;
 import com.neo.parkguidance.web.infra.table.Filter;
 import org.omnifaces.util.Messages;
 import org.primefaces.model.FilterMeta;
@@ -13,23 +11,20 @@ import org.primefaces.model.SortOrder;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletResponse;
-import java.io.OutputStream;
+import java.io.IOException;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
 
-import static com.neo.parkguidance.web.utils.Utils.addDetailMessage;
 import static com.neo.parkguidance.web.utils.Utils.pingHost;
 
 @Stateless
 public class SheetListFacade {
 
     @Inject
-    private DataSheetEntityService parkingDataService;
+    DataSheetEntityService dataSheetService;
 
     public void initDataModel(SheetListModel model) {
         model.setData(new LazyDataModel<DataSheet>() {
@@ -54,44 +49,45 @@ public class SheetListFacade {
                 model.getFilter().setFirst(first).setPageSize(pageSize)
                         .setSortField(sortField).setSortOrder(order)
                         .setParams(filters);
-                List<DataSheet> list = parkingDataService.paginate(model.getFilter());
-                setRowCount((int) parkingDataService.count(model.getFilter()));
+                List<DataSheet> list = dataSheetService.paginate(model.getFilter());
+                setRowCount((int) dataSheetService.count(model.getFilter()));
 
                 return list;
             }
 
             @Override
             public DataSheet getRowData(String key) {
-                return parkingDataService.findById(Integer.valueOf(key));
+                return dataSheetService.findById(Integer.valueOf(key));
             }
         });
     }
 
-    public void clearFilter(SheetListModel model) {
-        model.setFilter(new Filter<>(new DataSheet()));
+    public Filter<DataSheet> newFilter() {
+        return new Filter<>(new DataSheet());
     }
 
     public DataSheet findById(int id) {
-        return parkingDataService.findById(id);
+        return dataSheetService.findById(id);
     }
 
-    public void delete(SheetListModel model) {
+    public int delete(List<DataSheet> list) {
         int numCars = 0;
-        List<DataSheet> list = model.getSelected();
+
         if(list != null) {
             for (DataSheet selectedCar : list) {
                 numCars++;
-                parkingDataService.remove(selectedCar);
+                dataSheetService.remove(selectedCar);
 
             }
-            model.getSelected().clear();
-            addDetailMessage(numCars + "Datasheet deleted successfully!");
+
         }
+        return numCars;
     }
 
     public boolean sorterOffline() {
         return !pingHost(System.getProperty("parkguidance.endpoint.sorter"));
     }
+
     public void sortData() {
         try {
             URL url = new URL(System.getProperty("parkguidance.endpoint.sorter"));
@@ -104,9 +100,8 @@ public class SheetListFacade {
             http.connect();
 
             if (http.getResponseCode() != HttpServletResponse.SC_ACCEPTED) {
-                throw new Exception(http.getResponseCode() + " " + http.getResponseMessage());
+                throw new IOException(http.getResponseCode() + " " + http.getResponseMessage());
             }
-            System.out.println(http.getResponseCode() + "|" + http.getResponseMessage());
         } catch (Exception e) {
             Messages.addError(null, "Something went wrong while sorting" + e.getMessage());
         }
