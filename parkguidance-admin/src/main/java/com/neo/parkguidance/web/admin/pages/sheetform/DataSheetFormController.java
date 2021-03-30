@@ -1,4 +1,4 @@
-package com.neo.parkguidance.web.admin.pages.sheetfrom;
+package com.neo.parkguidance.web.admin.pages.sheetform;
 
 import com.neo.parkguidance.core.entity.DataSheet;
 import org.omnifaces.util.Faces;
@@ -18,10 +18,10 @@ public class DataSheetFormController {
     public static final String BEAN_NAME = "dataSheetForm";
 
     @Inject
-    private DataSheetFormModel model;
+    DataSheetFormModel model;
 
     @Inject
-    private DataSheetFormFacade facade;
+    DataSheetFormFacade facade;
 
     public void init() {
         if(Faces.isAjaxRequest()){

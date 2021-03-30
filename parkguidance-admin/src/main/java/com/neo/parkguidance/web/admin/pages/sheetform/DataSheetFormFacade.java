@@ -1,7 +1,6 @@
-package com.neo.parkguidance.web.admin.pages.sheetfrom;
+package com.neo.parkguidance.web.admin.pages.sheetform;
 
 import com.neo.parkguidance.core.entity.DataSheet;
-import com.neo.parkguidance.core.entity.ParkingData;
 import com.neo.parkguidance.core.entity.ParkingGarage;
 import com.neo.parkguidance.web.infra.entity.DataSheetEntityService;
 import com.neo.parkguidance.web.infra.entity.ParkingGarageEntityService;
@@ -15,9 +14,11 @@ import static com.github.adminfaces.template.util.Assert.has;
 @Stateless
 public class DataSheetFormFacade {
 
-    @Inject private DataSheetEntityService dataSheetService;
+    @Inject
+    DataSheetEntityService dataSheetService;
 
-    @Inject private ParkingGarageEntityService parkingGarageManager;
+    @Inject
+    ParkingGarageEntityService parkingGarageManager;
 
     public DataSheet findById(Integer id) {
         return dataSheetService.findById(id);
