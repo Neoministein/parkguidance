@@ -10,7 +10,7 @@ public class GarageFormModel implements Serializable {
 
     private Integer id;
 
-    private ParkingGarage parkingGarage;
+    private ParkingGarage item;
 
     public Integer getId() {
         return id;
@@ -20,11 +20,11 @@ public class GarageFormModel implements Serializable {
         this.id = id;
     }
 
-    public ParkingGarage getParkingGarage() {
-        return parkingGarage;
+    public ParkingGarage getItem() {
+        return item;
     }
 
-    public void setParkingGarage(ParkingGarage parkingGarage) {
-        this.parkingGarage = parkingGarage;
+    public void setItem(ParkingGarage item) {
+        this.item = item;
     }
 }

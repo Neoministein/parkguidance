@@ -14,10 +14,10 @@ import static com.github.adminfaces.template.util.Assert.has;
 public class GarageFormFacade {
 
     @Inject
-    private ParkingGarageEntityService garageService;
+    ParkingGarageEntityService garageService;
 
     @Inject
-    private AddressEntityManager addressManager;
+    AddressEntityManager addressManager;
 
     public ParkingGarage findGarageById(Integer id) {
         return garageService.findById(id);

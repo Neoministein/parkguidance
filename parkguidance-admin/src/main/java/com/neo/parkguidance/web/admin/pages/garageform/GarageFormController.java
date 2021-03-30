@@ -20,23 +20,23 @@ public class GarageFormController {
     public static final String BEAN_NAME = "garageForm";
 
     @Inject
-    private GarageFormModel model;
+    GarageFormModel model;
 
     @Inject
-    private GarageFormFacade facade;
+    GarageFormFacade facade;
 
     public void init() {
         if(Faces.isAjaxRequest()){
             return;
         }
         if (has(model.getId())) {
-            model.setParkingGarage(facade.findGarageById(model.getId()));
+            model.setItem(facade.findGarageById(model.getId()));
         } else {
-            model.setParkingGarage(new ParkingGarage());
+            model.setItem(new ParkingGarage());
         }
 
-        if(!has(model.getParkingGarage().getAddress())) {
-            model.getParkingGarage().setAddress(new Address());
+        if(!has(model.getItem().getAddress())) {
+            model.getItem().setAddress(new Address());
         }
     }
 
@@ -45,8 +45,8 @@ public class GarageFormController {
     }
 
     public void remove() throws IOException {
-        if (facade.remove(model.getParkingGarage())) {
-            addDetailMessage("Parking Garage " + model.getParkingGarage().getName()
+        if (facade.remove(model.getItem())) {
+            addDetailMessage("Parking Garage " + model.getItem().getName()
                     + " removed successfully");
             Faces.getFlash().setKeepMessages(true);
             Faces.redirect("parkingGarage-list.xhtml");
@@ -54,13 +54,13 @@ public class GarageFormController {
     }
 
     public void save() {
-        StringBuilder msg = new StringBuilder("Parking Garage " + model.getParkingGarage().getName());
+        StringBuilder msg = new StringBuilder("Parking Garage " + model.getItem().getName());
 
-        if (model.getParkingGarage().getId() == null) {
-            facade.create(model.getParkingGarage());
+        if (model.getItem().getId() == null) {
+            facade.create(model.getItem());
             msg.append(" created successfully");
         } else {
-            facade.edit(model.getParkingGarage());
+            facade.edit(model.getItem());
             msg.append(" updated successfully");
         }
 
@@ -68,11 +68,11 @@ public class GarageFormController {
     }
 
     public void clear() {
-        model.setParkingGarage(new ParkingGarage());
+        model.setItem(new ParkingGarage());
         model.setId(null);
     }
 
     public boolean isNew() {
-        return model.getParkingGarage() == null || model.getParkingGarage().getId() == null;
+        return model.getItem() == null || model.getItem().getId() == null;
     }
 }
