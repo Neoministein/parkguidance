@@ -17,8 +17,8 @@ import java.util.List;
 @Stateless
 public class SortParkingDataImpl {
 
-    private static final int MILLISECONDS_IN_HOUR = 3600000;
-    private static final int MILLISECONDS_IN_HALF_AN_HOUR = MILLISECONDS_IN_HOUR / 2;
+    public static final int MILLISECONDS_IN_HOUR = 3600000;
+    public static final int MILLISECONDS_IN_HALF_AN_HOUR = MILLISECONDS_IN_HOUR / 2;
 
     @Inject
     ParkingDataEntityManager parkingDataManager;
@@ -36,8 +36,8 @@ public class SortParkingDataImpl {
         if(parkingDataList.isEmpty()) {
            return;
         }
-        Date startDate = getStartDate(parkingDataList);
-        Date endDate = getEndDate(parkingDataList);
+        Date startDate = roundDown(parkingDataList.get(0).getDate());
+        Date endDate = roundUp(parkingDataList.get(parkingDataList.size()-1).getDate());
 
         long interval = (endDate.getTime() - startDate.getTime()) / MILLISECONDS_IN_HALF_AN_HOUR;
 
@@ -46,7 +46,7 @@ public class SortParkingDataImpl {
             Date entryEnd = new Date(startDate.getTime() + MILLISECONDS_IN_HALF_AN_HOUR * (i + 1));
 
             for(ParkingGarage entryGarage: allParkingGarages) {
-                DataSheet entrySheet = createDataSheetWithDate(entryStart);
+                DataSheet entrySheet = dataSheetFromDate(entryStart);
                 entrySheet.setParkingGarage(entryGarage);
 
                 List<ParkingData> entryDataList = parkingDataManager.getBetweenDate(entryStart, entryEnd, entryGarage);
@@ -71,11 +71,11 @@ public class SortParkingDataImpl {
         }
     }
 
-    protected int calculateWaitTime() {
+    public int calculateWaitTime() {
         return 0;
     }
 
-    protected int getAverageOccupation(List<ParkingData> dataList) {
+    public int getAverageOccupation(List<ParkingData> dataList) {
         int avg = 0;
         for(ParkingData parkingData: dataList) {
             avg += parkingData.getOccupied();
@@ -83,7 +83,7 @@ public class SortParkingDataImpl {
         return avg / dataList.size() + 1;
     }
 
-    protected DataSheet createDataSheetWithDate(Date date) {
+    public DataSheet dataSheetFromDate(Date date) {
         DataSheet dataSheet = new DataSheet();
         Calendar cl = Calendar.getInstance();
         cl.setTime(date);
@@ -95,23 +95,19 @@ public class SortParkingDataImpl {
         return dataSheet;
     }
 
-    protected Date getStartDate(List<ParkingData> list) {
-        Date dataDate = list.get(0).getDate();
+    public Date roundDown(Date date) {
+        Date roundedDate = DateUtils.round(date, Calendar.HOUR);
 
-        Date roundedDate = DateUtils.round(dataDate, Calendar.HOUR);
-
-        if(dataDate.getTime() < roundedDate.getTime()) {
+        if(date.getTime() < roundedDate.getTime()) {
             return new Date(roundedDate.getTime()-MILLISECONDS_IN_HOUR);
         }
         return roundedDate;
     }
 
-    protected Date getEndDate(List<ParkingData> list) {
-        Date dataDate = list.get(list.size()-1).getDate();
+    public Date roundUp(Date date) {
+        Date roundedDate = DateUtils.round(date, Calendar.HOUR);
 
-        Date roundedDate = DateUtils.round(dataDate, Calendar.HOUR);
-
-        if(roundedDate.getTime() < dataDate.getTime()) {
+        if(date.getTime() > roundedDate.getTime()) {
             return new Date(roundedDate.getTime() + MILLISECONDS_IN_HOUR);
         }
         return roundedDate;
