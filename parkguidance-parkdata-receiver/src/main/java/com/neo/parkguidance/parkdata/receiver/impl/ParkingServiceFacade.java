@@ -24,7 +24,7 @@ public class ParkingServiceFacade {
     @Inject
     private ParkingDataEntityManager parkingDataManager;
 
-    public int test(String requestString) {
+    public int updateParkingData(String requestString) {
         try {
             JSONObject requestData = new JSONObject(requestString);
             ParkingGarage parkingGarage = authentication.validate(requestData.getString(ParkingGarage.C_ACCESS_KEY));
@@ -41,7 +41,7 @@ public class ParkingServiceFacade {
                     parkingDataManager.create(parkingGarage, DECREASE);
                     break;
                 default:
-                    return HttpServletResponse.SC_BAD_REQUEST;
+                    return HttpServletResponse.SC_METHOD_NOT_ALLOWED;
                 }
                 return HttpServletResponse.SC_ACCEPTED;
             }

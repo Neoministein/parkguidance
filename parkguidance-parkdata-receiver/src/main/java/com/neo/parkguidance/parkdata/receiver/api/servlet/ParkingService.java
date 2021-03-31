@@ -24,6 +24,6 @@ public class ParkingService extends HttpServlet {
         while ((line = br.readLine()) != null){
             buffer.append(line);
         }
-        resp.setStatus(facade.test(buffer.toString()));
+        resp.setStatus(facade.updateParkingData(buffer.toString()));
     }
 }
