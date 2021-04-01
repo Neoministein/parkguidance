@@ -37,7 +37,7 @@ public class SortParkingDataImpl {
            return;
         }
         Date startDate = roundDown(parkingDataList.get(0).getDate());
-        Date endDate = roundUp(parkingDataList.get(parkingDataList.size()-1).getDate());
+        Date endDate = roundDown(parkingDataList.get(parkingDataList.size()-1).getDate());
 
         long interval = (endDate.getTime() - startDate.getTime()) / MILLISECONDS_IN_HALF_AN_HOUR;
 
@@ -60,12 +60,10 @@ public class SortParkingDataImpl {
                         entrySheet.setOccupied(entryData.getOccupied());
                         entrySheet.setWaitingTime(calculateWaitTime());
                     }
-                    break;
+                } else {
+                    entrySheet.setOccupied(getAverageOccupation(entryDataList));
+                    entrySheet.setWaitingTime(calculateWaitTime());
                 }
-
-                entrySheet.setOccupied(getAverageOccupation(entryDataList));
-                entrySheet.setWaitingTime(calculateWaitTime());
-
                 dataSheetManager.create(entrySheet);
             }
         }
