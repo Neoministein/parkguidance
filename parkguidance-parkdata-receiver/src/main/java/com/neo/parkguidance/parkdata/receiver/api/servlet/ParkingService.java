@@ -3,7 +3,6 @@ package com.neo.parkguidance.parkdata.receiver.api.servlet;
 import com.neo.parkguidance.parkdata.receiver.impl.ParkingServiceFacade;
 
 import javax.inject.Inject;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,14 +15,17 @@ public class ParkingService extends HttpServlet {
     private ParkingServiceFacade facade;
 
     @Override
-    public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    public void doPost(HttpServletRequest req, HttpServletResponse resp) {
         StringBuilder buffer = new StringBuilder();
-
-        BufferedReader br = req.getReader();
-        String line;
-        while ((line = br.readLine()) != null){
-            buffer.append(line);
+        try {
+            BufferedReader br = req.getReader();
+            String line;
+            while ((line = br.readLine()) != null){
+                buffer.append(line);
+            }
+            resp.setStatus(facade.updateParkingData(buffer.toString()));
+        }catch (IOException e) {
+            resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
-        resp.setStatus(facade.updateParkingData(buffer.toString()));
     }
 }
