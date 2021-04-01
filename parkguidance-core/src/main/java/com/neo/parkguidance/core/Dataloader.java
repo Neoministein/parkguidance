@@ -63,9 +63,9 @@ public class Dataloader {
                     "INSERT INTO address(city_name, street, number, plz) VALUES (\'Niederlenz\',\'Alter Schützenweg\',17,5702);");
 
             st.executeUpdate(
-                    "INSERT INTO parkinggarage (accesskey ,name ,spaces ,address) VALUES (\'abc\',\'Home\',255,1);");
-                st.executeUpdate(
-                        "INSERT INTO parkinggarage (accesskey ,name ,spaces ,address) VALUES (\'cba\',\'BBB\',255,1);");
+                    "INSERT INTO parkinggarage (accesskey ,name ,spaces ,occupied ,address) VALUES (\'abc\',\'Home\',255,0,1);");
+            st.executeUpdate(
+                    "INSERT INTO parkinggarage (accesskey ,name ,spaces ,occupied ,address) VALUES (\'cba\',\'BBB\',255,0,1);");
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
