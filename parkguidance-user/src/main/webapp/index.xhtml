@@ -7,14 +7,14 @@
     <ui:param name="renderBreadCrumb" value="false"/>
 
     <ui:define name="body">
-        <p:dataTable id="garageTable" var="data" value="#{parkList.model.parkingData}" rowKey="#{data.parkingGrage.id}">
+        <p:dataTable id="garageTable" var="parkingGarage" value="#{parkList.model.parkingGarageList}" rowKey="#{parkingGrage.id}">
             <p:column headerText="Parkhäuser">
-                <p:link value="#{data.parkingGarage.name}" outcome="/garageData" >
-                    <f:param name="id" value="#{data.parkingGarage.id}"/>
+                <p:link value="#{parkingGarage.name}" outcome="/garageData" >
+                    <f:param name="id" value="#{parkingGarage.id}"/>
                 </p:link>
             </p:column>
             <p:column headerText="Plätze">
-                <h:outputText value="#{data.occupied}/#{data.parkingGarage.spaces}" />
+                <h:outputText value="#{parkingGarage.occupied}/#{parkingGarage.spaces}" />
             </p:column>
         </p:dataTable>
         <h:outputText value="Last update: "/>
