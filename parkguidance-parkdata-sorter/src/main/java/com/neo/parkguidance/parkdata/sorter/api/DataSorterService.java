@@ -1,5 +1,6 @@
 package com.neo.parkguidance.parkdata.sorter.api;
 
+import com.neo.parkguidance.parkdata.sorter.impl.SortParkingDataIT;
 import com.neo.parkguidance.parkdata.sorter.impl.SortParkingDataImpl;
 
 import javax.inject.Inject;
@@ -15,8 +16,9 @@ public class DataSorterService extends HttpServlet {
     private SortParkingDataImpl dataSorter;
 
     @Override
-    public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    public void doPost(HttpServletRequest req, HttpServletResponse resp) {
         dataSorter.sortParkingData();
+        resp.setStatus(HttpServletResponse.SC_OK);
     }
 
     @Override

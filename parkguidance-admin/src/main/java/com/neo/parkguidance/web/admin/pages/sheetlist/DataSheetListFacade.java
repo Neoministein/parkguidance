@@ -99,11 +99,11 @@ public class DataSheetListFacade {
             http.setRequestProperty("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
             http.connect();
 
-            if (http.getResponseCode() != HttpServletResponse.SC_ACCEPTED) {
+            if (http.getResponseCode() != HttpServletResponse.SC_OK) {
                 throw new IOException(http.getResponseCode() + " " + http.getResponseMessage());
             }
         } catch (Exception e) {
-            Messages.addError(null, "Something went wrong while sorting" + e.getMessage());
+            Messages.addError(null, "Something went wrong while sorting " + e.getMessage());
         }
     }
 }

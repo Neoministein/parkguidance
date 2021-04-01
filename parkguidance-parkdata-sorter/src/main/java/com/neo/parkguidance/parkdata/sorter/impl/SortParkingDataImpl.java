@@ -88,9 +88,26 @@ public class SortParkingDataImpl {
         dataSheet.setYear(cl.get(Calendar.YEAR));
         dataSheet.setWeek(cl.get(Calendar.WEEK_OF_YEAR));
         dataSheet.setDay(cl.get(Calendar.DAY_OF_WEEK));
-        dataSheet.setHalfHour(cl.get(Calendar.HOUR_OF_DAY) * 2);
+        dataSheet.setHalfHour(halfHourOfDate(date));
 
         return dataSheet;
+    }
+
+    public int halfHourOfDate(Date date) {
+        int halfHour;
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+
+        halfHour = cal.get(Calendar.HOUR_OF_DAY) * 2;
+
+        cal.set(Calendar.YEAR, 0);
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        int half = cal.get(Calendar.MINUTE);
+        if(half >= 30) {
+            halfHour++;
+        }
+
+        return halfHour;
     }
 
     public Date roundDown(Date date) {
