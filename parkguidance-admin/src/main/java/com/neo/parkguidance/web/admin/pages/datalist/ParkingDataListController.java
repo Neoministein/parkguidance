@@ -1,5 +1,7 @@
 package com.neo.parkguidance.web.admin.pages.datalist;
 
+import org.omnifaces.util.Messages;
+
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -32,11 +34,19 @@ public class ParkingDataListController {
     }
 
     public void delete() {
-        int numCars = facade.delete(model.getSelected());
-        if(numCars != 0) {
-            addDetailMessage(numCars + " ParkingGarage deleted successfully!");
+        int num = facade.delete(model.getSelected());
+        if(num != 0) {
+            addDetailMessage(num + " ParkingData deleted successfully!");
             model.getSelected().clear();
         }
+    }
+
+    public void deleteOld() {
+        int num = facade.deleteOld();
+        if(num != 0) {
+            addDetailMessage(num + " ParkingData deleted successfully!");
+        } else {
+            Messages.addError(null, "There were no data entries older then 2 weeks"); }
     }
 
     public ParkingDataListModel getModel() {

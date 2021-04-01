@@ -34,6 +34,12 @@
                                          process="@this" update="@form">
                             <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-danger"/>
                         </p:commandButton>
+                        <p:spacer width="5"/>
+                        <p:commandButton value="Delete old" icon="fa fa-trash" styleClass="btn-danger"
+                                         action="#{parkingDataList.deleteOld}"
+                                         process="@this" update="@form">
+                            <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-danger"/>
+                        </p:commandButton>
                     </div>
 
                     <p:splitButton value="New" action="/parkingData-form?faces-redirect=true"
@@ -44,6 +50,13 @@
                                     disabled="#{parkingDataList.model.selected.size() == 0}"
                                     icon="fa fa-trash">
                             <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-danger"/>
+                        </p:menuitem>
+                        <p:menuitem>
+                            <p:commandButton value="Delete old" icon="fa fa-trash"
+                                             action="#{parkingDataList.deleteOld}"
+                                             process="@this" update="@form">
+                                <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-danger"/>
+                            </p:commandButton>
                         </p:menuitem>
                     </p:splitButton>
 

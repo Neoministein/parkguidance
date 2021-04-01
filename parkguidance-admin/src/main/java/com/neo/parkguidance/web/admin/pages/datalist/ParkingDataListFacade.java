@@ -9,6 +9,7 @@ import org.primefaces.model.SortOrder;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -16,6 +17,8 @@ import static com.neo.parkguidance.web.utils.Utils.addDetailMessage;
 
 @Stateless
 public class ParkingDataListFacade {
+
+    public static final long TWO_WEEKS = 1209600000;
 
     @Inject
     ParkingDataEntityService parkingDataService;
@@ -75,5 +78,18 @@ public class ParkingDataListFacade {
 
         }
         return data;
+    }
+
+    public int deleteOld() {
+        int deleted = 0;
+        List<ParkingData> list = parkingDataService.getBeforeDate(new Date(System.currentTimeMillis() - TWO_WEEKS));
+
+        if (list != null) {
+            for(ParkingData parkingData: list) {
+                deleted++;
+                parkingDataService.remove(parkingData);
+            }
+        }
+        return deleted;
     }
 }
