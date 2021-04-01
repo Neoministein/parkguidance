@@ -1,5 +1,7 @@
 package com.neo.parkguidance.parkdata.receiver.impl;
 
+import com.neo.parkguidance.core.entity.ParkingData;
+import com.neo.parkguidance.core.impl.dao.ParkingGarageEntityManager;
 import com.neo.parkguidance.parkdata.receiver.impl.security.ParkingGarageAuthentication;
 import com.neo.parkguidance.core.entity.ParkingGarage;
 import com.neo.parkguidance.core.impl.dao.ParkingDataEntityManager;
@@ -9,6 +11,7 @@ import org.json.JSONObject;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Date;
 
 @Stateless
 public class ParkingServiceFacade {
@@ -19,26 +22,30 @@ public class ParkingServiceFacade {
     private static final int DECREASE = -1;
 
     @Inject
-    private ParkingGarageAuthentication authentication;
+    ParkingGarageAuthentication authentication;
 
     @Inject
-    private ParkingDataEntityManager parkingDataManager;
+    ParkingDataEntityManager parkingDataManager;
+
+    @Inject
+    ParkingGarageEntityManager parkingGarageManager;
 
     public int updateParkingData(String requestString) {
         try {
-            JSONObject requestData = new JSONObject(requestString);
-            ParkingGarage parkingGarage = authentication.validate(requestData.getString(ParkingGarage.C_ACCESS_KEY));
-
-            if(parkingGarage == null) {
-                return HttpServletResponse.SC_FORBIDDEN;
-            }
             synchronized (lock) {
+                JSONObject requestData = new JSONObject(requestString);
+                ParkingGarage parkingGarage = authentication.validate(requestData.getString(ParkingGarage.C_ACCESS_KEY));
+
+                if(parkingGarage == null) {
+                    return HttpServletResponse.SC_FORBIDDEN;
+                }
+
                 switch (requestData.getString("type")) {
                 case "incr":
-                    parkingDataManager.create(parkingGarage,INCREASE);
+                    updateOccupied(parkingGarage, INCREASE);
                     break;
                 case "decr":
-                    parkingDataManager.create(parkingGarage, DECREASE);
+                    updateOccupied(parkingGarage, DECREASE);
                     break;
                 default:
                     return HttpServletResponse.SC_METHOD_NOT_ALLOWED;
@@ -48,5 +55,15 @@ public class ParkingServiceFacade {
         }catch (JSONException ex) {
             return HttpServletResponse.SC_BAD_REQUEST;
         }
+    }
+
+    public void updateOccupied(ParkingGarage garage , int offset) {
+        garage.setOccupied(garage.getOccupied() + offset);
+
+        parkingGarageManager.edit(garage);
+        parkingDataManager.create(new ParkingData(
+                garage,
+                new Date(),
+                (garage.getOccupied())));
     }
 }

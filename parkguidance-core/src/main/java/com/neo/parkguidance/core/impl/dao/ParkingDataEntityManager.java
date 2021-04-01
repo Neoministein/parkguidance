@@ -29,14 +29,6 @@ public class ParkingDataEntityManager extends AbstractEntityFacade<ParkingData> 
         super(ParkingData.class);
     }
 
-    public void create(ParkingGarage parkingGarage, int offset) {
-        create(new ParkingData(
-                parkingGarage,
-                new Date(),
-                getCurrentCapacity(parkingGarage) + offset)
-        );
-    }
-
     public int getCurrentCapacity(ParkingGarage parkingGarage) {
         ParkingData newestData = new ParkingData();
         newestData.setDate(new Date(0));
