@@ -14,6 +14,7 @@ public class ParkingGarage implements Serializable, Comparable<ParkingGarage> {
     public static final String TABLE_NAME = "parkingGarage";
     public static final String C_NAME = "name";
     public static final String C_SPACES = "spaces";
+    public static final String C_OCCUPIED = "occupied";
     public static final String C_ACCESS_KEY = "accessKey";
     public static final String C_PRICE = "price";
     public static final String C_OPERATOR = "operator";
@@ -33,6 +34,10 @@ public class ParkingGarage implements Serializable, Comparable<ParkingGarage> {
     @Min(0)
     @NotNull
     private int spaces;
+
+    @Column(name = C_OCCUPIED)
+    @NotNull
+    private int occupied;
 
     @Column(name = C_ACCESS_KEY)
     @NotNull
@@ -79,6 +84,14 @@ public class ParkingGarage implements Serializable, Comparable<ParkingGarage> {
 
     public void setSpaces(int spaces) {
         this.spaces = spaces;
+    }
+
+    public int getOccupied() {
+        return occupied;
+    }
+
+    public void setOccupied(int occupied) {
+        this.occupied = occupied;
     }
 
     public String getAccessKey() {
