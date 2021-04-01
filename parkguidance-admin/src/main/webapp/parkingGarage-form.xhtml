@@ -105,7 +105,18 @@
                                 <p:message for="inputSpaces" />
                             </span>
                         </div>
-                    </div>     
+                    </div>
+                    <div class="ui-sm-12 ui-g-6 ui-g-nopad">
+                        <div class="ui-sm-12 ui-g-11">
+                            <p:outputLabel value="Occupied" for="inputOccupied"/>
+                        </div>
+                        <div class="ui-sm-12 ui-g-11" >
+                            <p:inputNumber id="inputOccupied" value="#{garageForm.model.item.occupied}" required="true"/>
+                            <span class="help-block">
+                                <p:message for="inputOccupied" />
+                            </span>
+                        </div>
+                    </div>
                     <div class="ui-sm-12 ui-g-6 ui-g-nopad">     
                         <div class="ui-sm-12 ui-g-11">
                             <p:outputLabel value="Price" for="inputPrice"/>
@@ -128,7 +139,7 @@
                             </span>
                         </div>
                     </div>
-                    <div class="ui-sm-12 ui-g-12 ui-g-nopad">
+                    <div class="ui-sm-12 ui-g-6 ui-g-nopad">
                         <div class="ui-sm-12 ui-g-11">
                             <p:outputLabel value="Description" for="inputDescription"/>
                         </div>

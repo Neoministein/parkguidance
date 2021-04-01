@@ -82,7 +82,7 @@
                             </p:link>
                         </p:column>
                         <p:column headerText="Pläze">
-                            #{p.spaces}
+                            <h:outputLabel value="#{p.occupied}/#{p.spaces}"/>
                         </p:column>
                     </p:dataTable>
                 </div>
