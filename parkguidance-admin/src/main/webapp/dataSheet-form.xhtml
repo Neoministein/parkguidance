@@ -75,14 +75,14 @@
                     </div>
                     <div class="ui-sm-12 ui-g-6 ui-g-nopad">
                         <div class="ui-sm-12 ui-g-11">
-                            <p:outputLabel value="Parkhaus" for="inputParkhaus"/>
+                            <p:outputLabel value="Parking garage" for="inputParkingGarage"/>
                         </div>
                         <div class="ui-sm-12 ui-g-11" >
-                            <p:selectOneMenu id="inputParkhaus" value="#{dataSheetForm.model.item.parkingGarage}">
+                            <p:selectOneMenu id="inputParkingGarage" value="#{dataSheetForm.model.item.parkingGarage}">
                                 <f:selectItems value="#{dataSheetForm.model.parkingGarages}"/>
                             </p:selectOneMenu>
                             <span class="help-block">
-                                <p:message for="inputParkhaus" />
+                                <p:message for="inputParkingGarage" />
                             </span>
                         </div>
                     </div>
@@ -145,14 +145,14 @@
 
                 <h:panelGroup id="footer" layout="block" styleClass="hidden-sm hidden-md hidden-lg">
                     <hr/>
-                    <p:splitButton value="Save" action="#{dataForm.save}" update="@form"
+                    <p:splitButton value="Save" action="#{dataSheetForm.save}" update="@form"
                                    icon="fa fa-check"
                                    styleClass="hidden-md hidden-lg btn-primary">
-                        <p:menuitem value="Reset" action="#{dataForm.clear}"
-                                    process="@this" update="@form" rendered="#{dataForm.isNew()}"
+                        <p:menuitem value="Reset" action="#{dataSheetForm.clear}"
+                                    process="@this" update="@form" rendered="#{dataSheetForm.isNew()}"
                                     resetValues="true" icon="fa fa-refresh"/>
-                        <p:menuitem value="Delete" action="#{dataForm.remove}" process="@this"
-                                    rendered="#{not dataForm.isNew()}" icon="fa fa-trash">
+                        <p:menuitem value="Delete" action="#{dataSheetForm.remove}" process="@this"
+                                    rendered="#{not dataSheetForm.isNew()}" icon="fa fa-trash">
                             <f:setPropertyActionListener value="true"
                                                          target="#{facesContext.externalContext.flash.keepMessages}"/>
                             <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-danger"/>

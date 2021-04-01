@@ -75,25 +75,25 @@
                     </div>
                     <div class="ui-sm-12 ui-g-6 ui-g-nopad"> 
                         <div class="ui-sm-12 ui-g-11">
-                            <p:outputLabel value="Parkhaus" for="inputParkhaus"/>
+                            <p:outputLabel value="ParkingGarage" for="inputParkinGarage"/>
                         </div>
                         <div class="ui-sm-12 ui-g-11" >
-                            <p:selectOneMenu id="inputParkhaus" value="#{dataForm.model.item.parkingGarage}">
+                            <p:selectOneMenu id="inputParkinGarage" value="#{dataForm.model.item.parkingGarage}">
                                 <f:selectItems value="#{dataForm.model.parkingGarages}"/>
                             </p:selectOneMenu>
                             <span class="help-block"> 
-                                <p:message for="inputParkhaus" />
+                                <p:message for="inputParkinGarage" />
                             </span> 
                         </div>
                     </div>     
                     <div class="ui-sm-12 ui-g-6 ui-g-nopad">     
                         <div class="ui-sm-12 ui-g-11">
-                            <p:outputLabel value="Datum" for="inputDatum"/>
+                            <p:outputLabel value="Date" for="inputDate"/>
                         </div>
                         <div class="ui-sm-12 ui-g-11" >
-                            <p:datePicker id="inputDatum" value="#{dataForm.model.item.date}" showTime="true" required="true"/>
+                            <p:datePicker id="inputDate" value="#{dataForm.model.item.date}" showTime="true" required="true"/>
                             <span class="help-block"> 
-                                <p:message for="inputDatum" />
+                                <p:message for="inputDate" />
                             </span>
                         </div>
                     </div>     

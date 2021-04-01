@@ -60,7 +60,7 @@
 
                     <p:separator/>
 
-                    <p:dataTable widgetVar="carsTable" var="sheet" value="#{dataSheetList.model.data}" rows="5"
+                    <p:dataTable widgetVar="dataSheetTable" var="sheet" value="#{dataSheetList.model.data}" rows="5"
                                  rowKey="#{sheet.id}" lazy="true" paginator="true"
                                  filteredValue="#{dataSheetList.model.filteredValue}"
                                  paginatorPosition="bottom" selection="#{dataSheetList.model.selected}"

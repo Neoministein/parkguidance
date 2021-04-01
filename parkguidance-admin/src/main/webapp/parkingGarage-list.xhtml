@@ -49,7 +49,7 @@
 
                     <p:separator/>
 
-                    <p:dataTable widgetVar="carsTable" var="p" value="#{garageList.model.data}" rows="5"
+                    <p:dataTable widgetVar="parkingGarageTable" var="p" value="#{garageList.model.data}" rows="5"
                                  rowKey="#{p.id}" lazy="true" paginator="true"
                                  filteredValue="#{garageList.model.filteredValue}"
                                  paginatorPosition="bottom" selection="#{garageList.model.selected}"
@@ -81,7 +81,7 @@
                                 <f:param name="id" value="#{p.id}"/>
                             </p:link>
                         </p:column>
-                        <p:column headerText="Pläze">
+                        <p:column headerText="Spaces">
                             <h:outputLabel value="#{p.occupied}/#{p.spaces}"/>
                         </p:column>
                     </p:dataTable>

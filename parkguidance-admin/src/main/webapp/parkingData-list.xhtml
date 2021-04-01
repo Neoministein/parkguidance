@@ -62,7 +62,7 @@
 
                     <p:separator/>
 
-                    <p:dataTable widgetVar="carsTable" var="p" value="#{parkingDataList.model.data}" rows="5"
+                    <p:dataTable widgetVar="parkingDataTable" var="p" value="#{parkingDataList.model.data}" rows="5"
                                  rowKey="#{p.id}" lazy="true" paginator="true"
                                  filteredValue="#{parkingDataList.model.filteredValue}"
                                  paginatorPosition="bottom" selection="#{parkingDataList.model.selected}"
@@ -78,15 +78,15 @@
 
                         <p:column selectionMode="multiple" width="5%" styleClass="align-center"/>
 
-                        <p:column headerText="Datum">
+                        <p:column headerText="Date">
                             <p:link value="#{p.date}" outcome="/parkingData-form" >
                                 <f:param name="id" value="#{p.id}"/>
                             </p:link>
                         </p:column>
-                        <p:column headerText="Parkhaus">
+                        <p:column headerText="Parking garage">
                             #{p.parkingGarage.name}
                         </p:column>
-                        <p:column headerText="Besetzt">
+                        <p:column headerText="Occupied">
                             #{p.occupied} / #{p.parkingGarage.spaces}
                         </p:column>
                     </p:dataTable>
