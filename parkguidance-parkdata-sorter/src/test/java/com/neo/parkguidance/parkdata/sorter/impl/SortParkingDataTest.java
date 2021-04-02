@@ -50,7 +50,7 @@ class SortParkingDataTest {
         expected.setYear(1970);
         expected.setWeek(1);
         expected.setDay(5);
-        expected.setHalfHour(0);
+        expected.setHalfHour(1);
         //Act
         DataSheet result = subject.dataSheetFromDate(date);
 
