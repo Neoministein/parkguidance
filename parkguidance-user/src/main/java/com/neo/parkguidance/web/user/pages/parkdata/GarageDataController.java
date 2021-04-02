@@ -26,7 +26,7 @@ public class GarageDataController {
             return;
         }
 
-        if(!chartModel.isInitialized()) {
+        if(!chartModel.isInitialized() || chartModel.getDataSets().length-1 < model.getId()) {
             chartModel.setDataSets(facade.loadDataSet());
             chartModel.setLabels(facade.createChartLabel());
             chartModel.setInitialized(true);
