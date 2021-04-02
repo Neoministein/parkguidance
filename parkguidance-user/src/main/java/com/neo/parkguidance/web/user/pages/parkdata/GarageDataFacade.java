@@ -22,6 +22,7 @@ import java.util.List;
 public class GarageDataFacade {
 
     private static final int HALF_HOURS_IN_DAY = 48;
+    private static final long TIME_BETWEEN_UPDATES = 1800000;
 
     @Inject
     private DataSheetEntityService dataSheetService;
@@ -91,6 +92,10 @@ public class GarageDataFacade {
         cartesianLinerModel.setOptions(options);
 
         model.setCartesianLinerModel(cartesianLinerModel);
+    }
+
+    public boolean chartModelOutOfDate(GarageDataChartModel model) {
+        return  model.getLastUpdate().getTime() + TIME_BETWEEN_UPDATES < System.currentTimeMillis();
     }
 
     public List<String> createChartLabel() {

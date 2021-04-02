@@ -5,6 +5,7 @@ import org.omnifaces.util.Faces;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.util.Date;
 
 @RequestScoped
 @Named(value = GarageDataController.BEAN_NAME)
@@ -26,10 +27,14 @@ public class GarageDataController {
             return;
         }
 
-        if(!chartModel.isInitialized() || chartModel.getDataSets().length-1 < model.getId()) {
+        if(!chartModel.isInitialized()
+                || facade.chartModelOutOfDate(chartModel)
+                || chartModel.getDataSets().length-1 < model.getId()) {
+
             chartModel.setDataSets(facade.loadDataSet());
             chartModel.setLabels(facade.createChartLabel());
             chartModel.setInitialized(true);
+            chartModel.setLastUpdate(new Date());
         }
 
         if(!model.isInitialized()) {

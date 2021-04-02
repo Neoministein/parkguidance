@@ -72,7 +72,10 @@
                 <p:lineChart model="#{parkingData.model.cartesianLinerModel}" style="width: 100%; height: 500px;"/>
             </div>
         </p:panel>
-
+        <h:outputText value="Last update: "/>
+        <h:outputText value="#{parkingData.chartModel.lastUpdate}">
+            <f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss" type="date" />
+        </h:outputText>
 
     </ui:define>
 </ui:composition>
