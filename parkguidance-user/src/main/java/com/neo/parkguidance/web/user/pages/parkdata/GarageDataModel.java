@@ -11,7 +11,7 @@ public class GarageDataModel implements Serializable {
 
     private boolean isInitialized = false;
 
-    private Integer id;
+    private Integer id = 1;
     private Integer occupied;
     private ParkingGarage parkingGarage;
     private LineChartModel cartesianLinerModel;
