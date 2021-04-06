@@ -54,7 +54,7 @@ public class ParkingServiceFacade {
                 default:
                     return HttpServletResponse.SC_METHOD_NOT_ALLOWED;
                 }
-                return HttpServletResponse.SC_ACCEPTED;
+                return HttpServletResponse.SC_OK;
             }
         }catch (JSONException ex) {
             return HttpServletResponse.SC_BAD_REQUEST;
