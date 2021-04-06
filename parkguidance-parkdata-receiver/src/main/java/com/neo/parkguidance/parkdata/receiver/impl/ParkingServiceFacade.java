@@ -20,6 +20,7 @@ public class ParkingServiceFacade {
 
     private static final int INCREASE = 1;
     private static final int DECREASE = -1;
+    private static final String AMOUNT = "amount";
 
     @Inject
     ParkingGarageAuthentication authentication;
@@ -42,10 +43,13 @@ public class ParkingServiceFacade {
 
                 switch (requestData.getString("type")) {
                 case "incr":
-                    updateOccupied(parkingGarage, INCREASE);
+                    setOccupied(parkingGarage, offsetOccupied(parkingGarage, INCREASE));
                     break;
                 case "decr":
-                    updateOccupied(parkingGarage, DECREASE);
+                    setOccupied(parkingGarage, offsetOccupied(parkingGarage,DECREASE));
+                    break;
+                case "set":
+                    setOccupied(parkingGarage, requestData.getInt(AMOUNT));
                     break;
                 default:
                     return HttpServletResponse.SC_METHOD_NOT_ALLOWED;
@@ -57,8 +61,12 @@ public class ParkingServiceFacade {
         }
     }
 
-    public void updateOccupied(ParkingGarage garage , int offset) {
-        garage.setOccupied(garage.getOccupied() + offset);
+    protected int offsetOccupied(ParkingGarage garage, int offset) {
+        return garage.getOccupied() + offset;
+    }
+
+    public void setOccupied(ParkingGarage garage, int amount) {
+        garage.setOccupied(amount);
 
         parkingGarageManager.edit(garage);
         parkingDataManager.create(new ParkingData(
