@@ -78,7 +78,7 @@
                             <p:outputLabel value="ParkingGarage" for="inputParkinGarage"/>
                         </div>
                         <div class="ui-sm-12 ui-g-11" >
-                            <p:selectOneMenu id="inputParkinGarage" value="#{dataForm.model.item.parkingGarage}">
+                            <p:selectOneMenu id="inputParkinGarage" value="#{dataForm.model.item.parkingGarage}" converter="#{entityParkingGarageConverter}">
                                 <f:selectItems value="#{dataForm.model.parkingGarages}"/>
                             </p:selectOneMenu>
                             <span class="help-block"> 
