@@ -59,6 +59,24 @@ public class ParkingDataEntityManager extends AbstractEntityFacade<ParkingData> 
         return list1;
     }
 
+    public List<ParkingData> findUnsorted() {
+        CriteriaBuilder cb= getEntityManager().getCriteriaBuilder();
+
+        AbstractQuery<ParkingData> cq1= cb.createQuery(entityClass);
+
+        Root<ParkingData> stud1=cq1.from(entityClass);
+
+        cq1.where(cb.equal(stud1.get(ParkingData.C_SORTED), false));
+
+
+        CriteriaQuery<ParkingData> select1 = ((CriteriaQuery<ParkingData>) cq1).select(stud1);
+        select1.orderBy(cb.asc(stud1.get(ParkingData.C_DATE)));
+        TypedQuery<ParkingData> tq1 = getEntityManager().createQuery(select1);
+        List<ParkingData> list1 = tq1.getResultList();
+
+        return list1;
+    }
+
     public List<ParkingData> getBeforeDate(Date date, ParkingGarage parkingGarage) {
         CriteriaBuilder cb= getEntityManager().getCriteriaBuilder();
 

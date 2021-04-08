@@ -30,7 +30,7 @@ public class SortParkingDataImpl {
     DataSheetEntityManager dataSheetManager;
 
     public void sortParkingData() {
-        List<ParkingData> parkingDataList = parkingDataManager.findAll();
+        List<ParkingData> parkingDataList = parkingDataManager.findUnsorted();
         List<ParkingGarage> allParkingGarages = parkingGarageManager.findAll();
 
         if(parkingDataList.isEmpty()) {
@@ -66,6 +66,11 @@ public class SortParkingDataImpl {
                 }
                 dataSheetManager.create(entrySheet);
             }
+        }
+
+        for(ParkingData parkingData :parkingDataList) {
+            parkingData.setSorted(true);
+            parkingDataManager.edit(parkingData);
         }
     }
 

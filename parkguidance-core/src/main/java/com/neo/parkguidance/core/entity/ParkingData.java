@@ -13,6 +13,7 @@ public class ParkingData implements Serializable {
     public static final String TABLE_NAME = "parkingData";
     public static final String C_DATE = "date";
     public static final String C_OCCUPIED = "occupied";
+    public static final String C_SORTED = "sorted";
 
     public ParkingData() {}
 
@@ -20,6 +21,7 @@ public class ParkingData implements Serializable {
         this.parkingGarage = parkingGarage;
         this.date = date;
         this.occupied = occupied;
+        this.sorted = false;
     }
 
     @Id
@@ -38,6 +40,9 @@ public class ParkingData implements Serializable {
     @NotNull
     @Min(0)
     private int occupied;
+
+    @Column(name = C_SORTED)
+    private Boolean sorted;
 
     public Long getId() {
         return id;
@@ -69,5 +74,13 @@ public class ParkingData implements Serializable {
 
     public void setOccupied(int occupied) {
         this.occupied = occupied;
+    }
+
+    public Boolean getSorted() {
+        return sorted;
+    }
+
+    public void setSorted(Boolean sorted) {
+        this.sorted = sorted;
     }
 }
