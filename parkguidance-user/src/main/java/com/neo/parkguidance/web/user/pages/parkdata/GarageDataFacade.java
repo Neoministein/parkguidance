@@ -8,6 +8,7 @@ import com.neo.parkguidance.web.infra.entity.ParkingGarageEntityService;
 import org.primefaces.model.charts.ChartData;
 import org.primefaces.model.charts.axes.cartesian.CartesianScales;
 import org.primefaces.model.charts.axes.cartesian.linear.CartesianLinearAxes;
+import org.primefaces.model.charts.axes.cartesian.linear.CartesianLinearTicks;
 import org.primefaces.model.charts.line.LineChartDataSet;
 import org.primefaces.model.charts.line.LineChartModel;
 import org.primefaces.model.charts.line.LineChartOptions;
@@ -78,15 +79,20 @@ public class GarageDataFacade {
         LineChartOptions options = new LineChartOptions();
         CartesianScales cScales = new CartesianScales();
         CartesianLinearAxes linearAxes = new CartesianLinearAxes();
+        CartesianLinearTicks ticks = new CartesianLinearTicks();
         linearAxes.setId("left-y-axis");
         linearAxes.setPosition("left");
+
+        ticks.setMin(0);
+        ticks.setMax(model.getParkingGarage().getSpaces());
+        linearAxes.setTicks(ticks);
 
         cScales.addYAxesData(linearAxes);
         options.setScales(cScales);
 
         Title title = new Title();
         title.setDisplay(true);
-        title.setText("Cartesian Linear Chart");
+        title.setText(model.getParkingGarage().getName());
         options.setTitle(title);
 
         cartesianLinerModel.setOptions(options);
@@ -106,8 +112,7 @@ public class GarageDataFacade {
         return labels;
     }
 
-    public void setParkingGarage(GarageDataModel model) {
-       model.setParkingGarage(parkingGarageManager.find(Long.valueOf(model.getId())));
-       model.setOccupied(parkingDataService.getCurrentCapacity(model.getParkingGarage()));
+    public ParkingGarage getParkingGarage(Integer id) {
+       return parkingGarageManager.find(Long.valueOf(id));
     }
 }

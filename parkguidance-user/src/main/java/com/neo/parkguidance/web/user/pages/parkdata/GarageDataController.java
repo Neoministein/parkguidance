@@ -38,7 +38,7 @@ public class GarageDataController {
         }
 
         if(!model.isInitialized()) {
-            facade.setParkingGarage(model);
+            model.setParkingGarage(facade.getParkingGarage(model.getId()));
             facade.createCartesianLinerModel(model, chartModel);
             model.setInitialized(true);
         }
