@@ -22,7 +22,7 @@ public class DataFormFacade {
     ParkingGarageEntityService parkingGarageManager;
 
     public ParkingData findGarageById(Integer id) {
-        return dataService.findById(id);
+        return dataService.find(id);
     }
 
     public boolean remove(ParkingData parkingData) {

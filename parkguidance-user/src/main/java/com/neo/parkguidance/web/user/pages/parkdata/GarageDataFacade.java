@@ -31,9 +31,6 @@ public class GarageDataFacade {
     @Inject
     private ParkingGarageEntityService parkingGarageManager;
 
-    @Inject
-    private ParkingDataEntityService parkingDataService;
-
     public LineChartDataSet[] loadDataSet() {
         int sizeOfDataSet = parkingGarageManager.findHighestId().getId().intValue();
 

@@ -57,7 +57,7 @@ public class DataSheetListFacade {
 
             @Override
             public DataSheet getRowData(String key) {
-                return dataSheetService.findById(Integer.valueOf(key));
+                return dataSheetService.find(Integer.valueOf(key));
             }
         });
     }
@@ -67,7 +67,7 @@ public class DataSheetListFacade {
     }
 
     public DataSheet findById(int id) {
-        return dataSheetService.findById(id);
+        return dataSheetService.find(id);
     }
 
     public int delete(List<DataSheet> list) {
