@@ -86,8 +86,10 @@ public class ParkingDataListFacade {
 
         if (list != null) {
             for(ParkingData parkingData: list) {
-                deleted++;
-                parkingDataService.remove(parkingData);
+                if (Boolean.TRUE.equals(parkingData.getSorted())) {
+                    deleted++;
+                    parkingDataService.remove(parkingData);
+                }
             }
         }
         return deleted;
