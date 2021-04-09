@@ -50,7 +50,7 @@ public class GarageListFacade {
 
             @Override
             public ParkingGarage getRowData(String key) {
-                return garageService.find(Integer.valueOf(key));
+                return garageService.find(Long.valueOf(key));
             }
         });
     }

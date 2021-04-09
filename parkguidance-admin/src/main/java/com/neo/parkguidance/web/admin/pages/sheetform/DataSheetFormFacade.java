@@ -21,7 +21,7 @@ public class DataSheetFormFacade {
     ParkingGarageEntityService parkingGarageManager;
 
     public DataSheet findById(Integer id) {
-        return dataSheetService.find(id);
+        return dataSheetService.find(Long.valueOf(id));
     }
 
     public boolean remove(DataSheet parkingData) {

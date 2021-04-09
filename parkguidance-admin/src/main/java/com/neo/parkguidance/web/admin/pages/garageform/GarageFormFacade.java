@@ -20,7 +20,7 @@ public class GarageFormFacade {
     AddressEntityManager addressManager;
 
     public ParkingGarage findGarageById(Integer id) {
-        return garageService.find(id);
+        return garageService.find(Long.valueOf(id));
     }
 
     public boolean remove(ParkingGarage parkingGarage) {

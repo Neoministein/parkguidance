@@ -54,7 +54,7 @@ public class ParkingDataListFacade {
 
             @Override
             public ParkingData getRowData(String key) {
-                return parkingDataService.find(Integer.valueOf(key));
+                return parkingDataService.find(Long.valueOf(key));
             }
         });
     }
@@ -64,7 +64,7 @@ public class ParkingDataListFacade {
     }
 
     public ParkingData findById(int id) {
-        return parkingDataService.find(id);
+        return parkingDataService.find(Long.valueOf(id));
     }
 
     public int delete(List<ParkingData> list) {
