@@ -155,10 +155,3 @@ And these two API endpoints:
 No licence specified yet.
 
 ## Acknowledgments
-
-# Parkguidance
-## Datamodel
-
-##Erweiterung Modular
- - Systemabgenzung beschreiben
- - API Schnittpunkte beschreiben
