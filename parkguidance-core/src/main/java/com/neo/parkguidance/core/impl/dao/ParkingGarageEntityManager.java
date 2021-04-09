@@ -3,6 +3,7 @@ package com.neo.parkguidance.core.impl.dao;
 import com.neo.parkguidance.core.entity.ParkingGarage;
 
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
@@ -17,6 +18,9 @@ public class ParkingGarageEntityManager extends AbstractEntityFacade<ParkingGara
 
     @PersistenceContext(unitName = "data_persistence_unit")
     private EntityManager em;
+
+    @Inject
+    AddressEntityManager addressEntityManager;
 
     @Override
     protected EntityManager getEntityManager() {
@@ -44,5 +48,11 @@ public class ParkingGarageEntityManager extends AbstractEntityFacade<ParkingGara
             return list1.get(0);
         }
         throw new IllegalArgumentException(getClass().getName() + " no entries found");
+    }
+
+    @Override
+    public void remove(ParkingGarage entity) {
+        super.remove(entity);
+        addressEntityManager.remove(entity.getAddress());
     }
 }
