@@ -74,7 +74,8 @@ Afterward add a **module.xml** with the following content to the same directory:
 Add a new driver and datasource to your standalone.xml at **WILDFLY_HOME**\standalone\configuration
 ```xml
 <datasource jndi-name="java:/parkguidance" pool-name="ParkGuidance" enabled="true" use-java-context="true">
-    <connection-url>jdbc:postgresql://localhost:5432/parkguidance</connection-url>                <driver>postgresql</driver>
+    <connection-url>jdbc:postgresql://localhost:5432/parkguidance</connection-url>                
+    <driver>postgresql</driver>
     <security>
         <user-name>DBACC</user-name>
         <password>DBACC</password>
