@@ -68,7 +68,7 @@ public class SortParkingDataImpl {
             }
         }
 
-        for(ParkingData parkingData :parkingDataList) {
+        for(ParkingData parkingData : parkingDataManager.getBetweenDate(startDate, endDate)) {
             parkingData.setSorted(true);
             parkingDataManager.edit(parkingData);
         }
