@@ -1,6 +1,5 @@
 package com.neo.parkguidance.web.admin.pages.garageform;
 
-import com.neo.parkguidance.core.entity.ParkingData;
 import com.neo.parkguidance.core.entity.ParkingGarage;
 import com.neo.parkguidance.core.impl.dao.AddressEntityManager;
 import com.neo.parkguidance.web.infra.entity.ParkingGarageEntityService;
@@ -32,6 +31,9 @@ class GarageFormFacadeTest {
         subject.addressManager = addressEntityManager;
     }
 
+    /**
+     * Verifies if the dao gets called to remove an item
+     */
     @Test
     void removeVerifyDao() {
         //Arrange
@@ -46,6 +48,9 @@ class GarageFormFacadeTest {
         verify(parkingGarageService).remove(any());
     }
 
+    /**
+     *  Verifies if the dao doesn't get called
+     */
     @Test
     void removeFailedVerifyDao() {
         //Arrange
@@ -59,6 +64,9 @@ class GarageFormFacadeTest {
         verify(parkingGarageService, never()).remove(any());
     }
 
+    /**
+     * Verifies if the dao gets called to edit an item
+     */
     @Test
     void editVerifyDao() {
         //Arrange
@@ -72,6 +80,9 @@ class GarageFormFacadeTest {
         verify(parkingGarageService).edit(any());
     }
 
+    /**
+     * Verifies if the dao gets called to create an item
+     */
     @Test
     void createVerifyDao() {
         //Arrange

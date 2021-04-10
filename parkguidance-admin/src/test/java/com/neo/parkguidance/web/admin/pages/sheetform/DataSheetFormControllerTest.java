@@ -35,6 +35,10 @@ class DataSheetFormControllerTest {
         subject.facade = facade;
     }
 
+    /**
+     * Verifies if the facade gets called to delete an item
+     * @throws IOException
+     */
     @Test
     void deleteVerifyFacade() throws IOException {
         when(facade.remove(any())).thenReturn(false);
@@ -46,6 +50,9 @@ class DataSheetFormControllerTest {
         verify(facade).remove(any());
     }
 
+    /**
+     * Verifies if the facade gets called to create an item
+     */
     @Test
     void createItem() {
         ParkingGarage parkingGarage = new ParkingGarage();
@@ -64,6 +71,9 @@ class DataSheetFormControllerTest {
         verify(facade).create(any());
     }
 
+    /**
+     * Verifies if the facade gets called to edit an item
+     */
     @Test
     void editItem() {
         ParkingGarage parkingGarage = new ParkingGarage();

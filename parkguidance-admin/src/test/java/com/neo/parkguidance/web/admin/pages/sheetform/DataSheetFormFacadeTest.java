@@ -34,6 +34,9 @@ class DataSheetFormFacadeTest {
         subject.dataSheetService = dataSheetService;
     }
 
+    /**
+     * Verifies if the dao gets called to remove an item
+     */
     @Test
     void removeVerifyDao() {
         //Arrange
@@ -48,6 +51,9 @@ class DataSheetFormFacadeTest {
         verify(dataSheetService).remove(any());
     }
 
+    /**
+     * Verifies if the dao gets doesn't called to remove an item
+     */
     @Test
     void removeFailedVerifyDao() {
         //Arrange
@@ -61,6 +67,9 @@ class DataSheetFormFacadeTest {
         verify(dataSheetService, never()).remove(any());
     }
 
+    /**
+     * Verifies if the dao gets called to edit an item
+     */
     @Test
     void editVerifyDao() {
         //Arrange
@@ -74,6 +83,9 @@ class DataSheetFormFacadeTest {
         verify(dataSheetService).edit(any());
     }
 
+    /**
+     * Verifies if the dao gets called to create an item
+     */
     @Test
     void createVerifyDao() {
         //Arrange

@@ -26,6 +26,9 @@ class SheetListControllerTest {
         subject.facade = facade;
     }
 
+    /**
+     * Verifies if the filter value is null
+     */
     @Test
     void clearFilterVerifyModel() {
         //Arrange
@@ -37,6 +40,9 @@ class SheetListControllerTest {
         verify(model).setFilter(null);
     }
 
+    /**
+     * Verifies if the facade gets called to clear the filter
+     */
     @Test
     void clearFilterVerifyFacade() {
         //Arrange
@@ -48,6 +54,9 @@ class SheetListControllerTest {
         verify(facade).newFilter();
     }
 
+    /**
+     * Verifies if the facade gets called to delete an item
+     */
     @Test
     void deleteVerifyFacade() {
         when(facade.delete(any())).thenReturn(0);

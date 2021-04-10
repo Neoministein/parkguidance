@@ -29,6 +29,9 @@ class GarageListFacadeTest {
         subject.garageService = garageService;
     }
 
+    /**
+     * Verifies if the facade returns the right amount
+     */
     @Test
     void deleteAmount() {
         //Arrange
@@ -47,6 +50,9 @@ class GarageListFacadeTest {
         assertEquals(expected,result);
     }
 
+    /**
+     * Verifies if the dao gets called to delete a object
+     */
     @Test
     void deleteVerifyDao() {
         //Arrange

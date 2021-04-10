@@ -32,6 +32,10 @@ class DataFormControllerTest {
         subject.facade = facade;
     }
 
+    /**
+     * Verifies if the facade gets called to remove
+     * @throws IOException
+     */
     @Test
     void deleteVerifyFacade() throws IOException {
         when(facade.remove(any())).thenReturn(false);
@@ -43,6 +47,9 @@ class DataFormControllerTest {
         verify(facade).remove(any());
     }
 
+    /**
+     * Verifies if the facade gets to create a item
+     */
     @Test
     void createItem() {
         ParkingGarage garage = new ParkingGarage();
@@ -61,6 +68,9 @@ class DataFormControllerTest {
         verify(facade).create(any());
     }
 
+    /**
+     * Verifies if the facade gets to edit a item
+     */
     @Test
     void editItem() {
         ParkingGarage garage = new ParkingGarage();

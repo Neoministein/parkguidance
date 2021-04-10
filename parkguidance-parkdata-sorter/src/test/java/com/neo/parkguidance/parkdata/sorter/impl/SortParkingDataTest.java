@@ -41,6 +41,9 @@ class SortParkingDataTest {
         subject.dataSheetManager = dataSheetManager;
     }
 
+    /**
+     * Verifies if right date is returned as a Datasheet object
+     */
     @Test
     void dataSheetFromDateTest() {
         //Arrange
@@ -62,6 +65,9 @@ class SortParkingDataTest {
 
     }
 
+    /**
+     * Verifies if date is rounded up
+     */
     @Test
     void roundUpTest(){
         //Arrange
@@ -76,6 +82,9 @@ class SortParkingDataTest {
         assertEquals(expected,result);
     }
 
+    /**
+     * Verifies if date is rounded up
+     */
     @Test
     void roundUpStayTest(){
         //Arrange
@@ -90,6 +99,9 @@ class SortParkingDataTest {
         assertEquals(expected,result);
     }
 
+    /**
+     * Verifies if date is rounded down
+     */
     @Test
     void roundDownTest(){
         //Arrange
@@ -104,6 +116,9 @@ class SortParkingDataTest {
         assertEquals(expected,result);
     }
 
+    /**
+     * Verifies if date is rounded down
+     */
     @Test
     void roundDownStayTest(){
         //Arrange

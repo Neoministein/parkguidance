@@ -34,6 +34,9 @@ class DataFormFacadeTest {
         subject.dataService = parkingDataService;
     }
 
+    /**
+     * Verifies if the dao gets the call to remove a item
+     */
     @Test
     void removeVerifyDao() {
         //Arrange
@@ -48,6 +51,9 @@ class DataFormFacadeTest {
         verify(parkingDataService).remove(any());
     }
 
+    /**
+     * Verifies if the dao doesn't get called
+     */
     @Test
     void removeFailedVerifyDao() {
         //Arrange
@@ -61,6 +67,9 @@ class DataFormFacadeTest {
         verify(parkingDataService, never()).remove(any());
     }
 
+    /**
+     * Verifies if the dao gets called to edit an item
+     */
     @Test
     void editVerifyDao() {
         //Arrange
@@ -74,6 +83,9 @@ class DataFormFacadeTest {
         verify(parkingDataService).edit(any());
     }
 
+    /**
+     * Verifies if the dao gets called to create an item
+     */
     @Test
     void createVerifyDao() {
         //Arrange

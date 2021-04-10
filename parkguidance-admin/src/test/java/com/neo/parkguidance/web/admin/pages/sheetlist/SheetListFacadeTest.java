@@ -30,6 +30,9 @@ class SheetListFacadeTest {
         subject.dataSheetService = dataSheetService;
     }
 
+    /**
+     * Verifies if the facade returns the right amount
+     */
     @Test
     void deleteAmount() {
         //Arrange
@@ -48,6 +51,9 @@ class SheetListFacadeTest {
         assertEquals(expected,result);
     }
 
+    /**
+     * Verifies if the dao gets called to delete a object
+     */
     @Test
     void deleteVerifyDao() {
         //Arrange

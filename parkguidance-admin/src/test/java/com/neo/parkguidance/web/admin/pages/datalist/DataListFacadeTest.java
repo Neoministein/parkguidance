@@ -32,6 +32,9 @@ class DataListFacadeTest {
         subject.parkingDataService = parkingDataService;
     }
 
+    /**
+     * Verifies if the facade returns the right amount
+     */
     @Test
     void deleteAmount() {
         //Arrange
@@ -50,6 +53,9 @@ class DataListFacadeTest {
         assertEquals(expected,result);
     }
 
+    /**
+     * Verifies if the dao gets called to delete a object
+     */
     @Test
     void deleteVerifyDao() {
         //Arrange

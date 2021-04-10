@@ -1,10 +1,6 @@
 package com.neo.parkguidance.web.admin.pages.garageform;
 
-import com.neo.parkguidance.core.entity.ParkingData;
 import com.neo.parkguidance.core.entity.ParkingGarage;
-import com.neo.parkguidance.web.admin.pages.dataform.DataFormController;
-import com.neo.parkguidance.web.admin.pages.dataform.DataFormFacade;
-import com.neo.parkguidance.web.admin.pages.dataform.DataFormModel;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -35,6 +31,10 @@ class GarageFormControllerTest {
         subject.facade = facade;
     }
 
+    /**
+     * Verifies if the facade gets called to delete an item
+     * @throws IOException
+     */
     @Test
     void deleteVerifyFacade() throws IOException {
         when(facade.remove(any())).thenReturn(false);
@@ -46,6 +46,9 @@ class GarageFormControllerTest {
         verify(facade).remove(any());
     }
 
+    /**
+     * Verifies if the facade gets called to create an item
+     */
     @Test
     void createItem() {
         ParkingGarage item = new ParkingGarage();
@@ -61,6 +64,9 @@ class GarageFormControllerTest {
         verify(facade).create(any());
     }
 
+    /**
+     * Verifies if the facade gets called to edit an item
+     */
     @Test
     void editItem() {
         ParkingGarage item = new ParkingGarage();
