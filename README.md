@@ -16,7 +16,7 @@ This project is designed on a 4 Tier architecture
 - **Business layer:** [Java EE](https://de.wikipedia.org/wiki/Jakarta_EE) 
 - **Data access layer:** [JPA](https://de.wikipedia.org/wiki/Jakarta_Persistence_API) with [PostgreSQL](https://www.postgresql.org)
 
-This project als uses [Apache Maven](https://maven.apache.org) as it's project management and comprehension tool.
+This project also uses [Apache Maven](https://maven.apache.org) as it's project management and comprehension tool.
 
 ### Modules
 

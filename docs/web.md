@@ -10,4 +10,4 @@ The Web module contains all content for creating web pages which includes:
 - Entity Lazy Data model extension
 - Util classes
 - Dependencies
- >This module will not be deployed and only servers as a dependency for the other modules.
+ >This module will not be deployed and only serves as a dependency for the other modules.

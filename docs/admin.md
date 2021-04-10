@@ -22,9 +22,14 @@ The login page should have two input fields, and a button one for the username a
 
 #### Product
 
+The front firstly checks if both username and password aren't null.
+
+
 After filling out both input fields and clicking on Sign the backend gets notified. 
 At first, it checks if the username exists in the database. 
 If it exists it hashes the received password from the user and compares it with the one stored in the database. 
+
+If one or both checks returns false the user is displayed a message containing "Login failed".
 
 
 ![Image showing login screen](images/f-Admin-Login.png)

@@ -1,7 +1,7 @@
 # ParkGuidance-Core
 
 The core module contains the persistence Entities and Data Access Objects which every module needs.
->This module will not be deployed and only servers as a dependency for the other modules.
+>This module will not be deployed and only serves as a dependency for the other modules.
 
 ## Persistence
 
@@ -61,8 +61,7 @@ Password    | String    | Hashed Password of User   | [X]
 #### Permission
   Name | Type | Description | Not Null
 -------|------|------------ | -----------
-Username    | String    | Username of User          | [X]
-Password    | String    | Hashed Password of User   | [X]
+Name   | String    | Name of permission   | [X]
 
 > Permission System currently not in use due to only needing an admin and no normal user.
 ## Data Access Object
