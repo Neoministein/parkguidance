@@ -4,7 +4,7 @@
     <parent>
         <groupId>com.neo.parkguidance</groupId>
         <artifactId>parkguidance-main</artifactId>
-        <version>0.1</version>
+        <version>0.2-SNAPSHOT</version>
     </parent>
     <artifactId>parkguidance-user</artifactId>
     <packaging>war</packaging>
