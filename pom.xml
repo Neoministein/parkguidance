@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.neo.parkguidance</groupId>
 	<artifactId>parkguidance-main</artifactId>
-	<version>0.1-SNAPSHOT</version>
+	<version>0.1</version>
 	<name>ParkGuidance Main POM</name>
 	<packaging>pom</packaging>
 

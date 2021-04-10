@@ -4,7 +4,7 @@
     <parent>
         <groupId>com.neo.parkguidance</groupId>
         <artifactId>parkguidance-main</artifactId>
-        <version>0.1-SNAPSHOT</version>
+        <version>0.1</version>
     </parent>
     <artifactId>parkguidance-parkdata-sorter</artifactId>
     <name>ParkGuidance Parkdata sorter POM</name>
