@@ -19,7 +19,7 @@ public class ParkingDataListFacade {
     @Inject
     ParkingDataEntityManager parkingDataDao;
 
-    public LazyDataModel initDataModel(Filter<ParkingData> filter) {
+    public LazyDataModel<ParkingData> initDataModel(Filter<ParkingData> filter) {
         return new LazyEntityService<>(parkingDataDao, filter);
     }
 

@@ -58,8 +58,6 @@ public abstract class AbstractEntityDao<T extends DataBaseEntity> {
 
         CriteriaQuery<T> select1 = ((CriteriaQuery<T>) cq1).select(stud1);
         TypedQuery<T> tq1 = getEntityManager().createQuery(select1);
-        List<T> list1 = tq1.getResultList();
-
-        return list1;
+        return tq1.getResultList();
     }
 }

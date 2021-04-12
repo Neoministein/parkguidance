@@ -1,6 +1,5 @@
 package com.neo.parkguidance.parkdata.sorter.api;
 
-import com.neo.parkguidance.parkdata.sorter.impl.SortParkingDataIT;
 import com.neo.parkguidance.parkdata.sorter.impl.SortParkingDataImpl;
 
 import javax.inject.Inject;

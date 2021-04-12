@@ -56,11 +56,6 @@ public class ParkingGarage implements DataBaseEntity, Comparable<ParkingGarage> 
     @Column(name = C_DESCRIPTION)
     private String description;
 
-
-    public ParkingGarage() {
-
-    }
-
     public Long getId() {
         return id;
     }

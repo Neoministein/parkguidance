@@ -72,13 +72,13 @@ public class SortParkingDataIT {
 
             if(i < HALF_HOURS_IN_DAY/2) {
                 for(int j = 0; j < 4;j++) {
-                    parkingData.setDate(new Date(i* MILLI_PER_HALF_HOUR + j * MILLI_PER_FIVE_MINUTES));
+                    parkingData.setDate(new Date((i* MILLI_PER_HALF_HOUR + j * MILLI_PER_FIVE_MINUTES)));
                     parkingData.setOccupied(currentCount++);
                 }
 
             } else {
                 for(int j = 0; j < 4;j++) {
-                    parkingData.setDate(new Date(i* MILLI_PER_HALF_HOUR + j * MILLI_PER_FIVE_MINUTES));
+                    parkingData.setDate(new Date((i* MILLI_PER_HALF_HOUR + j * MILLI_PER_FIVE_MINUTES)));
                     parkingData.setOccupied(currentCount--);
                 }
             }

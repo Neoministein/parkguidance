@@ -41,9 +41,7 @@ public class DataSheetEntityManager extends AbstractEntityDao<DataSheet> {
 
         CriteriaQuery<DataSheet> select1 = ((CriteriaQuery<DataSheet>) cq1).select(stud1);
         TypedQuery<DataSheet> tq1 = getEntityManager().createQuery(select1);
-        List<DataSheet> list1 = tq1.getResultList();
-
-        return list1;
+        return tq1.getResultList();
     }
 
 }
