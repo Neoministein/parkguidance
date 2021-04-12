@@ -7,7 +7,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 @Stateless
-public class AddressEntityManager extends AbstractEntityFacade<Address> {
+public class AddressEntityManager extends AbstractEntityDao<Address> {
 
     @PersistenceContext(unitName = "data_persistence_unit")
     private EntityManager em;

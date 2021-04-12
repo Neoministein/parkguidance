@@ -1,9 +1,7 @@
 package com.neo.parkguidance.web.admin.pages.datalist;
 
 import com.neo.parkguidance.core.entity.ParkingData;
-import com.neo.parkguidance.core.entity.ParkingGarage;
-import com.neo.parkguidance.web.infra.entity.ParkingDataEntityService;
-import com.neo.parkguidance.web.infra.entity.ParkingGarageEntityService;
+import com.neo.parkguidance.core.impl.dao.ParkingDataEntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -21,15 +19,15 @@ class DataListFacadeTest {
     ParkingDataListFacade subject;
 
     @Mock
-    ParkingDataEntityService parkingDataService;
+    ParkingDataEntityManager parkingDataEntityManager;
 
     @BeforeEach
     public void setUp() {
         subject = Mockito.spy(ParkingDataListFacade.class);
 
-        parkingDataService = mock(ParkingDataEntityService.class);
+        parkingDataEntityManager = mock(ParkingDataEntityManager.class);
 
-        subject.parkingDataService = parkingDataService;
+        subject.parkingDataDao = parkingDataEntityManager;
     }
 
     /**
@@ -68,6 +66,6 @@ class DataListFacadeTest {
 
         //Assert
 
-        verify(parkingDataService).remove(parkingGarageList.get(0));
+        verify(parkingDataEntityManager).remove(parkingGarageList.get(0));
     }
 }

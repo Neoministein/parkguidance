@@ -1,7 +1,7 @@
 package com.neo.parkguidance.web.admin.pages.sheetlist;
 
 import com.neo.parkguidance.core.entity.DataSheet;
-import com.neo.parkguidance.web.infra.entity.DataSheetEntityService;
+import com.neo.parkguidance.core.impl.dao.AbstractEntityDao;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -18,16 +18,15 @@ class SheetListFacadeTest {
 
     DataSheetListFacade subject;
 
-    @Mock
-    DataSheetEntityService dataSheetService;
+    @Mock AbstractEntityDao<DataSheet> dataSheetService;
 
     @BeforeEach
     public void setUp() {
         subject = Mockito.spy(DataSheetListFacade.class);
 
-        dataSheetService = mock(DataSheetEntityService.class);
+        dataSheetService = mock(AbstractEntityDao.class);
 
-        subject.dataSheetService = dataSheetService;
+        subject.dataSheetDao = dataSheetService;
     }
 
     /**

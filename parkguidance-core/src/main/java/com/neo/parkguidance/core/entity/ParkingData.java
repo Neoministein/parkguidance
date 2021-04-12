@@ -3,12 +3,11 @@ package com.neo.parkguidance.core.entity;
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import java.io.Serializable;
 import java.util.Date;
 
 @Entity
 @Table(name = ParkingData.TABLE_NAME)
-public class ParkingData implements Serializable {
+public class ParkingData implements DataBaseEntity {
 
     public static final String TABLE_NAME = "parkingData";
     public static final String C_DATE = "date";

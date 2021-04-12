@@ -23,7 +23,7 @@ public class GarageListController {
     public void initDataModel() {
         boolean init = model.isInstantiated();
         if(!init) {
-            facade.initDataModel(model);
+            model.setData(facade.initDataModel(model.getFilter()));
             model.setInstantiated(true);
         }
     }

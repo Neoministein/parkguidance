@@ -14,7 +14,7 @@ import javax.persistence.criteria.Root;
 import java.util.List;
 
 @Stateless
-public class DataSheetEntityManager extends AbstractEntityFacade<DataSheet> {
+public class DataSheetEntityManager extends AbstractEntityDao<DataSheet> {
 
     @PersistenceContext(unitName = "data_persistence_unit")
     private EntityManager em;

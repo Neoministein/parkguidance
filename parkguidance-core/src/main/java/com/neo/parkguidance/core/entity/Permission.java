@@ -3,11 +3,10 @@ package com.neo.parkguidance.core.entity;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.io.Serializable;
 
 @Entity
 @Table(name = Permission.TABLE_NAME)
-public class Permission implements Serializable {
+public class Permission implements DataBaseEntity {
 
     public static final String TABLE_NAME = "permissions";
     public static final String C_ID = "id";
@@ -18,18 +17,18 @@ public class Permission implements Serializable {
     @Id
     @Column(name = C_ID)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @Column(name = C_NAME)
     @NotNull
     @Size(max = 50)
     private String name;
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

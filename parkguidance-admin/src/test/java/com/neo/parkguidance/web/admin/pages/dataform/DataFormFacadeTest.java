@@ -1,15 +1,14 @@
 package com.neo.parkguidance.web.admin.pages.dataform;
 
 import com.neo.parkguidance.core.entity.ParkingData;
-import com.neo.parkguidance.web.infra.entity.ParkingDataEntityService;
-import com.neo.parkguidance.web.infra.entity.ParkingGarageEntityService;
+import com.neo.parkguidance.core.entity.ParkingGarage;
+import com.neo.parkguidance.core.impl.dao.AbstractEntityDao;
+import com.neo.parkguidance.core.impl.dao.ParkingDataEntityManager;
+import com.neo.parkguidance.core.impl.dao.ParkingGarageEntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.mockito.Mockito.*;
 
@@ -18,20 +17,20 @@ class DataFormFacadeTest {
     DataFormFacade subject;
 
     @Mock
-    ParkingDataEntityService parkingDataService;
+    AbstractEntityDao<ParkingData> parkingDataService;
 
     @Mock
-    ParkingGarageEntityService parkingGarageService;
+    AbstractEntityDao<ParkingGarage> parkingGarageDao;
 
     @BeforeEach
     public void setUp() {
         subject = Mockito.spy(DataFormFacade.class);
 
-        parkingGarageService = mock(ParkingGarageEntityService.class);
-        subject.parkingGarageManager = parkingGarageService;
+        parkingGarageDao = mock(ParkingGarageEntityManager.class);
+        subject.parkingGarageDao = parkingGarageDao;
 
-        parkingDataService = mock(ParkingDataEntityService.class);
-        subject.dataService = parkingDataService;
+        parkingDataService = mock(ParkingDataEntityManager.class);
+        subject.parkingDataDao = parkingDataService;
     }
 
     /**

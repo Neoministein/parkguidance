@@ -4,11 +4,10 @@ import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import java.io.Serializable;
 
 @Entity
 @Table(name = DataSheet.TABLE_NAME)
-public class DataSheet implements Serializable {
+public class DataSheet implements DataBaseEntity {
 
     public static final String TABLE_NAME = "dataSheet";
     public static final String C_YEAR = "year";

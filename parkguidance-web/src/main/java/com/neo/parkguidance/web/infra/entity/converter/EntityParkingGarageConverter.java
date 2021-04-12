@@ -1,7 +1,7 @@
 package com.neo.parkguidance.web.infra.entity.converter;
 
 import com.neo.parkguidance.core.entity.ParkingGarage;
-import com.neo.parkguidance.web.infra.entity.ParkingGarageEntityService;
+import com.neo.parkguidance.core.impl.dao.AbstractEntityDao;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -15,7 +15,7 @@ public class EntityParkingGarageConverter implements Converter {
     public static final String BEAN_NAME = "entityParkingConverter";
 
     @Inject
-    ParkingGarageEntityService parkingGarageEntityService;
+    AbstractEntityDao<ParkingGarage> parkingGarageEntityService;
 
     @Override
     public Object getAsObject(FacesContext context, UIComponent component, String value) {

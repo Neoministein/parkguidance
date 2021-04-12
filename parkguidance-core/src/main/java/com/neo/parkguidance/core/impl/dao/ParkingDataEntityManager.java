@@ -15,7 +15,7 @@ import java.util.Date;
 import java.util.List;
 
 @Stateless
-public class ParkingDataEntityManager extends AbstractEntityFacade<ParkingData> {
+public class ParkingDataEntityManager extends AbstractEntityDao<ParkingData> {
 
     @PersistenceContext(unitName = "data_persistence_unit")
     private EntityManager em;

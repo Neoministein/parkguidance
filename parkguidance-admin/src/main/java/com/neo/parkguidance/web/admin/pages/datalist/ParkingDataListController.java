@@ -24,7 +24,7 @@ public class ParkingDataListController {
     @PostConstruct
     public void init() {
         if(!model.isInstantiated()) {
-            facade.initDataModel(model);
+            model.setData(facade.initDataModel(model.getFilter()));
             model.setInstantiated(true);
         }
     }

@@ -1,15 +1,17 @@
 package com.neo.parkguidance.core.impl.dao;
 
+import com.neo.parkguidance.core.entity.DataBaseEntity;
+
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
 import java.util.List;
 
-public abstract class AbstractEntityFacade<T> {
+public abstract class AbstractEntityDao<T extends DataBaseEntity> {
 
     protected final Class<T> entityClass;
 
-    protected AbstractEntityFacade(Class<T> entityClass) {
+    protected AbstractEntityDao(Class<T> entityClass) {
         this.entityClass = entityClass;
     }
 

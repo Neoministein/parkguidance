@@ -1,7 +1,8 @@
 package com.neo.parkguidance.web.admin.pages.garagelist;
 
 import com.neo.parkguidance.core.entity.ParkingGarage;
-import com.neo.parkguidance.web.infra.entity.ParkingGarageEntityService;
+import com.neo.parkguidance.core.impl.dao.AbstractEntityDao;
+import com.neo.parkguidance.core.impl.dao.ParkingGarageEntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -18,15 +19,15 @@ class GarageListFacadeTest {
     GarageListFacade subject;
 
     @Mock
-    ParkingGarageEntityService garageService;
+    AbstractEntityDao<ParkingGarage> garageService;
 
     @BeforeEach
     public void setUp() {
         subject = Mockito.spy(GarageListFacade.class);
 
-        garageService = mock(ParkingGarageEntityService.class);
+        garageService = mock(ParkingGarageEntityManager.class);
 
-        subject.garageService = garageService;
+        subject.entityDao = garageService;
     }
 
     /**

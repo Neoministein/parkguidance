@@ -3,13 +3,12 @@ package com.neo.parkguidance.core.entity;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.io.Serializable;
 import java.util.Objects;
 import java.util.Set;
 
 @Entity
 @Table(name = RegisteredUser.TABLE_NAME)
-public class RegisteredUser implements Serializable {
+public class RegisteredUser implements DataBaseEntity {
 
     public static final String TABLE_NAME = "registeredUser";
     public static final String C_USERNAME = "username";
@@ -17,7 +16,7 @@ public class RegisteredUser implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @Column(name = C_USERNAME, unique = true)
     @NotNull
@@ -39,11 +38,11 @@ public class RegisteredUser implements Serializable {
     public RegisteredUser() {
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

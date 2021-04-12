@@ -1,8 +1,10 @@
 package com.neo.parkguidance.web.admin.pages.garageform;
 
+import com.neo.parkguidance.core.entity.Address;
 import com.neo.parkguidance.core.entity.ParkingGarage;
+import com.neo.parkguidance.core.impl.dao.AbstractEntityDao;
 import com.neo.parkguidance.core.impl.dao.AddressEntityManager;
-import com.neo.parkguidance.web.infra.entity.ParkingGarageEntityService;
+import com.neo.parkguidance.core.impl.dao.ParkingGarageEntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -15,20 +17,20 @@ class GarageFormFacadeTest {
     GarageFormFacade subject;
 
     @Mock
-    AddressEntityManager addressEntityManager;
+    AbstractEntityDao<Address> addressDao;
 
     @Mock
-    ParkingGarageEntityService parkingGarageService;
+    AbstractEntityDao<ParkingGarage> parkingGarageDao;
 
     @BeforeEach
     public void setUp() {
         subject = Mockito.spy(GarageFormFacade.class);
 
-        parkingGarageService = mock(ParkingGarageEntityService.class);
-        subject.garageService = parkingGarageService;
+        parkingGarageDao = mock(ParkingGarageEntityManager.class);
+        subject.garageDao = parkingGarageDao;
 
-        addressEntityManager = mock(AddressEntityManager.class);
-        subject.addressManager = addressEntityManager;
+        addressDao = mock(AddressEntityManager.class);
+        subject.addressDao = addressDao;
     }
 
     /**
@@ -45,7 +47,7 @@ class GarageFormFacadeTest {
 
         //Assert
 
-        verify(parkingGarageService).remove(any());
+        verify(parkingGarageDao).remove(any());
     }
 
     /**
@@ -61,7 +63,7 @@ class GarageFormFacadeTest {
 
         //Assert
 
-        verify(parkingGarageService, never()).remove(any());
+        verify(parkingGarageDao, never()).remove(any());
     }
 
     /**
@@ -77,7 +79,7 @@ class GarageFormFacadeTest {
 
         //Assert
 
-        verify(parkingGarageService).edit(any());
+        verify(parkingGarageDao).edit(any());
     }
 
     /**
@@ -93,6 +95,6 @@ class GarageFormFacadeTest {
 
         //Assert
 
-        verify(parkingGarageService).create(any());
+        verify(parkingGarageDao).create(any());
     }
 }

@@ -1,9 +1,9 @@
 package com.neo.parkguidance.web.admin.pages.garageform;
 
+import com.neo.parkguidance.core.entity.Address;
 import com.neo.parkguidance.core.entity.ParkingGarage;
 import com.neo.parkguidance.core.impl.RandomString;
-import com.neo.parkguidance.core.impl.dao.AddressEntityManager;
-import com.neo.parkguidance.web.infra.entity.ParkingGarageEntityService;
+import com.neo.parkguidance.core.impl.dao.AbstractEntityDao;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -14,18 +14,18 @@ import static com.github.adminfaces.template.util.Assert.has;
 public class GarageFormFacade {
 
     @Inject
-    ParkingGarageEntityService garageService;
+    AbstractEntityDao<ParkingGarage> garageDao;
 
     @Inject
-    AddressEntityManager addressManager;
+    AbstractEntityDao<Address> addressDao;
 
     public ParkingGarage findGarageById(Integer id) {
-        return garageService.find(Long.valueOf(id));
+        return garageDao.find(Long.valueOf(id));
     }
 
     public boolean remove(ParkingGarage parkingGarage) {
         if (has(parkingGarage) && has(parkingGarage.getId())) {
-            garageService.remove(parkingGarage);
+            garageDao.remove(parkingGarage);
             return true;
         } else {
             return false;
@@ -33,15 +33,15 @@ public class GarageFormFacade {
     }
 
     public void edit(ParkingGarage parkingGarage) {
-        addressManager.edit(parkingGarage.getAddress());
-        garageService.edit(parkingGarage);
+        addressDao.edit(parkingGarage.getAddress());
+        garageDao.edit(parkingGarage);
     }
 
     public void create(ParkingGarage parkingGarage) {
         checkAccessKey(parkingGarage);
 
-        addressManager.create(parkingGarage.getAddress());
-        garageService.create(parkingGarage);
+        addressDao.create(parkingGarage.getAddress());
+        garageDao.create(parkingGarage);
     }
 
     protected void checkAccessKey(ParkingGarage parkingGarage) {
@@ -55,6 +55,6 @@ public class GarageFormFacade {
     }
 
     protected boolean exists(String accessKey) {
-        return !garageService.findByColumn(ParkingGarage.C_ACCESS_KEY,accessKey).isEmpty();
+        return !garageDao.findByColumn(ParkingGarage.C_ACCESS_KEY,accessKey).isEmpty();
     }
 }

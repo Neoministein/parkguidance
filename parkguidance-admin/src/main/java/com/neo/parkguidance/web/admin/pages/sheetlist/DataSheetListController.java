@@ -13,14 +13,16 @@ public class DataSheetListController {
 
     public static final String BEAN_NAME = "dataSheetList";
 
-    @Inject DataSheetListFacade facade;
+    @Inject
+    DataSheetListFacade facade;
 
-    @Inject DataSheetListModel model;
+    @Inject
+    DataSheetListModel model;
 
     @PostConstruct
     public void init() {
         if(!model.isInstantiated()) {
-            facade.initDataModel(model);
+            model.setData(facade.initDataModel(model.getFilter()));
             model.setSorterOffline(facade.sorterOffline());
             model.setInstantiated(true);
         }

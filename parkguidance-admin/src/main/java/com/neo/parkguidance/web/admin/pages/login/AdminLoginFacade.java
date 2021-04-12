@@ -2,13 +2,12 @@ package com.neo.parkguidance.web.admin.pages.login;
 
 import com.github.adminfaces.template.config.AdminConfig;
 import com.neo.parkguidance.core.entity.RegisteredUser;
-import com.neo.parkguidance.core.impl.dao.UserEntityFactory;
+import com.neo.parkguidance.core.impl.dao.AbstractEntityDao;
 import com.neo.parkguidance.web.admin.security.UserBean;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.omnifaces.util.Faces;
 import org.omnifaces.util.Messages;
 
-import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import java.io.IOException;
@@ -20,8 +19,8 @@ import static org.apache.commons.codec.digest.MessageDigestAlgorithms.SHA_224;
 @Stateless
 public class AdminLoginFacade {
 
-    @EJB
-    private UserEntityFactory userDAO;
+    @Inject
+    private AbstractEntityDao<RegisteredUser> userDAO;
 
     @Inject
     private AdminConfig adminConfig;

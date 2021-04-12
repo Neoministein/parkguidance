@@ -2,8 +2,7 @@ package com.neo.parkguidance.web.admin.pages.dataform;
 
 import com.neo.parkguidance.core.entity.ParkingData;
 import com.neo.parkguidance.core.entity.ParkingGarage;
-import com.neo.parkguidance.web.infra.entity.ParkingDataEntityService;
-import com.neo.parkguidance.web.infra.entity.ParkingGarageEntityService;
+import com.neo.parkguidance.core.impl.dao.AbstractEntityDao;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -16,18 +15,18 @@ import static com.github.adminfaces.template.util.Assert.has;
 public class DataFormFacade {
 
     @Inject
-    ParkingDataEntityService dataService;
+    AbstractEntityDao<ParkingData> parkingDataDao;
 
     @Inject
-    ParkingGarageEntityService parkingGarageManager;
+    AbstractEntityDao<ParkingGarage> parkingGarageDao;
 
     public ParkingData findGarageById(Integer id) {
-        return dataService.find(Long.valueOf(id));
+        return parkingDataDao.find(Long.valueOf(id));
     }
 
     public boolean remove(ParkingData parkingData) {
         if (has(parkingData) && has(parkingData.getId())) {
-            dataService.remove(parkingData);
+            parkingDataDao.remove(parkingData);
             return true;
         } else {
             return false;
@@ -35,14 +34,14 @@ public class DataFormFacade {
     }
 
     public void edit(ParkingData parkingData) {
-        dataService.edit(parkingData);
+        parkingDataDao.edit(parkingData);
     }
 
     public void create(ParkingData parkingData) {
-        dataService.create(parkingData);
+        parkingDataDao.create(parkingData);
     }
 
     public List<ParkingGarage> getParkingGarageList() {
-        return parkingGarageManager.findAll();
+        return parkingGarageDao.findAll();
     }
 }

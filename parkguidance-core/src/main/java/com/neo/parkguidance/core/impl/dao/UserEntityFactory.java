@@ -7,7 +7,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 @Stateless
-public class UserEntityFactory extends AbstractEntityFacade<RegisteredUser> {
+public class UserEntityFactory extends AbstractEntityDao<RegisteredUser> {
 
     @PersistenceContext(unitName = "data_persistence_unit")
     private EntityManager em;

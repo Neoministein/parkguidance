@@ -1,12 +1,10 @@
 package com.neo.parkguidance.web.admin.pages.sheetlist;
 
 import com.neo.parkguidance.core.entity.DataSheet;
-import com.neo.parkguidance.web.infra.entity.DataSheetEntityService;
+import com.neo.parkguidance.core.impl.dao.AbstractEntityDao;
+import com.neo.parkguidance.web.infra.entity.LazyEntityService;
 import com.neo.parkguidance.web.infra.table.Filter;
 import org.omnifaces.util.Messages;
-import org.primefaces.model.FilterMeta;
-import org.primefaces.model.LazyDataModel;
-import org.primefaces.model.SortOrder;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -16,7 +14,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.List;
-import java.util.Map;
 
 import static com.neo.parkguidance.web.utils.Utils.pingHost;
 
@@ -24,42 +21,10 @@ import static com.neo.parkguidance.web.utils.Utils.pingHost;
 public class DataSheetListFacade {
 
     @Inject
-    DataSheetEntityService dataSheetService;
+    AbstractEntityDao<DataSheet> dataSheetDao;
 
-    public void initDataModel(DataSheetListModel model) {
-        model.setData(new LazyDataModel<DataSheet>() {
-            @Override
-            public List<DataSheet> load(int first, int pageSize,
-                    String sortField, SortOrder sortOrder,
-                    Map<String, FilterMeta> filters) {
-                com.neo.parkguidance.web.infra.table.SortOrder order = null;
-                if (sortOrder != null) {
-                    switch (sortOrder) {
-                    case UNSORTED:
-                        order = com.neo.parkguidance.web.infra.table.SortOrder.UNSORTED;
-                        break;
-                    case ASCENDING:
-                        order = com.neo.parkguidance.web.infra.table.SortOrder.ASCENDING;
-                        break;
-                    case DESCENDING:
-                        order =  com.neo.parkguidance.web.infra.table.SortOrder.DESCENDING;
-                        break;
-                    }
-                }
-                model.getFilter().setFirst(first).setPageSize(pageSize)
-                        .setSortField(sortField).setSortOrder(order)
-                        .setParams(filters);
-                List<DataSheet> list = dataSheetService.paginate(model.getFilter());
-                setRowCount((int) dataSheetService.count(model.getFilter()));
-
-                return list;
-            }
-
-            @Override
-            public DataSheet getRowData(String key) {
-                return dataSheetService.find(Long.valueOf(key));
-            }
-        });
+    public LazyEntityService<DataSheet> initDataModel(Filter<DataSheet> filter) {
+        return new LazyEntityService<>(dataSheetDao, filter);
     }
 
     public Filter<DataSheet> newFilter() {
@@ -67,7 +32,7 @@ public class DataSheetListFacade {
     }
 
     public DataSheet findById(int id) {
-        return dataSheetService.find(Long.valueOf(id));
+        return dataSheetDao.find(Long.valueOf(id));
     }
 
     public int delete(List<DataSheet> list) {
@@ -76,7 +41,7 @@ public class DataSheetListFacade {
         if(list != null) {
             for (DataSheet selectedCar : list) {
                 numCars++;
-                dataSheetService.remove(selectedCar);
+                dataSheetDao.remove(selectedCar);
 
             }
 

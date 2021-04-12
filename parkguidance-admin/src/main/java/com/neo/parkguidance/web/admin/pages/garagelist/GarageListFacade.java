@@ -1,58 +1,39 @@
 package com.neo.parkguidance.web.admin.pages.garagelist;
 
 import com.neo.parkguidance.core.entity.ParkingGarage;
-import com.neo.parkguidance.web.infra.entity.ParkingGarageEntityService;
+import com.neo.parkguidance.core.impl.dao.AbstractEntityDao;
+import com.neo.parkguidance.web.infra.entity.LazyEntityService;
 import com.neo.parkguidance.web.infra.table.Filter;
-import org.primefaces.model.FilterMeta;
 import org.primefaces.model.LazyDataModel;
-import org.primefaces.model.SortOrder;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import java.util.List;
-import java.util.Map;
+import java.util.function.Predicate;
+
+import static com.github.adminfaces.template.util.Assert.has;
 
 @Stateless
 public class GarageListFacade {
 
     @Inject
-    ParkingGarageEntityService garageService;
+    AbstractEntityDao<ParkingGarage> entityDao;
 
-    public void initDataModel(GarageListModel model) {
-        model.setData(new LazyDataModel<ParkingGarage>() {
+    public LazyDataModel<ParkingGarage> initDataModel(Filter<ParkingGarage> filter) {
+        LazyEntityService<ParkingGarage> lazyEntityService = new LazyEntityService<>(entityDao, filter);
+        lazyEntityService.setConfigFilter(configFilter -> {
+            List<Predicate<ParkingGarage>> predicates = lazyEntityService.predicates();
 
-            @Override
-            public List<ParkingGarage> load(int first, int pageSize,
-                    String sortField, SortOrder sortOrder,
-                    Map<String, FilterMeta> filters) {
-                com.neo.parkguidance.web.infra.table.SortOrder order = null;
-                if (sortOrder != null) {
-                    switch (sortOrder) {
-                    case UNSORTED:
-                        order = com.neo.parkguidance.web.infra.table.SortOrder.UNSORTED;
-                        break;
-                    case ASCENDING:
-                        order = com.neo.parkguidance.web.infra.table.SortOrder.ASCENDING;
-                        break;
-                    case DESCENDING:
-                        order =  com.neo.parkguidance.web.infra.table.SortOrder.DESCENDING;
-                        break;
-                    }
+            if (has(configFilter.getEntity())) {
+                ParkingGarage filterEntity = configFilter.getEntity();
+                if (has(filterEntity.getName())) {
+                    Predicate<ParkingGarage> namePredicate = (ParkingGarage c) -> c.getName().toLowerCase().contains(filterEntity.getName().toLowerCase());
+                    predicates.add(namePredicate);
                 }
-                model.getFilter().setFirst(first).setPageSize(pageSize)
-                        .setSortField(sortField).setSortOrder(order)
-                        .setParams(filters);
-                List<ParkingGarage> list = garageService.paginate(model.getFilter());
-                setRowCount((int) garageService.count(model.getFilter()));
-
-                return list;
             }
-
-            @Override
-            public ParkingGarage getRowData(String key) {
-                return garageService.find(Long.valueOf(key));
-            }
+            return predicates;
         });
+        return lazyEntityService;
     }
 
     public Filter<ParkingGarage> newFilter() {
@@ -64,7 +45,7 @@ public class GarageListFacade {
         if(selected != null) {
             for (ParkingGarage selectedCar : selected) {
                 numCars++;
-                garageService.remove(selectedCar);
+                entityDao.remove(selectedCar);
 
             }
         }

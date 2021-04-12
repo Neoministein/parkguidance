@@ -2,9 +2,8 @@ package com.neo.parkguidance.web.user.pages.parkdata;
 
 import com.neo.parkguidance.core.entity.DataSheet;
 import com.neo.parkguidance.core.entity.ParkingGarage;
-import com.neo.parkguidance.web.infra.entity.DataSheetEntityService;
-import com.neo.parkguidance.web.infra.entity.ParkingDataEntityService;
-import com.neo.parkguidance.web.infra.entity.ParkingGarageEntityService;
+import com.neo.parkguidance.core.impl.dao.DataSheetEntityManager;
+import com.neo.parkguidance.core.impl.dao.ParkingGarageEntityManager;
 import org.primefaces.model.charts.ChartData;
 import org.primefaces.model.charts.axes.cartesian.CartesianScales;
 import org.primefaces.model.charts.axes.cartesian.linear.CartesianLinearAxes;
@@ -26,10 +25,10 @@ public class GarageDataFacade {
     private static final long TIME_BETWEEN_UPDATES = 1800000;
 
     @Inject
-    private DataSheetEntityService dataSheetService;
+    private DataSheetEntityManager dataSheetService;
 
     @Inject
-    private ParkingGarageEntityService parkingGarageManager;
+    private ParkingGarageEntityManager parkingGarageManager;
 
     public LineChartDataSet[] loadDataSet() {
         int sizeOfDataSet = parkingGarageManager.findHighestId().getId().intValue();

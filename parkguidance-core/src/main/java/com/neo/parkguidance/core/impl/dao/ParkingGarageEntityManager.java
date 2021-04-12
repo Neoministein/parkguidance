@@ -14,7 +14,7 @@ import javax.persistence.criteria.Root;
 import java.util.List;
 
 @Stateless
-public class ParkingGarageEntityManager extends AbstractEntityFacade<ParkingGarage> {
+public class ParkingGarageEntityManager extends AbstractEntityDao<ParkingGarage> {
 
     @PersistenceContext(unitName = "data_persistence_unit")
     private EntityManager em;

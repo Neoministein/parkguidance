@@ -4,11 +4,10 @@ import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.io.Serializable;
 
 @Entity
 @Table(name = Address.TABLE_NAME)
-public class Address implements Serializable {
+public class Address implements DataBaseEntity {
 
     public static final String TABLE_NAME = "address";
     public static final String C_ID = "id_address";
@@ -20,7 +19,7 @@ public class Address implements Serializable {
     @Id
     @Column(name = C_ID)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @Column(name = C_CITY_NAME)
     @NotNull
@@ -53,11 +52,11 @@ public class Address implements Serializable {
 
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

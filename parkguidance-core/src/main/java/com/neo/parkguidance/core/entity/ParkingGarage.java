@@ -4,12 +4,11 @@ import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
 @Table(name = ParkingGarage.TABLE_NAME)
-public class ParkingGarage implements Serializable, Comparable<ParkingGarage> {
+public class ParkingGarage implements DataBaseEntity, Comparable<ParkingGarage> {
     public static final String C_ID = "id";
     public static final String TABLE_NAME = "parkingGarage";
     public static final String C_NAME = "name";
