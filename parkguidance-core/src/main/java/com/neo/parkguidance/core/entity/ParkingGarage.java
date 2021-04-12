@@ -9,7 +9,7 @@ import java.util.Objects;
 @Entity
 @Table(name = ParkingGarage.TABLE_NAME)
 public class ParkingGarage implements DataBaseEntity, Comparable<ParkingGarage> {
-    public static final String C_ID = "id";
+
     public static final String TABLE_NAME = "parkingGarage";
     public static final String C_NAME = "name";
     public static final String C_SPACES = "spaces";
