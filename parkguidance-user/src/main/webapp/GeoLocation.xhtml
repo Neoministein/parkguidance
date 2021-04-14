@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui" xmlns:adm="http://github.com/adminfaces"
+                template="#{layoutMB.template}">
+
+    <ui:param name="renderBreadCrumb" value="false"/>
+
+    <ui:define name="body">
+        <h:form id="coords">
+            <p:commandButton value="Send" action="#{geoLocation.currentPosition}" update="@form"/>
+
+            <p:remoteCommand name="geoLocationData" process="@this" autoRun="false" actionListener="#{geoLocation.geoLocationListener}"/>
+            <br/>
+            <h:outputText value="#{geoLocation.model.longitude}"/>
+            <br/>
+            <h:outputText value="#{geoLocation.model.latitude}"/>
+            <br/>
+            <h:outputText value="#{geoLocation.model.accuracyCurrentPosition}"/>
+        </h:form>
+
+        <script src="resources/geolocation.js"/>
+    </ui:define>
+</ui:composition>
