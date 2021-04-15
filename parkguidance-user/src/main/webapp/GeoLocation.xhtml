@@ -12,9 +12,9 @@
 
             <p:remoteCommand name="geoLocationData" process="@this" autoRun="false" actionListener="#{geoLocation.geoLocationListener}"/>
             <br/>
-            <h:outputText value="#{geoLocation.model.longitude}"/>
-            <br/>
             <h:outputText value="#{geoLocation.model.latitude}"/>
+            <br/>
+            <h:outputText value="#{geoLocation.model.longitude}"/>
             <br/>
             <h:outputText value="#{geoLocation.model.accuracyCurrentPosition}"/>
         </h:form>
