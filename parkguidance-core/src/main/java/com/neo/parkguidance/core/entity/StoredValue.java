@@ -5,14 +5,14 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = StoredValue.TABLE_NAME)
-public class StoredValue implements DataBaseEntity{
+public class StoredValue implements DataBaseEntity<StoredValue> {
 
     public static final String TABLE_NAME = "storedValue";
 
     public static final String C_KEY = "key";
     public static final String C_VALUE = "value";
 
-    public static final String V_GOOGLE_MAPS_API = "console.cloud.google.maps.api";
+    public static final String V_GOOGLE_MAPS_API = "cloud.google.maps.api";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -48,5 +48,13 @@ public class StoredValue implements DataBaseEntity{
 
     public void setValue(String value) {
         this.value = value;
+    }
+
+    @Override
+    public boolean compareValues(StoredValue o) {
+        if(!key.equals(o.getKey())) {
+            return false;
+        }
+        return value.equals(o.getValue());
     }
 }

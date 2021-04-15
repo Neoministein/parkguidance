@@ -8,7 +8,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = ParkingGarage.TABLE_NAME)
-public class ParkingGarage implements DataBaseEntity, Comparable<ParkingGarage> {
+public class ParkingGarage implements DataBaseEntity<ParkingGarage> {
 
     public static final String TABLE_NAME = "parkingGarage";
     public static final String C_NAME = "name";
@@ -129,8 +129,30 @@ public class ParkingGarage implements DataBaseEntity, Comparable<ParkingGarage> 
     }
 
     @Override
-    public int compareTo(ParkingGarage o) {
-        return Long.compare(this.getId(), o.getId());
+    public boolean compareValues(ParkingGarage o) {
+        if(!name.equals(o.getName())) {
+            return false;
+        }
+
+        if(spaces != o.getSpaces()) {
+            return false;
+        }
+        if(occupied != o.getOccupied()) {
+            return false;
+        }
+        if(!accessKey.equals(o.getAccessKey())) {
+            return false;
+        }
+        if(!address.compareValues(o.getAddress())) {
+            return false;
+        }
+        if(!Objects.equals(price,o.getPrice())) {
+            return false;
+        }
+        if(!Objects.equals(operator, o.getOperator())) {
+            return false;
+        }
+        return Objects.equals(description, o.getDescription());
     }
 
     @Override

@@ -3,10 +3,11 @@ package com.neo.parkguidance.core.entity;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.Objects;
 
 @Entity
 @Table(name = Permission.TABLE_NAME)
-public class Permission implements DataBaseEntity {
+public class Permission implements DataBaseEntity<Permission> {
 
     public static final String TABLE_NAME = "permissions";
     public static final String C_ID = "id";
@@ -38,5 +39,25 @@ public class Permission implements DataBaseEntity {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public boolean compareValues(Permission o) {
+        return name.equals(o.getName());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        Permission that = (Permission) o;
+        return id.equals(that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

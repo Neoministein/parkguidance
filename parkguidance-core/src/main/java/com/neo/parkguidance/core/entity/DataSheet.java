@@ -4,10 +4,11 @@ import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import java.util.Objects;
 
 @Entity
 @Table(name = DataSheet.TABLE_NAME)
-public class DataSheet implements DataBaseEntity {
+public class DataSheet implements DataBaseEntity<DataSheet> {
 
     public static final String TABLE_NAME = "dataSheet";
     public static final String C_YEAR = "year";
@@ -119,5 +120,43 @@ public class DataSheet implements DataBaseEntity {
 
     public void setParkingGarage(ParkingGarage parkingGarage) {
         this.parkingGarage = parkingGarage;
+    }
+
+    @Override
+    public boolean compareValues(DataSheet o) {
+        if (!year.equals(o.getYear())) {
+            return false;
+        }
+        if (!week.equals(o.getWeek())) {
+            return false;
+        }
+        if (!day.equals(o.getDay())) {
+            return false;
+        }
+        if(!halfHour.equals(o.getHalfHour())) {
+            return false;
+        }
+        if(!occupied.equals(o.getOccupied())) {
+            return false;
+        }
+        if(!waitingTime.equals(o.getWaitingTime())) {
+            return false;
+        }
+        return parkingGarage.compareValues(o.getParkingGarage());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        DataSheet dataSheet = (DataSheet) o;
+        return id.equals(dataSheet.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

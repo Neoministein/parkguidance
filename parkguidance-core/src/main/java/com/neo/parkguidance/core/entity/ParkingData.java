@@ -4,10 +4,11 @@ import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
+import java.util.Objects;
 
 @Entity
 @Table(name = ParkingData.TABLE_NAME)
-public class ParkingData implements DataBaseEntity {
+public class ParkingData implements DataBaseEntity<ParkingData> {
 
     public static final String TABLE_NAME = "parkingData";
     public static final String C_DATE = "date";
@@ -81,5 +82,35 @@ public class ParkingData implements DataBaseEntity {
 
     public void setSorted(Boolean sorted) {
         this.sorted = sorted;
+    }
+
+    @Override
+    public boolean compareValues(ParkingData o) {
+        if(!parkingGarage.compareValues(o.getParkingGarage())) {
+            return false;
+        }
+        if(!date.equals(o.getDate())) {
+            return false;
+        }
+        if (occupied != o.getOccupied()) {
+            return false;
+        }
+
+        return Objects.equals(sorted,o.getSorted());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        ParkingData that = (ParkingData) o;
+        return id.equals(that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

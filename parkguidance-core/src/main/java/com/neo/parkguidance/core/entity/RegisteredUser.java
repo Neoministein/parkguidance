@@ -8,7 +8,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = RegisteredUser.TABLE_NAME)
-public class RegisteredUser implements DataBaseEntity {
+public class RegisteredUser implements DataBaseEntity<RegisteredUser> {
 
     public static final String TABLE_NAME = "registeredUser";
     public static final String C_USERNAME = "username";
@@ -71,6 +71,14 @@ public class RegisteredUser implements DataBaseEntity {
     }
 
     @Override
+    public boolean compareValues(RegisteredUser o) {
+        if(!username.equals(o.getUsername())) {
+            return false;
+        }
+        return password.equals(o.getPassword());
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o)
             return true;
@@ -82,6 +90,6 @@ public class RegisteredUser implements DataBaseEntity {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, username, password, permissions);
+        return Objects.hash(id);
     }
 }
