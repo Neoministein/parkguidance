@@ -11,7 +11,7 @@ function getLocation(){
     } else {
         alert("Your browser does not support this feature")
     }
-};
+}
 
 function sentData(position) {
     geoLocationData (

@@ -1,5 +1,6 @@
 package com.neo.parkguidance.web.admin.pages.garageform;
 
+import com.neo.parkguidance.core.api.external.google.maps.GeoCoding;
 import com.neo.parkguidance.core.entity.Address;
 import com.neo.parkguidance.core.entity.ParkingGarage;
 import com.neo.parkguidance.core.impl.RandomString;
@@ -19,6 +20,9 @@ public class GarageFormFacade {
     @Inject
     AbstractEntityDao<Address> addressDao;
 
+    @Inject
+    GeoCoding geoCoding;
+
     public ParkingGarage findGarageById(Integer id) {
         return garageDao.find(Long.valueOf(id));
     }
@@ -33,11 +37,15 @@ public class GarageFormFacade {
     }
 
     public void edit(ParkingGarage parkingGarage) {
-        addressDao.edit(parkingGarage.getAddress());
+        if(hasAddressChanged(parkingGarage.getAddress())) {
+            geoCoding.findCoordinates(parkingGarage.getAddress());
+            addressDao.edit(parkingGarage.getAddress());
+        }
         garageDao.edit(parkingGarage);
     }
 
     public void create(ParkingGarage parkingGarage) {
+        geoCoding.findCoordinates(parkingGarage.getAddress());
         checkAccessKey(parkingGarage);
 
         addressDao.create(parkingGarage.getAddress());
@@ -46,15 +54,23 @@ public class GarageFormFacade {
 
     protected void checkAccessKey(ParkingGarage parkingGarage) {
         if (parkingGarage.getAccessKey() == null || parkingGarage.getAccessKey().isEmpty()) {
-            String accesskey;
+            String accessKey;
             do {
-                accesskey = new RandomString().nextString();
-            }while (exists(accesskey));
-            parkingGarage.setAccessKey(accesskey);
+                accessKey = new RandomString().nextString();
+            }while (exists(accessKey));
+            parkingGarage.setAccessKey(accessKey);
         }
     }
 
     protected boolean exists(String accessKey) {
         return !garageDao.findByColumn(ParkingGarage.C_ACCESS_KEY,accessKey).isEmpty();
+    }
+
+    protected boolean hasAddressChanged(Address address) {
+        if(address == null || address.getId() == null) {
+            return false;
+        }
+
+        return address.compareValues(addressDao.find(address.getId()));
     }
 }

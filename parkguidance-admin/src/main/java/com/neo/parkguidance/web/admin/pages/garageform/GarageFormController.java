@@ -3,6 +3,7 @@ package com.neo.parkguidance.web.admin.pages.garageform;
 import com.neo.parkguidance.core.entity.Address;
 import com.neo.parkguidance.core.entity.ParkingGarage;
 import org.omnifaces.util.Faces;
+import org.omnifaces.util.Messages;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -54,17 +55,21 @@ public class GarageFormController {
     }
 
     public void save() {
-        StringBuilder msg = new StringBuilder("Parking Garage " + model.getItem().getName());
+        try {
+            StringBuilder msg = new StringBuilder("Parking Garage " + model.getItem().getName());
 
-        if (model.getItem().getId() == null) {
-            facade.create(model.getItem());
-            msg.append(" created successfully");
-        } else {
-            facade.edit(model.getItem());
-            msg.append(" updated successfully");
+            if (model.getItem().getId() == null) {
+                facade.create(model.getItem());
+                msg.append(" created successfully");
+            } else {
+                facade.edit(model.getItem());
+                msg.append(" updated successfully");
+            }
+
+            addDetailMessage(msg.toString());
+        }catch (Exception e) {
+            Messages.addError(null, e.getMessage());
         }
-
-        addDetailMessage(msg.toString());
     }
 
     public void clear() {

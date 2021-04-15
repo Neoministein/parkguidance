@@ -199,6 +199,28 @@
                             </span>
                         </div>
                     </div>
+                    <div class="ui-sm-12 ui-g-6 ui-g-nopad">
+                        <div class="ui-sm-12 ui-g-11">
+                            <p:outputLabel for="latitude" value="Latitude"/>
+                        </div>
+                        <div class="ui-sm-12 ui-g-11" >
+                            <p:inputText id="latitude" value="#{garageForm.model.item.address.latitude}" readonly="true" styleClass="form-control" style="width: 100%"/>
+                            <span class="help-block">
+                                <p:message for="latitude" />
+                            </span>
+                        </div>
+                    </div>
+                    <div class="ui-sm-12 ui-g-6 ui-g-nopad">
+                        <div class="ui-sm-12 ui-g-11">
+                            <p:outputLabel for="longitude" value="Longitude"/>
+                        </div>
+                        <div class="ui-sm-12 ui-g-11" >
+                            <p:inputText id="longitude" value="#{garageForm.model.item.address.longitude}" readonly="true" styleClass="form-control" style="width: 100%"/>
+                            <span class="help-block">
+                                <p:message for="longitude" />
+                            </span>
+                        </div>
+                    </div>
                 </div>
 
                 <h:panelGroup id="footer" layout="block" styleClass="hidden-sm hidden-md hidden-lg">
