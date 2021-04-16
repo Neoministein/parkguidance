@@ -17,6 +17,9 @@ public class GeoLocationController {
     @Inject
     GeoLocationModel model;
 
+    @Inject
+    GeoLocationFacade facade;
+
     public void currentPosition() {
         PrimeFaces.current().executeScript("getLocation();");
     }
@@ -24,11 +27,12 @@ public class GeoLocationController {
     public void geoLocationListener(){
         Map<String, String> parameterMap = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
 
-        model.setLatitude(Float.valueOf(parameterMap.get("currentLatitude")));
-        model.setLongitude(Float.valueOf(parameterMap.get("currentLongitude")));
-        model.setAccuracyCurrentPosition(Float.valueOf(parameterMap.get("accuracyCurrentPosition")));
+        model.setLatitude(Double.valueOf(parameterMap.get("currentLatitude")));
+        model.setLongitude(Double.valueOf(parameterMap.get("currentLongitude")));
+        model.setAccuracyCurrentPosition(Double.valueOf(parameterMap.get("accuracyCurrentPosition")));
 
         PrimeFaces.current().ajax().update("coords");
+        facade.callDistance(model.getLatitude(),model.getLongitude());
     }
 
 

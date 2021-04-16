@@ -12,9 +12,6 @@ import org.json.JSONObject;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletResponse;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 
 @Stateless
 public class GeoCoding {
@@ -30,7 +27,7 @@ public class GeoCoding {
 
     public void findCoordinates(Address address) throws RuntimeException{
         ApiRequest apiRequest = new ApiRequest();
-        String url = API_URL + GoogleApi.JSON + ADDRESS + defineQuery(address) + GoogleApi.KEY;
+        String url = API_URL + GoogleApi.JSON + ADDRESS + GoogleApi.addressQuery(address) + GoogleApi.KEY;
 
         apiRequest.setUrl(url);
         apiRequest.setRequestMethod("GET");
@@ -41,45 +38,32 @@ public class GeoCoding {
             parseRequestStatus(new JSONObject(apiRequest.getResponseInput()),address);
             break;
         case HttpServletResponse.SC_BAD_REQUEST:
-            throw new IllegalArgumentException("This doesn't seem to be a valid address");
+            throw new IllegalArgumentException(GoogleApi.E_UNVALID_ADDRESS);
         case HttpServletResponse.SC_NOT_FOUND:
-            throw new RuntimeException("Try agin later");
+            throw new RuntimeException(GoogleApi.E_TRY_AGAIN);
         case -1:
-            throw new RuntimeException("Internal server error");
+            throw new RuntimeException(GoogleApi.E_INTERNAL_ERROR);
         default:
-            throw new RuntimeException("External Server error:" + apiRequest.getResponseCode());
-        }
-    }
-
-    protected String defineQuery(Address address) throws RuntimeException{
-        String query =  address.getStreet() + "+" +
-                address.getNumber() + "+" +
-                address.getCityName() + "+" +
-                address.getPlz();
-
-        try {
-            return URLEncoder.encode(query, StandardCharsets.UTF_8.toString());
-        } catch (UnsupportedEncodingException e) {
-           throw new RuntimeException(StandardCharsets.UTF_8.toString() + " is not supported");
+            throw new RuntimeException(GoogleApi.E_EXTERNAL_ERROR + apiRequest.getResponseCode());
         }
     }
 
     protected void parseRequestStatus(JSONObject jsonObject, Address address) throws RuntimeException{
         String status = jsonObject.getString("status");
-        switch (jsonObject.getString("status")) {
+        switch (status) {
         case "OK":
             parseCoordinates(jsonObject.getJSONArray("results"),address);
             break;
         case "ZERO_RESULTS":
         case "INVALID_REQUEST":
-            throw new IllegalArgumentException("This doesn't seem to be a valid address");
+            throw new IllegalArgumentException(GoogleApi.E_UNVALID_ADDRESS);
         case "UNKNOWN_ERROR":
-            throw new RuntimeException("Please try again in a couple of minutes");
+            throw new RuntimeException(GoogleApi.E_TRY_AGAIN);
         case "OVER_DAILY_LIMIT":
         case "OVER_QUERY_LIMIT":
         case "REQUEST_DENIED":
         default:
-            throw new RuntimeException("Please contact a system administrator: " + status);
+            throw new RuntimeException(GoogleApi.E_EXTERNAL_ERROR + status);
         }
     }
 

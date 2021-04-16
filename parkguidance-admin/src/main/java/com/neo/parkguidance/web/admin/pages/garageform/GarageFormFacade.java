@@ -71,6 +71,6 @@ public class GarageFormFacade {
             return false;
         }
 
-        return address.compareValues(addressDao.find(address.getId()));
+        return !address.compareValues(addressDao.find(address.getId()));
     }
 }

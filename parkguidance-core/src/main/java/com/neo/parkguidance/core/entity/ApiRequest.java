@@ -26,7 +26,7 @@ public class ApiRequest implements DataBaseEntity<ApiRequest> {
     private Date date;
 
     @NotNull
-    @Column(name = C_URL)
+    @Column(name = C_URL, length = 500)
     private String url;
 
     @NotNull

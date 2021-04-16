@@ -6,31 +6,31 @@ import java.io.Serializable;
 @SessionScoped
 public class GeoLocationModel implements Serializable {
 
-    private Float latitude;
-    private Float longitude;
-    private Float accuracyCurrentPosition;
+    private Double latitude;
+    private Double longitude;
+    private Double accuracyCurrentPosition;
 
-    public Float getLatitude() {
+    public Double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(Float latitude) {
+    public void setLatitude(Double latitude) {
         this.latitude = latitude;
     }
 
-    public Float getLongitude() {
+    public Double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(Float longitude) {
+    public void setLongitude(Double longitude) {
         this.longitude = longitude;
     }
 
-    public Float getAccuracyCurrentPosition() {
+    public Double getAccuracyCurrentPosition() {
         return accuracyCurrentPosition;
     }
 
-    public void setAccuracyCurrentPosition(Float accuracyCurrentPosition) {
+    public void setAccuracyCurrentPosition(Double accuracyCurrentPosition) {
         this.accuracyCurrentPosition = accuracyCurrentPosition;
     }
 }
