@@ -18,19 +18,19 @@ public class StoredValue implements DataBaseEntity<StoredValue> {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = C_KEY, unique = true)
-    @NotNull
+    @Column(name = C_KEY, unique = true, nullable = false)
     private String key;
 
-    @Column(name = C_VALUE)
-    @NotNull
+    @Column(name = C_VALUE, nullable = false)
     private String value;
 
-    @Override public Long getId() {
+    @Override
+    public Long getId() {
         return id;
     }
 
-    @Override public void setId(Long id) {
+    @Override
+    public void setId(Long id) {
         this.id = id;
     }
 

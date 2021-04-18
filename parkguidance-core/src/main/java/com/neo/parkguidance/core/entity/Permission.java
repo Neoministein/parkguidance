@@ -1,7 +1,6 @@
 package com.neo.parkguidance.core.entity;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Objects;
 
@@ -20,9 +19,8 @@ public class Permission implements DataBaseEntity<Permission> {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = C_NAME)
-    @NotNull
     @Size(max = 50)
+    @Column(name = C_NAME, nullable = false)
     private String name;
 
     public Long getId() {

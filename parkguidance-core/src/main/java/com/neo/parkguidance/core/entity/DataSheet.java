@@ -22,40 +22,34 @@ public class DataSheet implements DataBaseEntity<DataSheet> {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = C_YEAR)
-    @NotNull
+    @Column(name = C_YEAR, nullable = false)
     private Integer year;
 
-    @Column(name = C_WEEK)
     @Min(1)
     @Max(53)
-    @NotNull
+    @Column(name = C_WEEK, nullable = false)
     private Integer week;
 
-    @Column(name = C_DAY)
     @Min(0)
     @Max(6)
-    @NotNull
+    @Column(name = C_DAY, nullable = false)
     private Integer day;
 
-    @Column(name = C_HALF_HOUR)
     @Min(0)
     @Max(48)
-    @NotNull
+    @Column(name = C_HALF_HOUR, nullable = false)
     private Integer halfHour;
 
-    @Column(name = C_OCCUPIED)
     @Min(0)
-    @NotNull
+    @Column(name = C_OCCUPIED, nullable = false)
     private Integer occupied;
 
-    @Column(name = C_WAITING_TIME)
     @Min(0)
-    @NotNull
+    @Column(name = C_WAITING_TIME)
     private Integer waitingTime;
 
-    @ManyToOne
     @NotNull
+    @ManyToOne
     private ParkingGarage parkingGarage;
 
     public Long getId() {

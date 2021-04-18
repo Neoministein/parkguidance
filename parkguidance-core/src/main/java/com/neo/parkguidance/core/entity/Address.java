@@ -2,7 +2,6 @@ package com.neo.parkguidance.core.entity;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Objects;
 
@@ -24,23 +23,20 @@ public class Address implements DataBaseEntity<Address> {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = C_CITY_NAME)
-    @NotNull
     @Size(max = 50)
+    @Column(name = C_CITY_NAME, nullable = false)
     private String cityName;
 
-    @Column(name = C_PLZ)
-    @NotNull
     @Min(0)
+    @Column(name = C_PLZ, nullable = false)
     private int plz;
 
-    @Column(name = C_STREET)
-    @NotNull
     @Size(max = 50)
+    @Column(name = C_STREET, nullable = false)
     private String street;
 
-    @Column(name = C_NUMBER)
     @Min(0)
+    @Column(name = C_NUMBER)
     private int number;
 
     @Column(name = C_LATITUDE)
@@ -49,8 +45,8 @@ public class Address implements DataBaseEntity<Address> {
     @Column(name = C_LONGITUDE)
     private Double longitude;
 
-    public Address(@NotNull @Size(max = 50) String cityName, @NotNull @Min(0) int plz,
-            @NotNull @Size(max = 50) String street, @Min(0) int number) {
+    public Address(@Size(max = 50) String cityName, @Min(0) int plz,
+            @Size(max = 50) String street, @Min(0) int number) {
         this.cityName = cityName;
         this.plz = plz;
         this.street = street;

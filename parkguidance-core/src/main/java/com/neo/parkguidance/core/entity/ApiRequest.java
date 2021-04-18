@@ -1,7 +1,6 @@
 package com.neo.parkguidance.core.entity;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.Objects;
 
@@ -21,24 +20,19 @@ public class ApiRequest implements DataBaseEntity<ApiRequest> {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
-    @Column(name = C_DATE)
+    @Column(name = C_DATE, nullable = false)
     private Date date;
 
-    @NotNull
-    @Column(name = C_URL, length = 500)
+    @Column(name = C_URL, length = 500, nullable = false)
     private String url;
 
-    @NotNull
-    @Column(name = C_REQUEST_METHOD)
+    @Column(name = C_REQUEST_METHOD, nullable = false)
     private String requestMethod;
 
-    @NotNull
-    @Column(name = C_REQUEST_BODY)
+    @Column(name = C_REQUEST_BODY, nullable = false)
     private String requestBody;
 
-    @NotNull
-    @Column(name = C_RESPONSE_CODE)
+    @Column(name = C_RESPONSE_CODE, nullable = false)
     private Integer responseCode;
 
     @Transient

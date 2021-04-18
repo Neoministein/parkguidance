@@ -17,32 +17,30 @@ public class ParkingData implements DataBaseEntity<ParkingData> {
 
     public ParkingData() {}
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @NotNull
+    @ManyToOne
+    private ParkingGarage parkingGarage;
+
+    @Column(name = C_DATE, nullable = false)
+    private Date date;
+
+    @Min(0)
+    @Column(name = C_OCCUPIED ,nullable = false)
+    private int occupied;
+
+    @Column(name = C_SORTED)
+    private Boolean sorted;
+
     public ParkingData(ParkingGarage parkingGarage, Date date, int occupied) {
         this.parkingGarage = parkingGarage;
         this.date = date;
         this.occupied = occupied;
         this.sorted = false;
     }
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @ManyToOne
-    @NotNull
-    private ParkingGarage parkingGarage;
-
-    @Column(name = C_DATE)
-    @NotNull
-    private Date date;
-
-    @Column(name = C_OCCUPIED)
-    @NotNull
-    @Min(0)
-    private int occupied;
-
-    @Column(name = C_SORTED)
-    private Boolean sorted;
 
     public Long getId() {
         return id;

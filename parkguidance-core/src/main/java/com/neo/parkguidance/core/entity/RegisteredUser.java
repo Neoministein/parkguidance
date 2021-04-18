@@ -1,7 +1,6 @@
 package com.neo.parkguidance.core.entity;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Objects;
 import java.util.Set;
@@ -18,19 +17,17 @@ public class RegisteredUser implements DataBaseEntity<RegisteredUser> {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = C_USERNAME, unique = true)
-    @NotNull
     @Size(max = 50)
+    @Column(name = C_USERNAME, unique = true, nullable = false)
     private String username;
 
-    @Column(name = C_PASSWORD)
-    @NotNull
+    @Column(name = C_PASSWORD, nullable = false)
     private String password;
 
     @ManyToMany
     private Set<Permission> permissions;
 
-    public RegisteredUser(@NotNull @Size(max = 50) String username, @NotNull String password) {
+    public RegisteredUser(@Size(max = 50) String username, String password) {
         this.username = username;
         this.password = password;
     }

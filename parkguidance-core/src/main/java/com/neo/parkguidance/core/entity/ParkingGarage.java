@@ -2,7 +2,6 @@ package com.neo.parkguidance.core.entity;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Objects;
 
@@ -23,28 +22,22 @@ public class ParkingGarage implements DataBaseEntity<ParkingGarage> {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
-    @Column(name = C_NAME)
-    @NotNull
     @Size(max = 50)
+    @Column(name = C_NAME, nullable = false)
     private String name;
 
-    @Column(name = C_SPACES)
     @Min(0)
-    @NotNull
+    @Column(name = C_SPACES, nullable = false)
     private int spaces;
 
-    @Column(name = C_OCCUPIED)
-    @NotNull
+    @Column(name = C_OCCUPIED, nullable = false)
     private int occupied;
 
-    @Column(name = C_ACCESS_KEY)
-    @NotNull
+    @Column(name = C_ACCESS_KEY, nullable = false)
     private String accessKey;
 
-    @JoinColumn(name = Address.TABLE_NAME)
     @OneToOne
-    @NotNull
+    @JoinColumn(name = Address.TABLE_NAME, nullable = false)
     private Address address;
 
     @Column(name = C_PRICE)
