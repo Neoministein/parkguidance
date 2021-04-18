@@ -64,9 +64,9 @@ public class LazyEntityService<T extends DataBaseEntity> extends LazyDataModel<T
     }
 
     private List<T> paginate(Filter<T> filter) {
-        List<T> pagedCars = new ArrayList<>();
+        List<T> dataSource = new ArrayList<>();
         if(!SortOrder.UNSORTED.equals(filter.getSortOrder())) {
-            pagedCars = entityDao.findAll().stream().
+            dataSource = entityDao.findAll().stream().
                     sorted((c1, c2) -> {
                         if (filter.getSortOrder().isAscending()) {
                             return Long.compare(c1.getId(), c2.getId());
@@ -79,8 +79,8 @@ public class LazyEntityService<T extends DataBaseEntity> extends LazyDataModel<T
 
         int page = filter.getFirst() + filter.getPageSize();
         if (filter.getParams().isEmpty()) {
-            pagedCars = pagedCars.subList(filter.getFirst(), Math.min(page, entityDao.findAll().size()));
-            return pagedCars;
+            dataSource = dataSource.subList(filter.getFirst(), Math.min(page, entityDao.count()));
+            return dataSource;
         }
 
         List<Predicate<T>> predicates = configFilter.filter(filter);
