@@ -35,7 +35,7 @@ class GarageListControllerTest {
     void clearFilterVerifyModel() {
         //Arrange
         //Act
-        subject.clear();
+        subject.clearFilter();
 
         //Assert
 
@@ -49,7 +49,7 @@ class GarageListControllerTest {
     void clearFilterVerifyFacade() {
         //Arrange
         //Act
-        subject.clear();
+        subject.clearFilter();
 
         //Assert
 

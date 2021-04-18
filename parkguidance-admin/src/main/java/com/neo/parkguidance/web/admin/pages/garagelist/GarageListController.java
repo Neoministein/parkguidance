@@ -23,12 +23,13 @@ public class GarageListController {
     public void initDataModel() {
         boolean init = model.isInstantiated();
         if(!init) {
+            clearFilter();
             model.setData(facade.initDataModel(model.getFilter()));
             model.setInstantiated(true);
         }
     }
 
-    public void clear() {
+    public void clearFilter() {
         model.setFilter(facade.newFilter());
     }
 

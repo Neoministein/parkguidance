@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 
 import static com.github.adminfaces.template.util.Assert.has;
 
-public class LazyEntityService<T extends DataBaseEntity> extends LazyDataModel<T> {
+public class LazyEntityService<T extends DataBaseEntity<T>> extends LazyDataModel<T> {
 
     private final AbstractEntityDao<T> entityDao;
     private final Filter<T> filter;
@@ -51,6 +51,11 @@ public class LazyEntityService<T extends DataBaseEntity> extends LazyDataModel<T
         setRowCount((int) count(filter));
 
         return list;
+    }
+
+    @Override
+    public T getRowData(String rowKey) {
+        return entityDao.find(Long.valueOf(rowKey));
     }
 
     public List<Predicate<T>> predicates() {

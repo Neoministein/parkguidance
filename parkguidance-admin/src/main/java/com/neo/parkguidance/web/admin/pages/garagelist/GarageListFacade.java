@@ -1,5 +1,6 @@
 package com.neo.parkguidance.web.admin.pages.garagelist;
 
+import com.neo.parkguidance.core.entity.Address;
 import com.neo.parkguidance.core.entity.ParkingGarage;
 import com.neo.parkguidance.core.impl.dao.AbstractEntityDao;
 import com.neo.parkguidance.web.infra.entity.LazyEntityService;
@@ -27,7 +28,13 @@ public class GarageListFacade {
             if (has(configFilter.getEntity())) {
                 ParkingGarage filterEntity = configFilter.getEntity();
                 if (has(filterEntity.getName())) {
-                    Predicate<ParkingGarage> namePredicate = (ParkingGarage c) -> c.getName().toLowerCase().contains(filterEntity.getName().toLowerCase());
+                    Predicate<ParkingGarage> namePredicate = (ParkingGarage c) ->
+                            c.getName().toLowerCase().contains(filterEntity.getName().toLowerCase());
+                    predicates.add(namePredicate);
+                }
+                if(has(filterEntity.getAddress().getCityName())) {
+                    Predicate<ParkingGarage> namePredicate = (ParkingGarage c) ->
+                            c.getAddress().getCityName().toLowerCase().contains(filterEntity.getAddress().getCityName().toLowerCase());
                     predicates.add(namePredicate);
                 }
             }
@@ -37,7 +44,9 @@ public class GarageListFacade {
     }
 
     public Filter<ParkingGarage> newFilter() {
-         return new Filter<>(new ParkingGarage());
+        ParkingGarage parkingGarage = new ParkingGarage();
+        parkingGarage.setAddress(new Address());
+        return new Filter<>(parkingGarage);
     }
 
     public int delete(List<ParkingGarage> selected) {

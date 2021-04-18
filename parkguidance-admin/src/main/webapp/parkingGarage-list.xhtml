@@ -25,6 +25,10 @@
             <div class="box box-primary">
                 <div class="box-header with-border">
                     <div id="main-buttons" class="hidden-sm hidden-xs">
+                        <p:defaultCommand target="dummy"/>
+                        <p:commandButton id="dummy" process="@this" oncomplete="PF('parkingGarageTable').filter()"
+                                         global="false" style="display:none;"/>
+
                         <p:commandButton action="/parkingGarage-form?faces-redirect=true" icon="fa fa-plus"
                                          value="New" styleClass="btn-primary"/>
                         <p:spacer width="5"/>
@@ -62,24 +66,25 @@
                         <p:ajax event="rowSelect" update="@(.ui-button, .ui-confirm-dialog)"/>
                         <p:ajax event="rowUnselect" update="@(.ui-button, .ui-confirm-dialog)"/>
                         <p:ajax event="toggleSelect" update="@(.ui-button, .ui-confirm-dialog)"/>
-
                         <p:column selectionMode="multiple" width="5%" styleClass="align-center"/>
-                        <!--
-                        <p:column headerText="Name" sortBy="#{p.name}" filterBy="#{p.name}" filterMatchMode="contains">
+
+                        <p:column headerText="Name" sortBy="#{p.name}" filterBy="#{p.name}">
                             <f:facet name="filter">
                                 <p:inputText value="#{garageList.model.filter.entity.name}">
-                                    <p:ajax process="@this" update="@none" oncomplete="PF('carsTable').filter()"/>
+                                    <p:ajax process="@this" update="@none" oncomplete="PF('parkingGarageTable').filter()"/>
                                 </p:inputText>
                             </f:facet>
-                            <p:link value="#{p.name}" outcome="/car-form" >
-                                <f:param name="id" value="#{p.id}"/>
-                            </p:link>
-                        </p:column>
-                        -->
-                        <p:column headerText="Name">
                             <p:link value="#{p.name}" outcome="/parkingGarage-form" >
                                 <f:param name="id" value="#{p.id}"/>
                             </p:link>
+                        </p:column>
+                        <p:column headerText="City" sortBy="#{p.address.cityName}" filterBy="#{p.address.cityName}">
+                            <f:facet name="filter">
+                                <p:inputText value="#{garageList.model.filter.entity.address.cityName}">
+                                    <p:ajax process="@this" update="@none" oncomplete="PF('parkingGarageTable').filter()"/>
+                                </p:inputText>
+                            </f:facet>
+                            <h:outputLabel value="#{p.address.cityName}"/>
                         </p:column>
                         <p:column headerText="Spaces">
                             <h:outputLabel value="#{p.occupied}/#{p.spaces}"/>
