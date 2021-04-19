@@ -107,6 +107,21 @@ Do not use these users in a production system.
 
 #### Installing/Building Sourcecode
 
+##### Dependencies
+
+This project requires a forked version of [Primefaces 8.0](https://github.com/Neoministein/primefaces/tree/8.0%40Neo). 
+You can download it as zip or with git.
+
+```
+git clone --branch 8.0@Neo https://github.com/Neoministein/primefaces/
+```
+
+After installing, you need to add it to your local maven repository using.
+```
+mvn clean install
+```
+
+##### Source Code
 You can download the source code as a zip or with git.
 
 ```
