@@ -41,10 +41,6 @@ public class GarageFormController {
         }
     }
 
-    public GarageFormModel getModel() {
-        return model;
-    }
-
     public void remove() throws IOException {
         if (facade.remove(model.getItem())) {
             addDetailMessage("Parking Garage " + model.getItem().getName()
@@ -79,5 +75,14 @@ public class GarageFormController {
 
     public boolean isNew() {
         return model.getItem() == null || model.getItem().getId() == null;
+    }
+
+    public void resetAccessKey() {
+        facade.setAccessKey(model.getItem());
+        addDetailMessage("Reset AccessKey");
+    }
+
+    public GarageFormModel getModel() {
+        return model;
     }
 }

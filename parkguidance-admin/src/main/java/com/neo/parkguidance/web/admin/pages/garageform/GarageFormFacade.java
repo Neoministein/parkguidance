@@ -46,20 +46,18 @@ public class GarageFormFacade {
 
     public void create(ParkingGarage parkingGarage) {
         geoCoding.findCoordinates(parkingGarage.getAddress());
-        checkAccessKey(parkingGarage);
+        setAccessKey(parkingGarage);
 
         addressDao.create(parkingGarage.getAddress());
         garageDao.create(parkingGarage);
     }
 
-    protected void checkAccessKey(ParkingGarage parkingGarage) {
-        if (parkingGarage.getAccessKey() == null || parkingGarage.getAccessKey().isEmpty()) {
-            String accessKey;
-            do {
-                accessKey = new RandomString().nextString();
-            }while (exists(accessKey));
-            parkingGarage.setAccessKey(accessKey);
-        }
+    public void setAccessKey(ParkingGarage parkingGarage) {
+        String accessKey;
+        do {
+            accessKey = new RandomString().nextString();
+        }while (exists(accessKey));
+        parkingGarage.setAccessKey(accessKey);
     }
 
     protected boolean exists(String accessKey) {
