@@ -1,5 +1,7 @@
 package com.neo.parkguidance.web.infra.table;
 
+import org.hibernate.criterion.Order;
+
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
@@ -10,7 +12,7 @@ public class Filter<T extends Serializable> implements Serializable{
     private int first;
     private int pageSize;
     private String sortField;
-    private SortOrder sortOrder;
+    private Order sortOrder;
     private Map<String, Object> params = new HashMap<>();
 
 
@@ -48,12 +50,12 @@ public class Filter<T extends Serializable> implements Serializable{
         return sortField;
     }
 
-    public Filter setSortOrder(SortOrder sortOrder) {
+    public Filter setSortOrder(Order sortOrder) {
         this.sortOrder = sortOrder;
         return this;
     }
 
-    public SortOrder getSortOrder() {
+    public Order getSortOrder() {
         return sortOrder;
     }
 

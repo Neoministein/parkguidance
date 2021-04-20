@@ -2,8 +2,12 @@ package com.neo.parkguidance.core.impl.dao;
 
 import com.neo.parkguidance.core.entity.ParkingData;
 import com.neo.parkguidance.core.entity.ParkingGarage;
+import org.hibernate.Criteria;
+import org.hibernate.criterion.Example;
+import org.hibernate.criterion.MatchMode;
 
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
@@ -20,25 +24,24 @@ public class ParkingDataEntityManager extends AbstractEntityDao<ParkingData> {
     @PersistenceContext(unitName = "data_persistence_unit")
     private EntityManager em;
 
+    @Inject
+    ParkingGarageEntityManager parkingGarageEntityManager;
+
     @Override
     protected EntityManager getEntityManager() {
         return em;
     }
 
-    public ParkingDataEntityManager() {
-        super(ParkingData.class);
+    @Override
+    public void addSubCriteria(Criteria criteria, ParkingData object) {
+        Criteria subCriteria = criteria.createCriteria(ParkingGarage.TABLE_NAME);
+        Example example = Example.create(object.getParkingGarage()).ignoreCase().enableLike(MatchMode.ANYWHERE);
+        subCriteria.add(example);
+        parkingGarageEntityManager.addSubCriteria(subCriteria, object.getParkingGarage());
     }
 
-    public int getCurrentCapacity(ParkingGarage parkingGarage) {
-        ParkingData newestData = new ParkingData();
-        newestData.setDate(new Date(0));
-        newestData.setOccupied(0);
-        for(ParkingData parkingData: findByColumn(ParkingGarage.TABLE_NAME, parkingGarage)) {
-            if (parkingData.getDate().getTime() > newestData.getDate().getTime()) {
-                newestData = parkingData;
-            }
-        }
-        return newestData.getOccupied();
+    public ParkingDataEntityManager() {
+        super(ParkingData.class);
     }
 
     public List<ParkingData> getBetweenDate(Date first, Date second, ParkingGarage parkingGarage) {

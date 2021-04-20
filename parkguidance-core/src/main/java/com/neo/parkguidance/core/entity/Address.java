@@ -29,7 +29,7 @@ public class Address implements DataBaseEntity<Address> {
 
     @Min(0)
     @Column(name = C_PLZ, nullable = false)
-    private int plz;
+    private Integer plz;
 
     @Size(max = 50)
     @Column(name = C_STREET, nullable = false)
@@ -37,7 +37,7 @@ public class Address implements DataBaseEntity<Address> {
 
     @Min(0)
     @Column(name = C_NUMBER)
-    private int number;
+    private Integer number;
 
     @Column(name = C_LATITUDE)
     private Double latitude;
@@ -53,7 +53,7 @@ public class Address implements DataBaseEntity<Address> {
         this.number = number;
     }
 
-    public Address(String cityName, int plz, String street, int number, Double latitude, Double longitude) {
+    public Address(String cityName, Integer plz, String street, Integer number, Double latitude, Double longitude) {
         this.cityName = cityName;
         this.plz = plz;
         this.street = street;
@@ -82,11 +82,11 @@ public class Address implements DataBaseEntity<Address> {
         this.cityName = cityName;
     }
 
-    public int getPlz() {
+    public Integer getPlz() {
         return plz;
     }
 
-    public void setPlz(int plz) {
+    public void setPlz(Integer plz) {
         this.plz = plz;
     }
 
@@ -98,11 +98,11 @@ public class Address implements DataBaseEntity<Address> {
         this.street = street;
     }
 
-    public int getNumber() {
+    public Integer getNumber() {
         return number;
     }
 
-    public void setNumber(int number) {
+    public void setNumber(Integer number) {
         this.number = number;
     }
 
@@ -127,13 +127,13 @@ public class Address implements DataBaseEntity<Address> {
         if (!cityName.equals(o.cityName)) {
             return false;
         }
-        if (plz != o.getPlz()) {
+        if (plz.equals(o.getPlz())) {
             return false;
         }
         if (!street.equals(o.getStreet())) {
             return false;
         }
-        if (number != o.getNumber()) {
+        if (number.equals(o.getNumber())) {
             return false;
         }
         if (!Objects.equals(longitude,o.getLongitude())) {

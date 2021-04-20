@@ -15,8 +15,6 @@ public class ParkingData implements DataBaseEntity<ParkingData> {
     public static final String C_OCCUPIED = "occupied";
     public static final String C_SORTED = "sorted";
 
-    public ParkingData() {}
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -30,7 +28,7 @@ public class ParkingData implements DataBaseEntity<ParkingData> {
 
     @Min(0)
     @Column(name = C_OCCUPIED ,nullable = false)
-    private int occupied;
+    private Integer occupied;
 
     @Column(name = C_SORTED)
     private Boolean sorted;
@@ -40,6 +38,10 @@ public class ParkingData implements DataBaseEntity<ParkingData> {
         this.date = date;
         this.occupied = occupied;
         this.sorted = false;
+    }
+
+    public ParkingData() {
+        this.parkingGarage = new ParkingGarage();
     }
 
     public Long getId() {
@@ -66,11 +68,11 @@ public class ParkingData implements DataBaseEntity<ParkingData> {
         this.date = date;
     }
 
-    public int getOccupied() {
+    public Integer getOccupied() {
         return occupied;
     }
 
-    public void setOccupied(int occupied) {
+    public void setOccupied(Integer occupied) {
         this.occupied = occupied;
     }
 
@@ -90,7 +92,7 @@ public class ParkingData implements DataBaseEntity<ParkingData> {
         if(!date.equals(o.getDate())) {
             return false;
         }
-        if (occupied != o.getOccupied()) {
+        if (occupied.equals(o.getOccupied())) {
             return false;
         }
 

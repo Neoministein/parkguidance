@@ -28,10 +28,10 @@ public class ParkingGarage implements DataBaseEntity<ParkingGarage> {
 
     @Min(0)
     @Column(name = C_SPACES, nullable = false)
-    private int spaces;
+    private Integer spaces;
 
     @Column(name = C_OCCUPIED, nullable = false)
-    private int occupied;
+    private Integer occupied;
 
     @Column(name = C_ACCESS_KEY, nullable = false)
     private String accessKey;
@@ -49,6 +49,10 @@ public class ParkingGarage implements DataBaseEntity<ParkingGarage> {
     @Column(name = C_DESCRIPTION)
     private String description;
 
+    public ParkingGarage() {
+        this.address = new Address();
+    }
+
     public Long getId() {
         return id;
     }
@@ -65,19 +69,19 @@ public class ParkingGarage implements DataBaseEntity<ParkingGarage> {
         this.name = name;
     }
 
-    public int getSpaces() {
+    public Integer getSpaces() {
         return spaces;
     }
 
-    public void setSpaces(int spaces) {
+    public void setSpaces(Integer spaces) {
         this.spaces = spaces;
     }
 
-    public int getOccupied() {
+    public Integer getOccupied() {
         return occupied;
     }
 
-    public void setOccupied(int occupied) {
+    public void setOccupied(Integer occupied) {
         this.occupied = occupied;
     }
 
@@ -127,10 +131,10 @@ public class ParkingGarage implements DataBaseEntity<ParkingGarage> {
             return false;
         }
 
-        if(spaces != o.getSpaces()) {
+        if(spaces.equals(o.getSpaces())) {
             return false;
         }
-        if(occupied != o.getOccupied()) {
+        if(occupied.equals(o.getOccupied())) {
             return false;
         }
         if(!accessKey.equals(o.getAccessKey())) {

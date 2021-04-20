@@ -52,6 +52,10 @@ public class DataSheet implements DataBaseEntity<DataSheet> {
     @ManyToOne
     private ParkingGarage parkingGarage;
 
+    public DataSheet() {
+        this.parkingGarage = new ParkingGarage();
+    }
+
     public Long getId() {
         return id;
     }

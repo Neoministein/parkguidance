@@ -1,6 +1,10 @@
 package com.neo.parkguidance.core.impl.dao;
 
+import com.neo.parkguidance.core.entity.Address;
 import com.neo.parkguidance.core.entity.ParkingGarage;
+import org.hibernate.Criteria;
+import org.hibernate.criterion.Example;
+import org.hibernate.criterion.MatchMode;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -25,6 +29,14 @@ public class ParkingGarageEntityManager extends AbstractEntityDao<ParkingGarage>
     @Override
     protected EntityManager getEntityManager() {
         return em;
+    }
+
+    @Override
+    public void addSubCriteria(Criteria criteria, ParkingGarage object) {
+        Criteria subCriteria = criteria.createCriteria(Address.TABLE_NAME);
+        Example example = Example.create(object.getAddress()).ignoreCase().enableLike(MatchMode.ANYWHERE);
+        subCriteria.add(example);
+        addressEntityManager.addSubCriteria(subCriteria, object.getAddress());
     }
 
     public ParkingGarageEntityManager() {

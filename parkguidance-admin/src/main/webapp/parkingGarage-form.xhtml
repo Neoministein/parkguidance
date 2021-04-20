@@ -100,7 +100,7 @@
                             <p:outputLabel value="Spaces" for="inputSpaces"/>
                         </div>
                         <div class="ui-sm-12 ui-g-11" >
-                            <p:inputNumber id="inputSpaces" value="#{garageForm.model.item.spaces}" required="true"/>
+                            <p:inputNumber id="inputSpaces" value="#{garageForm.model.item.spaces}" padControl="false" required="true"/>
                             <span class="help-block"> 
                                 <p:message for="inputSpaces" />
                             </span>
@@ -111,7 +111,7 @@
                             <p:outputLabel value="Occupied" for="inputOccupied"/>
                         </div>
                         <div class="ui-sm-12 ui-g-11" >
-                            <p:inputNumber id="inputOccupied" value="#{garageForm.model.item.occupied}" required="true"/>
+                            <p:inputNumber id="inputOccupied" value="#{garageForm.model.item.occupied}" padControl="false" required="true"/>
                             <span class="help-block">
                                 <p:message for="inputOccupied" />
                             </span>
@@ -171,7 +171,7 @@
                             <p:outputLabel for="inputPLZ" value="PLZ"/>
                         </div>
                         <div class="ui-sm-12 ui-g-11" >
-                            <p:inputNumber id="inputPLZ" value="#{garageForm.model.item.address.plz}" required="true"/>
+                            <p:inputNumber id="inputPLZ" value="#{garageForm.model.item.address.plz}" padControl="false" required="true"/>
                             <span class="help-block">
                                 <p:message for="inputPLZ" />
                             </span>
@@ -193,7 +193,7 @@
                             <p:outputLabel for="inputStreetNumber" value="Street Number"/>
                         </div>
                         <div class="ui-sm-12 ui-g-11" >
-                            <p:inputNumber id="inputStreetNumber" value="#{garageForm.model.item.address.number}" required="false"/>
+                            <p:inputNumber id="inputStreetNumber" value="#{garageForm.model.item.address.number}" padControl="false" required="false"/>
                             <span class="help-block">
                                 <p:message for="inputStreetNumber" />
                             </span>
