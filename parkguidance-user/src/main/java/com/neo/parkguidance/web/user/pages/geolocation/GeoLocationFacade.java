@@ -63,6 +63,7 @@ public class GeoLocationFacade {
         return selectedGarages;
     }
 
+    // https://stackoverflow.com/questions/27928/calculate-distance-between-two-latitude-longitude-points-haversine-formula
     protected double getDistanceFromLatLonInKm(double lat1, double lon1, double lat2, double lon2) {
         double dLat = deg2rad(lat2-lat1);  // deg2rad below
         double dLon = deg2rad(lon2-lon1);
