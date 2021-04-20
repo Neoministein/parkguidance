@@ -33,7 +33,7 @@ public class ParkingGarageEntityManager extends AbstractEntityDao<ParkingGarage>
 
     @Override
     public void addSubCriteria(Criteria criteria, ParkingGarage object) {
-        Criteria subCriteria = criteria.createCriteria(Address.TABLE_NAME);
+        Criteria subCriteria = criteria.createCriteria(Address.TABLE_NAME, Address.TABLE_NAME);
         Example example = Example.create(object.getAddress()).ignoreCase().enableLike(MatchMode.ANYWHERE);
         subCriteria.add(example);
         addressEntityManager.addSubCriteria(subCriteria, object.getAddress());
