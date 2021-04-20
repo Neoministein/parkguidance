@@ -26,6 +26,10 @@
             <div class="box box-primary">
                 <div class="box-header with-border">
                     <div id="main-buttons" class="hidden-sm hidden-xs">
+                        <p:defaultCommand target="dummy"/>
+                        <p:commandButton id="dummy" process="@this" oncomplete="PF('dataSheetTable').filter()"
+                                         global="false" style="display:none;"/>
+
                         <p:commandButton action="/parkingData-form?faces-redirect=true" icon="fa fa-plus"
                                          value="New" styleClass="btn-primary"/>
                         <p:spacer width="5"/>
@@ -77,28 +81,45 @@
 
                         <p:column selectionMode="multiple" width="5%" styleClass="align-center"/>
 
-                        <p:column headerText="Id">
-                            <p:link value="#{sheet.id}" outcome="/dataSheet-form" >
+                        <p:column headerText="ParkingGarage" sortBy="#{sheet.parkingGarage.name}" filterBy="#{sheet.parkingGarage.name}">
+                            <p:link value="#{sheet.parkingGarage.name}" outcome="/dataSheet-form" >
                                 <f:param name="id" value="#{sheet.id}"/>
                             </p:link>
                         </p:column>
-                        <p:column headerText="ParkingGarage">
-                            #{sheet.parkingGarage}
+                        <p:column headerText="Year" sortBy="#{sheet.year}" filterBy="#{sheet.year}">
+                            <f:facet name="filter">
+                                <p:inputNumber value="#{dataSheetList.model.filter.entity.year}">
+                                    <p:ajax process="@this" update="@none" oncomplete="PF('dataSheetTable').filter()"/>
+                                </p:inputNumber>
+                            </f:facet>
+                            <p:outputLabel value="#{sheet.year}"/>
                         </p:column>
-                        <p:column headerText="Year">
-                            #{sheet.year}
+                        <p:column headerText="Week" sortBy="#{sheet.week}" filterBy="#{sheet.week}">
+                            <f:facet name="filter">
+                                <p:inputNumber value="#{dataSheetList.model.filter.entity.week}">
+                                    <p:ajax process="@this" update="@none" oncomplete="PF('dataSheetTable').filter()"/>
+                                </p:inputNumber>
+                            </f:facet>
+                            <p:outputLabel value="#{sheet.week}"/>
                         </p:column>
-                        <p:column headerText="Week">
-                            #{sheet.week}
+                        <p:column headerText="Day" sortBy="#{sheet.day}" filterBy="#{sheet.day}">
+                            <f:facet name="filter">
+                                <p:inputNumber value="#{dataSheetList.model.filter.entity.day}">
+                                    <p:ajax process="@this" update="@none" oncomplete="PF('dataSheetTable').filter()"/>
+                                </p:inputNumber>
+                            </f:facet>
+                            <p:outputLabel value="#{sheet.day}"/>
                         </p:column>
-                        <p:column headerText="Day">
-                            #{sheet.day}
+                        <p:column headerText="HalfHour" sortBy="#{sheet.halfHour}" filterBy="#{sheet.halfHour}">
+                            <f:facet name="filter">
+                                <p:inputNumber value="#{dataSheetList.model.filter.entity.halfHour}">
+                                    <p:ajax process="@this" update="@none" oncomplete="PF('dataSheetTable').filter()"/>
+                                </p:inputNumber>
+                            </f:facet>
+                            <p:outputLabel value="#{sheet.halfHour}"/>
                         </p:column>
-                        <p:column headerText="HalfHour">
-                            #{sheet.halfHour}
-                        </p:column>
-                        <p:column headerText="Occupied">
-                            #{sheet.occupied}
+                        <p:column headerText="Occupied" sortBy="#{sheet.occupied}" filterBy="#{sheet.occupied}">
+                            <p:outputLabel value=" #{sheet.occupied}"/>
                         </p:column>
                     </p:dataTable>
                 </div>
