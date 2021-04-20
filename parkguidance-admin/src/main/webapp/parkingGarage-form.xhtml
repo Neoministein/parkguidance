@@ -11,11 +11,9 @@
         </f:metadata>
         <ui:param name="renderFormAsterisks" value="true"/>
     </ui:define>
-    <ui:define name="title">
-        Parking Garage Form
-    </ui:define>
+
     <ui:define name="body">
-        <adm:breadcrumb title="#{empty garageForm.model.id ? 'New ParkingGarage' : 'ParkingGarage '.concat(garageForm.model.item.name)}" link="/parkingGarage-form.xhtml?id=#{garageForm.model.id}"/>
+        <adm:breadcrumb title="#{empty garageForm.model.id ? 'New ParkingGarage' : garageForm.model.item.name}" link="/parkingGarage-form.xhtml?id=#{garageForm.model.id}"/>
         <h:form id="form" prependId="false">
             <p:focus rendered="#{empty garageForm.model.id}"/>
             <p:panel styleClass="box-primary card">

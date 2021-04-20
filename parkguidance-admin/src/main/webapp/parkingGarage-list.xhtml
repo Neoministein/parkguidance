@@ -6,7 +6,7 @@
                 template="#{layoutMB.template}">
 
     <ui:define name="metadata">
-        <ui:param name="title" value="Parking Garage"/> <!-- Automatic create breadCrumb and page title when param 'title' is provided. -->
+        <ui:param name="title" value="Parking Garages"/>
 
         <style type="text/css">
             .ui-datatable .ui-datatable-header {
@@ -20,6 +20,7 @@
     </ui:define>
 
     <ui:define name="body">
+        <adm:breadcrumb clear="true" title="Parking Garages"/>
         <h:form>
             <p:focus context="@form"/>
             <div class="box box-primary">
