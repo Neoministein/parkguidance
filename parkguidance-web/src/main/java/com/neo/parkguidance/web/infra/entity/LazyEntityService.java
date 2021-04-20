@@ -37,7 +37,7 @@ public class LazyEntityService<T extends DataBaseEntity<T>> extends LazyDataMode
         }
         List<T> dataSource = entityDao.findLikeExample(filter.getEntity(), first, pageSize, order);
         setRowCount(Math.toIntExact(entityDao.fidndLikeExample(filter.getEntity())));
-        return dataSource;//.subList(first, Math.min(first + pageSize, dataSource.size()));
+        return dataSource;
     }
 
     @Override
