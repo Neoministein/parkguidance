@@ -26,6 +26,10 @@
             <div class="box box-primary">
                 <div class="box-header with-border">
                     <div id="main-buttons" class="hidden-sm hidden-xs">
+                        <p:defaultCommand target="dummy"/>
+                        <p:commandButton id="dummy" process="@this" oncomplete="PF('parkingDataTable').filter()"
+                                         global="false" style="display:none;"/>
+
                         <p:commandButton action="/parkingData-form?faces-redirect=true" icon="fa fa-plus"
                                          value="New" styleClass="btn-primary"/>
                         <p:spacer width="5"/>
@@ -79,16 +83,24 @@
 
                         <p:column selectionMode="multiple" width="5%" styleClass="align-center"/>
 
-                        <p:column headerText="Date">
+                        <p:column headerText="Date" sortBy="#{p.date}">
+                            <f:facet name="filter">
+                                <p:datePicker selectionMode="single" onchange="PF('customersTable').filter()" />
+                            </f:facet>
                             <p:link value="#{p.date}" outcome="/parkingData-form" >
                                 <f:param name="id" value="#{p.id}"/>
                             </p:link>
                         </p:column>
-                        <p:column headerText="Parking garage">
-                            #{p.parkingGarage.name}
+                        <p:column headerText="Parking garage" sortBy="#{p.parkingGarage.name}" filterBy="#{p.parkingGarage.name}">
+                            <f:facet name="filter">
+                                <p:inputText value="#{parkingDataList.model.filter.entity.parkingGarage.name}">
+                                    <p:ajax process="@this" update="@none" oncomplete="PF('parkingDataTable').filter()"/>
+                                </p:inputText>
+                            </f:facet>
+                            <p:outputLabel value="#{p.parkingGarage.name}"/>
                         </p:column>
                         <p:column headerText="Occupied">
-                            #{p.occupied} / #{p.parkingGarage.spaces}
+                            <p:outputLabel value="#{p.occupied} / #{p.parkingGarage.spaces}"/>
                         </p:column>
                     </p:dataTable>
                 </div>
