@@ -53,11 +53,10 @@
 	</build>
 
 	<modules>
-		<module>parkguidance-core</module>
-		<module>parkguidance-web</module>
+		<module>parkguidance-components</module>
+
 		<module>parkguidance-admin</module>
 		<module>parkguidance-user</module>
-		<module>parkguidance-parkdata-receiver</module>
-		<module>parkguidance-parkdata-sorter</module>
+		<module>parkguidance-api</module>
 	</modules>
 </project>

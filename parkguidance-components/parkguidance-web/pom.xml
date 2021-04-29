@@ -6,18 +6,20 @@
         <artifactId>parkguidance-main</artifactId>
         <version>0.2-SNAPSHOT</version>
     </parent>
-    <artifactId>parkguidance-user</artifactId>
-    <packaging>war</packaging>
-    <name>ParkGuidance User WAR</name>
+    <artifactId>parkguidance-web</artifactId>
+    <name>ParkGuidance Web jar</name>
+    <packaging>jar</packaging>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <adminfaces.version>1.2.0</adminfaces.version>
+        <primefaces-extensions.version>8.0.4</primefaces-extensions.version>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>parkguidance-web</artifactId>
+            <artifactId>parkguidance-core</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
@@ -27,16 +29,20 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-engine</artifactId>
-            <version>${junit.version}</version>
-            <scope>test</scope>
+            <groupId>com.github.adminfaces</groupId>
+            <artifactId>admin-template</artifactId>
+            <version>${adminfaces.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-core</artifactId>
-            <version>${mockito.version}</version>
-            <scope>test</scope>
+            <groupId>org.primefaces</groupId>
+            <artifactId>primefaces</artifactId>
+            <version>8.0@Neo-1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.primefaces.extensions</groupId>
+            <artifactId>primefaces-extensions</artifactId>
+            <version>${primefaces-extensions.version}</version>
+            <!-- only for gravatar, adminfaces doesn't depend on extensions-->
         </dependency>
     </dependencies>
 
@@ -45,6 +51,10 @@
             <resource>
                 <filtering>true</filtering>
                 <directory>src/main/resources</directory>
+            </resource>
+            <resource>
+                <filtering>true</filtering>
+                <directory>src/main/webapp</directory>
             </resource>
             <resource>
                 <directory>src/main/docs</directory>

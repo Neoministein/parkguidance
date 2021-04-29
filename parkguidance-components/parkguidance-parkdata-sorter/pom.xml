@@ -6,9 +6,9 @@
         <artifactId>parkguidance-main</artifactId>
         <version>0.2-SNAPSHOT</version>
     </parent>
-    <artifactId>parkguidance-user</artifactId>
-    <packaging>war</packaging>
-    <name>ParkGuidance User WAR</name>
+    <artifactId>parkguidance-parkdata-sorter</artifactId>
+    <name>ParkGuidance Parkdata sorter jar</name>
+    <packaging>jar</packaging>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -17,7 +17,7 @@
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>parkguidance-web</artifactId>
+            <artifactId>parkguidance-core</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
@@ -25,6 +25,11 @@
             <artifactId>javaee-api</artifactId>
             <version>${javax.version}</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.12.0</version>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -40,40 +45,4 @@
         </dependency>
     </dependencies>
 
-    <build>
-        <resources>
-            <resource>
-                <filtering>true</filtering>
-                <directory>src/main/resources</directory>
-            </resource>
-            <resource>
-                <directory>src/main/docs</directory>
-                <filtering>true</filtering>
-            </resource>
-        </resources>
-        <testResources>
-            <testResource>
-                <filtering>true</filtering>
-                <directory>src/test/resources</directory>
-            </testResource>
-            <testResource>
-                <directory>src/test/java/</directory>
-            </testResource>
-        </testResources>
-    </build>
-
-    <repositories>
-        <repository>
-            <snapshots />
-            <id>snapshots</id>
-            <name>libs-snapshot</name>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-        </repository>
-        <repository>
-            <id>prime-repo</id>
-            <name>PrimeFaces Maven Repository</name>
-            <url>http://repository.primefaces.org</url>
-            <layout>default</layout>
-        </repository>
-    </repositories>
 </project>

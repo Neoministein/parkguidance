@@ -7,7 +7,7 @@
         <version>0.2-SNAPSHOT</version>
     </parent>
     <artifactId>parkguidance-admin</artifactId>
-    <name>ParkGuidance Admin POM</name>
+    <name>ParkGuidance Admin WAR</name>
     <packaging>war</packaging>
 
     <properties>
