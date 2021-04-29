@@ -1,11 +1,19 @@
 package com.neo.parkguidance.web.user.pages.geolocation;
 
+import com.neo.parkguidance.core.api.external.google.maps.CrossPlatformURL;
+import com.neo.parkguidance.core.api.external.google.maps.DistanceDataObject;
+import com.neo.parkguidance.core.entity.Address;
+import com.neo.parkguidance.core.entity.ParkingGarage;
 import org.primefaces.PrimeFaces;
 
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 @RequestScoped
@@ -20,6 +28,24 @@ public class GeoLocationController {
     @Inject
     GeoLocationFacade facade;
 
+    @PostConstruct
+    public void init() {
+        if (!model.isInitiated()) {
+            model.setAddress(new Address());
+
+            DistanceDataObject dataObject = new DistanceDataObject();
+            dataObject.setDurationString("10min");
+            dataObject.setDistanceString("2km");
+            dataObject.setParkingGarage(facade.getParkingGarage());
+
+            List<DistanceDataObject> distanceDataObjectList = new ArrayList<>();
+            distanceDataObjectList.add(dataObject);
+            distanceDataObjectList.add(dataObject);
+            model.setDistanceDataObjects(distanceDataObjectList);
+            model.setInitiated(true);
+        }
+    }
+
     public void currentPosition() {
         PrimeFaces.current().executeScript("getLocation();");
     }
@@ -27,12 +53,24 @@ public class GeoLocationController {
     public void geoLocationListener(){
         Map<String, String> parameterMap = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
 
-        model.setLatitude(Double.valueOf(parameterMap.get("currentLatitude")));
-        model.setLongitude(Double.valueOf(parameterMap.get("currentLongitude")));
+        model.getAddress().setLatitude(Double.valueOf(parameterMap.get("currentLatitude")));
+        model.getAddress().setLongitude(Double.valueOf(parameterMap.get("currentLongitude")));
         model.setAccuracyCurrentPosition(Double.valueOf(parameterMap.get("accuracyCurrentPosition")));
 
-        PrimeFaces.current().ajax().update("coords");
-        facade.callDistance(model.getLatitude(),model.getLongitude());
+        model.setDistanceDataObjects(facade.callDistance(
+                model.getAddress().getLatitude(),
+                model.getAddress().getLongitude()));
+
+        PrimeFaces.current().ajax().update("form");
+    }
+
+    public void findByAddress() {
+        model.setDistanceDataObjects(facade.callDistance(model.getAddress()));
+        PrimeFaces.current().ajax().update("form");
+    }
+
+    public void redirectSearch(ParkingGarage parkingGarage) throws IOException {
+        FacesContext.getCurrentInstance().getExternalContext().redirect(CrossPlatformURL.search(parkingGarage));
     }
 
 

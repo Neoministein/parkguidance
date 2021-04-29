@@ -36,7 +36,7 @@
                 <div class="ui-sm-12 ui-g-6 ui-g-nopad">
                     <div class="ui-sm-12 ui-g-11" >
                         <p:panel id="address" header="Addresse">
-                            <h:outputText value="#{utils.formatted(parkingData.model.parkingGarage.address)}" escape="false"/>
+                            <h:outputText value="#{utils.formatted(parkingData.model.parkingGarage.address.toAddressString)}" escape="false"/>
                         </p:panel>
                     </div>
                 </div>

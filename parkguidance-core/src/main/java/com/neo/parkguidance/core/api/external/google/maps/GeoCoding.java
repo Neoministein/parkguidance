@@ -38,7 +38,7 @@ public class GeoCoding {
             parseRequestStatus(new JSONObject(apiRequest.getResponseInput()),address);
             break;
         case HttpServletResponse.SC_BAD_REQUEST:
-            throw new IllegalArgumentException(GoogleApi.E_UNVALID_ADDRESS);
+            throw new IllegalArgumentException(GoogleApi.E_INVALID_ADDRESS);
         case HttpServletResponse.SC_NOT_FOUND:
             throw new RuntimeException(GoogleApi.E_TRY_AGAIN);
         case -1:
@@ -56,7 +56,7 @@ public class GeoCoding {
             break;
         case "ZERO_RESULTS":
         case "INVALID_REQUEST":
-            throw new IllegalArgumentException(GoogleApi.E_UNVALID_ADDRESS);
+            throw new IllegalArgumentException(GoogleApi.E_INVALID_ADDRESS);
         case "UNKNOWN_ERROR":
             throw new RuntimeException(GoogleApi.E_TRY_AGAIN);
         case "OVER_DAILY_LIMIT":

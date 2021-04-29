@@ -127,13 +127,13 @@ public class Address implements DataBaseEntity<Address> {
         if (!cityName.equals(o.cityName)) {
             return false;
         }
-        if (plz.equals(o.getPlz())) {
+        if (!plz.equals(o.getPlz())) {
             return false;
         }
         if (!street.equals(o.getStreet())) {
             return false;
         }
-        if (number.equals(o.getNumber())) {
+        if (!number.equals(o.getNumber())) {
             return false;
         }
         if (!Objects.equals(longitude,o.getLongitude())) {
@@ -154,7 +154,11 @@ public class Address implements DataBaseEntity<Address> {
 
     @Override
     public String toString() {
-        return street + " " + number + "\n" + plz + " " + cityName;
+        return street + " " + number + " " + plz + " " + cityName;
+    }
+
+    public String getToAddressString() {
+        return street + " " + number + "\n" + plz + " " + cityName + " ";
     }
 
     @Override

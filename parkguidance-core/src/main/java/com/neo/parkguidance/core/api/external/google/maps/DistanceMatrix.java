@@ -57,7 +57,7 @@ public class DistanceMatrix {
         case HttpServletResponse.SC_OK:
             return   parseRequestStatus(new JSONObject(apiRequest.getResponseInput()), parkingGarageList);
         case HttpServletResponse.SC_BAD_REQUEST:
-            throw new IllegalArgumentException(GoogleApi.E_UNVALID_ADDRESS);
+            throw new IllegalArgumentException(GoogleApi.E_INVALID_ADDRESS);
         case HttpServletResponse.SC_NOT_FOUND:
             throw new RuntimeException(GoogleApi.E_TRY_AGAIN);
         case -1:
@@ -73,7 +73,7 @@ public class DistanceMatrix {
         case "OK":
             return parseDistance(jsonObject.getJSONArray("rows"),parkingGarageList);
         case "INVALID_REQUEST":
-            throw new IllegalArgumentException(GoogleApi.E_UNVALID_ADDRESS);
+            throw new IllegalArgumentException(GoogleApi.E_INVALID_ADDRESS);
         case "UNKNOWN_ERROR":
             throw new RuntimeException(GoogleApi.E_TRY_AGAIN);
         case "MAX_ELEMENTS_EXCEEDED":

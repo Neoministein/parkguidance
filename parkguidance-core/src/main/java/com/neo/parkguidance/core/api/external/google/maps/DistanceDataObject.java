@@ -2,7 +2,9 @@ package com.neo.parkguidance.core.api.external.google.maps;
 
 import com.neo.parkguidance.core.entity.ParkingGarage;
 
-public class DistanceDataObject implements Comparable<DistanceDataObject>{
+import java.io.Serializable;
+
+public class DistanceDataObject implements Comparable<DistanceDataObject>, Serializable {
 
     private int distanceInt;
     private String distanceString;

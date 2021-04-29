@@ -7,18 +7,62 @@
     <ui:param name="renderBreadCrumb" value="false"/>
 
     <ui:define name="body">
-        <h:form id="coords">
-            <p:commandButton value="Send" action="#{geoLocation.currentPosition}" update="@form"/>
+        <p:panel styleClass="box-primary card">
+            <script src="resources/geolocation.js"></script>
+
+            <p:commandButton value="Current Locaion" oncomplete="getLocation();"/>
 
             <p:remoteCommand name="geoLocationData" process="@this" autoRun="false" actionListener="#{geoLocation.geoLocationListener}"/>
-            <br/>
-            <h:outputText value="#{geoLocation.model.latitude}"/>
-            <br/>
-            <h:outputText value="#{geoLocation.model.longitude}"/>
-            <br/>
-            <h:outputText value="#{geoLocation.model.accuracyCurrentPosition}"/>
-        </h:form>
 
-        <script src="resources/geolocation.js"/>
+            <p:accordionPanel widgetVar="basic">
+            <p:tab title="Address">
+                <p class="p-m-0">
+                    <h:form id="input">
+                        <p:outputLabel value="Parking garage" for="inputCityName"/>
+                        <p:inputText id="inputCityName" value="#{geoLocation.model.address.cityName}" required="true"/>
+                        <p:outputLabel value="Parking garage" for="inputPlz"/>
+                        <p:inputNumber id="inputPlz" value="#{geoLocation.model.address.plz}" rendered="true"/>
+                        <p:outputLabel value="Parking garage" for="inputStreet"/>
+                        <p:inputText id="inputStreet" value="#{geoLocation.model.address.street}"/>
+                        <p:outputLabel value="Parking garage" for="inputNumber"/>
+                        <p:inputNumber id="inputNumber" value="#{geoLocation.model.address.number}"/>
+
+                        <p:commandButton value="FindByAddress" action="#{geoLocation.findByAddress}"/>
+                    </h:form>
+                </p>
+            </p:tab>
+            </p:accordionPanel>
+
+            <p:separator/>
+
+            <h:form id="form" rendered="#{not geoLocation.model.distanceDataObjects.isEmpty()}">
+
+                <p:repeat value="#{geoLocation.model.distanceDataObjects}" var="distanceObject">
+                    <div class="ui-g ui-fluid">
+                        <div class="ui-sm-6 ui-g-6 ui-g-nopad">
+                            <p:outputLabel value="#{distanceObject.parkingGarage}"/>
+                            <br/>
+                            <p:outputLabel value="#{distanceObject.parkingGarage.occupied}/#{distanceObject.parkingGarage.spaces}"/>
+                        </div>
+                        <div class="ui-sm-6 ui-g-3 ui-g-nopad">
+                            <p:outputLabel value="#{utils.formatted(distanceObject.parkingGarage.address.toAddressString)}" escape="false"/>
+                        </div>
+                        <div class="ui-sm-6 ui-g-3 ui-g-nopad">
+                            <p:outputLabel value="#{distanceObject.durationString}"/>
+                            <br/>
+                            <p:outputLabel value="#{distanceObject.distanceString}"/>
+                            <br/>
+                        </div>
+                        <div class="ui-md-offset-6 ui-md-6 ui-sm-offset-0 ui-sm-6">
+                            <p:commandButton
+                                    value="Directions"
+                                    action="#{geoLocation.redirectSearch(distanceObject.parkingGarage)}"
+                                    styleClass="btn-block btn-primary"/>
+                        </div>
+                    </div>
+                    <p:separator/>
+                </p:repeat>
+            </h:form>
+        </p:panel>
     </ui:define>
 </ui:composition>

@@ -79,8 +79,7 @@ public class GeoLocationFacade {
         return deg * (Math.PI/180);
     }
 
-    protected static List<Map.Entry<Long, Double>> sortByValue(Map<Long, Double> unsortedMap)
-    {
+    protected static List<Map.Entry<Long, Double>> sortByValue(Map<Long, Double> unsortedMap) {
         List<Map.Entry<Long, Double>> list = new LinkedList<>(unsortedMap.entrySet());
 
         // Sorting the list based on values
@@ -89,5 +88,10 @@ public class GeoLocationFacade {
                 : o1.getValue().compareTo(o2.getValue()));
         return list;
 
+    }
+
+    public ParkingGarage getParkingGarage() {
+        List<ParkingGarage> parkingGarages = entityDao.findAll();
+        return parkingGarages.get(0);
     }
 }
