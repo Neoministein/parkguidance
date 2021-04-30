@@ -66,7 +66,7 @@ class DataSheetFormControllerTest {
         //Assert
         try {
             subject.save();
-        } catch (NullPointerException e) {}
+        } catch (ExceptionInInitializerError | NoClassDefFoundError e) {}
 
         verify(facade).create(any());
     }
@@ -88,7 +88,7 @@ class DataSheetFormControllerTest {
         //Assert
         try {
             subject.save();
-        } catch (NullPointerException e) {}
+        } catch (ExceptionInInitializerError | NoClassDefFoundError e) {}
 
         verify(facade).edit(any());
     }

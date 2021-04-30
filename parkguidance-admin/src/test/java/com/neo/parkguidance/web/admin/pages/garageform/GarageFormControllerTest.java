@@ -33,7 +33,7 @@ class GarageFormControllerTest {
 
     /**
      * Verifies if the facade gets called to delete an item
-     * @throws IOException
+     * @throws IOException due to redirecting to other page in native method
      */
     @Test
     void deleteVerifyFacade() throws IOException {
@@ -59,7 +59,7 @@ class GarageFormControllerTest {
         //Assert
         try {
             subject.save();
-        } catch (NullPointerException e) {}
+        } catch (ExceptionInInitializerError | NoClassDefFoundError e) {}
 
         verify(facade).create(any());
     }
@@ -78,7 +78,7 @@ class GarageFormControllerTest {
         //Assert
         try {
             subject.save();
-        } catch (NullPointerException e) {}
+        } catch (ExceptionInInitializerError | NoClassDefFoundError e) {}
 
         verify(facade).edit(any());
     }
