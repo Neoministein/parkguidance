@@ -11,8 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 class DataListFacadeTest {
 
@@ -67,5 +66,71 @@ class DataListFacadeTest {
         //Assert
 
         verify(parkingDataEntityManager).remove(parkingGarageList.get(0));
+    }
+
+
+    /**
+     * Verifies if the facade returns the right amount
+     */
+    @Test
+    void deleteOldAmount() {
+        //Arrange
+        List<ParkingData> parkingGarageList = new ArrayList<>();
+        ParkingData parkingData = new ParkingData();
+        parkingData.setSorted(true);
+        parkingGarageList.add(parkingData);
+        parkingGarageList.add(parkingData);
+        parkingGarageList.add(parkingData);
+
+        when(parkingDataEntityManager.getBeforeDate(any())).thenReturn(parkingGarageList);
+        int expected = 3;
+        //Act
+        int result = subject.deleteOld();
+
+        //Assert
+
+        assertEquals(expected,result);
+    }
+
+    /**
+     * Verifies if the facade returns the right amount
+     */
+    @Test
+    void deleteOldButNotSorted() {
+        //Arrange
+        List<ParkingData> parkingGarageList = new ArrayList<>();
+        parkingGarageList.add(new ParkingData());
+        parkingGarageList.add(new ParkingData());
+        parkingGarageList.add(new ParkingData());
+
+        when(parkingDataEntityManager.getBeforeDate(any())).thenReturn(parkingGarageList);
+        int expected = 0;
+        //Act
+        int result = subject.deleteOld();
+
+        //Assert
+
+        assertEquals(expected,result);
+    }
+
+    /**
+     * Verifies if the dao gets called to delete a object
+     */
+    @Test
+    void deleteOldVerifyDao() {
+        //Arrange
+
+        List<ParkingData> parkingGarageList = new ArrayList<>();
+        ParkingData parkingData = new ParkingData();
+        parkingData.setSorted(true);
+        parkingGarageList.add(parkingData);
+
+        when(parkingDataEntityManager.getBeforeDate(any())).thenReturn(parkingGarageList);
+        //Act
+        subject.deleteOld();
+
+        //Assert
+
+        verify(parkingDataEntityManager).remove(any());
     }
 }

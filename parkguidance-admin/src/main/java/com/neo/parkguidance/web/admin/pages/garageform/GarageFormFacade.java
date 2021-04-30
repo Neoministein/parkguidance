@@ -56,7 +56,7 @@ public class GarageFormFacade {
         String accessKey;
         do {
             accessKey = new RandomString().nextString();
-        }while (exists(accessKey));
+        } while (exists(accessKey));
         parkingGarage.setAccessKey(accessKey);
     }
 

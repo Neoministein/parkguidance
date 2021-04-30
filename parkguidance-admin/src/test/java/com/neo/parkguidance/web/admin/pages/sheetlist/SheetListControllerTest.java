@@ -67,4 +67,16 @@ class SheetListControllerTest {
 
         verify(facade).delete(any());
     }
+
+    /**
+     * Verifies if the facade gets called to delete an item
+     */
+    @Test
+    void sortVerifyFacade() {
+        //Act
+        subject.sortData();
+
+        //Assert
+        verify(facade).sortData();
+    }
 }

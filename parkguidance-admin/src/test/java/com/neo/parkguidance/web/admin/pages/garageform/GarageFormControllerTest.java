@@ -82,4 +82,14 @@ class GarageFormControllerTest {
 
         verify(facade).edit(any());
     }
+
+    @Test
+    void verifyResetAccessKey() {
+
+        try {
+            subject.resetAccessKey();
+        } catch (ExceptionInInitializerError | NoClassDefFoundError e) {}
+
+        verify(facade).setAccessKey(any());
+    }
 }

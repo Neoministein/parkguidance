@@ -1,5 +1,7 @@
 package com.neo.parkguidance.web.admin.pages.sheetlist;
 
+import com.neo.parkguidance.core.api.HTTPRequestSender;
+import com.neo.parkguidance.core.entity.ApiRequest;
 import com.neo.parkguidance.core.entity.DataSheet;
 import com.neo.parkguidance.core.impl.dao.AbstractEntityDao;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,8 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
 class SheetListFacadeTest {
 
@@ -20,13 +22,19 @@ class SheetListFacadeTest {
 
     @Mock AbstractEntityDao<DataSheet> dataSheetService;
 
+    @Mock HTTPRequestSender httpRequestSender;
+
     @BeforeEach
     public void setUp() {
         subject = Mockito.spy(DataSheetListFacade.class);
 
         dataSheetService = mock(AbstractEntityDao.class);
 
+        httpRequestSender = mock(HTTPRequestSender.class);
+
         subject.dataSheetDao = dataSheetService;
+
+        subject.httpRequestSender = httpRequestSender;
     }
 
     /**

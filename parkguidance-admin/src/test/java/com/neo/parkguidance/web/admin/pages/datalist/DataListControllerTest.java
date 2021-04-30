@@ -61,12 +61,30 @@ class DataListControllerTest {
      */
     @Test
     void deleteVerifyFacade() {
+        //Arrange
         when(facade.delete(any())).thenReturn(0);
 
+        //Act
         subject.delete();
 
         //Assert
-
         verify(facade).delete(any());
+    }
+
+    /**
+     * Verifies if the facade receives the delete old call
+     */
+    @Test
+    void deleteOldVerifyFacade(){
+        //Arrange
+        when(facade.deleteOld()).thenReturn(0);
+
+        //Act
+        try {
+            subject.deleteOld();
+        }catch (ExceptionInInitializerError | NoClassDefFoundError e) {}
+
+        //Assert
+        verify(facade).deleteOld();
     }
 }

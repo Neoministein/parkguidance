@@ -23,7 +23,24 @@ public class HTTPRequestSender {
 
     public void call(ApiRequest request, String key) {
         try {
-            URL url = new URL((request.getUrl() + key));
+            call(request, new URL((request.getUrl() + key)));
+        }catch (IOException ex) {
+            request.setResponseCode(-1);
+        }
+        entityDao.create(request);
+    }
+
+    public void call(ApiRequest request) {
+        try {
+            call(request, new URL((request.getUrl())));
+        }catch (IOException ex) {
+            request.setResponseCode(-1);
+        }
+        entityDao.create(request);
+    }
+
+    protected void call(ApiRequest request, URL url) {
+        try {
             URLConnection con = url.openConnection();
             HttpURLConnection http = (HttpURLConnection) con;
             http.setRequestMethod(request.getRequestMethod());
@@ -53,6 +70,5 @@ public class HTTPRequestSender {
         }catch (IOException ex) {
             request.setResponseCode(-1);
         }
-        entityDao.create(request);
     }
 }

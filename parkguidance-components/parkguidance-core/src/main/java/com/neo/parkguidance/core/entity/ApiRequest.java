@@ -43,6 +43,13 @@ public class ApiRequest implements DataBaseEntity<ApiRequest> {
         date = new Date();
     }
 
+    public ApiRequest(String url, String requestMethod) {
+        this.url = url;
+        this.requestMethod = requestMethod;
+        requestBody = "";
+        date = new Date();
+    }
+
     @Override
     public Long getId() {
         return id;
