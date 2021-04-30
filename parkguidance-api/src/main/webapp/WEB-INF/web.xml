@@ -20,4 +20,13 @@
 		<servlet-name>ParkDataSorter</servlet-name>
 		<url-pattern>park-data/sorter</url-pattern>
 	</servlet-mapping>
+
+	<filter>
+		<filter-name>InternalCall</filter-name>
+		<filter-class>com.neo.parkguidance.core.api.internal.InternalFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>InternalCall</filter-name>
+		<url-pattern>/park-data/sorter</url-pattern>
+	</filter-mapping>
 </web-app>
