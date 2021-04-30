@@ -4,7 +4,6 @@ The parking data sorter module is designed to sort the received parking data int
 
 ## Interface
 
-The API endpoint is located at [http://localhost:8080/park-guidance/park-data/sorter/api](http://localhost:8080/park-guidance/park-data/sorter/api).
 The sorting data is triggered by a normal HTTP POST request to the URL.
 
 **Note**

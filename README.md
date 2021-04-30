@@ -23,12 +23,15 @@ This project also uses [Apache Maven](https://maven.apache.org) as it's project 
 This system was developed in a style that all components are structured in such a way that each component can be deployed and exchanged individually without affecting each other. 
 
 Module documentation:
- - **Core:** [link](docs/core.md)
- - **Web:** [link](docs/web.md)
  - **User:** [link](docs/user.md)
  - **Admin:** [link](docs/admin.md)
- - **ParkData-Sorter:** [link](docs/parkingdata-sorter.md)
- - **ParkData-Receiver:** [link](docs/parkingdata-receiver.md)
+ - **API** [link](docs/api.md)
+ 
+Component documentation:
+  - **Core:** [link](docs/core.md)
+  - **Web:** [link](docs/web.md)
+  - **ParkData-Sorter:** [link](docs/parkingdata-sorter.md)
+  - **ParkData-Receiver:** [link](docs/parkingdata-receiver.md)
 
 ## Getting Started
 
@@ -146,8 +149,7 @@ You can now log in to the admin panel at [http://localhost:9990](http://localhos
 
 - parkguidance-admin-x.x.x.war
 - parkguidance-user-x.x.x.war
-- parkguidance-parkdata-receiver-x.x.x.war
-- parkguidance-parkdata-sorter-x.x.x.war
+- parkguidance-api-x.x.x.war
 
 
 ##### URL'S

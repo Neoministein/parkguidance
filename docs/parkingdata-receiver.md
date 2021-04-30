@@ -3,8 +3,7 @@
 The parking data receiver module is designed to accept data from parking garages and sort them correctly in the database.
 ## Interface
 
-The API endpoint is located at [http://localhost:8080/park-guidance/park-data/receiver/api](http://localhost:8080/park-guidance/park-data/receiver/api).
-Data can be sent to the endpoint with an HTTP POST request to the URL, but it requires a body with specified information.
+Data can be sent to the servlet with an HTTP POST request to the URL, but it requires a body with specified information.
 
 ### HTTP POST Body
 
