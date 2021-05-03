@@ -6,6 +6,7 @@ import com.neo.parkguidance.core.api.external.google.maps.GeoCoding;
 import com.neo.parkguidance.core.entity.Address;
 import com.neo.parkguidance.core.entity.ParkingGarage;
 import com.neo.parkguidance.core.impl.dao.AbstractEntityDao;
+import com.neo.parkguidance.web.utils.Utils;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -33,11 +34,15 @@ public class GeoLocationFacade {
     }
 
     public List<DistanceDataObject> callDistance(Address address) {
-        geoCoding.findCoordinates(address);
+        try {
+            geoCoding.findCoordinates(address);
+            List<ParkingGarage> parkingGarageList = findNearest(entityDao.findAll(), address.getLatitude(), address.getLongitude());
 
-        List<ParkingGarage> parkingGarageList = findNearest(entityDao.findAll(), address.getLatitude(), address.getLongitude());
-
-        return distanceMatrix.findDistance(parkingGarageList, address);
+            return distanceMatrix.findDistance(parkingGarageList, address);
+        }catch (RuntimeException e) {
+            Utils.addDetailMessage("Die Addresse konnte nicht gefunden werden.");
+            return Collections.emptyList();
+        }
     }
 
     protected List<ParkingGarage> findNearest(List<ParkingGarage> parkingGarageList, double latitude, double longitude) {
@@ -88,10 +93,5 @@ public class GeoLocationFacade {
                 : o1.getValue().compareTo(o2.getValue()));
         return list;
 
-    }
-
-    public ParkingGarage getParkingGarage() {
-        List<ParkingGarage> parkingGarages = entityDao.findAll();
-        return parkingGarages.get(0);
     }
 }
