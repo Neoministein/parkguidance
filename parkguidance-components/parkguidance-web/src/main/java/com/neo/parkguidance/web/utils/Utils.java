@@ -25,7 +25,7 @@ public class Utils {
 
     public static void addDetailMessage(String title ,String message, FacesMessage.Severity severity) {
 
-        FacesMessage facesMessage = Messages.create(title).detail(message).get();
+        FacesMessage facesMessage = Messages.create(formatted(title)).detail(formatted(message)).get();
         if (severity != null && severity != FacesMessage.SEVERITY_INFO) {
             facesMessage.setSeverity(severity);
         }
