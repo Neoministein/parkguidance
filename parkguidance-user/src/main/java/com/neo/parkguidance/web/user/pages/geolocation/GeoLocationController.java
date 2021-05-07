@@ -1,7 +1,6 @@
 package com.neo.parkguidance.web.user.pages.geolocation;
 
 import com.neo.parkguidance.core.api.external.google.maps.CrossPlatformURL;
-import com.neo.parkguidance.core.api.external.google.maps.DistanceDataObject;
 import com.neo.parkguidance.core.entity.Address;
 import com.neo.parkguidance.core.entity.ParkingGarage;
 import org.primefaces.PrimeFaces;
@@ -12,8 +11,6 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 @RequestScoped
@@ -32,22 +29,8 @@ public class GeoLocationController {
     public void init() {
         if (!model.isInitiated()) {
             model.setAddress(new Address());
-
-            DistanceDataObject dataObject = new DistanceDataObject();
-            dataObject.setDurationString("10min");
-            dataObject.setDistanceString("2km");
-            dataObject.setParkingGarage(facade.getParkingGarage());
-
-            List<DistanceDataObject> distanceDataObjectList = new ArrayList<>();
-            distanceDataObjectList.add(dataObject);
-            distanceDataObjectList.add(dataObject);
-            model.setDistanceDataObjects(distanceDataObjectList);
             model.setInitiated(true);
         }
-    }
-
-    public void currentPosition() {
-        PrimeFaces.current().executeScript("getLocation();");
     }
 
     public void geoLocationListener(){
@@ -72,7 +55,6 @@ public class GeoLocationController {
     public void redirectSearch(ParkingGarage parkingGarage) throws IOException {
         FacesContext.getCurrentInstance().getExternalContext().redirect(CrossPlatformURL.search(parkingGarage));
     }
-
 
     public GeoLocationModel getModel() {
         return model;
