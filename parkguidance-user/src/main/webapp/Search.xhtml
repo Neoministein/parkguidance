@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui" xmlns:adm="http://github.com/adminfaces"
+                template="#{layoutMB.template}">
+
+    <ui:param name="renderBreadCrumb" value="false"/>
+
+    <ui:define name="body">
+        <h:form>
+        <p:defaultCommand target="dummy"/>
+        <p:commandButton id="dummy" process="@this" oncomplete="PF('parkingGarageTable').filter()"
+                         global="false" style="display:none;"/>
+
+        <p:dataTable widgetVar="parkingGarageTable" var="p" value="#{search.model.lazyDataModel}" rows="5"
+                     rowKey="#{p.id}" lazy="true" paginator="true"
+                     paginatorPosition="bottom"
+                     paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {JumpToPageDropdown}"
+                     currentPageReportTemplate="[ {startRecord} to {endRecord} of {totalRecords} ]"
+                     rowsPerPageTemplate="5,10,15,20,30">
+
+            <p:column headerText="Parkhäuser" sortBy="#{p.name}" filterBy="#{p.name}">
+                <f:facet name="filter">
+                    <p:inputText value="#{search.model.filter.entity.name}">
+                        <p:ajax process="@this" update="@none" oncomplete="PF('parkingGarageTable').filter()"/>
+                    </p:inputText>
+                </f:facet>
+                <p:link value="#{p.name}" outcome="/garageData" >
+                    <f:param name="id" value="#{p.id}"/>
+                </p:link>
+            </p:column>
+            <p:column headerText="Stadt" sortBy="#{p.address.cityName}" filterBy="#{p.address.cityName}">
+                <f:facet name="filter">
+                    <p:inputText value="#{search.model.filter.entity.address.cityName}">
+                        <p:ajax process="@this" update="@none" oncomplete="PF('parkingGarageTable').filter()"/>
+                    </p:inputText>
+                </f:facet>
+                <h:outputText value="#{p.address.cityName}" />
+            </p:column>
+            <p:column headerText="Plätze">
+                <h:outputText value="#{p.occupied}/#{p.spaces}" />
+            </p:column>
+        </p:dataTable>
+        </h:form>
+    </ui:define>
+</ui:composition>
