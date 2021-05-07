@@ -6,8 +6,20 @@
     <ul class="sidebar-menu tree" data-widget="tree">
         <li>
             <p:link outcome="/index" onclick="clearBreadCrumbs()">
-                <i class="fa fa-home"></i>
+                <em class="fa fa-home"/>
                 <span>Home</span>
+            </p:link>
+        </li>
+        <li>
+            <p:link outcome="/Search" onclick="clearBreadCrumbs()">
+                <em class="fa fa-search"/>
+                <span>Search</span>
+            </p:link>
+        </li>
+        <li>
+            <p:link outcome="/GeoLocation" onclick="clearBreadCrumbs()">
+                <em class="fa fa-street-view"/>
+                <span>Find nearest</span>
             </p:link>
         </li>
     </ul>
