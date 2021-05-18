@@ -166,7 +166,7 @@ And these two API endpoints:
 
 ## Main Authors
 
-...
+* **Neoministein** - *Initial work* - [Youtube](https://www.youtube.com/channel/UCtfBiBXVXqTotONMq6VSMbg) Neoministein#1245
 
 ## License
 
