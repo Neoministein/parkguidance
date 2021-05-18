@@ -170,6 +170,6 @@ And these two API endpoints:
 
 ## License
 
-No licence specified yet.
+No licence has been specified yet.
 
 ## Acknowledgments
