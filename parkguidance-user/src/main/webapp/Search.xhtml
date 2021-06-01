@@ -12,7 +12,7 @@
         <p:commandButton id="dummy" process="@this" oncomplete="PF('parkingGarageTable').filter()"
                          global="false" style="display:none;"/>
 
-        <p:dataTable widgetVar="parkingGarageTable" var="p" value="#{search.model.lazyDataModel}" rows="5"
+        <p:dataTable widgetVar="parkingGarageTable" var="p" value="#{search.model.lazyDataModel}" rows="10"
                      rowKey="#{p.id}" lazy="true" paginator="true"
                      paginatorPosition="bottom"
                      paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {JumpToPageDropdown}"
