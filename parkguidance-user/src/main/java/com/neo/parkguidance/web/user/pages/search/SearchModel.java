@@ -2,12 +2,12 @@ package com.neo.parkguidance.web.user.pages.search;
 
 import com.neo.parkguidance.core.entity.ParkingGarage;
 import com.neo.parkguidance.web.infra.table.Filter;
-import org.omnifaces.cdi.ViewScoped;
 import org.primefaces.model.LazyDataModel;
 
+import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 
-@ViewScoped
+@SessionScoped
 public class SearchModel implements Serializable {
 
     private boolean instantiated = false;
