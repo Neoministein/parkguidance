@@ -6,6 +6,7 @@ import com.neo.parkguidance.core.api.external.google.maps.GeoCoding;
 import com.neo.parkguidance.core.entity.Address;
 import com.neo.parkguidance.core.entity.ParkingGarage;
 import com.neo.parkguidance.core.impl.dao.AbstractEntityDao;
+import com.neo.parkguidance.core.impl.dao.AddressEntityManager;
 import com.neo.parkguidance.web.utils.Utils;
 
 import javax.ejb.Stateless;
@@ -25,10 +26,10 @@ public class GeoLocationFacade {
     GeoCoding geoCoding;
 
     @Inject
-    AbstractEntityDao<ParkingGarage> entityDao;
+    AbstractEntityDao<ParkingGarage> parkingGarageDao;
 
     public List<DistanceDataObject> callDistance(double latitude, double longitude) {
-        List<ParkingGarage> parkingGarageList = findNearest(entityDao.findAll(), latitude,longitude);
+        List<ParkingGarage> parkingGarageList = findNearest(parkingGarageDao.findAll(), latitude,longitude);
 
         return distanceMatrix.findDistance(parkingGarageList, latitude,longitude);
     }
@@ -36,7 +37,7 @@ public class GeoLocationFacade {
     public List<DistanceDataObject> callDistance(Address address) {
         try {
             geoCoding.findCoordinates(address);
-            List<ParkingGarage> parkingGarageList = findNearest(entityDao.findAll(), address.getLatitude(), address.getLongitude());
+            List<ParkingGarage> parkingGarageList = findNearest(parkingGarageDao.findAll(), address.getLatitude(), address.getLongitude());
 
             return distanceMatrix.findDistance(parkingGarageList, address);
         }catch (RuntimeException e) {
@@ -62,7 +63,7 @@ public class GeoLocationFacade {
 
         List<ParkingGarage> selectedGarages = new ArrayList<>();
         for(int i = 0; i < WANTED_GARAGES;i++) {
-            selectedGarages.add(entityDao.find(entries.get(i).getKey()));
+            selectedGarages.add(parkingGarageDao.find(entries.get(i).getKey()));
         }
 
         return selectedGarages;

@@ -3,6 +3,7 @@ package com.neo.parkguidance.web.user.pages.geolocation;
 import com.neo.parkguidance.core.api.external.google.maps.CrossPlatformURL;
 import com.neo.parkguidance.core.entity.Address;
 import com.neo.parkguidance.core.entity.ParkingGarage;
+import com.neo.parkguidance.web.infra.StaticDataModel;
 import org.primefaces.PrimeFaces;
 
 import javax.annotation.PostConstruct;
@@ -11,7 +12,8 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.IOException;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @RequestScoped
 @Named(value = GeoLocationController.BEAN_NAME)
@@ -21,6 +23,8 @@ public class GeoLocationController {
 
     @Inject
     GeoLocationModel model;
+
+    @Inject StaticDataModel staticDataModel;
 
     @Inject
     GeoLocationFacade facade;
@@ -54,6 +58,16 @@ public class GeoLocationController {
 
     public void redirectSearch(ParkingGarage parkingGarage) throws IOException {
         FacesContext.getCurrentInstance().getExternalContext().redirect(CrossPlatformURL.search(parkingGarage));
+    }
+
+    public List<String> completeCity(String query) {
+        String queryLowerCase = query.toLowerCase();
+        Set<String> cityList = new HashSet<>();
+        for (Address address : staticDataModel.getAddressList()) {
+            cityList.add(address.getCityName());
+        }
+
+        return cityList.stream().filter(t -> t.toLowerCase().startsWith(queryLowerCase)).collect(Collectors.toList());
     }
 
     public GeoLocationModel getModel() {

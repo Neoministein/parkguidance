@@ -14,7 +14,6 @@ public class GeoLocationModel implements Serializable {
 
     private Double accuracyCurrentPosition;
     private Address address;
-
     private List<DistanceDataObject> distanceDataObjects;
 
     public boolean isInitiated() {

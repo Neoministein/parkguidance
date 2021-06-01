@@ -15,22 +15,29 @@
             <p:remoteCommand name="geoLocationData" process="@this" autoRun="false" actionListener="#{geoLocation.geoLocationListener}"/>
 
             <p:accordionPanel widgetVar="basic">
-            <p:tab title="Address">
-                <p class="p-m-0">
-                    <h:form id="input">
-                        <p:outputLabel value="Parking garage" for="inputCityName"/>
-                        <p:inputText id="inputCityName" value="#{geoLocation.model.address.cityName}" required="true"/>
-                        <p:outputLabel value="Parking garage" for="inputPlz"/>
-                        <p:inputNumber id="inputPlz" value="#{geoLocation.model.address.plz}" rendered="true"/>
-                        <p:outputLabel value="Parking garage" for="inputStreet"/>
-                        <p:inputText id="inputStreet" value="#{geoLocation.model.address.street}"/>
-                        <p:outputLabel value="Parking garage" for="inputNumber"/>
-                        <p:inputNumber id="inputNumber" value="#{geoLocation.model.address.number}"/>
-
-                        <p:commandButton value="FindByAddress" action="#{geoLocation.findByAddress}"/>
-                    </h:form>
-                </p>
-            </p:tab>
+                <p:tab title="Address">
+                    <p class="p-m-0">
+                        <h:form id="input">
+                            <p:outputLabel value="Stadt:" for="inputCityName"/>
+                            <p:autoComplete id="inputCityName" value="#{geoLocation.model.address.cityName}"
+                                            queryDelay="750" completeMethod="#{geoLocation.completeCity}" effect="fade" scrollHeight="250"/>
+                            <span class="help-block">
+                                <p:message for="inputCityName"/>
+                            </span>
+                            <p:outputLabel value="Strasse:" for="inputStreet"/>
+                            <p:inputText id="inputStreet" value="#{geoLocation.model.address.street}"/>
+                            <span class="help-block">
+                                <p:message for="inputStreet" />
+                            </span>
+                            <p:outputLabel value="Hausnummer:" for="inputNumber"/>
+                            <p:inputNumber id="inputNumber" value="#{geoLocation.model.address.number}"/>
+                            <span class="help-block">
+                                <p:message for="inputNumber" />
+                            </span>
+                            <p:commandButton value="FindByAddress" action="#{geoLocation.findByAddress}"/>
+                        </h:form>
+                    </p>
+                </p:tab>
             </p:accordionPanel>
 
             <p:separator/>
