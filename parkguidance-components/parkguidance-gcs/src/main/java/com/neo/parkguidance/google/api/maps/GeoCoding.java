@@ -3,7 +3,7 @@ package com.neo.parkguidance.google.api.maps;
 import com.neo.parkguidance.core.api.HTTPRequestSender;
 import com.neo.parkguidance.google.api.constants.GoogleConstants;
 import com.neo.parkguidance.core.entity.Address;
-import com.neo.parkguidance.core.entity.ApiRequest;
+import com.neo.parkguidance.core.api.HTTPRequest;
 import com.neo.parkguidance.core.entity.StoredValue;
 import com.neo.parkguidance.core.impl.dao.StoredValueEntityManager;
 import org.json.JSONArray;
@@ -22,20 +22,19 @@ public class GeoCoding {
     @Inject
     StoredValueEntityManager storedValueManager;
 
-    @Inject
-    HTTPRequestSender httpRequestSender;
+    HTTPRequestSender httpRequestSender = new HTTPRequestSender();
 
     public void findCoordinates(Address address) throws RuntimeException{
-        ApiRequest apiRequest = new ApiRequest();
+        HTTPRequest httpRequest = new HTTPRequest();
         String url = API_URL + GoogleConstants.JSON + ADDRESS + GoogleConstants.addressQuery(address) + GoogleConstants.KEY;
 
-        apiRequest.setUrl(url);
-        apiRequest.setRequestMethod("GET");
-        httpRequestSender.call(apiRequest, storedValueManager.findValue(StoredValue.V_GOOGLE_MAPS_API).getValue());
+        httpRequest.setUrl(url + storedValueManager.findValue(StoredValue.V_GOOGLE_MAPS_API).getValue());
+        httpRequest.setRequestMethod("GET");
+        httpRequestSender.call(httpRequest);
 
-        switch (apiRequest.getResponseCode()) {
+        switch (httpRequest.getResponseCode()) {
         case HttpServletResponse.SC_OK:
-            parseRequestStatus(new JSONObject(apiRequest.getResponseInput()),address);
+            parseRequestStatus(new JSONObject(httpRequest.getResponseInput()),address);
             break;
         case HttpServletResponse.SC_BAD_REQUEST:
             throw new IllegalArgumentException(GoogleConstants.E_INVALID_ADDRESS);
@@ -44,7 +43,7 @@ public class GeoCoding {
         case -1:
             throw new RuntimeException(GoogleConstants.E_INTERNAL_ERROR);
         default:
-            throw new RuntimeException(GoogleConstants.E_EXTERNAL_ERROR + apiRequest.getResponseCode());
+            throw new RuntimeException(GoogleConstants.E_EXTERNAL_ERROR + httpRequest.getResponseCode());
         }
     }
 

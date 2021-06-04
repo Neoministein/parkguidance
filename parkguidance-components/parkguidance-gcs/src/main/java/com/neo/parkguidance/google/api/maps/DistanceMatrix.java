@@ -3,7 +3,7 @@ package com.neo.parkguidance.google.api.maps;
 import com.neo.parkguidance.core.api.HTTPRequestSender;
 import com.neo.parkguidance.google.api.constants.GoogleConstants;
 import com.neo.parkguidance.core.entity.Address;
-import com.neo.parkguidance.core.entity.ApiRequest;
+import com.neo.parkguidance.core.api.HTTPRequest;
 import com.neo.parkguidance.core.entity.ParkingGarage;
 import com.neo.parkguidance.core.entity.StoredValue;
 import com.neo.parkguidance.core.impl.dao.StoredValueEntityManager;
@@ -27,8 +27,7 @@ public class DistanceMatrix {
     @Inject
     StoredValueEntityManager storedValueManager;
 
-    @Inject
-    HTTPRequestSender httpRequestSender;
+    HTTPRequestSender httpRequestSender = new HTTPRequestSender();
 
     public List<DistanceDataObject> findDistance(List<ParkingGarage> parkingGarageList, double latitude, double longitude) {
         return findDistance(parkingGarageList, new StringBuilder(latitude + "%2C" + longitude + DESTINATION));
@@ -48,10 +47,10 @@ public class DistanceMatrix {
 
         url += query.substring(0, query.length() - 3);
 
-        ApiRequest apiRequest = new ApiRequest();
-        apiRequest.setUrl(url + GoogleConstants.KEY);
+        HTTPRequest apiRequest = new HTTPRequest();
+        apiRequest.setUrl(url + GoogleConstants.KEY + storedValueManager.findValue(StoredValue.V_GOOGLE_MAPS_API).getValue());
         apiRequest.setRequestMethod("GET");
-        httpRequestSender.call(apiRequest, storedValueManager.findValue(StoredValue.V_GOOGLE_MAPS_API).getValue());
+        httpRequestSender.call(apiRequest);
 
         switch (apiRequest.getResponseCode()) {
         case HttpServletResponse.SC_OK:

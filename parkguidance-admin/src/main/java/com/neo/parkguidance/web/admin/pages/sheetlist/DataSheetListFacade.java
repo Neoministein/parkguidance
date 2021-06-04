@@ -1,7 +1,7 @@
 package com.neo.parkguidance.web.admin.pages.sheetlist;
 
 import com.neo.parkguidance.core.api.HTTPRequestSender;
-import com.neo.parkguidance.core.entity.ApiRequest;
+import com.neo.parkguidance.core.api.HTTPRequest;
 import com.neo.parkguidance.core.entity.DataSheet;
 import com.neo.parkguidance.core.impl.dao.AbstractEntityDao;
 import com.neo.parkguidance.web.infra.entity.LazyEntityService;
@@ -21,8 +21,7 @@ public class DataSheetListFacade {
     @Inject
     AbstractEntityDao<DataSheet> dataSheetDao;
 
-    @Inject
-    HTTPRequestSender httpRequestSender;
+    HTTPRequestSender httpRequestSender = new HTTPRequestSender();
 
     public LazyEntityService<DataSheet> initDataModel(Filter<DataSheet> filter) {
         return new LazyEntityService<>(dataSheetDao, filter);
@@ -55,7 +54,7 @@ public class DataSheetListFacade {
     }
 
     public void sortData() {
-        ApiRequest apiRequest = new ApiRequest(
+        HTTPRequest apiRequest = new HTTPRequest(
                 System.getProperty("parkguidance.endpoint.sorter"),
                 "POST");
         httpRequestSender.call(apiRequest);
