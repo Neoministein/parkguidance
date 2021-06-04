@@ -1,7 +1,7 @@
-package com.neo.parkguidance.core.api.external.google.maps;
+package com.neo.parkguidance.google.api.maps;
 
 import com.neo.parkguidance.core.api.HTTPRequestSender;
-import com.neo.parkguidance.core.api.external.google.GoogleApi;
+import com.neo.parkguidance.google.api.constants.GoogleConstants;
 import com.neo.parkguidance.core.entity.Address;
 import com.neo.parkguidance.core.entity.ApiRequest;
 import com.neo.parkguidance.core.entity.StoredValue;
@@ -27,7 +27,7 @@ public class GeoCoding {
 
     public void findCoordinates(Address address) throws RuntimeException{
         ApiRequest apiRequest = new ApiRequest();
-        String url = API_URL + GoogleApi.JSON + ADDRESS + GoogleApi.addressQuery(address) + GoogleApi.KEY;
+        String url = API_URL + GoogleConstants.JSON + ADDRESS + GoogleConstants.addressQuery(address) + GoogleConstants.KEY;
 
         apiRequest.setUrl(url);
         apiRequest.setRequestMethod("GET");
@@ -38,13 +38,13 @@ public class GeoCoding {
             parseRequestStatus(new JSONObject(apiRequest.getResponseInput()),address);
             break;
         case HttpServletResponse.SC_BAD_REQUEST:
-            throw new IllegalArgumentException(GoogleApi.E_INVALID_ADDRESS);
+            throw new IllegalArgumentException(GoogleConstants.E_INVALID_ADDRESS);
         case HttpServletResponse.SC_NOT_FOUND:
-            throw new RuntimeException(GoogleApi.E_TRY_AGAIN);
+            throw new RuntimeException(GoogleConstants.E_TRY_AGAIN);
         case -1:
-            throw new RuntimeException(GoogleApi.E_INTERNAL_ERROR);
+            throw new RuntimeException(GoogleConstants.E_INTERNAL_ERROR);
         default:
-            throw new RuntimeException(GoogleApi.E_EXTERNAL_ERROR + apiRequest.getResponseCode());
+            throw new RuntimeException(GoogleConstants.E_EXTERNAL_ERROR + apiRequest.getResponseCode());
         }
     }
 
@@ -56,14 +56,14 @@ public class GeoCoding {
             break;
         case "ZERO_RESULTS":
         case "INVALID_REQUEST":
-            throw new IllegalArgumentException(GoogleApi.E_INVALID_ADDRESS);
+            throw new IllegalArgumentException(GoogleConstants.E_INVALID_ADDRESS);
         case "UNKNOWN_ERROR":
-            throw new RuntimeException(GoogleApi.E_TRY_AGAIN);
+            throw new RuntimeException(GoogleConstants.E_TRY_AGAIN);
         case "OVER_DAILY_LIMIT":
         case "OVER_QUERY_LIMIT":
         case "REQUEST_DENIED":
         default:
-            throw new RuntimeException(GoogleApi.E_EXTERNAL_ERROR + status);
+            throw new RuntimeException(GoogleConstants.E_EXTERNAL_ERROR + status);
         }
     }
 

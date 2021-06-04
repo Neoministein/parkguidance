@@ -1,12 +1,11 @@
 package com.neo.parkguidance.web.user.pages.geolocation;
 
-import com.neo.parkguidance.core.api.external.google.maps.DistanceDataObject;
-import com.neo.parkguidance.core.api.external.google.maps.DistanceMatrix;
-import com.neo.parkguidance.core.api.external.google.maps.GeoCoding;
+import com.neo.parkguidance.google.api.maps.DistanceDataObject;
+import com.neo.parkguidance.google.api.maps.DistanceMatrix;
+import com.neo.parkguidance.google.api.maps.GeoCoding;
 import com.neo.parkguidance.core.entity.Address;
 import com.neo.parkguidance.core.entity.ParkingGarage;
 import com.neo.parkguidance.core.impl.dao.AbstractEntityDao;
-import com.neo.parkguidance.core.impl.dao.AddressEntityManager;
 import com.neo.parkguidance.web.utils.Utils;
 
 import javax.ejb.Stateless;

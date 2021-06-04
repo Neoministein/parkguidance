@@ -1,4 +1,4 @@
-package com.neo.parkguidance.core.api.external.google;
+package com.neo.parkguidance.google.api.constants;
 
 import com.neo.parkguidance.core.entity.Address;
 
@@ -6,7 +6,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 
-public class GoogleApi {
+public class GoogleConstants {
 
     public static final String JSON = "json?";
     public static final String XML = "xml?";
@@ -21,7 +21,7 @@ public class GoogleApi {
     public static final String E_EXTERNAL_ERROR = "External Server ERROR Please contact a system administrator: ";
     public static final String E_INTERNAL_ERROR = "Internal Server ERROR Please contact a system administrator:";
 
-    private GoogleApi() {}
+    private GoogleConstants() {}
 
     public static String addressQuery(Address address) throws RuntimeException{
         String query =  address.getStreet() + "+" +

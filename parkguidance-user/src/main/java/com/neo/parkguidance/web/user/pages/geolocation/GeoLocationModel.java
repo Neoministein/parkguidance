@@ -1,6 +1,6 @@
 package com.neo.parkguidance.web.user.pages.geolocation;
 
-import com.neo.parkguidance.core.api.external.google.maps.DistanceDataObject;
+import com.neo.parkguidance.google.api.maps.DistanceDataObject;
 import com.neo.parkguidance.core.entity.Address;
 
 import javax.enterprise.context.SessionScoped;

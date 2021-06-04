@@ -1,26 +1,22 @@
-package com.neo.parkguidance.core.api.external.google.maps;
+package com.neo.parkguidance.google.api.maps;
 
-import com.neo.parkguidance.core.api.external.google.GoogleApi;
+import com.neo.parkguidance.google.api.constants.GoogleConstants;
 import com.neo.parkguidance.core.entity.ParkingGarage;
 
-import javax.ejb.Stateless;
-import javax.inject.Named;
-
-@Stateless
-@Named(value = CrossPlatformURL.BEAN_NAME)
 public class CrossPlatformURL {
-    public static final String BEAN_NAME = "crossPlatformURL";
 
     public static final String API_VERSION = "?api=1";
 
+    private CrossPlatformURL() {}
+
     public static String search(ParkingGarage parkingGarage) {
         return "https://www.google.com/maps/search/"+ API_VERSION  +
-                GoogleApi.QUERY + getLocation(parkingGarage);
+                GoogleConstants.QUERY + getLocation(parkingGarage);
     }
 
     public static String direction(ParkingGarage parkingGarage) {
         return "https://www.google.com/maps/dir/"+ API_VERSION  +
-                GoogleApi.DIRECTION + getLocation(parkingGarage);
+                GoogleConstants.DIRECTION + getLocation(parkingGarage);
     }
 
     protected static String getLocation(ParkingGarage parkingGarage){

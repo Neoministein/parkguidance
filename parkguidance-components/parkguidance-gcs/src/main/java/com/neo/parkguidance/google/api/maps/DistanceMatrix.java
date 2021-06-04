@@ -1,7 +1,7 @@
-package com.neo.parkguidance.core.api.external.google.maps;
+package com.neo.parkguidance.google.api.maps;
 
 import com.neo.parkguidance.core.api.HTTPRequestSender;
-import com.neo.parkguidance.core.api.external.google.GoogleApi;
+import com.neo.parkguidance.google.api.constants.GoogleConstants;
 import com.neo.parkguidance.core.entity.Address;
 import com.neo.parkguidance.core.entity.ApiRequest;
 import com.neo.parkguidance.core.entity.ParkingGarage;
@@ -35,21 +35,21 @@ public class DistanceMatrix {
     }
 
     public List<DistanceDataObject> findDistance(List<ParkingGarage> parkingGarageList, Address address) {
-        return findDistance(parkingGarageList, new StringBuilder(GoogleApi.addressQuery(address) + DESTINATION));
+        return findDistance(parkingGarageList, new StringBuilder(GoogleConstants.addressQuery(address) + DESTINATION));
     }
 
     public List<DistanceDataObject> findDistance(List<ParkingGarage> parkingGarageList , StringBuilder query) {
-        String url = API_URL + GoogleApi.JSON + ORIGIN;
+        String url = API_URL + GoogleConstants.JSON + ORIGIN;
 
         for (ParkingGarage parkingGarage : parkingGarageList) {
-            query.append(GoogleApi.addressQuery(parkingGarage.getAddress()));
+            query.append(GoogleConstants.addressQuery(parkingGarage.getAddress()));
             query.append("%7C");
         }
 
         url += query.substring(0, query.length() - 3);
 
         ApiRequest apiRequest = new ApiRequest();
-        apiRequest.setUrl(url + GoogleApi.KEY);
+        apiRequest.setUrl(url + GoogleConstants.KEY);
         apiRequest.setRequestMethod("GET");
         httpRequestSender.call(apiRequest, storedValueManager.findValue(StoredValue.V_GOOGLE_MAPS_API).getValue());
 
@@ -57,13 +57,13 @@ public class DistanceMatrix {
         case HttpServletResponse.SC_OK:
             return   parseRequestStatus(new JSONObject(apiRequest.getResponseInput()), parkingGarageList);
         case HttpServletResponse.SC_BAD_REQUEST:
-            throw new IllegalArgumentException(GoogleApi.E_INVALID_ADDRESS);
+            throw new IllegalArgumentException(GoogleConstants.E_INVALID_ADDRESS);
         case HttpServletResponse.SC_NOT_FOUND:
-            throw new RuntimeException(GoogleApi.E_TRY_AGAIN);
+            throw new RuntimeException(GoogleConstants.E_TRY_AGAIN);
         case -1:
-            throw new RuntimeException(GoogleApi.E_INTERNAL_ERROR);
+            throw new RuntimeException(GoogleConstants.E_INTERNAL_ERROR);
         default:
-            throw new RuntimeException(GoogleApi.E_EXTERNAL_ERROR + apiRequest.getResponseCode());
+            throw new RuntimeException(GoogleConstants.E_EXTERNAL_ERROR + apiRequest.getResponseCode());
         }
     }
 
@@ -73,16 +73,16 @@ public class DistanceMatrix {
         case "OK":
             return parseDistance(jsonObject.getJSONArray("rows"),parkingGarageList);
         case "INVALID_REQUEST":
-            throw new IllegalArgumentException(GoogleApi.E_INVALID_ADDRESS);
+            throw new IllegalArgumentException(GoogleConstants.E_INVALID_ADDRESS);
         case "UNKNOWN_ERROR":
-            throw new RuntimeException(GoogleApi.E_TRY_AGAIN);
+            throw new RuntimeException(GoogleConstants.E_TRY_AGAIN);
         case "MAX_ELEMENTS_EXCEEDED":
         case "MAX_DIMENSIONS_EXCEEDED":
         case "OVER_DAILY_LIMIT":
         case "OVER_QUERY_LIMIT":
         case "REQUEST_DENIED":
         default:
-            throw new RuntimeException(GoogleApi.E_SYS_ADMIN + status);
+            throw new RuntimeException(GoogleConstants.E_SYS_ADMIN + status);
         }
     }
 

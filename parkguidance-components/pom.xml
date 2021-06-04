@@ -17,6 +17,7 @@
         <module>parkguidance-web</module>
         <module>parkguidance-parkdata-receiver</module>
         <module>parkguidance-parkdata-sorter</module>
+        <module>parkguidance-gcs</module>
     </modules>
 
 </project>

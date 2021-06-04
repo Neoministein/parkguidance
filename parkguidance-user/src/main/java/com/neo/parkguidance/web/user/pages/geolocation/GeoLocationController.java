@@ -1,6 +1,6 @@
 package com.neo.parkguidance.web.user.pages.geolocation;
 
-import com.neo.parkguidance.core.api.external.google.maps.CrossPlatformURL;
+import com.neo.parkguidance.google.api.maps.CrossPlatformURL;
 import com.neo.parkguidance.core.entity.Address;
 import com.neo.parkguidance.core.entity.ParkingGarage;
 import com.neo.parkguidance.web.infra.StaticDataModel;

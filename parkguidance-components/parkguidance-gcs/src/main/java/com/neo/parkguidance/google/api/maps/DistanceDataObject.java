@@ -1,4 +1,4 @@
-package com.neo.parkguidance.core.api.external.google.maps;
+package com.neo.parkguidance.google.api.maps;
 
 import com.neo.parkguidance.core.entity.ParkingGarage;
 

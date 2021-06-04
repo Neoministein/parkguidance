@@ -1,6 +1,6 @@
 package com.neo.parkguidance.web.admin.pages.garageform;
 
-import com.neo.parkguidance.core.api.external.google.maps.GeoCoding;
+import com.neo.parkguidance.google.api.maps.GeoCoding;
 import com.neo.parkguidance.core.entity.Address;
 import com.neo.parkguidance.core.entity.ParkingGarage;
 import com.neo.parkguidance.core.impl.RandomString;
