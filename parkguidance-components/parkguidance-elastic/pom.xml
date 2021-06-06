@@ -10,5 +10,20 @@
     <name>ParkGuidance Elastic jar</name>
     <packaging>jar</packaging>
 
+    <properties>
+        <json.version>20190722</json.version>
+    </properties>
 
+    <dependencies>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>parkguidance-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>${json.version}</version>
+        </dependency>
+    </dependencies>
 </project>

@@ -1,6 +1,7 @@
 package com.neo.parkguidance.google.api.maps;
 
 import com.neo.parkguidance.core.api.HTTPRequestSender;
+import com.neo.parkguidance.core.api.HTTPResponse;
 import com.neo.parkguidance.google.api.constants.GoogleConstants;
 import com.neo.parkguidance.core.entity.Address;
 import com.neo.parkguidance.core.api.HTTPRequest;
@@ -30,11 +31,11 @@ public class GeoCoding {
 
         httpRequest.setUrl(url + storedValueManager.findValue(StoredValue.V_GOOGLE_MAPS_API).getValue());
         httpRequest.setRequestMethod("GET");
-        httpRequestSender.call(httpRequest);
+        HTTPResponse httpResponse = httpRequestSender.call(httpRequest);
 
-        switch (httpRequest.getResponseCode()) {
+        switch (httpResponse.getCode()) {
         case HttpServletResponse.SC_OK:
-            parseRequestStatus(new JSONObject(httpRequest.getResponseInput()),address);
+            parseRequestStatus(new JSONObject(httpResponse.getCode()),address);
             break;
         case HttpServletResponse.SC_BAD_REQUEST:
             throw new IllegalArgumentException(GoogleConstants.E_INVALID_ADDRESS);
@@ -43,7 +44,7 @@ public class GeoCoding {
         case -1:
             throw new RuntimeException(GoogleConstants.E_INTERNAL_ERROR);
         default:
-            throw new RuntimeException(GoogleConstants.E_EXTERNAL_ERROR + httpRequest.getResponseCode());
+            throw new RuntimeException(GoogleConstants.E_EXTERNAL_ERROR + httpResponse.getCode());
         }
     }
 

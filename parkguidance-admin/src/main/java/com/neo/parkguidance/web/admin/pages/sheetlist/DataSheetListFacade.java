@@ -2,6 +2,7 @@ package com.neo.parkguidance.web.admin.pages.sheetlist;
 
 import com.neo.parkguidance.core.api.HTTPRequestSender;
 import com.neo.parkguidance.core.api.HTTPRequest;
+import com.neo.parkguidance.core.api.HTTPResponse;
 import com.neo.parkguidance.core.entity.DataSheet;
 import com.neo.parkguidance.core.impl.dao.AbstractEntityDao;
 import com.neo.parkguidance.web.infra.entity.LazyEntityService;
@@ -57,8 +58,8 @@ public class DataSheetListFacade {
         HTTPRequest apiRequest = new HTTPRequest(
                 System.getProperty("parkguidance.endpoint.sorter"),
                 "POST");
-        httpRequestSender.call(apiRequest);
-        if(apiRequest.getResponseCode() != HttpServletResponse.SC_OK) {
+        HTTPResponse httpResponse = httpRequestSender.call(apiRequest);
+        if(httpResponse.getCode() != HttpServletResponse.SC_OK) {
             Messages.addError(null, "Something went wrong while sorting ");
         }
     }

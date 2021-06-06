@@ -17,10 +17,6 @@ public class HTTPRequest {
 
     private String requestBody;
 
-    private Integer responseCode;
-
-    private String responseInput;
-
     public HTTPRequest() {
         requestBody = "";
     }
@@ -29,6 +25,12 @@ public class HTTPRequest {
         super();
         this.url = url;
         this.requestMethod = requestMethod;
+    }
+
+    public HTTPRequest(String url, String requestMethod, String requestBody) {
+        this.url = url;
+        this.requestMethod = requestMethod;
+        this.requestBody = requestBody;
     }
 
     public String getUrl() {
@@ -53,21 +55,5 @@ public class HTTPRequest {
 
     public void setRequestBody(String requestBody) {
         this.requestBody = requestBody;
-    }
-
-    public Integer getResponseCode() {
-        return responseCode;
-    }
-
-    public void setResponseCode(Integer responseCode) {
-        this.responseCode = responseCode;
-    }
-
-    public String getResponseInput() {
-        return responseInput;
-    }
-
-    public void setResponseInput(String responseInput) {
-        this.responseInput = responseInput;
     }
 }

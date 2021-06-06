@@ -12,34 +12,50 @@ import java.nio.charset.StandardCharsets;
 
 public class HTTPRequestSender {
 
-    public void call(HTTPRequest request) {
+    public HTTPResponse call(HTTPRequest request) {
         try {
             URLConnection con = new URL((request.getUrl())).openConnection();
-            HttpURLConnection http = (HttpURLConnection) con;
-            http.setRequestMethod(request.getRequestMethod());
-            http.setRequestProperty("Accept-Charset", "UTF-8");
-            http.setRequestProperty("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
+            HttpURLConnection connection = (HttpURLConnection) con;
+            connection.setRequestMethod(request.getRequestMethod());
+            connection.setRequestProperty("Accept-Charset", "UTF-8");
+            connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
 
             if(request.getRequestBody() != null && !request.getRequestBody().equals("")) {
-                http.setDoOutput(true);
+                connection.setDoOutput(true);
                 byte[] out = request.getRequestBody().getBytes(StandardCharsets.UTF_8);
                 int length = out.length;
-                http.setFixedLengthStreamingMode(length);
-                http.connect();
-                try(OutputStream os = http.getOutputStream()) {
+                connection.setFixedLengthStreamingMode(length);
+                connection.connect();
+                try(OutputStream os = connection.getOutputStream()) {
                     os.write(out);
                 }
             } else {
-                http.connect();
+                connection.connect();
             }
 
-            request.setResponseCode(http.getResponseCode());
-            try(InputStream is = http.getInputStream()) {
-                request.setResponseInput(IOUtils.toString(is, StandardCharsets.UTF_8));
-            }
-
+            return getHttpResponse(connection);
         }catch (IOException ex) {
-            request.setResponseCode(-1);
+            return new HTTPResponse(-1,"Unable to correctly", ex.getMessage());
         }
+    }
+
+    private HTTPResponse getHttpResponse(HttpURLConnection connection) throws IOException{
+        HTTPResponse response = new HTTPResponse();
+        InputStream responseStream;
+
+        try
+        {
+            response.setCode(connection.getResponseCode());
+            response.setMessage(connection.getResponseMessage());
+            responseStream = connection.getInputStream();
+        }
+        catch(IOException e)
+        {
+            response.setCode(connection.getResponseCode());
+            response.setMessage(connection.getResponseMessage());
+            responseStream = connection.getErrorStream();
+        }
+        response.setBody(IOUtils.toString(responseStream, connection.getContentEncoding()));
+        return response;
     }
 }
