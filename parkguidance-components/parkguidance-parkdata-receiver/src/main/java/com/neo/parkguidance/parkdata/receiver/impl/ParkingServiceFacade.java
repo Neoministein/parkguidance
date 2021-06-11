@@ -1,10 +1,9 @@
 package com.neo.parkguidance.parkdata.receiver.impl;
 
-import com.neo.parkguidance.core.entity.ParkingData;
-import com.neo.parkguidance.core.impl.dao.ParkingGarageEntityManager;
+import com.neo.parkguidance.core.impl.dao.AbstractEntityDao;
+import com.neo.parkguidance.elastic.impl.ElasticSearchClientProvider;
 import com.neo.parkguidance.parkdata.receiver.impl.security.ParkingGarageAuthentication;
 import com.neo.parkguidance.core.entity.ParkingGarage;
-import com.neo.parkguidance.core.impl.dao.ParkingDataEntityManager;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -26,10 +25,10 @@ public class ParkingServiceFacade {
     ParkingGarageAuthentication authentication;
 
     @Inject
-    ParkingDataEntityManager parkingDataManager;
+    AbstractEntityDao<ParkingGarage> parkingGarageManager;
 
     @Inject
-    ParkingGarageEntityManager parkingGarageManager;
+    ElasticSearchClientProvider elasticSearchClientProvider;
 
     public int updateParkingData(String requestString) {
         try {
@@ -69,9 +68,20 @@ public class ParkingServiceFacade {
         garage.setOccupied(amount);
 
         parkingGarageManager.edit(garage);
-        parkingDataManager.create(new ParkingData(
-                garage,
-                new Date(),
-                (garage.getOccupied())));
+
+        try {
+            elasticSearchClientProvider.save("raw-parking-data", getJSONContent(garage));
+        }catch (Exception e) {
+            //TODO PUT ON QUE
+        }
+    }
+
+    protected String getJSONContent(ParkingGarage parkingGarage) {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("garage", parkingGarage.getId());
+        jsonObject.put("timestamp",new Date().getTime());
+        jsonObject.put("occupied", parkingGarage.getOccupied());
+
+        return jsonObject.toString();
     }
 }

@@ -9,6 +9,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
+import java.util.Map;
 
 public class HTTPRequestSender {
 
@@ -17,8 +18,10 @@ public class HTTPRequestSender {
             URLConnection con = new URL((request.getUrl())).openConnection();
             HttpURLConnection connection = (HttpURLConnection) con;
             connection.setRequestMethod(request.getRequestMethod());
-            connection.setRequestProperty("Accept-Charset", "UTF-8");
-            connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
+
+            for (Map.Entry<String,String> entry: request.getRequestProperty().entrySet()) {
+                connection.addRequestProperty(entry.getKey(), entry.getValue());
+            }
 
             if(request.getRequestBody() != null && !request.getRequestBody().equals("")) {
                 connection.setDoOutput(true);
