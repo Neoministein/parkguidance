@@ -2,5 +2,9 @@ package com.neo.parkguidance.elastic.api.constants;
 
 public interface ElasticSearchConstants {
 
-    String SEARCH_PROVIDER_DEFAULT_NODE = "http://127.0.0.1:9200";
+    String DEFAULT_SCHEME = "http";
+    String DEFAULT_HOST_NAME = "127.0.0.1";
+    int DEFAULT_PORT = 9200;
+
+
 }

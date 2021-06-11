@@ -6,7 +6,6 @@ import org.apache.http.HttpHost;
 import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestHighLevelClient;
 
-import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Event;
 import javax.inject.Inject;
@@ -23,11 +22,6 @@ public class ElasticSearchConnectionProvider implements Serializable {
     private volatile RestHighLevelClient client;
 
     private AtomicBoolean connectorInitializationOngoing = new AtomicBoolean(false);
-
-    @PostConstruct
-    public void init() {
-        connect();
-    }
 
     public RestHighLevelClient getClient() {
         RestHighLevelClient c = client;
@@ -63,7 +57,10 @@ public class ElasticSearchConnectionProvider implements Serializable {
     }
 
     protected synchronized void connect() {
-        client = new RestHighLevelClient(RestClient.builder(new HttpHost(ElasticSearchConstants.SEARCH_PROVIDER_DEFAULT_NODE)));
+        client = new RestHighLevelClient(RestClient.builder(new HttpHost(
+                ElasticSearchConstants.DEFAULT_HOST_NAME,
+                ElasticSearchConstants.DEFAULT_PORT,
+                ElasticSearchConstants.DEFAULT_SCHEME)));
         connectionStatusEvent.fire(new ElasticSearchConnectionStatusEvent(ElasticSearchConnectionStatusEvent.STATUS_EVENT_CONNECTED));
     }
 }

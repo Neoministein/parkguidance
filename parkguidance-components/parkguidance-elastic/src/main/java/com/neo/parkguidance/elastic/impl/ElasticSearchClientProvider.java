@@ -32,17 +32,17 @@ public class ElasticSearchClientProvider {
         BulkProcessor.Listener listener = new BulkProcessor.Listener() {
             @Override
             public void beforeBulk(long executionId, BulkRequest bulkRequest) {
-
+                //TODO LOGGER
             }
 
             @Override
             public void afterBulk(long executionId, BulkRequest bulkRequest, BulkResponse bulkResponse) {
-
+                //TODO LOGGER
             }
 
             @Override
             public void afterBulk(long executionId, BulkRequest bulkRequest, Throwable failure) {
-
+                //TODO LOGGER
             }
         };
 
@@ -60,6 +60,14 @@ public class ElasticSearchClientProvider {
         }
     }
 
+    protected BulkProcessor getBulkProcessor() {
+        if (bulkProcessor == null) {
+            getClient();
+            throw new IllegalStateException("elasticsearch bulkProcessor not ready yet!");
+        }
+        return bulkProcessor;
+    }
+
     protected BulkProcessor.Builder createBulkRequestBuilder(BulkProcessor.Listener listener) {
         BulkProcessor.Builder builder = BulkProcessor.builder(
                 (request, bulkListener) ->
@@ -69,6 +77,7 @@ public class ElasticSearchClientProvider {
         builder.setBulkActions(500);
 
         return builder;
+
     }
 
     protected RestHighLevelClient getClient() {
@@ -85,10 +94,15 @@ public class ElasticSearchClientProvider {
             //TODO WRITE LOGGER
         }
     }
-
     public void save(String index, String content) {
-        IndexRequest indexRequest = new IndexRequest(index);
-        indexRequest.source(content.getBytes(), XContentType.JSON);
-        bulkProcessor.add(indexRequest);
+        getBulkProcessor().add(indexRequest(index,content));
+    }
+
+    private IndexRequest indexRequest(String index, String content) {
+        final byte[] bytes = content.getBytes();
+        final IndexRequest request = new IndexRequest(index);
+
+        request.source(bytes, XContentType.JSON);
+        return request;
     }
 }
