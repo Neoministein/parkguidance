@@ -8,16 +8,16 @@ import java.io.Serializable;
 @ViewScoped
 public class GarageFormModel implements Serializable {
 
-    private Integer id;
+    private String key;
 
     private ParkingGarage item;
 
-    public Integer getId() {
-        return id;
+    public String getKey() {
+        return key;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setKey(String key) {
+        this.key = key;
     }
 
     public ParkingGarage getItem() {

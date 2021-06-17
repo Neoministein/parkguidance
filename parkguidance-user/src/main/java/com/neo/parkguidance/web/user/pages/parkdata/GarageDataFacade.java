@@ -16,7 +16,9 @@ import org.primefaces.model.charts.optionconfig.title.Title;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Stateless
 public class GarageDataFacade {
@@ -30,10 +32,8 @@ public class GarageDataFacade {
     @Inject
     private ParkingGarageEntityManager parkingGarageManager;
 
-    public LineChartDataSet[] loadDataSet() {
-        int sizeOfDataSet = parkingGarageManager.findHighestId().getId().intValue();
-
-        LineChartDataSet[] dataSets = new LineChartDataSet[sizeOfDataSet+1];
+    public Map<String, LineChartDataSet> loadDataSet() {
+        Map<String, LineChartDataSet> dataSetMap = new HashMap<>();
 
         for(ParkingGarage parkingGarage: parkingGarageManager.findAll()) {
             List<Object> averageOccupied = new ArrayList<>();
@@ -56,17 +56,17 @@ public class GarageDataFacade {
             dataSet.setLabel("Normal");
             dataSet.setYaxisID("left-y-axis");
 
-            dataSets[parkingGarage.getId().intValue()] = dataSet;
+            dataSetMap.put(parkingGarage.getKey(), dataSet);
         }
 
-        return dataSets;
+        return dataSetMap;
     }
 
     public void createCartesianLinerModel(GarageDataModel model, GarageDataChartModel chartModel) {
         LineChartModel cartesianLinerModel = new LineChartModel();
         ChartData data = new ChartData();
 
-        data.addChartDataSet(chartModel.getDataSets()[model.getId()]);
+        data.addChartDataSet(chartModel.getDataSets().get(model.getKey()));
 
         data.setLabels(chartModel.getLabels());
         cartesianLinerModel.setData(data);
@@ -108,7 +108,7 @@ public class GarageDataFacade {
         return labels;
     }
 
-    public ParkingGarage getParkingGarage(Integer id) {
-       return parkingGarageManager.find(Long.valueOf(id));
+    public ParkingGarage getParkingGarage(String key) {
+       return parkingGarageManager.find(key);
     }
 }

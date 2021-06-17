@@ -13,7 +13,7 @@
                          global="false" style="display:none;"/>
 
         <p:dataTable widgetVar="parkingGarageTable" var="p" value="#{search.model.lazyDataModel}" rows="10"
-                     rowKey="#{p.id}" lazy="true" paginator="true"
+                     rowKey="#{p.key}" lazy="true" paginator="true"
                      paginatorPosition="bottom"
                      paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {JumpToPageDropdown}"
                      currentPageReportTemplate="[ {startRecord} to {endRecord} of {totalRecords} ]"
@@ -26,7 +26,7 @@
                     </p:inputText>
                 </f:facet>
                 <p:link value="#{p.name}" outcome="/garageData" >
-                    <f:param name="id" value="#{p.id}"/>
+                    <f:param name="key" value="#{p.key}"/>
                 </p:link>
             </p:column>
             <p:column headerText="Stadt" sortBy="#{p.address.cityName}" filterBy="#{p.address.cityName}">

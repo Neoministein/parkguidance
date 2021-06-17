@@ -68,6 +68,11 @@ public class RegisteredUser implements DataBaseEntity<RegisteredUser> {
     }
 
     @Override
+    public Object getPrimaryKey() {
+        return getId();
+    }
+
+    @Override
     public boolean compareValues(RegisteredUser o) {
         if(!username.equals(o.getUsername())) {
             return false;

@@ -11,7 +11,7 @@ public class GarageDataModel implements Serializable {
 
     private boolean isInitialized = false;
 
-    private Integer id = 1;
+    private String key;
     private ParkingGarage parkingGarage;
     private LineChartModel cartesianLinerModel;
 
@@ -23,12 +23,12 @@ public class GarageDataModel implements Serializable {
         isInitialized = initialized;
     }
 
-    public Integer getId() {
-        return id;
+    public String getKey() {
+        return key;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setKey(String key) {
+        this.key = key;
     }
 
     public ParkingGarage getParkingGarage() {

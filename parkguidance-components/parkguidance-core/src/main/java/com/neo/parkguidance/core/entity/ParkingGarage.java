@@ -10,6 +10,7 @@ import java.util.Objects;
 public class ParkingGarage implements DataBaseEntity<ParkingGarage> {
 
     public static final String TABLE_NAME = "parkingGarage";
+    public static final String C_KEY = "key";
     public static final String C_NAME = "name";
     public static final String C_SPACES = "spaces";
     public static final String C_OCCUPIED = "occupied";
@@ -19,8 +20,8 @@ public class ParkingGarage implements DataBaseEntity<ParkingGarage> {
     public static final String C_DESCRIPTION = "description";
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = C_KEY)
+    private String key;
 
     @Size(max = 50)
     @Column(name = C_NAME, nullable = false)
@@ -53,12 +54,12 @@ public class ParkingGarage implements DataBaseEntity<ParkingGarage> {
         this.address = new Address();
     }
 
-    public Long getId() {
-        return id;
+    public String getKey() {
+        return key;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setKey(String id) {
+        this.key = id;
     }
 
     public String getName() {
@@ -126,6 +127,11 @@ public class ParkingGarage implements DataBaseEntity<ParkingGarage> {
     }
 
     @Override
+    public Object getPrimaryKey() {
+        return getKey();
+    }
+
+    @Override
     public boolean compareValues(ParkingGarage o) {
         if(!name.equals(o.getName())) {
             return false;
@@ -159,12 +165,12 @@ public class ParkingGarage implements DataBaseEntity<ParkingGarage> {
         if (o == null || getClass() != o.getClass())
             return false;
         ParkingGarage that = (ParkingGarage) o;
-        return Objects.equals(id, that.id);
+        return Objects.equals(key, that.key);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return Objects.hash(key);
     }
 
     @Override

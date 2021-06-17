@@ -40,6 +40,11 @@ public class Permission implements DataBaseEntity<Permission> {
     }
 
     @Override
+    public Object getPrimaryKey() {
+        return getId();
+    }
+
+    @Override
     public boolean compareValues(Permission o) {
         return name.equals(o.getName());
     }

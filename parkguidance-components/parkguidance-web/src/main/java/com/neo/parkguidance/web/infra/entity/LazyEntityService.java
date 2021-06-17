@@ -47,6 +47,6 @@ public class LazyEntityService<T extends DataBaseEntity<T>> extends LazyDataMode
 
     @Override
     public Object getRowKey(T object) {
-        return object.getId();
+        return object.getPrimaryKey();
     }
 }

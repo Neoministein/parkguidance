@@ -6,9 +6,7 @@ public interface DataBaseEntity<T> extends Serializable {
 
     String C_ID = "id";
 
-    Long getId();
-
-    void setId(Long id);
+    Object getPrimaryKey();
 
     boolean compareValues(T o);
 }

@@ -71,7 +71,7 @@ class GarageFormControllerTest {
     void editItem() {
         ParkingGarage item = new ParkingGarage();
         item.setName("Test");
-        item.setId(1L);
+        item.setKey("Test");
 
         when(model.getItem()).thenReturn(item);
 

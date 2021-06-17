@@ -46,19 +46,19 @@ public class GeoLocationFacade {
     }
 
     protected List<ParkingGarage> findNearest(List<ParkingGarage> parkingGarageList, double latitude, double longitude) {
-        Map<Long,Double> map = new HashMap<>();
+        Map<String,Double> map = new HashMap<>();
         if(parkingGarageList.size() < WANTED_GARAGES) {
             return parkingGarageList;
         }
         for(ParkingGarage parkingGarage: parkingGarageList) {
-            map.put(parkingGarage.getId(),
+            map.put(parkingGarage.getKey(),
                     getDistanceFromLatLonInKm(latitude,
                             longitude,
                             parkingGarage.getAddress().getLatitude(),
                             parkingGarage.getAddress().getLongitude()));
         }
 
-        List<Map.Entry<Long,Double>> entries = sortByValue(map);
+        List<Map.Entry<String,Double>> entries = sortByValue(map);
 
         List<ParkingGarage> selectedGarages = new ArrayList<>();
         for(int i = 0; i < WANTED_GARAGES;i++) {
@@ -84,8 +84,8 @@ public class GeoLocationFacade {
         return deg * (Math.PI/180);
     }
 
-    protected static List<Map.Entry<Long, Double>> sortByValue(Map<Long, Double> unsortedMap) {
-        List<Map.Entry<Long, Double>> list = new LinkedList<>(unsortedMap.entrySet());
+    protected static List<Map.Entry<String, Double>> sortByValue(Map<String, Double> unsortedMap) {
+        List<Map.Entry<String, Double>> list = new LinkedList<>(unsortedMap.entrySet());
 
         // Sorting the list based on values
         list.sort((o1, o2) -> o1.getValue().compareTo(o2.getValue()) == 0

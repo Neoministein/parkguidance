@@ -29,7 +29,7 @@ public class GarageDataController {
 
         if(!chartModel.isInitialized()
                 || facade.chartModelOutOfDate(chartModel)
-                || chartModel.getDataSets().length-1 < model.getId()) {
+                || chartModel.getDataSets().containsKey(model.getKey())) {
 
             chartModel.setDataSets(facade.loadDataSet());
             chartModel.setLabels(facade.createChartLabel());
@@ -38,7 +38,7 @@ public class GarageDataController {
         }
 
         if(!model.isInitialized()) {
-            model.setParkingGarage(facade.getParkingGarage(model.getId()));
+            model.setParkingGarage(facade.getParkingGarage(model.getKey()));
             facade.createCartesianLinerModel(model, chartModel);
             model.setInitialized(true);
         }

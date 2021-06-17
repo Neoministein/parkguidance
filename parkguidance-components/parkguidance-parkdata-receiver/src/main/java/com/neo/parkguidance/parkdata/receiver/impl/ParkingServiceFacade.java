@@ -78,7 +78,7 @@ public class ParkingServiceFacade {
 
     protected String getJSONContent(ParkingGarage parkingGarage) {
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("garage", parkingGarage.getId());
+        jsonObject.put("garage", parkingGarage.getKey());
         jsonObject.put("timestamp",new Date().getTime());
         jsonObject.put("occupied", parkingGarage.getOccupied());
 

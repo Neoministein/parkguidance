@@ -23,12 +23,12 @@ public class GarageFormFacade {
     @Inject
     GeoCoding geoCoding;
 
-    public ParkingGarage findGarageById(Integer id) {
-        return garageDao.find(Long.valueOf(id));
+    public ParkingGarage findGarageById(String key) {
+        return garageDao.find(key);
     }
 
     public boolean remove(ParkingGarage parkingGarage) {
-        if (has(parkingGarage) && has(parkingGarage.getId())) {
+        if (has(parkingGarage) && has(parkingGarage.getKey())) {
             garageDao.remove(parkingGarage);
             return true;
         } else {
@@ -45,6 +45,10 @@ public class GarageFormFacade {
     }
 
     public void create(ParkingGarage parkingGarage) {
+        if (!garageDao.findByColumn(ParkingGarage.C_KEY, parkingGarage.getKey()).isEmpty()) {
+            throw new IllegalStateException("Key already exists");
+        }
+        parkingGarage.setKey(parkingGarage.getKey().toUpperCase());
         geoCoding.findCoordinates(parkingGarage.getAddress());
         setAccessKey(parkingGarage);
 

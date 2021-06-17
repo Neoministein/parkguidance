@@ -35,7 +35,7 @@ public class GeoCoding {
 
         switch (httpResponse.getCode()) {
         case HttpServletResponse.SC_OK:
-            parseRequestStatus(new JSONObject(httpResponse.getCode()),address);
+            parseRequestStatus(new JSONObject(httpResponse.getBody()),address);
             break;
         case HttpServletResponse.SC_BAD_REQUEST:
             throw new IllegalArgumentException(GoogleConstants.E_INVALID_ADDRESS);

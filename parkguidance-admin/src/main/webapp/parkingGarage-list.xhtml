@@ -55,7 +55,7 @@
                     <p:separator/>
 
                     <p:dataTable widgetVar="parkingGarageTable" var="p" value="#{garageList.model.data}" rows="5"
-                                 rowKey="#{p.id}" lazy="true" paginator="true"
+                                 rowKey="#{p.key}" lazy="true" paginator="true"
                                  filteredValue="#{garageList.model.filteredValue}"
                                  paginatorPosition="bottom" selection="#{garageList.model.selected}"
                                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {JumpToPageDropdown}"
@@ -76,7 +76,7 @@
                                 </p:inputText>
                             </f:facet>
                             <p:link value="#{p.name}" outcome="/parkingGarage-form" >
-                                <f:param name="id" value="#{p.id}"/>
+                                <f:param name="key" value="#{p.key}"/>
                             </p:link>
                         </p:column>
                         <p:column headerText="City" sortBy="#{p.address.cityName}" filterBy="#{p.address.cityName}">

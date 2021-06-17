@@ -121,6 +121,11 @@ public class DataSheet implements DataBaseEntity<DataSheet> {
     }
 
     @Override
+    public Object getPrimaryKey() {
+        return getId();
+    }
+
+    @Override
     public boolean compareValues(DataSheet o) {
         if (!year.equals(o.getYear())) {
             return false;
