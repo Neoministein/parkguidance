@@ -1,7 +1,7 @@
 package com.neo.parkguidance.parkdata.receiver.impl;
 
 import com.neo.parkguidance.core.impl.dao.AbstractEntityDao;
-import com.neo.parkguidance.elastic.impl.ElasticSearchClientProvider;
+import com.neo.parkguidance.elastic.impl.ElasticSearchProvider;
 import com.neo.parkguidance.parkdata.receiver.impl.security.ParkingGarageAuthentication;
 import com.neo.parkguidance.core.entity.ParkingGarage;
 import org.json.JSONException;
@@ -28,7 +28,7 @@ public class ParkingServiceFacade {
     AbstractEntityDao<ParkingGarage> parkingGarageManager;
 
     @Inject
-    ElasticSearchClientProvider elasticSearchClientProvider;
+    ElasticSearchProvider elasticSearchProvider;
 
     public int updateParkingData(String requestString) {
         try {
@@ -70,7 +70,7 @@ public class ParkingServiceFacade {
         parkingGarageManager.edit(garage);
 
         try {
-            elasticSearchClientProvider.save("raw-parking-data", getJSONContent(garage));
+            elasticSearchProvider.save("raw-parking-data", getJSONContent(garage));
         }catch (Exception e) {
             //TODO PUT ON QUE
         }
@@ -81,6 +81,7 @@ public class ParkingServiceFacade {
         jsonObject.put("garage", parkingGarage.getKey());
         jsonObject.put("timestamp",new Date().getTime());
         jsonObject.put("occupied", parkingGarage.getOccupied());
+        jsonObject.put("sorted", false);
 
         return jsonObject.toString();
     }

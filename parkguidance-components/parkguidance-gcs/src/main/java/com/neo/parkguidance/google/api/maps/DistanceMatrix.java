@@ -2,6 +2,7 @@ package com.neo.parkguidance.google.api.maps;
 
 import com.neo.parkguidance.core.api.HTTPRequestSender;
 import com.neo.parkguidance.core.api.HTTPResponse;
+import com.neo.parkguidance.elastic.impl.ElasticSearchProvider;
 import com.neo.parkguidance.google.api.constants.GoogleConstants;
 import com.neo.parkguidance.core.entity.Address;
 import com.neo.parkguidance.core.api.HTTPRequest;
@@ -21,12 +22,17 @@ import java.util.List;
 @Stateless
 public class DistanceMatrix {
 
+    public static final String TYPE = "DistanceMatrix";
+
     public static final String API_URL = "https://maps.googleapis.com/maps/api/distancematrix/";
     public static final String ORIGIN = "origins=";
     public static final String DESTINATION = "&destinations=";
 
     @Inject
     StoredValueEntityManager storedValueManager;
+
+    @Inject
+    ElasticSearchProvider elasticSearchProvider;
 
     HTTPRequestSender httpRequestSender = new HTTPRequestSender();
 
@@ -45,8 +51,10 @@ public class DistanceMatrix {
             query.append(GoogleConstants.addressQuery(parkingGarage.getAddress()));
             query.append("%7C");
         }
+        String finalQuery = query.substring(0, query.length() - 3);
+        url += finalQuery;
 
-        url += query.substring(0, query.length() - 3);
+        elasticSearchProvider.save(GoogleConstants.ELASTIC_INDEX, GoogleConstants.elasticLog(TYPE,finalQuery));
 
         HTTPRequest apiRequest = new HTTPRequest();
         apiRequest.setUrl(url + GoogleConstants.KEY + storedValueManager.findValue(StoredValue.V_GOOGLE_MAPS_API).getValue());
@@ -109,5 +117,4 @@ public class DistanceMatrix {
 
         return dataObjectList;
     }
-
 }

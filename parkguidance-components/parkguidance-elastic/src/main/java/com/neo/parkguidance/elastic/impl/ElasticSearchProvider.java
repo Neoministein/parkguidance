@@ -18,7 +18,7 @@ import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 
 @ApplicationScoped
-public class ElasticSearchClientProvider {
+public class ElasticSearchProvider {
 
     @Inject ElasticSearchConnectionProvider connection;
 
