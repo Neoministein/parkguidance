@@ -6,7 +6,7 @@
 
     <ui:define name="metadata">
         <f:metadata>
-            <f:viewParam name="key" value="#{garageForm.model.key}" converter="javax.faces.Long"/>
+            <f:viewParam name="key" value="#{garageForm.model.key}"/>
             <f:event type="preRenderView" listener="#{garageForm.init}"/>
         </f:metadata>
         <ui:param name="renderFormAsterisks" value="true"/>
