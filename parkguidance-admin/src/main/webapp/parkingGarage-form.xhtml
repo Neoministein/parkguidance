@@ -78,7 +78,9 @@
                             <p:outputLabel for="keyInput" value="Key"/>
                         </div>
                         <div class="ui-sm-12 ui-g-11" >
-                            <p:inputText id="keyInput" value="#{garageForm.model.item.key}" readonly="#{not garageForm.new}" required="true" styleClass="#{not garageForm.new ? 'form-control' : ''}" style="width: 100%; text-transform:uppercase;"/>
+                            <p:inputText id="keyInput" value="#{garageForm.model.item.key}" readonly="#{not garageForm.new}" required="true" styleClass="#{not garageForm.new ? 'form-control' : ''}" style="width: 100%; text-transform:uppercase;">
+                                <f:validator validatorId="uniqueParkingGarageValidator" />
+                            </p:inputText>
                             <span class="help-block">
                                 <p:message for="keyInput" />
                             </span> 
