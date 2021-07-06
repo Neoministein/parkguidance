@@ -96,6 +96,7 @@ class GarageFormFacadeTest {
     void createVerifyDao() {
         //Arrange
         ParkingGarage item = new ParkingGarage();
+        item.setKey("Test");
 
         //Act
         subject.create(item);

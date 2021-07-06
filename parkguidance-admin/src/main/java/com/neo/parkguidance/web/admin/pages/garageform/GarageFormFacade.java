@@ -45,9 +45,6 @@ public class GarageFormFacade {
     }
 
     public void create(ParkingGarage parkingGarage) {
-        if (!garageDao.findByColumn(ParkingGarage.C_KEY, parkingGarage.getKey()).isEmpty()) {
-            throw new IllegalStateException("Key already exists");
-        }
         parkingGarage.setKey(parkingGarage.getKey().toUpperCase());
         geoCoding.findCoordinates(parkingGarage.getAddress());
         setAccessKey(parkingGarage);

@@ -73,6 +73,7 @@ class GarageFormControllerTest {
         item.setName("Test");
         item.setKey("Test");
 
+        when(model.getKey()).thenReturn("Test");
         when(model.getItem()).thenReturn(item);
 
         //Assert
