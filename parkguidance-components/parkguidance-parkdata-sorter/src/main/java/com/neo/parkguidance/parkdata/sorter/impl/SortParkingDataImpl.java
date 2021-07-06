@@ -116,8 +116,12 @@ public class SortParkingDataImpl {
                     ELASTIC_UNSORTED_INDEX + "/_search?size=0&filter_path=aggregations",
                     getOccupiedBetweenTimestampRequestBody(key,starTime,endTime));
             JSONObject jsonObject = new JSONObject(result);
+            Object o = jsonObject.getJSONObject("aggregations").getJSONObject("avg_occupation").get("value");
 
-            return (Integer) jsonObject.getJSONObject("aggregations").getJSONObject("avg_occupation").get("value");
+            if (o.equals(JSONObject.NULL)) {
+                return null;
+            }
+            return (Integer) o;
         }catch (IOException e) {
 
         }
