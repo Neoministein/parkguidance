@@ -90,7 +90,7 @@ public class ElasticSearchProvider {
         return connection.getClient();
     }
 
-    public void save(String index, DataBaseEntity content) {
+    public void save(String index, DataBaseEntity<? extends DataBaseEntity<?>> content) {
 
         ObjectMapper mapper = new ObjectMapper();
 
