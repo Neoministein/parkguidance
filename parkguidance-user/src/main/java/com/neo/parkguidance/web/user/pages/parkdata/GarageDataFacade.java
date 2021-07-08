@@ -3,6 +3,8 @@ package com.neo.parkguidance.web.user.pages.parkdata;
 import com.neo.parkguidance.core.entity.ParkingGarage;
 import com.neo.parkguidance.core.impl.dao.AbstractEntityDao;
 import com.neo.parkguidance.elastic.impl.ElasticSearchProvider;
+import com.neo.parkguidance.elastic.impl.query.ElasticSearchLowLevelQuery;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.primefaces.model.charts.ChartData;
 import org.primefaces.model.charts.axes.cartesian.CartesianScales;
@@ -131,18 +133,22 @@ public class GarageDataFacade {
     }
 
     private String getAverageOccupationBody(String key, int halfHour) {
-        return "{"
-                    + "\"query\": {"
-                        + "\"bool\": {"
-                            + "\"must\": ["
-                                + "{ \"match\": { \"garage\": \"" + key + "\" }},"
-                                + "{ \"match\": { \"halfHour\": " + halfHour + " }}"
-                            + "]"
-                        + "}"
-                    + "},"
-                    + "\"aggs\": {"
-                        + "\"avg_occupation\": { \"avg\": { \"field\": \"occupied\" }}"
-                    + "}"
-                + "}";
+        JSONArray must = ElasticSearchLowLevelQuery.combineToArray(
+                ElasticSearchLowLevelQuery.match("garage", key),
+                ElasticSearchLowLevelQuery.match("halfHour",halfHour));
+
+        JSONObject bool = ElasticSearchLowLevelQuery.combineToJSONObject("must",must);
+        JSONObject query = ElasticSearchLowLevelQuery.combineToJSONObject("bool",bool);
+
+        JSONObject avgOccupation = ElasticSearchLowLevelQuery.averageAggregation("occupied");
+        JSONObject aggs = ElasticSearchLowLevelQuery.combineToJSONObject("avg_occupation",avgOccupation);
+
+
+        JSONObject root = ElasticSearchLowLevelQuery.combineToJSONObject(
+                new ElasticSearchLowLevelQuery.Entry("query", query),
+                new ElasticSearchLowLevelQuery.Entry("aggs", aggs)
+        );
+
+        return root.toString();
     }
 }

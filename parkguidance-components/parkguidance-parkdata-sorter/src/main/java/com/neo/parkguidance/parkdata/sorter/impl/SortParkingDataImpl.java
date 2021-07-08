@@ -3,6 +3,7 @@ package com.neo.parkguidance.parkdata.sorter.impl;
 import com.neo.parkguidance.core.entity.ParkingGarage;
 import com.neo.parkguidance.core.impl.dao.AbstractEntityDao;
 import com.neo.parkguidance.elastic.impl.ElasticSearchProvider;
+import com.neo.parkguidance.elastic.impl.query.ElasticSearchLowLevelQuery;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -18,6 +19,10 @@ public class SortParkingDataImpl {
 
     public static final String ELASTIC_UNSORTED_INDEX = "/raw-parking-data";
     public static final String ELASTIC_SORTED_INDEX = "/sorted-parking-data";
+
+    public static final String ELASTIC_QUERY = "query";
+    public static final String ELASTIC_OCCUPIED = "occupied";
+    public static final String ELASTIC_TIMESTAMP = "timestamp";
 
     public static final int MILLISECONDS_IN_HOUR = 3600000;
     public static final int MILLISECONDS_IN_HALF_AN_HOUR = MILLISECONDS_IN_HOUR / 2;
@@ -54,11 +59,11 @@ public class SortParkingDataImpl {
 
                 Integer occupied = getOccupiedBetweenTimestamp(parkingGarage.getKey(), entryStart, entryEnd);
                 if (occupied == null) {
-                    occupied = docToStore[i-1].getInt("occupied");
+                    occupied = docToStore[i-1].getInt(ELASTIC_OCCUPIED);
                 }
 
 
-                doc.put("occupied",occupied);
+                doc.put(ELASTIC_OCCUPIED,occupied);
                 docToStore[i] = doc;
 
                 elasticSearchProvider.save(ELASTIC_SORTED_INDEX, doc.toString());
@@ -102,8 +107,8 @@ public class SortParkingDataImpl {
             }
 
             return new long[] {
-                    hitsA.getJSONObject(0).getLong("timestamp"),
-                    hitsA.getJSONObject(hitsA.length()-1).getLong("timestamp")};
+                    hitsA.getJSONObject(0).getLong(ELASTIC_TIMESTAMP),
+                    hitsA.getJSONObject(hitsA.length()-1).getLong(ELASTIC_TIMESTAMP)};
         }catch (IOException e) {
             return new long[] {};
         }
@@ -158,55 +163,63 @@ public class SortParkingDataImpl {
         return halfHour;
     }
 
-    private String getOccupiedBetweenTimestampRequestBody(String key, long starTime, long endTime) {
-        return ("{"
-                    + "\"query\": {"
-                        + "\"bool\": { "
-                            + "\"must\": ["
-                                + "{ \"match\": { \"garage\": \""+key+"\"}},"
-                                + "{ \"match\": { \"sorted\": false }}"
-                            + "],"
-                            + "\"filter\": ["
-                                + "{ \"range\": { \"timestamp\": { \"gte\": " + starTime + ", \"lt\": " + endTime + "}}}\n"
-                            + "] "
-                        + "}"
-                    + "},"
-                    + "\"aggs\": {"
-                        + "\"avg_occupation\": { \"avg\": { \"field\": \"occupied\" }}"
-                    + "}"
-                + "}");
+    private String getOccupiedBetweenTimestampRequestBody(String key, long startTime, long endTime) {
+        JSONObject avgOccupation = ElasticSearchLowLevelQuery.averageAggregation(ELASTIC_OCCUPIED);
+        JSONObject aggs = ElasticSearchLowLevelQuery.combineToJSONObject("avg_occupation",avgOccupation);
+
+
+        JSONObject root = ElasticSearchLowLevelQuery.combineToJSONObject(
+                new ElasticSearchLowLevelQuery.Entry(ELASTIC_QUERY, queryMatchGarageSortedAndTimeStampRange(key, startTime, endTime)),
+                new ElasticSearchLowLevelQuery.Entry("aggs", aggs)
+        );
+
+        return root.toString();
     }
 
     private String getBoarderRequestBody(String key) {
-        return "{"
-                    + "\"sort\": { \"timestamp\": \"asc\"},"
-                    + "\"query\": {"
-                        + "\"bool\": {"
-                            + "\"must\": ["
-                                + "{ \"match\": { \"garage\": \"" + key + "\"}},"
-                                + "{ \"match\": { \"sorted\": false }}"
-                            + "]"
-                        + "}"
-                    + "}"
-                + "}";
+        JSONArray must = matchGarageAndSorted(key);
+        JSONObject bool = ElasticSearchLowLevelQuery.combineToJSONObject("must",must);
+        JSONObject query = ElasticSearchLowLevelQuery.combineToJSONObject("bool",bool);
+
+        JSONObject sort = ElasticSearchLowLevelQuery.combineToJSONObject(ELASTIC_TIMESTAMP,"asc");
+        JSONObject root = ElasticSearchLowLevelQuery.combineToJSONObject(
+                new ElasticSearchLowLevelQuery.Entry("sort", sort),
+                new ElasticSearchLowLevelQuery.Entry(ELASTIC_QUERY, query)
+        );
+        return root.toString();
     }
 
     private String getSaveRequestBody(String key, long startTime, long endTime) {
-        return "{"
-                    + "\"query\": {"
-                        + "\"bool\": {"
-                            +"\"must\": ["
-                                + "{ \"match\": { \"garage\": \"" + key + "\"}},"
-                                + "{ \"match\": { \"sorted\": false }}"
-                            + "],"
-                            + "\"filter\": ["
-                                + "{ \"range\": { \"timestamp\": { \"gte\": " + startTime + ", \"lt\": " + endTime + "}}}"
-                            +"]"
-                        + "}"
-                    + "},"
-                    + "\"script\": {"
-                        + "\"source\": \"ctx._source.sorted = true;\""
-                    + "}"
-                + "}";
+
+        JSONObject script = ElasticSearchLowLevelQuery.combineToJSONObject("source","ctx._source.sorted = true;");
+
+        JSONObject root = ElasticSearchLowLevelQuery.combineToJSONObject(
+                new ElasticSearchLowLevelQuery.Entry(ELASTIC_QUERY, queryMatchGarageSortedAndTimeStampRange(key, startTime, endTime)),
+                new ElasticSearchLowLevelQuery.Entry("script", script)
+        );
+
+        return root.toString();
+    }
+
+    private JSONObject queryMatchGarageSortedAndTimeStampRange(String key, long startTime, long endTime) {
+        JSONArray filter = ElasticSearchLowLevelQuery.filter(
+                ElasticSearchLowLevelQuery.rangeFilter(ELASTIC_TIMESTAMP, startTime, endTime)
+        );
+
+        JSONObject bool = ElasticSearchLowLevelQuery.combineToJSONObject(
+                new ElasticSearchLowLevelQuery.Entry("must", matchGarageAndSorted(key)),
+                new ElasticSearchLowLevelQuery.Entry("filter", filter)
+        );
+
+        return ElasticSearchLowLevelQuery.combineToJSONObject(
+                "bool", bool
+        );
+    }
+
+    private JSONArray matchGarageAndSorted(String key) {
+        return ElasticSearchLowLevelQuery.combineToArray(
+                ElasticSearchLowLevelQuery.match("garage", key),
+                ElasticSearchLowLevelQuery.match("sorted",false)
+        );
     }
 }
