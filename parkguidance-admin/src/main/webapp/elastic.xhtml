@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui" xmlns:adm="http://github.com/adminfaces"
+                template="#{layoutMB.template}">
+
+    <ui:define name="metadata">
+        <ui:param name="title" value="ElasticSearch"/>
+
+        <style type="text/css">
+            .ui-datatable .ui-datatable-header {
+                text-align: right !important;
+            }
+        </style>
+    </ui:define>
+
+    <ui:define name="description">
+
+    </ui:define>
+
+    <ui:define name="body">
+        <adm:breadcrumb clear="true" title="ElasticSearch"/>
+        <p:panel styleClass="box-primary card">
+            <h:outputLabel value="Status: "/>
+            <p:commandButton value="#{elasticAdmin.model.status}" style="width: 125px;margin-left: 50px;" styleClass="#{elasticAdmin.statusStyleClass}"/>
+            <br/>
+            <h:outputLabel value="Time out: #{elasticAdmin.model.timedOut}"/>
+            <br/>
+            <h:outputLabel value="Number of pending tasks #{elasticAdmin.model.numberOfPendingTasks}"/>
+            <br/>
+            <h:outputLabel value="Number of max waiting in Queue #{elasticAdmin.model.taskMaxWaitingInQueueMillis}"/>
+        </p:panel>
+    </ui:define>
+</ui:composition>
