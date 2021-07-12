@@ -69,6 +69,17 @@
                         <p:ajax event="toggleSelect" update="@(.ui-button, .ui-confirm-dialog)"/>
                         <p:column selectionMode="multiple" width="5%" styleClass="align-center"/>
 
+                        <p:column headerText="Key" sortBy="#{p.key}" filterBy="#{p.key}">
+                            <f:facet name="filter">
+                                <p:inputText value="#{garageList.model.filter.entity.key}">
+                                    <p:ajax process="@this" update="@none" oncomplete="PF('parkingGarageTable').filter()"/>
+                                </p:inputText>
+                            </f:facet>
+                            <p:link value="#{p.key}" outcome="/parkingGarage-form" >
+                                <f:param name="key" value="#{p.key}"/>
+                            </p:link>
+                        </p:column>
+
                         <p:column headerText="Name" sortBy="#{p.name}" filterBy="#{p.name}">
                             <f:facet name="filter">
                                 <p:inputText value="#{garageList.model.filter.entity.name}">
