@@ -21,14 +21,32 @@
     <ui:define name="body">
         <adm:breadcrumb clear="true" title="ElasticSearch"/>
         <p:panel styleClass="box-primary card">
-            <h:outputLabel value="Status: "/>
-            <p:commandButton value="#{elasticAdmin.model.status}" style="width: 125px;margin-left: 50px;" styleClass="#{elasticAdmin.statusStyleClass}"/>
-            <br/>
-            <h:outputLabel value="Time out: #{elasticAdmin.model.timedOut}"/>
-            <br/>
-            <h:outputLabel value="Number of pending tasks #{elasticAdmin.model.numberOfPendingTasks}"/>
-            <br/>
-            <h:outputLabel value="Number of max waiting in Queue #{elasticAdmin.model.taskMaxWaitingInQueueMillis}"/>
+            <div class="ui-g ui-fluid">
+                <div class="ui-sm-6 ui-g-6 ui-g-nopad">
+                    <h:outputLabel value="Status: "/>
+                </div>
+                <div class="ui-sm-6 ui-g-6 ui-g-nopad">
+                    <p:commandButton value="#{elasticAdmin.model.status}" style="width: 125px;" styleClass="#{elasticAdmin.statusStyleClass}"/>
+                </div>
+                <div class="ui-sm-6 ui-g-6 ui-g-nopad">
+                    <h:outputLabel value="Time out:"/>
+                </div>
+                <div class="ui-sm-6 ui-g-6 ui-g-nopad">
+                    <h:outputLabel value="#{elasticAdmin.model.timedOut}"/>
+                </div>
+                <div class="ui-sm-6 ui-g-6 ui-g-nopad">
+                    <h:outputLabel value="Number of pending tasks:"/>
+                </div>
+                <div class="ui-sm-6 ui-g-6 ui-g-nopad">
+                    <h:outputLabel value="#{elasticAdmin.model.numberOfPendingTasks}"/>
+                </div>
+                <div class="ui-sm-6 ui-g-6 ui-g-nopad">
+                    <h:outputLabel value="Number of max waiting in Queue:"/>
+                </div>
+                <div class="ui-sm-6 ui-g-6 ui-g-nopad">
+                    <h:outputLabel value="#{elasticAdmin.model.taskMaxWaitingInQueueMillis}"/>
+                </div>
+            </div>
         </p:panel>
     </ui:define>
 </ui:composition>
