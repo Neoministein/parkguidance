@@ -63,7 +63,7 @@ public class DistanceMatrix {
 
         switch (httpResponse.getCode()) {
         case HttpServletResponse.SC_OK:
-            return   parseRequestStatus(new JSONObject(httpResponse.getCode()), parkingGarageList);
+            return   parseRequestStatus(new JSONObject(httpResponse.getBody()), parkingGarageList);
         case HttpServletResponse.SC_BAD_REQUEST:
             throw new IllegalArgumentException(GoogleConstants.E_INVALID_ADDRESS);
         case HttpServletResponse.SC_NOT_FOUND:
