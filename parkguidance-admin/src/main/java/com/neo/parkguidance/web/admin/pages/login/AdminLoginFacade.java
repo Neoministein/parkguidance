@@ -33,7 +33,7 @@ public class AdminLoginFacade {
             user.setIsLoggedIn(true);
             user.setRegisteredUser(dbUser);
 
-            addDetailMessage("Logged in successfully as <b>" + model.getUsername() + "</b>");
+            addDetailMessage("Logged in successfully as " + model.getUsername());
             Faces.getExternalContext().getFlash().setKeepMessages(true);
             Faces.redirect(adminConfig.getIndexPage());
         } else {
