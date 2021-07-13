@@ -6,7 +6,7 @@
 
     <ui:define name="metadata">
         <f:metadata>
-            <f:viewParam name="id" value="#{parkingData.model.id}" converter="javax.faces.Long"/>
+            <f:viewParam name="key" value="#{parkingData.model.key}"/>
             <f:event type="preRenderView" listener="#{parkingData.init}"/>
         </f:metadata>
         <ui:param name="renderFormAsterisks" value="true"/>

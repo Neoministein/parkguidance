@@ -1,6 +1,8 @@
 package com.neo.parkguidance.google.api.maps;
 
 import com.neo.parkguidance.core.api.HTTPRequestSender;
+import com.neo.parkguidance.core.api.HTTPResponse;
+import com.neo.parkguidance.elastic.impl.ElasticSearchProvider;
 import com.neo.parkguidance.google.api.constants.GoogleConstants;
 import com.neo.parkguidance.core.entity.Address;
 import com.neo.parkguidance.core.api.HTTPRequest;
@@ -20,12 +22,17 @@ import java.util.List;
 @Stateless
 public class DistanceMatrix {
 
+    public static final String TYPE = "DistanceMatrix";
+
     public static final String API_URL = "https://maps.googleapis.com/maps/api/distancematrix/";
     public static final String ORIGIN = "origins=";
     public static final String DESTINATION = "&destinations=";
 
     @Inject
     StoredValueEntityManager storedValueManager;
+
+    @Inject
+    ElasticSearchProvider elasticSearchProvider;
 
     HTTPRequestSender httpRequestSender = new HTTPRequestSender();
 
@@ -44,17 +51,19 @@ public class DistanceMatrix {
             query.append(GoogleConstants.addressQuery(parkingGarage.getAddress()));
             query.append("%7C");
         }
+        String finalQuery = query.substring(0, query.length() - 3);
+        url += finalQuery;
 
-        url += query.substring(0, query.length() - 3);
+        elasticSearchProvider.save(GoogleConstants.ELASTIC_INDEX, GoogleConstants.elasticLog(TYPE,finalQuery));
 
         HTTPRequest apiRequest = new HTTPRequest();
         apiRequest.setUrl(url + GoogleConstants.KEY + storedValueManager.findValue(StoredValue.V_GOOGLE_MAPS_API).getValue());
         apiRequest.setRequestMethod("GET");
-        httpRequestSender.call(apiRequest);
+        HTTPResponse httpResponse = httpRequestSender.call(apiRequest);
 
-        switch (apiRequest.getResponseCode()) {
+        switch (httpResponse.getCode()) {
         case HttpServletResponse.SC_OK:
-            return   parseRequestStatus(new JSONObject(apiRequest.getResponseInput()), parkingGarageList);
+            return   parseRequestStatus(new JSONObject(httpResponse.getBody()), parkingGarageList);
         case HttpServletResponse.SC_BAD_REQUEST:
             throw new IllegalArgumentException(GoogleConstants.E_INVALID_ADDRESS);
         case HttpServletResponse.SC_NOT_FOUND:
@@ -62,7 +71,7 @@ public class DistanceMatrix {
         case -1:
             throw new RuntimeException(GoogleConstants.E_INTERNAL_ERROR);
         default:
-            throw new RuntimeException(GoogleConstants.E_EXTERNAL_ERROR + apiRequest.getResponseCode());
+            throw new RuntimeException(GoogleConstants.E_EXTERNAL_ERROR + httpResponse.getCode());
         }
     }
 
@@ -108,5 +117,4 @@ public class DistanceMatrix {
 
         return dataObjectList;
     }
-
 }

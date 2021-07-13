@@ -55,7 +55,7 @@
                     <p:separator/>
 
                     <p:dataTable widgetVar="parkingGarageTable" var="p" value="#{garageList.model.data}" rows="5"
-                                 rowKey="#{p.id}" lazy="true" paginator="true"
+                                 rowKey="#{p.key}" lazy="true" paginator="true"
                                  filteredValue="#{garageList.model.filteredValue}"
                                  paginatorPosition="bottom" selection="#{garageList.model.selected}"
                                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {JumpToPageDropdown}"
@@ -69,6 +69,17 @@
                         <p:ajax event="toggleSelect" update="@(.ui-button, .ui-confirm-dialog)"/>
                         <p:column selectionMode="multiple" width="5%" styleClass="align-center"/>
 
+                        <p:column headerText="Key" sortBy="#{p.key}" filterBy="#{p.key}">
+                            <f:facet name="filter">
+                                <p:inputText value="#{garageList.model.filter.entity.key}">
+                                    <p:ajax process="@this" update="@none" oncomplete="PF('parkingGarageTable').filter()"/>
+                                </p:inputText>
+                            </f:facet>
+                            <p:link value="#{p.key}" outcome="/parkingGarage-form" >
+                                <f:param name="key" value="#{p.key}"/>
+                            </p:link>
+                        </p:column>
+
                         <p:column headerText="Name" sortBy="#{p.name}" filterBy="#{p.name}">
                             <f:facet name="filter">
                                 <p:inputText value="#{garageList.model.filter.entity.name}">
@@ -76,7 +87,7 @@
                                 </p:inputText>
                             </f:facet>
                             <p:link value="#{p.name}" outcome="/parkingGarage-form" >
-                                <f:param name="id" value="#{p.id}"/>
+                                <f:param name="key" value="#{p.key}"/>
                             </p:link>
                         </p:column>
                         <p:column headerText="City" sortBy="#{p.address.cityName}" filterBy="#{p.address.cityName}">

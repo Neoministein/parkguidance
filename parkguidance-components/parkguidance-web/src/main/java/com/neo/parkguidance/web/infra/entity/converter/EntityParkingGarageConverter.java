@@ -19,7 +19,7 @@ public class EntityParkingGarageConverter implements Converter {
 
     @Override
     public Object getAsObject(FacesContext context, UIComponent component, String value) {
-        ParkingGarage parkingGarage = parkingGarageEntityService.find(Long.valueOf(value));
+        ParkingGarage parkingGarage = parkingGarageEntityService.find(value);
         if(parkingGarage == null) {
             return new ParkingGarage();
         }
@@ -31,6 +31,6 @@ public class EntityParkingGarageConverter implements Converter {
         if(!(value instanceof ParkingGarage)) {
             return "";
         }
-        return String.valueOf(((ParkingGarage) value).getId());
+        return ((ParkingGarage) value).getKey();
     }
 }

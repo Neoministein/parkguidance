@@ -6,16 +6,16 @@
 
     <ui:define name="metadata">
         <f:metadata>
-            <f:viewParam name="id" value="#{garageForm.model.id}" converter="javax.faces.Long"/>
+            <f:viewParam name="key" value="#{garageForm.model.key}"/>
             <f:event type="preRenderView" listener="#{garageForm.init}"/>
         </f:metadata>
         <ui:param name="renderFormAsterisks" value="true"/>
     </ui:define>
 
     <ui:define name="body">
-        <adm:breadcrumb title="#{empty garageForm.model.id ? 'New ParkingGarage' : garageForm.model.item.name}" link="/parkingGarage-form.xhtml?id=#{garageForm.model.id}"/>
+        <adm:breadcrumb title="#{empty garageForm.model.key ? 'New ParkingGarage' : garageForm.model.item.name}" link="/parkingGarage-form.xhtml?key=#{garageForm.model.key}"/>
         <h:form id="form" prependId="false">
-            <p:focus rendered="#{empty garageForm.model.id}"/>
+            <p:focus rendered="#{empty garageForm.model.key}"/>
             <p:panel styleClass="box-primary card">
                 <div id="main-buttons" class="hidden-sm hidden-xs">
                     <p:commandButton value="Save" action="#{garageForm.save}" update="@form"
@@ -75,12 +75,14 @@
                 <div class="ui-g ui-fluid">
                     <div class="ui-sm-12 ui-g-6 ui-g-nopad"> 
                         <div class="ui-sm-12 ui-g-11">
-                            <p:outputLabel for="id" value="ID"/>
+                            <p:outputLabel for="keyInput" value="Key"/>
                         </div>
                         <div class="ui-sm-12 ui-g-11" >
-                            <p:inputText id="id" value="#{garageForm.model.item.id}" readonly="true" styleClass="form-control" style="width: 100%"/>
+                            <p:inputText id="keyInput" value="#{garageForm.model.item.key}" readonly="#{not garageForm.new}" required="true" styleClass="#{not garageForm.new ? 'form-control' : ''}" style="width: 100%; text-transform:uppercase;">
+                                <f:validator validatorId="uniqueParkingGarageValidator" />
+                            </p:inputText>
                             <span class="help-block">
-                                <p:message for="id" /> 
+                                <p:message for="keyInput" />
                             </span> 
                         </div>
                     </div>
@@ -91,7 +93,7 @@
                         <div class="ui-sm-12 ui-g-11" >
                             <p:inputText id="accessKey" value="#{garageForm.model.item.accessKey}" readonly="true" styleClass="form-control" style="width: 100%"/>
                             <span class="help-block">
-                                <p:message for="id" />
+                                <p:message for="accessKey" />
                             </span>
                         </div>
                     </div>

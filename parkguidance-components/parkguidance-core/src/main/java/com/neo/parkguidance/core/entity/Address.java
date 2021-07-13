@@ -123,6 +123,11 @@ public class Address implements DataBaseEntity<Address> {
     }
 
     @Override
+    public Object getPrimaryKey() {
+        return getId();
+    }
+
+    @Override
     public boolean compareValues(Address o) {
         if (!cityName.equals(o.cityName)) {
             return false;

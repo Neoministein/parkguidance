@@ -42,11 +42,11 @@ public class LazyEntityService<T extends DataBaseEntity<T>> extends LazyDataMode
 
     @Override
     public T getRowData(String rowKey) {
-        return entityDao.find(Long.valueOf(rowKey));
+        return entityDao.find((rowKey));
     }
 
     @Override
     public Object getRowKey(T object) {
-        return object.getId();
+        return object.getPrimaryKey();
     }
 }

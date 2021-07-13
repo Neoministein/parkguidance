@@ -1,9 +1,11 @@
 package com.neo.parkguidance.web.user.pages.parkdata;
 
-import com.neo.parkguidance.core.entity.DataSheet;
 import com.neo.parkguidance.core.entity.ParkingGarage;
-import com.neo.parkguidance.core.impl.dao.DataSheetEntityManager;
-import com.neo.parkguidance.core.impl.dao.ParkingGarageEntityManager;
+import com.neo.parkguidance.core.impl.dao.AbstractEntityDao;
+import com.neo.parkguidance.elastic.impl.ElasticSearchProvider;
+import com.neo.parkguidance.elastic.impl.query.ElasticSearchLowLevelQuery;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.primefaces.model.charts.ChartData;
 import org.primefaces.model.charts.axes.cartesian.CartesianScales;
 import org.primefaces.model.charts.axes.cartesian.linear.CartesianLinearAxes;
@@ -15,40 +17,38 @@ import org.primefaces.model.charts.optionconfig.title.Title;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Stateless
 public class GarageDataFacade {
+
+    public static final String ELASTIC_UNSORTED_INDEX = "/raw-parking-data";
 
     private static final int HALF_HOURS_IN_DAY = 48;
     private static final long TIME_BETWEEN_UPDATES = 1800000;
 
     @Inject
-    private DataSheetEntityManager dataSheetService;
+    private AbstractEntityDao<ParkingGarage> parkingGarageManager;
 
     @Inject
-    private ParkingGarageEntityManager parkingGarageManager;
+    private ElasticSearchProvider elasticSearchProvider;
 
-    public LineChartDataSet[] loadDataSet() {
-        int sizeOfDataSet = parkingGarageManager.findHighestId().getId().intValue();
-
-        LineChartDataSet[] dataSets = new LineChartDataSet[sizeOfDataSet+1];
+    public Map<String, LineChartDataSet> loadDataSet() {
+        Map<String, LineChartDataSet> dataSetMap = new HashMap<>();
 
         for(ParkingGarage parkingGarage: parkingGarageManager.findAll()) {
             List<Object> averageOccupied = new ArrayList<>();
             for (int i = 0; i < HALF_HOURS_IN_DAY; i++) {
-                int sum = 0;
 
-                List<DataSheet> dataOfHour = dataSheetService.findOfHour(i,parkingGarage);
-                if(!dataOfHour.isEmpty()) {
-                    for (DataSheet dataSheet : dataOfHour) {
-                        sum += dataSheet.getOccupied();
-                    }
-                    averageOccupied.add(sum / dataOfHour.size());
-                } else {
-                    averageOccupied.add(0);
+                Integer occupied = getAverageOccupation(parkingGarage.getKey(),i);
+                if (occupied == null) {
+                    occupied = 0;
                 }
+                averageOccupied.add(occupied);
 
             }
             LineChartDataSet dataSet = new LineChartDataSet();
@@ -56,17 +56,17 @@ public class GarageDataFacade {
             dataSet.setLabel("Normal");
             dataSet.setYaxisID("left-y-axis");
 
-            dataSets[parkingGarage.getId().intValue()] = dataSet;
+            dataSetMap.put(parkingGarage.getKey(), dataSet);
         }
 
-        return dataSets;
+        return dataSetMap;
     }
 
     public void createCartesianLinerModel(GarageDataModel model, GarageDataChartModel chartModel) {
         LineChartModel cartesianLinerModel = new LineChartModel();
         ChartData data = new ChartData();
 
-        data.addChartDataSet(chartModel.getDataSets()[model.getId()]);
+        data.addChartDataSet(chartModel.getDataSets().get(model.getKey()));
 
         data.setLabels(chartModel.getLabels());
         cartesianLinerModel.setData(data);
@@ -108,7 +108,47 @@ public class GarageDataFacade {
         return labels;
     }
 
-    public ParkingGarage getParkingGarage(Integer id) {
-       return parkingGarageManager.find(Long.valueOf(id));
+    public ParkingGarage getParkingGarage(String key) {
+       return parkingGarageManager.find(key);
+    }
+
+    private Integer getAverageOccupation(String key, int halfHour) {
+        try {
+            String result = elasticSearchProvider.sendLowLevelRequest(
+                    "GET",
+                    ELASTIC_UNSORTED_INDEX + "/_search?size=0&filter_path=aggregations",
+                    getAverageOccupationBody(key,halfHour));
+            JSONObject jsonObject = new JSONObject(result);
+            Object o = jsonObject.getJSONObject("aggregations").getJSONObject("avg_occupation").get("value");
+
+            if (o.equals(JSONObject.NULL)) {
+                return null;
+            }
+            return (Integer) o;
+        }catch (IOException e) {
+
+        }
+
+        return null;
+    }
+
+    private String getAverageOccupationBody(String key, int halfHour) {
+        JSONArray must = ElasticSearchLowLevelQuery.combineToArray(
+                ElasticSearchLowLevelQuery.match("garage", key),
+                ElasticSearchLowLevelQuery.match("halfHour",halfHour));
+
+        JSONObject bool = ElasticSearchLowLevelQuery.combineToJSONObject("must",must);
+        JSONObject query = ElasticSearchLowLevelQuery.combineToJSONObject("bool",bool);
+
+        JSONObject avgOccupation = ElasticSearchLowLevelQuery.averageAggregation("occupied");
+        JSONObject aggs = ElasticSearchLowLevelQuery.combineToJSONObject("avg_occupation",avgOccupation);
+
+
+        JSONObject root = ElasticSearchLowLevelQuery.combineToJSONObject(
+                new ElasticSearchLowLevelQuery.Entry("query", query),
+                new ElasticSearchLowLevelQuery.Entry("aggs", aggs)
+        );
+
+        return root.toString();
     }
 }

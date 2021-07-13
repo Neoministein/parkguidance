@@ -7,10 +7,10 @@
     <ui:param name="renderBreadCrumb" value="false"/>
 
     <ui:define name="body">
-        <p:dataTable id="garageTable" var="parkingGarage" value="#{parkList.model.parkingGarageList}" rowKey="#{parkingGrage.id}">
+        <p:dataTable id="garageTable" var="parkingGarage" value="#{parkList.model.parkingGarageList}" rowKey="#{parkingGrage.key}">
             <p:column headerText="Parkhäuser">
                 <p:link value="#{parkingGarage.name}" outcome="/garageData" >
-                    <f:param name="id" value="#{parkingGarage.id}"/>
+                    <f:param name="key" value="#{parkingGarage.key}"/>
                 </p:link>
             </p:column>
             <p:column headerText="Plätze">

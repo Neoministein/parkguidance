@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui" xmlns:adm="http://github.com/adminfaces"
+                template="#{layoutMB.template}">
+
+    <ui:define name="metadata">
+        <ui:param name="title" value="ElasticSearch"/>
+
+        <style type="text/css">
+            .ui-datatable .ui-datatable-header {
+                text-align: right !important;
+            }
+        </style>
+    </ui:define>
+
+    <ui:define name="description">
+
+    </ui:define>
+
+    <ui:define name="body">
+        <adm:breadcrumb clear="true" title="ElasticSearch"/>
+        <p:panel styleClass="box-primary card">
+            <div class="ui-g ui-fluid">
+                <div class="ui-sm-6 ui-g-6 ui-g-nopad">
+                    <h:outputLabel value="Status: "/>
+                </div>
+                <div class="ui-sm-6 ui-g-6 ui-g-nopad">
+                    <p:commandButton value="#{elasticAdmin.model.status}" style="width: 125px;" styleClass="#{elasticAdmin.statusStyleClass}"/>
+                </div>
+                <div class="ui-sm-6 ui-g-6 ui-g-nopad">
+                    <h:outputLabel value="Time out:"/>
+                </div>
+                <div class="ui-sm-6 ui-g-6 ui-g-nopad">
+                    <h:outputLabel value="#{elasticAdmin.model.timedOut}"/>
+                </div>
+                <div class="ui-sm-6 ui-g-6 ui-g-nopad">
+                    <h:outputLabel value="Number of pending tasks:"/>
+                </div>
+                <div class="ui-sm-6 ui-g-6 ui-g-nopad">
+                    <h:outputLabel value="#{elasticAdmin.model.numberOfPendingTasks}"/>
+                </div>
+                <div class="ui-sm-6 ui-g-6 ui-g-nopad">
+                    <h:outputLabel value="Number of max waiting in Queue:"/>
+                </div>
+                <div class="ui-sm-6 ui-g-6 ui-g-nopad">
+                    <h:outputLabel value="#{elasticAdmin.model.taskMaxWaitingInQueueMillis}"/>
+                </div>
+            </div>
+        </p:panel>
+    </ui:define>
+</ui:composition>

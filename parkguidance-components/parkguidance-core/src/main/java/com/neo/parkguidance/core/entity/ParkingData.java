@@ -85,6 +85,11 @@ public class ParkingData implements DataBaseEntity<ParkingData> {
     }
 
     @Override
+    public Object getPrimaryKey() {
+        return getId();
+    }
+
+    @Override
     public boolean compareValues(ParkingData o) {
         if(!parkingGarage.compareValues(o.getParkingGarage())) {
             return false;

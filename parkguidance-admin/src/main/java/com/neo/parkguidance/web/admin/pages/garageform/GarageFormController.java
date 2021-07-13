@@ -30,8 +30,8 @@ public class GarageFormController {
         if(Faces.isAjaxRequest()){
             return;
         }
-        if (has(model.getId())) {
-            model.setItem(facade.findGarageById(model.getId()));
+        if (has(model.getKey())) {
+            model.setItem(facade.findGarageById(model.getKey()));
         } else {
             model.setItem(new ParkingGarage());
         }
@@ -54,7 +54,7 @@ public class GarageFormController {
         try {
             StringBuilder msg = new StringBuilder("Parking Garage " + model.getItem().getName());
 
-            if (model.getItem().getId() == null) {
+            if (model.getKey() == null) {
                 facade.create(model.getItem());
                 msg.append(" created successfully");
             } else {
@@ -70,11 +70,11 @@ public class GarageFormController {
 
     public void clear() {
         model.setItem(new ParkingGarage());
-        model.setId(null);
+        model.setKey(null);
     }
 
     public boolean isNew() {
-        return model.getItem() == null || model.getItem().getId() == null;
+        return model.getItem() == null || model.getItem().getKey() == null;
     }
 
     public void resetAccessKey() {

@@ -23,12 +23,10 @@ public class StoredValue implements DataBaseEntity<StoredValue> {
     @Column(name = C_VALUE, nullable = false)
     private String value;
 
-    @Override
     public Long getId() {
         return id;
     }
 
-    @Override
     public void setId(Long id) {
         this.id = id;
     }
@@ -47,6 +45,11 @@ public class StoredValue implements DataBaseEntity<StoredValue> {
 
     public void setValue(String value) {
         this.value = value;
+    }
+
+    @Override
+    public Object getPrimaryKey() {
+        return getId();
     }
 
     @Override

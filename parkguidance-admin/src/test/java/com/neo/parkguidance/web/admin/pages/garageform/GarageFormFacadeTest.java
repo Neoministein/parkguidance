@@ -47,7 +47,7 @@ class GarageFormFacadeTest {
     void removeVerifyDao() {
         //Arrange
         ParkingGarage item = new ParkingGarage();
-        item.setId(0L);
+        item.setKey("Test");
 
         //Act
         subject.remove(item);
@@ -96,6 +96,7 @@ class GarageFormFacadeTest {
     void createVerifyDao() {
         //Arrange
         ParkingGarage item = new ParkingGarage();
+        item.setKey("Test");
 
         //Act
         subject.create(item);

@@ -1,6 +1,8 @@
 package com.neo.parkguidance.google.api.maps;
 
 import com.neo.parkguidance.core.api.HTTPRequestSender;
+import com.neo.parkguidance.core.api.HTTPResponse;
+import com.neo.parkguidance.elastic.impl.ElasticSearchProvider;
 import com.neo.parkguidance.google.api.constants.GoogleConstants;
 import com.neo.parkguidance.core.entity.Address;
 import com.neo.parkguidance.core.api.HTTPRequest;
@@ -16,25 +18,35 @@ import javax.servlet.http.HttpServletResponse;
 @Stateless
 public class GeoCoding {
 
+    public static final String TYPE = "geocoding";
+
     public static final String API_URL = "https://maps.googleapis.com/maps/api/geocode/";
     public static final String ADDRESS = "address=";
 
     @Inject
     StoredValueEntityManager storedValueManager;
 
+    @Inject
+    ElasticSearchProvider elasticSearchProvider;
+
     HTTPRequestSender httpRequestSender = new HTTPRequestSender();
 
     public void findCoordinates(Address address) throws RuntimeException{
         HTTPRequest httpRequest = new HTTPRequest();
+
+        String query = "";
+
+        elasticSearchProvider.save(GoogleConstants.ELASTIC_INDEX, GoogleConstants.elasticLog(TYPE, query));
+
         String url = API_URL + GoogleConstants.JSON + ADDRESS + GoogleConstants.addressQuery(address) + GoogleConstants.KEY;
 
         httpRequest.setUrl(url + storedValueManager.findValue(StoredValue.V_GOOGLE_MAPS_API).getValue());
         httpRequest.setRequestMethod("GET");
-        httpRequestSender.call(httpRequest);
+        HTTPResponse httpResponse = httpRequestSender.call(httpRequest);
 
-        switch (httpRequest.getResponseCode()) {
+        switch (httpResponse.getCode()) {
         case HttpServletResponse.SC_OK:
-            parseRequestStatus(new JSONObject(httpRequest.getResponseInput()),address);
+            parseRequestStatus(new JSONObject(httpResponse.getBody()),address);
             break;
         case HttpServletResponse.SC_BAD_REQUEST:
             throw new IllegalArgumentException(GoogleConstants.E_INVALID_ADDRESS);
@@ -43,7 +55,7 @@ public class GeoCoding {
         case -1:
             throw new RuntimeException(GoogleConstants.E_INTERNAL_ERROR);
         default:
-            throw new RuntimeException(GoogleConstants.E_EXTERNAL_ERROR + httpRequest.getResponseCode());
+            throw new RuntimeException(GoogleConstants.E_EXTERNAL_ERROR + httpResponse.getCode());
         }
     }
 

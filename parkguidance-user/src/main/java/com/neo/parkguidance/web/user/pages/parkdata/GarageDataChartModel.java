@@ -5,7 +5,9 @@ import org.primefaces.model.charts.line.LineChartDataSet;
 import javax.enterprise.context.ApplicationScoped;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @ApplicationScoped
 public class GarageDataChartModel implements Serializable {
@@ -15,7 +17,7 @@ public class GarageDataChartModel implements Serializable {
     private Date lastUpdate = new Date(0);
 
     private List<String> labels;
-    private LineChartDataSet[] dataSets = new LineChartDataSet[0];
+    private Map<String, LineChartDataSet> dataSets = new HashMap<>();
 
     public boolean isInitialized() {
         return isInitialized;
@@ -41,11 +43,11 @@ public class GarageDataChartModel implements Serializable {
         this.labels = labels;
     }
 
-    public LineChartDataSet[] getDataSets() {
+    public Map<String, LineChartDataSet> getDataSets() {
         return dataSets;
     }
 
-    public void setDataSets(LineChartDataSet[] dataSets) {
+    public void setDataSets(Map<String, LineChartDataSet> dataSets) {
         this.dataSets = dataSets;
     }
 }

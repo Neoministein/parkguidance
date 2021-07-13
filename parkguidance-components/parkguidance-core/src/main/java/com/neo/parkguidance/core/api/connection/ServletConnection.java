@@ -35,7 +35,7 @@ public class ServletConnection {
     public static String getContent() {
         JSONObject content = new JSONObject();
 
-        content.put(ParkingGarage.C_ACCESS_KEY, "abc");
+        content.put(ParkingGarage.C_ACCESS_KEY, "S3cghZVZiPY3qPjxDi6XH");
         content.put("type","incr");
       //content.put("type","decr");
 

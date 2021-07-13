@@ -1,5 +1,8 @@
 package com.neo.parkguidance.core.api;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class HTTPRequest {
 
     public static final String GET = "GET";
@@ -17,11 +20,10 @@ public class HTTPRequest {
 
     private String requestBody;
 
-    private Integer responseCode;
-
-    private String responseInput;
+    private Map<String,String> requestProperty;
 
     public HTTPRequest() {
+        requestProperty = new HashMap<>();
         requestBody = "";
     }
 
@@ -29,6 +31,12 @@ public class HTTPRequest {
         super();
         this.url = url;
         this.requestMethod = requestMethod;
+    }
+
+    public HTTPRequest(String url, String requestMethod, String requestBody) {
+        this.url = url;
+        this.requestMethod = requestMethod;
+        this.requestBody = requestBody;
     }
 
     public String getUrl() {
@@ -55,19 +63,20 @@ public class HTTPRequest {
         this.requestBody = requestBody;
     }
 
-    public Integer getResponseCode() {
-        return responseCode;
+    public Map<String, String> getRequestProperty() {
+        return requestProperty;
     }
 
-    public void setResponseCode(Integer responseCode) {
-        this.responseCode = responseCode;
+    public void setRequestProperty(Map<String, String> requestProperty) {
+        this.requestProperty = requestProperty;
     }
 
-    public String getResponseInput() {
-        return responseInput;
+    public void addRequestProperty(String key, String  value) {
+        requestProperty.put(key,value);
     }
 
-    public void setResponseInput(String responseInput) {
-        this.responseInput = responseInput;
+
+    public void addRequestProperty(Map<String,String> map) {
+        requestProperty.putAll(map);
     }
 }
