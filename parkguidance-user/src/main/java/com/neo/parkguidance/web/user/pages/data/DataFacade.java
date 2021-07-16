@@ -1,4 +1,4 @@
-package com.neo.parkguidance.web.user.pages.parkdata;
+package com.neo.parkguidance.web.user.pages.data;
 
 import com.neo.parkguidance.core.entity.ParkingGarage;
 import com.neo.parkguidance.core.impl.dao.AbstractEntityDao;
@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Map;
 
 @Stateless
-public class GarageDataFacade {
+public class DataFacade {
 
     public static final String ELASTIC_UNSORTED_INDEX = "/raw-parking-data";
 
@@ -62,7 +62,7 @@ public class GarageDataFacade {
         return dataSetMap;
     }
 
-    public void createCartesianLinerModel(GarageDataModel model, GarageDataChartModel chartModel) {
+    public void createCartesianLinerModel(DataModel model, DataChartModel chartModel) {
         LineChartModel cartesianLinerModel = new LineChartModel();
         ChartData data = new ChartData();
 
@@ -96,7 +96,7 @@ public class GarageDataFacade {
         model.setCartesianLinerModel(cartesianLinerModel);
     }
 
-    public boolean chartModelOutOfDate(GarageDataChartModel model) {
+    public boolean chartModelOutOfDate(DataChartModel model) {
         return  model.getLastUpdate().getTime() + TIME_BETWEEN_UPDATES < System.currentTimeMillis();
     }
 

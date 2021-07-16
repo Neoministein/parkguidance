@@ -1,5 +1,6 @@
 package com.neo.parkguidance.web.user.pages.geolocation;
 
+import com.neo.parkguidance.google.api.maps.CrossPlatformURL;
 import com.neo.parkguidance.google.api.maps.DistanceDataObject;
 import com.neo.parkguidance.google.api.maps.DistanceMatrix;
 import com.neo.parkguidance.google.api.maps.GeoCoding;
@@ -9,8 +10,11 @@ import com.neo.parkguidance.core.impl.dao.AbstractEntityDao;
 import com.neo.parkguidance.web.utils.Utils;
 
 import javax.ejb.Stateless;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Stateless
 public class GeoLocationFacade {
@@ -43,6 +47,20 @@ public class GeoLocationFacade {
             Utils.addDetailMessage("Die Addresse konnte nicht gefunden werden.");
             return Collections.emptyList();
         }
+    }
+
+    public void redirectSearch(ParkingGarage parkingGarage) throws IOException {
+        FacesContext.getCurrentInstance().getExternalContext().redirect(CrossPlatformURL.search(parkingGarage));
+    }
+
+    public List<String> autoCompleteCity(String query, List<Address> addressList) {
+        String queryLowerCase = query.toLowerCase();
+        Set<String> cityList = new HashSet<>();
+        for (Address address : addressList) {
+            cityList.add(address.getCityName());
+        }
+
+        return cityList.stream().filter(t -> t.toLowerCase().startsWith(queryLowerCase)).collect(Collectors.toList());
     }
 
     protected List<ParkingGarage> findNearest(List<ParkingGarage> parkingGarageList, double latitude, double longitude) {

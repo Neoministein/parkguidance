@@ -1,4 +1,4 @@
-package com.neo.parkguidance.web.user.pages.parkdata;
+package com.neo.parkguidance.web.user.pages.data;
 
 import org.primefaces.model.charts.line.LineChartDataSet;
 
@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 @ApplicationScoped
-public class GarageDataChartModel implements Serializable {
+public class DataChartModel implements Serializable {
 
     private boolean isInitialized = false;
 

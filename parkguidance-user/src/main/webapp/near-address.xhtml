@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui" xmlns:adm="http://github.com/adminfaces"
+                template="#{layoutMB.template}">
+
+    <ui:param name="renderBreadCrumb" value="false"/>
+
+    <ui:define name="body">
+        <p:panel styleClass="box-primary card">
+            <h:form id="input">
+                <div class="ui-g ui-fluid">
+                    <div class="ui-sm-4 ui-g-1 ui-g-nopad">
+                        <p:outputLabel value="City *" for="inputCityName"/>
+                    </div>
+                    <div class="ui-sm-6 ui-g-2 ui-g-nopad">
+                        <p:autoComplete id="inputCityName" value="#{nearAddress.model.address.cityName}"
+                                        queryDelay="750" completeMethod="#{nearAddress.completeCity}" effect="fade" scrollHeight="250" required="true"/>
+                        <span class="help-block">
+                                <p:message for="inputCityName" />
+                        </span>
+                    </div>
+                    <div class="ui-sm-2 ui-g-1 ui-g-nopad">
+                    </div>
+                    <div class="ui-sm-4 ui-g-1 ui-g-nopad">
+                        <p:outputLabel value="Street *" for="inputStreet"/>
+                    </div>
+                    <div class="ui-sm-6 ui-g-2 ui-g-nopad">
+                        <p:inputText id="inputStreet" value="#{nearAddress.model.address.street}" required="true"/>
+                        <span class="help-block">
+                            <p:message for="inputStreet" />
+                        </span>
+                    </div>
+                    <div class="ui-sm-2 ui-g-1 ui-g-nopad">
+                    </div>
+                    <br/>
+                    <div class="ui-sm-4 ui-g-3 ui-g-nopad">
+                        <p:commandButton value="Find" styleClass="btn-primary" action="#{nearAddress.findByAddress}" update="@form"/>
+                    </div>
+                    <div class="ui-sm-2 ui-g-1 ui-g-nopad">
+                    </div>
+                </div>
+            </h:form>
+
+            <p:separator/>
+
+            <h:form id="form" rendered="#{not nearAddress.model.distanceDataObjects.isEmpty()}">
+
+                <p:repeat value="#{nearAddress.model.distanceDataObjects}" var="distanceObject">
+                    <div class="ui-g ui-fluid">
+                        <div class="ui-sm-6 ui-g-6 ui-g-nopad">
+                            <p:link value="#{distanceObject.parkingGarage.name}" outcome="/data" >
+                                <f:param name="key" value="#{distanceObject.parkingGarage.key}"/>
+                            </p:link>
+                            <br/>
+                            <p:outputLabel value="#{distanceObject.parkingGarage.occupied}/#{distanceObject.parkingGarage.spaces}"/>
+                        </div>
+                        <div class="ui-sm-6 ui-g-3 ui-g-nopad">
+                            <p:outputLabel value="#{utils.formatted(distanceObject.parkingGarage.address.toAddressString)}" escape="false"/>
+                        </div>
+                        <div class="ui-sm-6 ui-g-3 ui-g-nopad">
+                            <p:outputLabel value="#{distanceObject.durationString}"/>
+                            <br/>
+                            <p:outputLabel value="#{distanceObject.distanceString}"/>
+                            <br/>
+                        </div>
+                        <div class="ui-md-offset-6 ui-md-6 ui-sm-offset-0 ui-sm-6">
+                            <p:commandButton
+                                    value="Directions"
+                                    action="#{nearAddress.redirectSearch(distanceObject.parkingGarage)}"
+                                    styleClass="btn-block btn-primary"/>
+                        </div>
+                    </div>
+                    <p:separator/>
+                </p:repeat>
+            </h:form>
+        </p:panel>
+    </ui:define>
+</ui:composition>

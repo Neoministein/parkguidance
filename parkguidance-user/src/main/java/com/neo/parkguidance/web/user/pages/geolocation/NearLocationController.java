@@ -1,9 +1,7 @@
 package com.neo.parkguidance.web.user.pages.geolocation;
 
-import com.neo.parkguidance.google.api.maps.CrossPlatformURL;
 import com.neo.parkguidance.core.entity.Address;
 import com.neo.parkguidance.core.entity.ParkingGarage;
-import com.neo.parkguidance.web.infra.StaticDataModel;
 import org.primefaces.PrimeFaces;
 
 import javax.annotation.PostConstruct;
@@ -13,18 +11,15 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.IOException;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @RequestScoped
-@Named(value = GeoLocationController.BEAN_NAME)
-public class GeoLocationController {
+@Named(value = NearLocationController.BEAN_NAME)
+public class NearLocationController {
 
-    public static final String BEAN_NAME = "geoLocation";
+    public static final String BEAN_NAME = "nearLocation";
 
     @Inject
-    GeoLocationModel model;
-
-    @Inject StaticDataModel staticDataModel;
+    NearLocationModel model;
 
     @Inject
     GeoLocationFacade facade;
@@ -51,26 +46,11 @@ public class GeoLocationController {
         PrimeFaces.current().ajax().update("form");
     }
 
-    public void findByAddress() {
-        model.setDistanceDataObjects(facade.callDistance(model.getAddress()));
-        PrimeFaces.current().ajax().update("form");
-    }
-
     public void redirectSearch(ParkingGarage parkingGarage) throws IOException {
-        FacesContext.getCurrentInstance().getExternalContext().redirect(CrossPlatformURL.search(parkingGarage));
+        facade.redirectSearch(parkingGarage);
     }
 
-    public List<String> completeCity(String query) {
-        String queryLowerCase = query.toLowerCase();
-        Set<String> cityList = new HashSet<>();
-        for (Address address : staticDataModel.getAddressList()) {
-            cityList.add(address.getCityName());
-        }
-
-        return cityList.stream().filter(t -> t.toLowerCase().startsWith(queryLowerCase)).collect(Collectors.toList());
-    }
-
-    public GeoLocationModel getModel() {
+    public NearLocationModel getModel() {
         return model;
     }
 }

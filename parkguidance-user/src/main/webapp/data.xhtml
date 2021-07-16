@@ -6,14 +6,14 @@
 
     <ui:define name="metadata">
         <f:metadata>
-            <f:viewParam name="key" value="#{parkingData.model.key}"/>
-            <f:event type="preRenderView" listener="#{parkingData.init}"/>
+            <f:viewParam name="key" value="#{data.model.key}"/>
+            <f:event type="preRenderView" listener="#{data.init}"/>
         </f:metadata>
         <ui:param name="renderFormAsterisks" value="true"/>
     </ui:define>
 
     <ui:define name="metadata">
-        <ui:param name="title" value="Parkhaus #{parkingData.model.parkingGarage.name}"/> <!-- Automatic create breadCrumb and page title when param 'title' is provided. -->
+        <ui:param name="title" value="Parkhaus #{data.model.parkingGarage.name}"/> <!-- Automatic create breadCrumb and page title when param 'title' is provided. -->
 
         <style type="text/css">
             .ui-datatable .ui-datatable-header {
@@ -29,35 +29,35 @@
                 <div class="ui-sm-12 ui-g-6 ui-g-nopad">
                     <div class="ui-sm-12 ui-g-11" >
                         <p:panel id="spaces" header="Angebot">
-                            <h:outputText value="#{parkingData.model.parkingGarage.occupied}/#{parkingData.model.parkingGarage.spaces}"/>
+                            <h:outputText value="#{data.model.parkingGarage.occupied}/#{data.model.parkingGarage.spaces}"/>
                         </p:panel>
                     </div>
                 </div>
                 <div class="ui-sm-12 ui-g-6 ui-g-nopad">
                     <div class="ui-sm-12 ui-g-11" >
                         <p:panel id="address" header="Addresse">
-                            <h:outputText value="#{utils.formatted(parkingData.model.parkingGarage.address.toAddressString)}" escape="false"/>
+                            <h:outputText value="#{utils.formatted(data.model.parkingGarage.address.toAddressString)}" escape="false"/>
                         </p:panel>
                     </div>
                 </div>
                 <div class="ui-sm-12 ui-g-6 ui-g-nopad">
                     <div class="ui-sm-12 ui-g-11" >
                         <p:panel id="price" header="Tarife">
-                            <h:outputText value="#{utils.formatted(parkingData.model.parkingGarage.price)}" escape="false"/>
+                            <h:outputText value="#{utils.formatted(data.model.parkingGarage.price)}" escape="false"/>
                         </p:panel>
                     </div>
                 </div>
                 <div class="ui-sm-12 ui-g-6 ui-g-nopad">
                     <div class="ui-sm-12 ui-g-11" >
                         <p:panel id="opeator" header="Betreiber">
-                            <h:outputText value="#{utils.formatted(parkingData.model.parkingGarage.operator)}" escape="false"/>
+                            <h:outputText value="#{utils.formatted(data.model.parkingGarage.operator)}" escape="false"/>
                         </p:panel>
                     </div>
                 </div>
                 <div class="ui-sm-12 ui-g-6 ui-g-nopad">
                     <div class="ui-sm-12 ui-g-11" >
                         <p:panel id="description" header="Beschreibung">
-                            <h:outputText value="#{utils.formatted(parkingData.model.parkingGarage.description)}" escape="false"/>
+                            <h:outputText value="#{utils.formatted(data.model.parkingGarage.description)}" escape="false"/>
                         </p:panel>
                     </div>
                 </div>
@@ -67,11 +67,11 @@
 
         <p:panel styleClass="box-primary card">
             <div class="card">
-                <p:lineChart model="#{parkingData.model.cartesianLinerModel}" style="width: 100%; height: 500px;"/>
+                <p:lineChart model="#{data.model.cartesianLinerModel}" style="width: 100%; height: 500px;"/>
             </div>
         </p:panel>
         <h:outputText value="Last update: "/>
-        <h:outputText value="#{parkingData.chartModel.lastUpdate}">
+        <h:outputText value="#{data.chartModel.lastUpdate}">
             <f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss" type="date" />
         </h:outputText>
 

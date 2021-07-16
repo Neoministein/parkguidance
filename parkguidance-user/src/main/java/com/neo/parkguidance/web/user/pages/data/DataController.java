@@ -1,4 +1,4 @@
-package com.neo.parkguidance.web.user.pages.parkdata;
+package com.neo.parkguidance.web.user.pages.data;
 
 import org.omnifaces.util.Faces;
 
@@ -8,19 +8,19 @@ import javax.inject.Named;
 import java.util.Date;
 
 @RequestScoped
-@Named(value = GarageDataController.BEAN_NAME)
-public class GarageDataController {
+@Named(value = DataController.BEAN_NAME)
+public class DataController {
 
-    public static final String BEAN_NAME = "parkingData";
-
-    @Inject
-    private GarageDataModel model;
+    public static final String BEAN_NAME = "data";
 
     @Inject
-    private GarageDataChartModel chartModel;
+    private DataModel model;
 
     @Inject
-    private GarageDataFacade facade;
+    private DataChartModel chartModel;
+
+    @Inject
+    private DataFacade facade;
 
     public void init() {
         if(Faces.isAjaxRequest()){
@@ -44,11 +44,11 @@ public class GarageDataController {
         }
     }
 
-    public GarageDataModel getModel() {
+    public DataModel getModel() {
         return model;
     }
 
-    public GarageDataChartModel getChartModel() {
+    public DataChartModel getChartModel() {
         return chartModel;
     }
 }

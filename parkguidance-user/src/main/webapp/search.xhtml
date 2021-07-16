@@ -25,7 +25,7 @@
                         <p:ajax process="@this" update="@none" oncomplete="PF('parkingGarageTable').filter()"/>
                     </p:inputText>
                 </f:facet>
-                <p:link value="#{p.name}" outcome="/garageData" >
+                <p:link value="#{p.name}" outcome="/data" >
                     <f:param name="key" value="#{p.key}"/>
                 </p:link>
             </p:column>

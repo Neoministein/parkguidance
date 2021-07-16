@@ -8,7 +8,7 @@ import java.io.Serializable;
 import java.util.List;
 
 @SessionScoped
-public class GeoLocationModel implements Serializable {
+public class NearLocationModel implements Serializable {
 
     private boolean initiated = false;
 
