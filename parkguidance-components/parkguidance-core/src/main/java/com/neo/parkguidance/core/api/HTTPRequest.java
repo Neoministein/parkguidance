@@ -3,6 +3,9 @@ package com.neo.parkguidance.core.api;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * This class is a container for the data when sending a HTTP request through {@link HTTPRequestSender}
+ */
 public class HTTPRequest {
 
     public static final String GET = "GET";

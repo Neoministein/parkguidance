@@ -5,6 +5,9 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 import java.util.Objects;
 
+/**
+ * This entity class is used for storing data of the parking garages
+ */
 @Entity
 @Table(name = ParkingGarage.TABLE_NAME)
 public class ParkingGarage implements DataBaseEntity<ParkingGarage> {

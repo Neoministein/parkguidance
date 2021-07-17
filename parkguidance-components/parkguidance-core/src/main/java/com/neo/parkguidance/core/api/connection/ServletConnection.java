@@ -1,6 +1,8 @@
 package com.neo.parkguidance.core.api.connection;
 
 import com.neo.parkguidance.core.entity.ParkingGarage;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.JSONObject;
 
 import java.io.OutputStream;
@@ -9,7 +11,12 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
 
+/**
+ * This class exists only for Servlet testing purposes
+ */
 public class ServletConnection {
+
+    private static final Logger LOGGER = LogManager.getLogger(ServletConnection.class);
 
     public static void main(String[] args) throws Exception {
         //URL url = new URL("http://localhost:8080/park-guidance/api/park-data/sorter");
@@ -28,7 +35,7 @@ public class ServletConnection {
         try(OutputStream os = http.getOutputStream()) {
             os.write(out);
         }
-        System.out.println(http.getResponseCode() + "|" +http.getResponseMessage());
+        LOGGER.info("{} | {}",http.getResponseCode(), http.getResponseMessage());
 
     }
 
