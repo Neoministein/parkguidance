@@ -1,5 +1,8 @@
 package com.neo.parkguidance.elastic.api.constants;
 
+/**
+ * Constants for the elastic search implementation in parkguidance
+ */
 public interface ElasticSearchConstants {
 
     String DEFAULT_SCHEME = "http";

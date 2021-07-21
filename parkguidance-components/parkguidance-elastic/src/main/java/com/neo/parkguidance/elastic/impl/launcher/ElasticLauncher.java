@@ -4,8 +4,15 @@ import com.neo.parkguidance.core.api.HTTPRequest;
 import com.neo.parkguidance.core.api.HTTPRequestSender;
 import com.neo.parkguidance.core.api.HTTPResponse;
 import com.neo.parkguidance.elastic.api.constants.ElasticSearchConstants;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
+/**
+ * A launcher for creating the necessary indexes in elastic search indexes
+ */
 public class ElasticLauncher {
+
+    private static final Logger LOGGER = LogManager.getLogger(ElasticLauncher.class);
 
     public static void main(String[] args) {
         createRawDataIndex();
@@ -14,10 +21,7 @@ public class ElasticLauncher {
     }
 
     private static void createRawDataIndex() {
-        HTTPRequest httpRequest = new HTTPRequest();
-        httpRequest.setUrl(ElasticSearchConstants.DEFAULT_URL + "/raw-parking-data");
-        httpRequest.setRequestMethod(HTTPRequest.PUT);
-        httpRequest.addRequestProperty("Content-Type","application/json");
+        HTTPRequest httpRequest = createRequest("/raw-parking-data");
         httpRequest.setRequestBody("{\"mappings\":{\"properties\":{"
                 + "\"garage\":{\"type\":\"text\"}," + ""
                 + "\"occupied\":{\"type\":\"integer\"},"
@@ -26,7 +30,7 @@ public class ElasticLauncher {
 
         HTTPResponse response = new HTTPRequestSender().call(httpRequest);
 
-        System.out.println(response.getCode() + " " + response.getBody());
+        logResponse(response);
     }
 
     private static void createSortedParkingData() {
@@ -41,7 +45,7 @@ public class ElasticLauncher {
 
         HTTPResponse response = new HTTPRequestSender().call(httpRequest);
 
-        System.out.println(response.getCode() + " " + response.getBody());
+        logResponse(response);
     }
 
     private static void createGCSIndex() {
@@ -50,7 +54,7 @@ public class ElasticLauncher {
 
         HTTPResponse response = new HTTPRequestSender().call(httpRequest);
 
-        System.out.println(response.getCode() + " " + response.getBody());
+        logResponse(response);
     }
 
     private static HTTPRequest createRequest(String index) {
@@ -59,6 +63,10 @@ public class ElasticLauncher {
         httpRequest.setRequestMethod(HTTPRequest.PUT);
         httpRequest.addRequestProperty("Content-Type","application/json");
         return httpRequest;
+    }
+
+    private static void logResponse(HTTPResponse response) {
+        LOGGER.info("{} | {}",response.getCode(), response.getBody());
     }
 
 }
