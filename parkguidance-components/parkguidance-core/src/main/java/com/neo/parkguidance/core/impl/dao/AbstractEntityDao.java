@@ -11,7 +11,7 @@ import javax.persistence.criteria.*;
 import javax.persistence.criteria.CriteriaQuery;
 import java.util.List;
 
-public abstract class AbstractEntityDao<T extends DataBaseEntity> {
+public abstract class AbstractEntityDao<T extends DataBaseEntity<T>> {
 
     protected final Class<T> entityClass;
 

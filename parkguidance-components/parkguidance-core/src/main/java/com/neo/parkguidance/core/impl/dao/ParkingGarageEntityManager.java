@@ -24,7 +24,7 @@ public class ParkingGarageEntityManager extends AbstractEntityDao<ParkingGarage>
     private EntityManager em;
 
     @Inject
-    AddressEntityManager addressEntityManager;
+    AbstractEntityDao<Address> addressEntityManager;
 
     @Override
     protected EntityManager getEntityManager() {

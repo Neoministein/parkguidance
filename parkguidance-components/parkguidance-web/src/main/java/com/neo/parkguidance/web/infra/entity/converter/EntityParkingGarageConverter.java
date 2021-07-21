@@ -1,36 +1,18 @@
 package com.neo.parkguidance.web.infra.entity.converter;
 
 import com.neo.parkguidance.core.entity.ParkingGarage;
-import com.neo.parkguidance.core.impl.dao.AbstractEntityDao;
-
-import javax.faces.component.UIComponent;
-import javax.faces.context.FacesContext;
-import javax.faces.convert.Converter;
-import javax.inject.Inject;
 import javax.inject.Named;
 
+/**
+ * This class is {@link javax.faces.convert.Converter} impl for the {@link ParkingGarage} entity
+ */
 @Named
-public class EntityParkingGarageConverter implements Converter {
+public class EntityParkingGarageConverter extends AbstractDataBaseEntityConverter<ParkingGarage> {
 
     public static final String BEAN_NAME = "entityParkingConverter";
 
-    @Inject
-    AbstractEntityDao<ParkingGarage> parkingGarageEntityService;
-
     @Override
-    public Object getAsObject(FacesContext context, UIComponent component, String value) {
-        ParkingGarage parkingGarage = parkingGarageEntityService.find(value);
-        if(parkingGarage == null) {
-            return new ParkingGarage();
-        }
-        return parkingGarage;
-    }
-
-    @Override
-    public String getAsString(FacesContext context, UIComponent component, Object value) {
-        if(!(value instanceof ParkingGarage)) {
-            return "";
-        }
-        return ((ParkingGarage) value).getKey();
+    protected ParkingGarage newInstance() {
+        return new ParkingGarage();
     }
 }
