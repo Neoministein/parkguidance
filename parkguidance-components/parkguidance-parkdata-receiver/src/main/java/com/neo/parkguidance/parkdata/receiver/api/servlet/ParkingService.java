@@ -9,6 +9,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
 
+/**
+ * This class is a REST endpoint for updating {@link com.neo.parkguidance.core.entity.ParkingGarage} and its data
+ */
 public class ParkingService extends HttpServlet {
 
     @Inject
