@@ -4,6 +4,9 @@ import com.neo.parkguidance.core.entity.ParkingGarage;
 
 import java.io.Serializable;
 
+/**
+ * This object is a container for the return data of {@link DistanceMatrix}
+ */
 public class DistanceDataObject implements Comparable<DistanceDataObject>, Serializable {
 
     private int distanceInt;

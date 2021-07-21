@@ -9,6 +9,8 @@ import com.neo.parkguidance.core.api.HTTPRequest;
 import com.neo.parkguidance.core.entity.ParkingGarage;
 import com.neo.parkguidance.core.entity.StoredValue;
 import com.neo.parkguidance.core.impl.dao.StoredValueEntityManager;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -19,6 +21,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * This class is used for calling the Google Cloud Platform Distance Matrix service
+ */
 @Stateless
 public class DistanceMatrix {
 
@@ -27,6 +32,8 @@ public class DistanceMatrix {
     public static final String API_URL = "https://maps.googleapis.com/maps/api/distancematrix/";
     public static final String ORIGIN = "origins=";
     public static final String DESTINATION = "&destinations=";
+
+    private static final Logger LOGGER = LogManager.getLogger(DistanceMatrix.class);
 
     @Inject
     StoredValueEntityManager storedValueManager;
@@ -63,26 +70,31 @@ public class DistanceMatrix {
 
         switch (httpResponse.getCode()) {
         case HttpServletResponse.SC_OK:
-            return   parseRequestStatus(new JSONObject(httpResponse.getBody()), parkingGarageList);
+            return parseRequestStatus(new JSONObject(httpResponse.getBody()), parkingGarageList);
         case HttpServletResponse.SC_BAD_REQUEST:
+            LOGGER.warn("HTTP ERROR 400 Bad request");
             throw new IllegalArgumentException(GoogleConstants.E_INVALID_ADDRESS);
         case HttpServletResponse.SC_NOT_FOUND:
+            LOGGER.warn("HTTP ERROR 404 not found");
             throw new RuntimeException(GoogleConstants.E_TRY_AGAIN);
         case -1:
             throw new RuntimeException(GoogleConstants.E_INTERNAL_ERROR);
         default:
+            LOGGER.warn("HTTP {} {}", httpResponse.getCode(), httpResponse.getBody());
             throw new RuntimeException(GoogleConstants.E_EXTERNAL_ERROR + httpResponse.getCode());
         }
     }
 
-    protected List<DistanceDataObject> parseRequestStatus(JSONObject jsonObject, List<ParkingGarage> parkingGarageList) throws RuntimeException {
+    protected List<DistanceDataObject> parseRequestStatus(JSONObject jsonObject, List<ParkingGarage> parkingGarageList) {
         String status = jsonObject.getString("status");
         switch (status) {
         case "OK":
             return parseDistance(jsonObject.getJSONArray("rows"),parkingGarageList);
         case "INVALID_REQUEST":
+            LOGGER.warn(GoogleConstants.E_GOOGLE_CLOUD_PLATFORM, status);
             throw new IllegalArgumentException(GoogleConstants.E_INVALID_ADDRESS);
         case "UNKNOWN_ERROR":
+            LOGGER.warn(GoogleConstants.E_GOOGLE_CLOUD_PLATFORM, status);
             throw new RuntimeException(GoogleConstants.E_TRY_AGAIN);
         case "MAX_ELEMENTS_EXCEEDED":
         case "MAX_DIMENSIONS_EXCEEDED":
@@ -90,6 +102,7 @@ public class DistanceMatrix {
         case "OVER_QUERY_LIMIT":
         case "REQUEST_DENIED":
         default:
+            LOGGER.warn(GoogleConstants.E_GOOGLE_CLOUD_PLATFORM, status);
             throw new RuntimeException(GoogleConstants.E_SYS_ADMIN + status);
         }
     }

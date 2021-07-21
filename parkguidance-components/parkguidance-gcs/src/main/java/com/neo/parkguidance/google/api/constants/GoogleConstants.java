@@ -1,6 +1,7 @@
 package com.neo.parkguidance.google.api.constants;
 
 import com.neo.parkguidance.core.entity.Address;
+import com.neo.parkguidance.core.impl.StringUtils;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
@@ -8,6 +9,9 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
 
+/**
+ * Contains for the google cloud platform
+ */
 public class GoogleConstants {
 
     public static final String JSON = "json?";
@@ -23,18 +27,40 @@ public class GoogleConstants {
     public static final String E_EXTERNAL_ERROR = "External Server ERROR Please contact a system administrator: ";
     public static final String E_INTERNAL_ERROR = "Internal Server ERROR Please contact a system administrator:";
 
+    public static final String E_GOOGLE_CLOUD_PLATFORM = "Google Cloud Platform ERROR [{}]";
+
     public static final String ELASTIC_INDEX = "gcs";
 
     private GoogleConstants() {}
 
-    public static String addressQuery(Address address) throws RuntimeException{
-        String query =  address.getStreet() + "+" +
-                address.getNumber() + "+" +
-                address.getCityName() + "+" +
-                address.getPlz();
+    /**
+     * Formats an {@link Address} to be sent to google could platform
+     *
+     * @param address address to be formatted
+     * @return the formatted address
+     */
+    public static String addressQuery(Address address) {
+        StringBuilder query = new StringBuilder();
+        if (!StringUtils.isEmpty(address.getStreet())) {
+            query.append(address.getStreet());
+        }
 
+        if (address.getNumber() != null) {
+            query.append('+');
+            query.append(address.getNumber());
+        }
+
+        if (!StringUtils.isEmpty(address.getCityName())) {
+            query.append('+');
+            query.append(address.getCityName());
+        }
+
+        if (address.getPlz() != null) {
+            query.append('+');
+            query.append(address.getPlz());
+        }
         try {
-            return URLEncoder.encode(query, StandardCharsets.UTF_8.toString());
+            return URLEncoder.encode(query.toString(), StandardCharsets.UTF_8.toString());
         } catch (UnsupportedEncodingException e) {
             throw new RuntimeException(StandardCharsets.UTF_8.toString() + " is not supported");
         }
