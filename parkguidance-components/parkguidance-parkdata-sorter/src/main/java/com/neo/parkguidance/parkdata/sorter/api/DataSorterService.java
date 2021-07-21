@@ -3,12 +3,13 @@ package com.neo.parkguidance.parkdata.sorter.api;
 import com.neo.parkguidance.parkdata.sorter.impl.SortParkingDataImpl;
 
 import javax.inject.Inject;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
+/**
+ * This class is a REST endpoint for sorting the ParkingData in ElasticSearch
+ */
 public class DataSorterService extends HttpServlet {
 
     @Inject
@@ -21,8 +22,7 @@ public class DataSorterService extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
-            throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
         resp.setStatus(HttpServletResponse.SC_OK);
     }
 }
