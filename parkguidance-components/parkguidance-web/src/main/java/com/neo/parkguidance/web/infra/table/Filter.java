@@ -6,7 +6,10 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-
+/**
+ * A Filter used Primarily for the {@link com.neo.parkguidance.web.infra.entity.LazyEntityService} for a Lazy loading Table
+ * @param <T> the Entity of the Filter
+ */
 public class Filter<T extends Serializable> implements Serializable{
     private T entity;
     private int first;
