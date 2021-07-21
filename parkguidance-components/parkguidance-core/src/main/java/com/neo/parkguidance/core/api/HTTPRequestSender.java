@@ -48,7 +48,7 @@ public class HTTPRequestSender {
             return getHttpResponse(connection);
         }catch (IOException ex) {
             LOGGER.error("Something went wrong with the HTTP request {}", ex.getMessage());
-            return new HTTPResponse(-1,"Unable to correctly", ex.getMessage());
+            return new HTTPResponse(-1,"Something went wrong with the HTTP request", ex.getMessage());
         }
     }
 
