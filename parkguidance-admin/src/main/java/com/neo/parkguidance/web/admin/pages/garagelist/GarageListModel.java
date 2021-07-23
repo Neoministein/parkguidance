@@ -8,17 +8,17 @@ import org.primefaces.model.LazyDataModel;
 import java.io.Serializable;
 import java.util.List;
 
+/**
+ * The screen model for the GarageList screen
+ */
 @ViewScoped
 public class GarageListModel implements Serializable {
 
     private boolean instantiated = false;
 
-    private LazyDataModel<ParkingGarage> data;
-
     private List<ParkingGarage> selected;
-
     private List<ParkingGarage> filteredValue;
-
+    private LazyDataModel<ParkingGarage> data;
     private Filter<ParkingGarage> filter = new Filter<>(new ParkingGarage());
 
     public boolean isInstantiated() {

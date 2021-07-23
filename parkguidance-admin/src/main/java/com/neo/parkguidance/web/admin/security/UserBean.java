@@ -8,6 +8,9 @@ import javax.enterprise.context.SessionScoped;
 import javax.enterprise.inject.Specializes;
 import javax.inject.Named;
 
+/**
+ * Handles user login
+ */
 @SessionScoped
 @Specializes
 @Named(value = UserBean.BEAN_NAME)
