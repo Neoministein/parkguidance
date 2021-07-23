@@ -5,6 +5,9 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+/**
+ * The controller for the ParkList screen
+ */
 @RequestScoped
 @Named(value = ParkListController.BEAN_NAME)
 public class ParkListController {

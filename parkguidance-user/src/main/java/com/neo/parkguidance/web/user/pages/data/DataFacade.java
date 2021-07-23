@@ -4,6 +4,8 @@ import com.neo.parkguidance.core.entity.ParkingGarage;
 import com.neo.parkguidance.core.impl.dao.AbstractEntityDao;
 import com.neo.parkguidance.elastic.impl.ElasticSearchProvider;
 import com.neo.parkguidance.elastic.impl.query.ElasticSearchLowLevelQuery;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.primefaces.model.charts.ChartData;
@@ -23,6 +25,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * The controller for the NearAddress screen
+ */
 @Stateless
 public class DataFacade {
 
@@ -31,16 +36,20 @@ public class DataFacade {
     private static final int HALF_HOURS_IN_DAY = 48;
     private static final long TIME_BETWEEN_UPDATES = 1800000;
 
-    @Inject
-    private AbstractEntityDao<ParkingGarage> parkingGarageManager;
+    private static final Logger LOGGER = LogManager.getLogger(DataFacade.class);
 
     @Inject
-    private ElasticSearchProvider elasticSearchProvider;
+    AbstractEntityDao<ParkingGarage> parkingGarageManager;
+
+    @Inject
+    ElasticSearchProvider elasticSearchProvider;
 
     public Map<String, LineChartDataSet> loadDataSet() {
+        LOGGER.info("Loading Chart Dataset");
         Map<String, LineChartDataSet> dataSetMap = new HashMap<>();
 
         for(ParkingGarage parkingGarage: parkingGarageManager.findAll()) {
+            LOGGER.info("Loading [{}]", parkingGarage.getKey());
             List<Object> averageOccupied = new ArrayList<>();
             for (int i = 0; i < HALF_HOURS_IN_DAY; i++) {
 
@@ -48,8 +57,8 @@ public class DataFacade {
                 if (occupied == null) {
                     occupied = 0;
                 }
+                LOGGER.debug("Occupied [{}]", occupied);
                 averageOccupied.add(occupied);
-
             }
             LineChartDataSet dataSet = new LineChartDataSet();
             dataSet.setData(averageOccupied);

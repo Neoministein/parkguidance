@@ -7,6 +7,9 @@ import org.primefaces.model.LazyDataModel;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 
+/**
+ * The screen model for the search screen
+ */
 @SessionScoped
 public class SearchModel implements Serializable {
 

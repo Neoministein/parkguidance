@@ -9,6 +9,9 @@ import org.primefaces.model.LazyDataModel;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
+/**
+ * The screen facade for the search screen
+ */
 @Stateless
 public class SearchFacade {
 

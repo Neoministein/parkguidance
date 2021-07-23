@@ -8,6 +8,8 @@ import com.neo.parkguidance.core.entity.Address;
 import com.neo.parkguidance.core.entity.ParkingGarage;
 import com.neo.parkguidance.core.impl.dao.AbstractEntityDao;
 import com.neo.parkguidance.web.utils.Utils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.ejb.Stateless;
 import javax.faces.context.FacesContext;
@@ -16,11 +18,17 @@ import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * The screen facade for the NearAddress and NearLocation screen
+ * TODO Implement changing wanted garage
+ */
 @Stateless
 public class GeoLocationFacade {
 
     public static final int RADIUS_EARTH = 6371;
     public static final int WANTED_GARAGES = 5;
+
+    private static final Logger LOGGER = LogManager.getLogger(GeoLocationFacade.class);
 
     @Inject
     DistanceMatrix distanceMatrix;
@@ -32,9 +40,9 @@ public class GeoLocationFacade {
     AbstractEntityDao<ParkingGarage> parkingGarageDao;
 
     public List<DistanceDataObject> callDistance(double latitude, double longitude) {
-        List<ParkingGarage> parkingGarageList = findNearest(parkingGarageDao.findAll(), latitude,longitude);
+        List<ParkingGarage> parkingGarageList = findNearest(parkingGarageDao.findAll(), latitude, longitude);
 
-        return distanceMatrix.findDistance(parkingGarageList, latitude,longitude);
+        return distanceMatrix.findDistance(parkingGarageList, latitude, longitude);
     }
 
     public List<DistanceDataObject> callDistance(Address address) {
@@ -44,7 +52,7 @@ public class GeoLocationFacade {
 
             return distanceMatrix.findDistance(parkingGarageList, address);
         }catch (RuntimeException e) {
-            Utils.addDetailMessage("Die Addresse konnte nicht gefunden werden.");
+            Utils.addDetailMessage(e.getMessage());
             return Collections.emptyList();
         }
     }
@@ -64,13 +72,16 @@ public class GeoLocationFacade {
     }
 
     protected List<ParkingGarage> findNearest(List<ParkingGarage> parkingGarageList, double latitude, double longitude) {
+        LOGGER.info("Looking for nearest ParkingGarage");
         Map<String,Double> map = new HashMap<>();
         if(parkingGarageList.size() < WANTED_GARAGES) {
+            LOGGER.debug("There aren't enough ParkingGarages using all");
             return parkingGarageList;
         }
         for(ParkingGarage parkingGarage: parkingGarageList) {
             map.put(parkingGarage.getKey(),
-                    getDistanceFromLatLonInKm(latitude,
+                    getDistanceFromLatLonInKm(
+                            latitude,
                             longitude,
                             parkingGarage.getAddress().getLatitude(),
                             parkingGarage.getAddress().getLongitude()));
