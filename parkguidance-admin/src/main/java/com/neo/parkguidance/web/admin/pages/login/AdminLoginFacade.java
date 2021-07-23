@@ -37,18 +37,23 @@ public class AdminLoginFacade {
         String userPassword = new DigestUtils(SHA_224).digestAsHex(model.getPassword().getBytes());
         RegisteredUser dbUser = lookUpDBUser(model.getUsername());
 
-        if(dbUser != null && dbUser.getPassword().equals(userPassword)) {
-            user.setIsLoggedIn(true);
-            user.setRegisteredUser(dbUser);
+        if(dbUser != null) {
+            if (dbUser.getPassword().equals(userPassword)) {
+                user.setIsLoggedIn(true);
+                user.setRegisteredUser(dbUser);
 
-            addDetailMessage("Logged in successfully as " + model.getUsername());
-            Faces.getExternalContext().getFlash().setKeepMessages(true);
-            Faces.redirect(adminConfig.getIndexPage());
-            LOGGER.info("Login success with [{}] account", dbUser.getUsername());
+                addDetailMessage("Logged in successfully as " + model.getUsername());
+                Faces.getExternalContext().getFlash().setKeepMessages(true);
+                Faces.redirect(adminConfig.getIndexPage());
+                LOGGER.info("Login success with account [{}]", dbUser.getUsername());
+                return;
+            } else {
+                LOGGER.info("Login failed on [{}] account", dbUser.getUsername());
+            }
         } else {
-            LOGGER.info("Login failed on [{}] account", model.getUsername());
-            Messages.addError(null, "Login failed");
+            LOGGER.info("Login attempt on non existent account [{}] ", model.getUsername());
         }
+        Messages.addError(null, "Login failed");
     }
 
     private RegisteredUser lookUpDBUser(String username){
