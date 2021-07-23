@@ -160,8 +160,8 @@ After deploying it you can reach these two sites:
 
 And these two API endpoints:
 
-- Parkdata Receiver [http://localhost:8080/park-guidance/park-data/receiver/api](http://localhost:8080/park-guidance/park-data/receiver/api)
-- Parkdata Sorter: [http://localhost:8080/park-guidance/park-data/sorter/api](http://localhost:8080/park-guidance/park-data/sorter/api)
+- Parkdata Receiver [http://localhost:8080/park-guidance/api/park-data/receiver](http://localhost:8080/park-guidance/api/park-data/receiver)
+- Parkdata Sorter: [http://localhost:8080/park-guidance/api/park-data/sorter](http://localhost:8080/park-guidance/api/park-data/sorter)
 
 
 ## Main Authors
