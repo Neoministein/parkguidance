@@ -10,6 +10,10 @@ import org.primefaces.model.LazyDataModel;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * This class is a Generic Implementation for a {@link DataBaseEntity} {@link LazyDataModel}
+ * @param <T> the wanted DataBaseEntity
+ */
 public class LazyEntityService<T extends DataBaseEntity<T>> extends LazyDataModel<T> {
 
     private final AbstractEntityDao<T> entityDao;

@@ -7,6 +7,9 @@ import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.util.List;
 
+/**
+ * The screen model for the NearAddress screen
+ */
 @SessionScoped
 public class NearAddressModel implements Serializable {
 

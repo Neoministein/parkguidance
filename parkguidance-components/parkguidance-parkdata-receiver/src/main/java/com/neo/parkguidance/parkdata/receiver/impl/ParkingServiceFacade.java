@@ -4,6 +4,8 @@ import com.neo.parkguidance.core.impl.dao.AbstractEntityDao;
 import com.neo.parkguidance.elastic.impl.ElasticSearchProvider;
 import com.neo.parkguidance.parkdata.receiver.impl.security.ParkingGarageAuthentication;
 import com.neo.parkguidance.core.entity.ParkingGarage;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -12,14 +14,17 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 
+/**
+ * This class handles updates to {@link ParkingGarage} via the REST endpoint {@link com.neo.parkguidance.parkdata.receiver.api.servlet.ParkingService}
+ */
 @Stateless
 public class ParkingServiceFacade {
-
-    private static final Object lock = new Object();
 
     private static final int INCREASE = 1;
     private static final int DECREASE = -1;
     private static final String AMOUNT = "amount";
+
+    private static final Logger LOGGER = LogManager.getLogger(ParkingServiceFacade.class);
 
     @Inject
     ParkingGarageAuthentication authentication;
@@ -30,31 +35,32 @@ public class ParkingServiceFacade {
     @Inject
     ElasticSearchProvider elasticSearchProvider;
 
-    public int updateParkingData(String requestString) {
+    public synchronized int updateParkingData(String requestString) {
         try {
-            synchronized (lock) {
-                JSONObject requestData = new JSONObject(requestString);
-                ParkingGarage parkingGarage = authentication.validate(requestData.getString(ParkingGarage.C_ACCESS_KEY));
+            JSONObject requestData = new JSONObject(requestString);
+            String accessKey = requestData.getString(ParkingGarage.C_ACCESS_KEY);
+            ParkingGarage parkingGarage = authentication.validate(accessKey);
 
-                if(parkingGarage == null) {
-                    return HttpServletResponse.SC_FORBIDDEN;
-                }
-
-                switch (requestData.getString("type")) {
-                case "incr":
-                    setOccupied(parkingGarage, offsetOccupied(parkingGarage, INCREASE));
-                    break;
-                case "decr":
-                    setOccupied(parkingGarage, offsetOccupied(parkingGarage,DECREASE));
-                    break;
-                case "set":
-                    setOccupied(parkingGarage, requestData.getInt(AMOUNT));
-                    break;
-                default:
-                    return HttpServletResponse.SC_METHOD_NOT_ALLOWED;
-                }
-                return HttpServletResponse.SC_OK;
+            if(parkingGarage == null) {
+                LOGGER.info("Illegal access unknown accessKey [{}] ", accessKey);
+                return HttpServletResponse.SC_FORBIDDEN;
             }
+
+            switch (requestData.getString("type")) {
+            case "incr":
+                setOccupied(parkingGarage, offsetOccupied(parkingGarage, INCREASE));
+                break;
+            case "decr":
+                setOccupied(parkingGarage, offsetOccupied(parkingGarage,DECREASE));
+                break;
+            case "set":
+                setOccupied(parkingGarage, requestData.getInt(AMOUNT));
+                break;
+            default:
+                return HttpServletResponse.SC_METHOD_NOT_ALLOWED;
+            }
+            return HttpServletResponse.SC_OK;
+
         }catch (JSONException ex) {
             return HttpServletResponse.SC_BAD_REQUEST;
         }
@@ -72,6 +78,7 @@ public class ParkingServiceFacade {
         try {
             elasticSearchProvider.save("raw-parking-data", getJSONContent(garage));
         }catch (Exception e) {
+            LOGGER.warn("Couldn't save the data to elasticsearch {}", e.getMessage());
             //TODO PUT ON QUE
         }
     }

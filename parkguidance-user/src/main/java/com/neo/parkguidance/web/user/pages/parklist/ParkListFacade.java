@@ -7,6 +7,9 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 import java.util.Date;
 
+/**
+ * The screen facade for the ParkList screen
+ */
 @Stateless
 public class ParkListFacade {
 

@@ -5,6 +5,9 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+/**
+ * The controller for the search screen
+ */
 @RequestScoped
 @Named(value = SearchController.BEAN_NAME)
 public class SearchController {

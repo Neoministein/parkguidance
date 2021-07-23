@@ -7,11 +7,14 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import java.util.List;
 
+/**
+ * This class contains static data used for autocomplete
+ * //TODO implement update
+ */
 @ApplicationScoped
 public class StaticDataModel {
 
     private List<Address> addressList;
-
 
     @Inject
     StaticDataFacade facade;

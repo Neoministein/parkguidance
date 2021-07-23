@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.neo.parkguidance.core.entity.DataBaseEntity;
 import com.neo.parkguidance.elastic.api.ElasticSearchConnectionStatusEvent;
 import org.apache.commons.io.IOUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.elasticsearch.action.bulk.BulkProcessor;
 import org.elasticsearch.action.bulk.BulkRequest;
 import org.elasticsearch.action.bulk.BulkResponse;
@@ -23,10 +25,16 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
 
+/**
+ * This class provides methods to interact with elastic search
+ */
 @ApplicationScoped
 public class ElasticSearchProvider {
 
-    @Inject ElasticSearchConnectionProvider connection;
+    private static final Logger LOGGER = LogManager.getLogger(ElasticSearchProvider.class);
+
+    @Inject
+    ElasticSearchConnectionProvider connection;
 
     private volatile BulkProcessor bulkProcessor;
 
@@ -38,17 +46,23 @@ public class ElasticSearchProvider {
         BulkProcessor.Listener listener = new BulkProcessor.Listener() {
             @Override
             public void beforeBulk(long executionId, BulkRequest bulkRequest) {
-                //TODO LOGGER
+                int numberOfActions = bulkRequest.numberOfActions();
+                LOGGER.debug("Executing bulk [{}] with {} requests, first doc [{}]", executionId, numberOfActions,
+                            numberOfActions > 0 ? bulkRequest.requests().get(0) : "Empty");
+
             }
 
             @Override
             public void afterBulk(long executionId, BulkRequest bulkRequest, BulkResponse bulkResponse) {
-                //TODO LOGGER
+                LOGGER.info("Executed bulk [{}] with {} requests, hasFailures: {}, took: {}, ingestTook: {}",
+                        executionId, bulkRequest.numberOfActions(), bulkResponse.hasFailures(), bulkResponse.getTook(),
+                        bulkResponse.getIngestTook());
             }
 
             @Override
             public void afterBulk(long executionId, BulkRequest bulkRequest, Throwable failure) {
-                //TODO LOGGER
+                LOGGER.info("Executed bulk [{}] with failure complete bulk will be retried, message: {}", executionId,
+                        failure.getMessage());
             }
         };
 
@@ -56,7 +70,7 @@ public class ElasticSearchProvider {
             BulkProcessor.Builder builder = createBulkRequestBuilder(listener);
             bulkProcessor = builder.build();
         } catch (IllegalStateException e) {
-            //TODO LOGGER
+            LOGGER.error("Unable to create bulk processor", e);
         }
     }
 
@@ -90,6 +104,12 @@ public class ElasticSearchProvider {
         return connection.getClient();
     }
 
+    /**
+     * Saves a {@link DataBaseEntity} to a elastic search index
+     *
+     * @param index the index the content is saved to
+     * @param content the DataBaseEntity object needed to be saved
+     */
     public void save(String index, DataBaseEntity<? extends DataBaseEntity<?>> content) {
 
         ObjectMapper mapper = new ObjectMapper();
@@ -97,13 +117,32 @@ public class ElasticSearchProvider {
         try {
             save(index, mapper.writeValueAsString(content));
         } catch (JsonProcessingException e) {
-            //TODO WRITE LOGGER
+            LOGGER.error("Couldn't parse the database entity {} {}",
+                    content.getClass().getName(),
+                    content.getPrimaryKey());
         }
     }
+
+    /**
+     * Saves the content to elastic search
+     *
+     * @param index the index the content is saved to
+     * @param content the content being saved
+     */
     public void save(String index, String content) {
         getBulkProcessor().add(indexRequest(index,content));
     }
 
+    /**
+     * Sends a low level request to elastic search
+     *
+     * @param requestMethod the HTTP method
+     * @param endpoint the endpoint at elasticsearch
+     * @param jsonBody the body of the request
+     *
+     * @return the response from ElasticSearch
+     * @throws IOException if a request couldn't go through properly
+     */
     public String sendLowLevelRequest(String requestMethod, String endpoint, String jsonBody) throws IOException {
         Request request = new Request(requestMethod, endpoint);
         request.setJsonEntity(jsonBody);

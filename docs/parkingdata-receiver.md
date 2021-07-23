@@ -44,7 +44,7 @@ Number |  Name | Meaning
 ------ | ------| -------
 400 | Bad request           | Something wrong with the JSON string
 403 | Forbidden             | Wrong Parking Garage accessKey
-404 | Not Found             | Wrong serer URL or the module is currently down
+404 | Not Found             | Wrong server URL or the module is currently down
 405 | Method not allowed    | Wrong type
 500 | Internal Server Error | Something went wrong at the server's end and most likely not your fault
 

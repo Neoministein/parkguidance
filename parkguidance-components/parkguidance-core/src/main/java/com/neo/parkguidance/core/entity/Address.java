@@ -5,6 +5,9 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 import java.util.Objects;
 
+/**
+ * This entity class is only used as part of the {@link ParkingGarage} entity
+ */
 @Entity
 @Table(name = Address.TABLE_NAME)
 public class Address implements DataBaseEntity<Address> {

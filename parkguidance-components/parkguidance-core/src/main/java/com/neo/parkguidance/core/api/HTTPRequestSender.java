@@ -1,6 +1,8 @@
 package com.neo.parkguidance.core.api;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -11,9 +13,15 @@ import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
+/**
+ * Handles the sending and receiving of HTTP requests
+ */
 public class HTTPRequestSender {
 
+    private static final Logger LOGGER = LogManager.getLogger(HTTPRequestSender.class);
+
     public HTTPResponse call(HTTPRequest request) {
+        LOGGER.info("Sending HTTP {} request to {}", request.getRequestMethod(), request.getUrl());
         try {
             URLConnection con = new URL((request.getUrl())).openConnection();
             HttpURLConnection connection = (HttpURLConnection) con;
@@ -35,10 +43,12 @@ public class HTTPRequestSender {
             } else {
                 connection.connect();
             }
+            LOGGER.debug("HTTP request connected");
 
             return getHttpResponse(connection);
         }catch (IOException ex) {
-            return new HTTPResponse(-1,"Unable to correctly", ex.getMessage());
+            LOGGER.error("Something went wrong with the HTTP request {}", ex.getMessage());
+            return new HTTPResponse(-1,"Something went wrong with the HTTP request", ex.getMessage());
         }
     }
 
@@ -54,6 +64,7 @@ public class HTTPRequestSender {
         }
         catch(IOException e)
         {
+            LOGGER.warn("Receiving HTTP response from error stream");
             response.setCode(connection.getResponseCode());
             response.setMessage(connection.getResponseMessage());
             responseStream = connection.getErrorStream();

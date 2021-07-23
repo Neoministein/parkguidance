@@ -3,6 +3,9 @@ package com.neo.parkguidance.web.admin.pages.login;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 
+/**
+ * The screen model for the AdminLogin screen
+ */
 @SessionScoped
 public class AdminLoginModel implements Serializable {
 

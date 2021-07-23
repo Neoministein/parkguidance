@@ -12,6 +12,9 @@ import javax.inject.Named;
 import java.io.IOException;
 import java.util.*;
 
+/**
+ * The controller for the NearAddress screen
+ */
 @RequestScoped
 @Named(value = NearLocationController.BEAN_NAME)
 public class NearLocationController {

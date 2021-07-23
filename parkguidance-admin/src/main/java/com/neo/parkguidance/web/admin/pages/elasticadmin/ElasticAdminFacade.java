@@ -7,6 +7,9 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 import java.io.IOException;
 
+/**
+ * The screen facade for the ElasticAdmin screen
+ */
 @Stateless
 public class ElasticAdminFacade {
 

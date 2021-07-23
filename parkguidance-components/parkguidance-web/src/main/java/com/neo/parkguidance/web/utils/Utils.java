@@ -8,6 +8,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.*;
 
+/**
+ * This class implements web utils used in web based components
+ */
 @Named(value = Utils.BEAN_NAME)
 public class Utils {
 

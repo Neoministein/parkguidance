@@ -7,6 +7,9 @@ import javax.inject.Named;
 
 import static com.neo.parkguidance.web.utils.Utils.addDetailMessage;
 
+/**
+ * The controller for the GarageList screen
+ */
 @RequestScoped
 @Named(value = GarageListController.BEAN_NAME)
 public class GarageListController {
@@ -21,8 +24,7 @@ public class GarageListController {
 
     @PostConstruct
     public void initDataModel() {
-        boolean init = model.isInstantiated();
-        if(!init) {
+        if(!model.isInstantiated()) {
             clearFilter();
             model.setData(facade.initDataModel(model.getFilter()));
             model.setInstantiated(true);
@@ -34,9 +36,9 @@ public class GarageListController {
     }
 
     public void delete() {
-        int numCars = facade.delete(model.getSelected());
-        if(numCars != 0) {
-            addDetailMessage(numCars + " ParkingGarage deleted successfully!");
+        int num = facade.delete(model.getSelected());
+        if(num != 0) {
+            addDetailMessage(num + " ParkingGarage deleted successfully!");
             model.getSelected().clear();
         }
     }

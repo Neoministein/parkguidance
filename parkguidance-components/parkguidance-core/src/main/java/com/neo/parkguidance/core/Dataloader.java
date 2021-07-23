@@ -11,6 +11,10 @@ import java.sql.Statement;
 
 import static org.apache.commons.codec.digest.MessageDigestAlgorithms.SHA_224;
 
+/**
+ * This class exits only for testing purposes to load arbitrary data into the database
+ * //TODO and should be revamped with a correct dataloader implementation
+ */
 public class Dataloader {
 
     public static void main(String[] args) {

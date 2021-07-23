@@ -7,6 +7,9 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import java.util.Date;
 
+/**
+ * The controller for the Data screen
+ */
 @RequestScoped
 @Named(value = DataController.BEAN_NAME)
 public class DataController {

@@ -5,6 +5,9 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+/**
+ * The controller for the ElasticAdmin screen
+ */
 @RequestScoped
 @Named(ElasticAdminController.BEAN_NAME)
 public class ElasticAdminController {

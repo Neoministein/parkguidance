@@ -5,14 +5,21 @@ import com.neo.parkguidance.core.entity.Address;
 import com.neo.parkguidance.core.entity.ParkingGarage;
 import com.neo.parkguidance.core.impl.RandomString;
 import com.neo.parkguidance.core.impl.dao.AbstractEntityDao;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
 import static com.github.adminfaces.template.util.Assert.has;
 
+/**
+ * The screen facade for the GarageForm screen
+ */
 @Stateless
 public class GarageFormFacade {
+
+    private static final Logger LOGGER = LogManager.getLogger(GarageFormFacade.class);
 
     @Inject
     AbstractEntityDao<ParkingGarage> garageDao;
@@ -30,6 +37,7 @@ public class GarageFormFacade {
     public boolean remove(ParkingGarage parkingGarage) {
         if (has(parkingGarage) && has(parkingGarage.getKey())) {
             garageDao.remove(parkingGarage);
+            LOGGER.info("Deleting ParkingGarage [{}]", parkingGarage.getKey());
             return true;
         } else {
             return false;
@@ -42,6 +50,7 @@ public class GarageFormFacade {
             addressDao.edit(parkingGarage.getAddress());
         }
         garageDao.edit(parkingGarage);
+        LOGGER.info("Updated ParkingGarage [{}]", parkingGarage.getKey());
     }
 
     public void create(ParkingGarage parkingGarage) {
@@ -51,6 +60,7 @@ public class GarageFormFacade {
 
         addressDao.create(parkingGarage.getAddress());
         garageDao.create(parkingGarage);
+        LOGGER.info("Created ParkingGarage [{}]", parkingGarage.getKey());
     }
 
     public void setAccessKey(ParkingGarage parkingGarage) {

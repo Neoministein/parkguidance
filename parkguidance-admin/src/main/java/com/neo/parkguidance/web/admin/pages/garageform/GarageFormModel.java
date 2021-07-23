@@ -5,11 +5,13 @@ import org.omnifaces.cdi.ViewScoped;
 
 import java.io.Serializable;
 
+/**
+ * The screen model for the GarageList screen
+ */
 @ViewScoped
 public class GarageFormModel implements Serializable {
 
     private String key;
-
     private ParkingGarage item;
 
     public String getKey() {

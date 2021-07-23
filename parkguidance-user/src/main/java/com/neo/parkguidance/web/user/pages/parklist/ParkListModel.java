@@ -8,6 +8,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * The screen model for the ParkList screen
+ */
 @ApplicationScoped
 public class ParkListModel implements Serializable {
 

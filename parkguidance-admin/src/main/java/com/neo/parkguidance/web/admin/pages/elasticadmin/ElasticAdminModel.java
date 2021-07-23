@@ -4,6 +4,9 @@ import org.omnifaces.cdi.ViewScoped;
 
 import java.io.Serializable;
 
+/**
+ * The screen model for the ElasticAdmin screen
+ */
 @ViewScoped
 public class ElasticAdminModel implements Serializable {
 

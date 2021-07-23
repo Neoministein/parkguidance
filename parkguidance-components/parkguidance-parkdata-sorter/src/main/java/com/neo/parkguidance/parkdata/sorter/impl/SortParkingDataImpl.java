@@ -4,6 +4,8 @@ import com.neo.parkguidance.core.entity.ParkingGarage;
 import com.neo.parkguidance.core.impl.dao.AbstractEntityDao;
 import com.neo.parkguidance.elastic.impl.ElasticSearchProvider;
 import com.neo.parkguidance.elastic.impl.query.ElasticSearchLowLevelQuery;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -14,6 +16,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * This class handles the sorting of the ParkingData in the ElasticSearch via the REST endpoint {@link com.neo.parkguidance.parkdata.sorter.api.DataSorterService}
+ */
 @Stateless
 public class SortParkingDataImpl {
 
@@ -27,19 +32,27 @@ public class SortParkingDataImpl {
     public static final int MILLISECONDS_IN_HOUR = 3600000;
     public static final int MILLISECONDS_IN_HALF_AN_HOUR = MILLISECONDS_IN_HOUR / 2;
 
+    private static final Logger LOGGER = LogManager.getLogger(SortParkingDataImpl.class);
+
     @Inject
     AbstractEntityDao<ParkingGarage> parkingGarageManager;
 
     @Inject
     ElasticSearchProvider elasticSearchProvider;
 
+    /**
+     * Sorts all ParkingData in ElasticSearch
+     */
     public void sortParkingData() {
+        LOGGER.info("Starting to sort ParkingData in ElasticSearch");
         List<ParkingGarage> allParkingGarages = parkingGarageManager.findAll();
 
         for (ParkingGarage parkingGarage: allParkingGarages) {
+            LOGGER.debug("Sorting Data of [{}]", parkingGarage.getKey());
             long[] bounds = getBounds(parkingGarage.getKey());
 
             if (bounds.length == 0) {
+                LOGGER.debug("No new ParkingData found for");
                 continue;
             }
 
@@ -49,6 +62,7 @@ public class SortParkingDataImpl {
             long interval = (endDate - startDate) / MILLISECONDS_IN_HALF_AN_HOUR;
             int numberOfIterations = Math.toIntExact(interval);
 
+            LOGGER.debug("Sorting bounds StartTime [{}] EndTime [{}] Interval [{}]", startDate, endDate, numberOfIterations);
             JSONObject[] docToStore = new JSONObject[numberOfIterations];
             for(int i = 0; i <= numberOfIterations; i++) {
                 long entryStart = startDate + MILLISECONDS_IN_HALF_AN_HOUR * i;
@@ -61,6 +75,7 @@ public class SortParkingDataImpl {
                 if (occupied == null) {
                     occupied = docToStore[i-1].getInt(ELASTIC_OCCUPIED);
                 }
+                LOGGER.debug("Interval [{}] Occupied [{}]", i, occupied);
 
 
                 doc.put(ELASTIC_OCCUPIED,occupied);
@@ -71,6 +86,7 @@ public class SortParkingDataImpl {
             updateAsSorted(parkingGarage.getKey(), startDate, endDate);
             saveSorted(docToStore);
         }
+        LOGGER.info("Finished sorting ParkingData");
     }
 
     private void saveSorted(JSONObject[] docs) {
@@ -128,7 +144,7 @@ public class SortParkingDataImpl {
             }
             return (Integer) o;
         }catch (IOException e) {
-
+            LOGGER.warn("Unable to get Occupied between timestamp", e);
         }
 
         return null;
@@ -141,7 +157,7 @@ public class SortParkingDataImpl {
                     ELASTIC_UNSORTED_INDEX + "/_update_by_query?conflicts=proceed",
                     getSaveRequestBody(key,starTime,endTime));
         } catch (IOException e) {
-
+            LOGGER.warn("Unable to update data to sorted", e);
         }
     }
 

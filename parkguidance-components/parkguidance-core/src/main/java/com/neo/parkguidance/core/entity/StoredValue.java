@@ -2,6 +2,11 @@ package com.neo.parkguidance.core.entity;
 
 import javax.persistence.*;
 
+/**
+ * This entity class is used for storing persistent data like in {@link java.util.Map}.
+ * This data can change from environment to environment like:
+ * - API access keys
+ */
 @Entity
 @Table(name = StoredValue.TABLE_NAME)
 public class StoredValue implements DataBaseEntity<StoredValue> {

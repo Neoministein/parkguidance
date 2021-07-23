@@ -3,6 +3,9 @@ package com.neo.parkguidance.web.infra;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Named;
 
+/**
+ * This class returns the string used for in the xhtml template and can be change by overriding it using the {@link javax.enterprise.inject.Specializes} annotation
+ */
 @ApplicationScoped
 @Named(value = TemplateValues.BEAN_NAME)
 public class TemplateValues {

@@ -2,6 +2,10 @@ package com.neo.parkguidance.core.entity;
 
 import java.io.Serializable;
 
+/**
+ * A Interface which enables easy working with unknown database entities
+ * @param <N> the implementation itself
+ */
 public interface DataBaseEntity<N extends DataBaseEntity<N>> extends Serializable {
 
     String C_ID = "id";

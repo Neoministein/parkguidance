@@ -4,6 +4,9 @@ import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.util.Objects;
 
+/**
+ * This entity class is used for segregation of parts of the website with user permisions
+ */
 @Entity
 @Table(name = Permission.TABLE_NAME)
 public class Permission implements DataBaseEntity<Permission> {

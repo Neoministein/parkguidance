@@ -5,6 +5,9 @@ import java.util.Locale;
 import java.util.Objects;
 import java.util.Random;
 
+/**
+ * This class provide a creation of a random string
+ */
 public class RandomString {
 
     /**
@@ -30,6 +33,13 @@ public class RandomString {
 
     private final char[] buf;
 
+    /**
+     * Create a random string
+     *
+     * @param length length of generated string
+     * @param random the random object for the string generation
+     * @param symbols the symbols in the generated string
+     */
     public RandomString(int length, Random random, String symbols) {
         if (length < 1) throw new IllegalArgumentException();
         if (symbols.length() < 2) throw new IllegalArgumentException();
@@ -40,6 +50,9 @@ public class RandomString {
 
     /**
      * Create an alphanumeric string generator.
+     *
+     * @param length length of generated string
+     * @param random the random object for the string generation
      */
     public RandomString(int length, Random random) {
         this(length, random, ALPHANUM);
@@ -47,6 +60,8 @@ public class RandomString {
 
     /**
      * Create an alphanumeric strings from a secure generator.
+     *
+     * @param length length of generated string
      */
     public RandomString(int length) {
         this(length, new SecureRandom());

@@ -9,6 +9,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * The screen model for the charts in the data screen
+ */
 @ApplicationScoped
 public class DataChartModel implements Serializable {
 

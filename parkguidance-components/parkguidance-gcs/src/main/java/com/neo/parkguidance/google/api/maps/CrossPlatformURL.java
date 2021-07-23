@@ -3,6 +3,9 @@ package com.neo.parkguidance.google.api.maps;
 import com.neo.parkguidance.google.api.constants.GoogleConstants;
 import com.neo.parkguidance.core.entity.ParkingGarage;
 
+/**
+ * This class is used to generate urls to lead to Google Services
+ */
 public class CrossPlatformURL {
 
     public static final String API_VERSION = "?api=1";

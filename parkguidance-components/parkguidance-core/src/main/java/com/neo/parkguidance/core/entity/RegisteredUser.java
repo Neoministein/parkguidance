@@ -5,6 +5,9 @@ import javax.validation.constraints.Size;
 import java.util.Objects;
 import java.util.Set;
 
+/**
+ * This entity class is used for logging into the admin interface
+ */
 @Entity
 @Table(name = RegisteredUser.TABLE_NAME)
 public class RegisteredUser implements DataBaseEntity<RegisteredUser> {

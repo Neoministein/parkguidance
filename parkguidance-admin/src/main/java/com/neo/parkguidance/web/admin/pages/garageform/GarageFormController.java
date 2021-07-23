@@ -14,6 +14,9 @@ import java.io.IOException;
 import static com.neo.parkguidance.web.utils.Utils.addDetailMessage;
 import static com.github.adminfaces.template.util.Assert.has;
 
+/**
+ * The controller for the GarageForm screen
+ */
 @RequestScoped
 @Named(value = GarageFormController.BEAN_NAME)
 public class GarageFormController {

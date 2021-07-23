@@ -6,6 +6,9 @@ import org.primefaces.model.charts.line.LineChartModel;
 
 import java.io.Serializable;
 
+/**
+ * The screen model for the data screen
+ */
 @ViewScoped
 public class DataModel implements Serializable {
 

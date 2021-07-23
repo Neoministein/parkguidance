@@ -1,5 +1,8 @@
 package com.neo.parkguidance.web.infra.table;
 
+/**
+ * This enum describes the sort order of a table
+ */
 public enum SortOrder {
 
     ASCENDING, DESCENDING, UNSORTED;
