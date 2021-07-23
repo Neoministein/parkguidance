@@ -92,6 +92,27 @@ Add a new driver and datasource to your standalone.xml at **WILDFLY_HOME**\stand
 </driver>
 ```
 
+###### Logging
+
+Add a new console-handler and logger to your standalone.xml at **WILDFLY_HOME**\standalone\configuration
+```xml
+   <subsystem xmlns="urn:jboss:domain:logging:8.0">
+    ....
+    <console-handler name="stdout-console" autoflush="true">
+        <level name="ALL"/>
+        <formatter>
+            <pattern-formatter pattern="%s%n"/>
+        </formatter>
+    </console-handler>
+    <logger category="stdout" use-parent-handlers="false">
+        <handlers>
+            <handler name="stdout-console"/>
+        </handlers>
+    </logger>
+    ....
+   </subsystem>
+```
+
 ###### Webserver Admin-user
 
 Add a new admin user with the provided bat file at **WILDFLY_HOME**\bin\add-user.bat.
