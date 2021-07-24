@@ -22,8 +22,8 @@ import java.util.List;
 @Stateless
 public class SortParkingDataImpl {
 
-    public static final String ELASTIC_UNSORTED_INDEX = "/raw-parking-data";
-    public static final String ELASTIC_SORTED_INDEX = "/sorted-parking-data";
+    public static final String ELASTIC_UNSORTED_INDEX = "raw-parking-data";
+    public static final String ELASTIC_SORTED_INDEX = "sorted-parking-data";
 
     public static final String ELASTIC_QUERY = "query";
     public static final String ELASTIC_OCCUPIED = "occupied";
@@ -63,7 +63,7 @@ public class SortParkingDataImpl {
             int numberOfIterations = Math.toIntExact(interval);
 
             LOGGER.debug("Sorting bounds StartTime [{}] EndTime [{}] Interval [{}]", startDate, endDate, numberOfIterations);
-            JSONObject[] docToStore = new JSONObject[numberOfIterations];
+            JSONObject[] docToStore = new JSONObject[numberOfIterations+1];
             for(int i = 0; i <= numberOfIterations; i++) {
                 long entryStart = startDate + MILLISECONDS_IN_HALF_AN_HOUR * i;
                 long entryEnd = startDate + MILLISECONDS_IN_HALF_AN_HOUR * (i + 1);
@@ -123,8 +123,8 @@ public class SortParkingDataImpl {
             }
 
             return new long[] {
-                    hitsA.getJSONObject(0).getLong(ELASTIC_TIMESTAMP),
-                    hitsA.getJSONObject(hitsA.length()-1).getLong(ELASTIC_TIMESTAMP)};
+                    hitsA.getJSONObject(0).getJSONObject("_source").getLong(ELASTIC_TIMESTAMP),
+                    hitsA.getJSONObject(hitsA.length()-1).getJSONObject("_source").getLong(ELASTIC_TIMESTAMP)};
         }catch (IOException e) {
             return new long[] {};
         }
@@ -142,7 +142,7 @@ public class SortParkingDataImpl {
             if (o.equals(JSONObject.NULL)) {
                 return null;
             }
-            return (Integer) o;
+            return ((Double) o).intValue();
         }catch (IOException e) {
             LOGGER.warn("Unable to get Occupied between timestamp", e);
         }
@@ -153,9 +153,9 @@ public class SortParkingDataImpl {
     private void updateAsSorted(String key, long starTime, long endTime) {
         try {
             elasticSearchProvider.sendLowLevelRequest(
-                    "GET",
+                    "POST",
                     ELASTIC_UNSORTED_INDEX + "/_update_by_query?conflicts=proceed",
-                    getSaveRequestBody(key,starTime,endTime));
+                    getSaveRequestBody(key,starTime-1,endTime+1));
         } catch (IOException e) {
             LOGGER.warn("Unable to update data to sorted", e);
         }
@@ -181,7 +181,8 @@ public class SortParkingDataImpl {
 
     private String getOccupiedBetweenTimestampRequestBody(String key, long startTime, long endTime) {
         JSONObject avgOccupation = ElasticSearchLowLevelQuery.averageAggregation(ELASTIC_OCCUPIED);
-        JSONObject aggs = ElasticSearchLowLevelQuery.combineToJSONObject("avg_occupation",avgOccupation);
+        JSONObject avg = ElasticSearchLowLevelQuery.combineToJSONObject("avg", avgOccupation);
+        JSONObject aggs = ElasticSearchLowLevelQuery.combineToJSONObject("avg_occupation", avg);
 
 
         JSONObject root = ElasticSearchLowLevelQuery.combineToJSONObject(
