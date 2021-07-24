@@ -31,12 +31,13 @@ public class HTTPRequest {
     }
 
     public HTTPRequest(String url, String requestMethod) {
-        super();
+        this();
         this.url = url;
         this.requestMethod = requestMethod;
     }
 
     public HTTPRequest(String url, String requestMethod, String requestBody) {
+        this();
         this.url = url;
         this.requestMethod = requestMethod;
         this.requestBody = requestBody;
