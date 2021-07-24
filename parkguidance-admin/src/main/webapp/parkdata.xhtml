@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:adm="http://github.com/adminfaces"
+                template="#{layoutMB.template}">
+
+    <ui:define name="metadata">
+        <ui:param name="title" value="ParkData"/>
+
+        <style type="text/css">
+            .ui-datatable .ui-datatable-header {
+                text-align: right !important;
+            }
+        </style>
+    </ui:define>
+
+    <ui:define name="description">
+
+    </ui:define>
+
+    <ui:define name="body">
+        <adm:breadcrumb clear="true" title="Park Data"/>
+        <h:form>
+            <p:focus context="@form"/>
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <div id="main-buttons" class="hidden-sm hidden-xs">
+                        <p:commandButton value="Sort Parkdata" styleClass="btn-primary"
+                                         action="#{parkdata.sortParkingData()}"
+                                         disabled="#{parkdata.model.sorterOffline}"
+                                         process="@this">
+                            <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-danger"/>
+                        </p:commandButton>
+                        <p:spacer width="5"/>
+                        <p:commandButton value="Delete Old" icon="fa fa-trash" styleClass="btn-danger"
+                                         action="#{parkdata.deleteOld()}"
+                                         process="@this">
+                            <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-danger"/>
+                        </p:commandButton>
+                    </div>
+
+                    <p:splitButton value="Sort Parkdata" styleClass="hidden-md hidden-lg btn-primary"
+                                   action="#{parkdata.sortParkingData()}"
+                                   disabled="#{parkdata.model.sorterOffline}"
+                                    process="@this">
+                        <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-danger"/>
+                        <p:menuitem value="Delete Selected" icon="fa fa-trash"
+                                    action="#{garageList.delete}"
+                                    process="@this">
+                            <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-danger"/>
+                        </p:menuitem>
+                    </p:splitButton>
+
+                    <p:separator/>
+                </div>
+                <p:dataTable id="garageTable" var="parkDataObject" value="#{parkdata.model.parkDataObject}" rowKey="#{parkDataObject.key}">
+                    <p:column headerText="Key">
+                        <h:outputText value="#{parkDataObject.key}" />
+                    </p:column>
+                    <p:column headerText="Raw Unsorted">
+                        <h:outputText value="#{parkDataObject.rawUnsortedCount}" />
+                    </p:column>
+                    <p:column headerText="Raw Sorted">
+                        <h:outputText value="#{parkDataObject.rawSortedCount}" />
+                    </p:column>
+                    <p:column headerText="Sorted">
+                        <h:outputText value="#{parkDataObject.sortedDataCount}" />
+                    </p:column>
+                    <p:column headerText="Last entry">
+                        <h:outputText value="#{parkDataObject.lastUpdate}" />
+                    </p:column>
+                </p:dataTable>
+            </div>
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" styleClass="box-danger box-solid">
+                <p:commandButton value="Yes" type="button" styleClass="btn-material btn-primary ui-confirmdialog-yes"
+                                 icon="fa fa-check"/>
+                <p:commandButton value="No" type="button" styleClass="btn-material btn-danger ui-confirmdialog-no"
+                                 icon="fa fa-close"/>
+            </p:confirmDialog>
+        </h:form>
+    </ui:define>
+</ui:composition>
