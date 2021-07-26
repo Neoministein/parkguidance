@@ -41,8 +41,8 @@
                         <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-danger"/>
                     </p:commandButton>
                     <p:spacer width="5"/>
-                    <p:commandButton value="Back" immediate="true"
-                                     action="parkingGarage-list?faces-redirect=true"
+                    <p:button value="Back" immediate="true"
+                                     outcome="/admin/parkingGarage-list"
                                      process="@this"
                                      icon="fa fa-reply"/>
                 </div>
@@ -65,7 +65,7 @@
                         <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-danger"/>
                     </p:menuitem>
                     <p:separator/>
-                    <p:menuitem value="Back" action="parkingGarage-list?faces-redirect=true"
+                    <p:menuitem value="Back" outcome="/admin/parkingGarage-list"
                                 process="@this" immediate="true"
                                 icon="fa fa-reply"/>
                 </p:splitButton>
