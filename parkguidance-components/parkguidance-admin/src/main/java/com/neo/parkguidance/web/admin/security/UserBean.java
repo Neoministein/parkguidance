@@ -21,7 +21,7 @@ public class UserBean extends AdminSession {
 
     @PostConstruct
     public void init() {
-        setIsLoggedIn(false);
+        //setIsLoggedIn(false);
     }
 
     public RegisteredUser getRegisteredUser() {

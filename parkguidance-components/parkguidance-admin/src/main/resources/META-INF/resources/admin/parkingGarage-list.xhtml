@@ -30,7 +30,7 @@
                         <p:commandButton id="dummy" process="@this" oncomplete="PF('parkingGarageTable').filter()"
                                          global="false" style="display:none;"/>
 
-                        <p:commandButton action="/parkingGarage-form?faces-redirect=true" icon="fa fa-plus"
+                        <p:commandButton action="/admin/parkingGarage-form?faces-redirect=true" icon="fa fa-plus"
                                          value="New" styleClass="btn-primary"/>
                         <p:spacer width="5"/>
                         <p:commandButton value="Delete Selected" icon="fa fa-trash" styleClass="btn-danger"
@@ -41,7 +41,7 @@
                         </p:commandButton>
                     </div>
 
-                    <p:splitButton value="New" action="/parkingGarage-form?faces-redirect=true"
+                    <p:splitButton value="New" action="/admin/parkingGarage-form?faces-redirect=true"
                                    icon="fa fa-plus"
                                    styleClass="hidden-md hidden-lg btn-primary">
                         <p:menuitem value="Delete Selected" action="#{garageList.delete}"
@@ -75,7 +75,7 @@
                                     <p:ajax process="@this" update="@none" oncomplete="PF('parkingGarageTable').filter()"/>
                                 </p:inputText>
                             </f:facet>
-                            <p:link value="#{p.key}" outcome="/parkingGarage-form" >
+                            <p:link value="#{p.key}" outcome="/admin/parkingGarage-form" >
                                 <f:param name="key" value="#{p.key}"/>
                             </p:link>
                         </p:column>
@@ -86,7 +86,7 @@
                                     <p:ajax process="@this" update="@none" oncomplete="PF('parkingGarageTable').filter()"/>
                                 </p:inputText>
                             </f:facet>
-                            <p:link value="#{p.name}" outcome="/parkingGarage-form" >
+                            <p:link value="#{p.name}" outcome="/admin/parkingGarage-form" >
                                 <f:param name="key" value="#{p.key}"/>
                             </p:link>
                         </p:column>
