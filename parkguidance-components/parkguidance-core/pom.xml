@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>com.neo.parkguidance</groupId>
-    <artifactId>parkguidance-main</artifactId>
+    <artifactId>parkguidance-root</artifactId>
     <version>0.2-SNAPSHOT</version>
   </parent>
   <artifactId>parkguidance-core</artifactId>
