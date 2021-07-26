@@ -49,7 +49,7 @@ public class GarageFormController {
             addDetailMessage("Parking Garage " + model.getItem().getName()
                     + " removed successfully");
             Faces.getFlash().setKeepMessages(true);
-            Faces.redirect("parkingGarage-list.xhtml");
+            Faces.redirect("META-INF/resources/parkingGarage-list.xhtml");
         }
     }
 

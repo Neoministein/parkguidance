@@ -14,11 +14,15 @@
 
     <modules>
         <module>parkguidance-core</module>
-        <module>parkguidance-web</module>
+
         <module>parkguidance-parkdata-receiver</module>
         <module>parkguidance-parkdata-sorter</module>
         <module>parkguidance-gcs</module>
         <module>parkguidance-elastic</module>
+
+        <module>parkguidance-web</module>
+        <module>parkguidance-user</module>
+        <module>parkguidance-admin</module>
     </modules>
 
 </project>

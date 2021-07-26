@@ -7,8 +7,8 @@
         <version>0.2-SNAPSHOT</version>
     </parent>
     <artifactId>parkguidance-user</artifactId>
-    <packaging>war</packaging>
-    <name>ParkGuidance User WAR</name>
+    <packaging>jar</packaging>
+    <name>ParkGuidance User Jar</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
