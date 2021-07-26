@@ -21,7 +21,7 @@ public class HTTPRequestSender {
     private static final Logger LOGGER = LogManager.getLogger(HTTPRequestSender.class);
 
     public HTTPResponse call(HTTPRequest request) {
-        LOGGER.info("Sending HTTP {} request to {}", request.getRequestMethod(), request.getUrl());
+        LOGGER.debug("Sending HTTP {} request", request.getRequestMethod());
         try {
             URLConnection con = new URL((request.getUrl())).openConnection();
             HttpURLConnection connection = (HttpURLConnection) con;
