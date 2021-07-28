@@ -33,6 +33,7 @@ public class GarageFormController {
         if(Faces.isAjaxRequest()){
             return;
         }
+
         if (has(model.getKey())) {
             model.setItem(facade.findGarageById(model.getKey()));
         } else {
@@ -49,7 +50,7 @@ public class GarageFormController {
             addDetailMessage("Parking Garage " + model.getItem().getName()
                     + " removed successfully");
             Faces.getFlash().setKeepMessages(true);
-            Faces.redirect("META-INF/resources/admin/parkingGarage-list.xhtml");
+            Faces.redirect("/admin/parkingGarage-list.xhtml");
         }
     }
 
