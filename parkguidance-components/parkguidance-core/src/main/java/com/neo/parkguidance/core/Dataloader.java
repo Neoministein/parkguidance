@@ -37,7 +37,7 @@ public class Dataloader {
             st.executeUpdate(
                     "INSERT INTO " + Permission.TABLE_NAME
                             + " ("+Permission.C_NAME+") "
-                            + "VALUES (\'superUser\');");
+                            + "VALUES (\'ADMIN\');");
             st.executeUpdate(
                     "INSERT INTO "+RegisteredUser.TABLE_NAME
                             + " ("+RegisteredUser.C_USERNAME +", "+RegisteredUser.C_PASSWORD +") "

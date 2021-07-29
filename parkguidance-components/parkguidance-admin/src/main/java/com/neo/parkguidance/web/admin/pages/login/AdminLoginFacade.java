@@ -1,68 +1,126 @@
 package com.neo.parkguidance.web.admin.pages.login;
 
 import com.github.adminfaces.template.config.AdminConfig;
-import com.neo.parkguidance.core.entity.RegisteredUser;
-import com.neo.parkguidance.core.impl.dao.AbstractEntityDao;
-import com.neo.parkguidance.web.admin.security.UserBean;
-import org.apache.commons.codec.digest.DigestUtils;
+import com.neo.parkguidance.web.utils.Utils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.omnifaces.util.Faces;
 import org.omnifaces.util.Messages;
 
 import javax.ejb.Stateless;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
-import java.io.IOException;
-import java.util.List;
+import javax.security.enterprise.AuthenticationStatus;
+import javax.security.enterprise.SecurityContext;
+import javax.security.enterprise.authentication.mechanism.http.AuthenticationParameters;
+import javax.security.enterprise.credential.UsernamePasswordCredential;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
-import static com.neo.parkguidance.web.utils.Utils.addDetailMessage;
-import static org.apache.commons.codec.digest.MessageDigestAlgorithms.SHA_224;
-
+import static com.github.adminfaces.template.util.Assert.has;
 /**
  * The screen facade for the AdminLogin screen
  */
 @Stateless
 public class AdminLoginFacade {
 
+    private static final String COOKIE_USER = "admin-user";
+    private static final String COOKIE_PASSWORD = "admin-pass";
+
     private static final Logger LOGGER = LogManager.getLogger(AdminLoginFacade.class);
 
     @Inject
-    AbstractEntityDao<RegisteredUser> userDAO;
+    SecurityContext securityContext;
+
+    @Inject
+    FacesContext facesContext;
+
+    @Inject
+    ExternalContext externalContext;
 
     @Inject
     AdminConfig adminConfig;
 
-    public void checkCredentials(AdminLoginModel model, UserBean user) throws IOException {
-        LOGGER.info("Login attempt");
-        String userPassword = new DigestUtils(SHA_224).digestAsHex(model.getPassword().getBytes());
-        RegisteredUser dbUser = lookUpDBUser(model.getUsername());
-
-        if(dbUser != null) {
-            if (dbUser.getPassword().equals(userPassword)) {
-                user.setIsLoggedIn(true);
-                user.setRegisteredUser(dbUser);
-
-                addDetailMessage("Logged in successfully as " + model.getUsername());
-                Faces.getExternalContext().getFlash().setKeepMessages(true);
-                Faces.redirect(adminConfig.getIndexPage());
-                LOGGER.info("Login success with account [{}]", dbUser.getUsername());
-                return;
-            } else {
-                LOGGER.info("Login failed on [{}] account", dbUser.getUsername());
-            }
-        } else {
-            LOGGER.info("Login attempt on non existent account [{}] ", model.getUsername());
+    public void autoLogin(AdminLoginModel model) {
+        if (isLoggedIn()) {
+            Faces.redirect(adminConfig.getIndexPage());
+            return;
         }
-        Messages.addError(null, "Login failed");
+
+        String emailCookie = Faces.getRequestCookie(COOKIE_USER);
+        String passCookie = Faces.getRequestCookie(COOKIE_PASSWORD);
+        if (has(emailCookie) && has(passCookie)) {
+            model.setUsername(emailCookie);
+            model.setPassword(passCookie);
+            login(model.getUsername(), model.getPassword(), model.isRemember());
+        }
     }
 
-    private RegisteredUser lookUpDBUser(String username){
-        List<RegisteredUser> dbLookup = userDAO.findByColumn(RegisteredUser.C_USERNAME,username);
-
-        if(!dbLookup.isEmpty()) {
-            return dbLookup.get(0);
-        } else {
-            return null;
+    public void login(String username, String password, boolean remember) {
+        switch (continueAuthentication(username, password, remember)) {
+        case SEND_CONTINUE:
+            facesContext.responseComplete();
+            break;
+        case SEND_FAILURE:
+            Messages.addError(null, "Login failed");
+            externalContext.getFlash().setKeepMessages(true);
+            break;
+        case SUCCESS:
+            externalContext.getFlash().setKeepMessages(true);
+            Utils.addDetailMessage("Logged in successfully as" + username);
+            if (remember) {
+                storeCookieCredentials(username, password);
+            }
+            Faces.redirect(adminConfig.getIndexPage());
+            break;
+        case NOT_DONE:
+            Messages.addError(null, "Login failed");
         }
+    }
+
+    public boolean isLoggedIn() {
+        return securityContext.getCallerPrincipal() != null;
+    }
+
+    public void logout(String user) {
+        LOGGER.info("Login out [{}] user", user);
+
+        LOGGER.debug("Invalidating authentication cookies");
+        if(has(Faces.getRequestCookie(COOKIE_USER))) {
+            Faces.removeResponseCookie(COOKIE_USER,null);
+            Faces.removeResponseCookie(COOKIE_PASSWORD,null);
+        }
+
+        String loginPage = adminConfig.getLoginPage();
+        if (loginPage == null || "".equals(loginPage)) {
+            loginPage = "login.xhtml";
+        }
+
+        if (!loginPage.startsWith("/")) {
+            loginPage = "/" + loginPage;
+        }
+        LOGGER.debug("Invalidating session [{}]", Faces.getSession().getId());
+        Faces.getSession().invalidate();
+
+        try {
+            ExternalContext ec = Faces.getExternalContext();
+            ec.redirect(ec.getRequestContextPath() + loginPage);
+        } catch (Exception e) {
+            LOGGER.warn("Unable to redirect back to login screen");
+        }
+    }
+
+    private void storeCookieCredentials(final String email, final String password) {
+        Faces.addResponseCookie(COOKIE_USER, email, 1800);//store for 30min
+        Faces.addResponseCookie(COOKIE_PASSWORD, password, 1800);//store for 30min
+    }
+
+    private AuthenticationStatus continueAuthentication(String username, String password, boolean remember) {
+        return securityContext.authenticate(
+                (HttpServletRequest) externalContext.getRequest(),
+                (HttpServletResponse) externalContext.getResponse(),
+                AuthenticationParameters.withParams().rememberMe(remember)
+                        .credential(new UsernamePasswordCredential(username, password)));
     }
 }

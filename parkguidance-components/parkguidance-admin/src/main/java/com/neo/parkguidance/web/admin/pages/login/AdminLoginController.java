@@ -1,11 +1,8 @@
 package com.neo.parkguidance.web.admin.pages.login;
 
-import com.neo.parkguidance.web.admin.security.UserBean;
-
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import java.io.IOException;
 
 /**
  * The controller for the AdminLogin screen
@@ -20,13 +17,23 @@ public class AdminLoginController {
     AdminLoginModel model;
 
     @Inject
-    UserBean user;
-
-    @Inject
     AdminLoginFacade facade;
 
-    public void login() throws IOException {
-        facade.checkCredentials(model, user);
+
+    public void autoLogin() {
+        facade.autoLogin(model);
+    }
+
+    public void login() {
+        facade.login(model.getUsername(), model.getPassword(), model.isRemember());
+    }
+
+    public boolean isLoggedIn() {
+        return facade.isLoggedIn();
+    }
+
+    public void logout() {
+        facade.logout(model.getUsername());
     }
 
     public AdminLoginModel getModel() {

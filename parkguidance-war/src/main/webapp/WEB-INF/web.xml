@@ -6,6 +6,7 @@
         <session-timeout>30</session-timeout>
     </session-config>
     <!-- Change to "Production" when you are ready to deploy -->
+
     <context-param>
         <param-name>javax.faces.PROJECT_STAGE</param-name>
         <param-value>Production</param-value>
@@ -43,6 +44,19 @@
         <param-name>javax.faces.STATE_SAVING_METHOD</param-name>
         <param-value>server</param-value>
     </context-param>
+
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Admin pages</web-resource-name>
+            <url-pattern>/admin/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>ADMIN</role-name>
+        </auth-constraint>
+    </security-constraint>
+    <security-role>
+        <role-name>ADMIN</role-name>
+    </security-role>
 
     <context-param>
         <param-name>org.omnifaces.FACES_VIEWS_SCAN_PATHS</param-name>

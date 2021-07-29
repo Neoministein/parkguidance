@@ -29,14 +29,25 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>com.github.adminfaces</groupId>
-            <artifactId>admin-template</artifactId>
-            <version>${adminfaces.version}</version>
-        </dependency>
-        <dependency>
             <groupId>org.primefaces</groupId>
             <artifactId>primefaces</artifactId>
             <version>8.0@Neo-1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.omnifaces</groupId>
+            <artifactId>omnifaces</artifactId>
+            <version>3.2</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.adminfaces</groupId>
+            <artifactId>admin-template</artifactId>
+            <version>${adminfaces.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.omnifaces</groupId>
+                    <artifactId>omnifaces</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.primefaces.extensions</groupId>
