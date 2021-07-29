@@ -3,6 +3,7 @@ package com.neo.parkguidance.parkdata.receiver.api.servlet;
 import com.neo.parkguidance.parkdata.receiver.impl.ParkingServiceFacade;
 
 import javax.inject.Inject;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -12,6 +13,7 @@ import java.io.IOException;
 /**
  * This class is a REST endpoint for updating {@link com.neo.parkguidance.core.entity.ParkingGarage} and its data
  */
+@WebServlet("/api/park-data/receiver")
 public class ParkingService extends HttpServlet {
 
     @Inject
