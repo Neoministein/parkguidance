@@ -1,10 +1,16 @@
 package com.neo.parkguidance.core.impl.dao;
 
 import com.neo.parkguidance.core.entity.DataBaseEntity;
+import com.neo.parkguidance.core.impl.DataBaseEntityChangeEvent;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.*;
 
+import javax.enterprise.event.Event;
+import javax.enterprise.event.ObserverException;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
@@ -13,8 +19,14 @@ import java.util.List;
 
 public abstract class AbstractEntityDao<T extends DataBaseEntity<T>> {
 
+    private static final Logger LOGGER = LogManager.getLogger(AbstractEntityDao.class);
+
+    @Inject
+    Event<DataBaseEntityChangeEvent<T>> event;
+
     protected final Class<T> entityClass;
 
+    @Inject
     protected AbstractEntityDao(Class<T> entityClass) {
         this.entityClass = entityClass;
     }
@@ -25,14 +37,17 @@ public abstract class AbstractEntityDao<T extends DataBaseEntity<T>> {
 
     public void create(T entity) {
         getEntityManager().persist(entity);
+        fireEvent(new DataBaseEntityChangeEvent<>(DataBaseEntityChangeEvent.CREATE, entity));
     }
 
     public void edit(T entity) {
         getEntityManager().merge(entity);
+        fireEvent(new DataBaseEntityChangeEvent<>(DataBaseEntityChangeEvent.EDIT, entity));
     }
 
     public void remove(T entity) {
         getEntityManager().remove(getEntityManager().merge(entity));
+        fireEvent(new DataBaseEntityChangeEvent<>(DataBaseEntityChangeEvent.REMOVE, entity));
     }
 
     public T find(Object id) {
@@ -40,12 +55,14 @@ public abstract class AbstractEntityDao<T extends DataBaseEntity<T>> {
     }
 
     public List<T> findAll() {
+        @SuppressWarnings("java:S3740")
         CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
         cq.select(cq.from(entityClass));
         return getEntityManager().createQuery(cq).getResultList();
     }
 
     public int count() {
+        @SuppressWarnings("java:S3740")
         CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
         Root<T> rt = cq.from(entityClass);
         cq.select(getEntityManager().getCriteriaBuilder().count(rt));
@@ -88,5 +105,17 @@ public abstract class AbstractEntityDao<T extends DataBaseEntity<T>> {
         criteria.add(example);
         criteria.setProjection(Projections.rowCount());
         return (Long) criteria.uniqueResult();
+    }
+
+    private void fireEvent(DataBaseEntityChangeEvent<T> changeEvent) {
+        try {
+            event.fire(changeEvent);
+        } catch (ObserverException | IllegalArgumentException ex) {
+            LOGGER.warn("An exception occurred while firing event [{}] [{}] [{}] {}",
+                    changeEvent.getStatus(),
+                    entityClass.getName(),
+                    changeEvent.getChangedObject().getPrimaryKey(),
+                    ex.getMessage());
+        }
     }
 }
