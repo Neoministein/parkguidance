@@ -1,6 +1,6 @@
 # ParkGuidance-User
 
-The user module contains all pages a normal user will interact with or get in contact with. 
+The user component contains all pages a normal user will interact with or get in contact with. 
 
 ## Interface
 
@@ -36,4 +36,37 @@ The final screen has an application scoped chart which is updated only every 30 
 
 ![Image showing Parking Garage Data screen](images/f-User-GarageData.png)
 
->Back to  [README.MD](../README.md)
+### Search Page 
+
+#### Concept
+
+The search page should have a searchable table which can be filtered by parking garage name and city name. 
+There should also be a way to click on the parking garage to get to a page with more information.
+
+#### Product
+
+![Image showing search screen](images/f-User-Search.png)
+
+#### Product
+
+### Near Me 
+
+#### Concept
+
+The Near me page should either take in a users coordinates or an address and find a number of the closest parking garages.
+
+It should display the following details to user:
+
+- Name of the parking garage
+- Link to the data screen
+- current capacity and free occupied spots
+- the address
+- the distance to the garage
+- the time it takes to the garage
+
+#### Product
+
+There are two screen implementations. One for the address and one for the coordinates.
+Screen shot currently not available due to no data. 
+
+>Back to [README.MD](../README.md)

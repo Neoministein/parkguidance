@@ -1,9 +1,13 @@
 # Parkguidance
 
-This Parkguidance System is a school project for the [Module 151](https://cf.ict-berufsbildung.ch/modules.php?name=Mbk&a=20101&cmodnr=151&noheader=1) at [BBB](https://bbbaden.ch).
-
 This System is designed to receive data from different parking garages in order to sort and log them into its database.
 On request, it displays the current capacity and Infos of the hooked-up parking garages and gives a rough estimate of its free capacity throughout the day. 
+
+
+This project started as a school project for the [Module 151](https://cf.ict-berufsbildung.ch/modules.php?name=Mbk&a=20101&cmodnr=151&noheader=1) at [BBB](https://bbbaden.ch).
+The branch [Release-0.1](https://github.com/Neoministein/parkguidance/tree/Release-0.1) was submitted as the finished project.
+
+The project is being further developed for a second school project for the VA (Vertiefungs arbeit), independent in-depth work.  
 
 ## Documentation
 
@@ -13,31 +17,39 @@ This project is designed on a 4 Tier architecture
 
 - **Presentation layer:** [Primefaces](https://primefaces.org)
 - **Application layer:** [Wildfly](https://www.wildfly.org)
-- **Business layer:** [Java EE](https://de.wikipedia.org/wiki/Jakarta_EE) 
-- **Data access layer:** [JPA](https://de.wikipedia.org/wiki/Jakarta_Persistence_API) with [PostgreSQL](https://www.postgresql.org)
+- **Business layer:** [Jakarta EE](https://de.wikipedia.org/wiki/Jakarta_EE) 
+- **Data access layer:** 
+    - **Relational Database:** [JPA](https://de.wikipedia.org/wiki/Jakarta_Persistence_API) with [PostgreSQL](https://www.postgresql.org) 
+    - **Document Oriented Database:** [ElasticSearch](https://www.elastic.co)
 
 This project also uses [Apache Maven](https://maven.apache.org) as it's project management and comprehension tool.
 
 ### Modules
 
-This system was developed in a style that all components are structured in such a way that each component can be deployed and exchanged individually without affecting each other. 
+This project was developed in a modular architecture in which the components contain their specific logic 
+and are combined in the Main module and afterwards deployed in the War module.
 
-Module documentation:
- - **User:** [link](docs/user.md)
- - **Admin:** [link](docs/admin.md)
- - **API** [link](docs/api.md)
+Modules:
+ - **Components** 
+ - **Main** 
+ - **War** 
  
 Component documentation:
-  - **Core:** [link](docs/core.md)
-  - **Web:** [link](docs/web.md)
-  - **ParkData-Sorter:** [link](docs/parkingdata-sorter.md)
-  - **ParkData-Receiver:** [link](docs/parkingdata-receiver.md)
+  - **Core:** [doc](docs/core.md)
+  - **Elastic:** [doc](docs/elastic.md)
+  - **GCS:** [doc](docs/gcs.md)
+  - **ParkData-Sorter:** [doc](docs/parkingdata-sorter.md)
+  - **ParkData-Receiver:** [doc](docs/parkingdata-receiver.md)
+  - **Web:** [doc](docs/web.md)
+  - **User:** [doc](docs/user.md)
+  - **Admin:** [doc](docs/admin.md)
 
 ## Getting Started
 
 ### Project installation guide
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
+See deployment for notes on how to deploy the project on a live system.
 
 #### Prerequisites
 
@@ -47,6 +59,8 @@ Following programs are needed:
  - Maven 
  - Wildfly 22.0.0.Final
  - Postgres 12.3 
+ - ElasticSearch 7.13.1
+ - Kibana 7.13.1 (Recommended)
 
 #### Setup Configuration
 
@@ -166,18 +180,18 @@ After building the sources you can start wildfly at **WILDFLY_HOME**\bin\standal
  > you would need to add "-b 0.0.0.0" as a parameter to the execution of standalone.bat
 
 ##### Deploy
-You can now log in to the admin panel at [http://localhost:9990](http://localhost:9990) and add these war Files to your deployment:
+You can now log in to the admin panel at [http://localhost:9990](http://localhost:9990) and add the war Files to your deployment:
 
-- parkguidance-admin-x.x.x.war
-- parkguidance-user-x.x.x.war
-- parkguidance-api-x.x.x.war
-
+- parkguidance-war-x.x.x.war
 
 ##### URL'S
-After deploying it you can reach these two sites:
+After deploying it you can reach the website at:
 
-- Admin Panel: [http://localhost:8080/park-guidance/admin](http://localhost:8080/park-guidance/admin)
 - User Panel: [http://localhost:8080/park-guidance](http://localhost:8080/park-guidance)
+
+To see the admin features you'll need to login at:
+
+- Admin Panel: [http://localhost:8080/park-guidance/login](http://localhost:8080/park-guidance/login)
 
 And these two API endpoints:
 
@@ -185,9 +199,9 @@ And these two API endpoints:
 - Parkdata Sorter: [http://localhost:8080/park-guidance/api/park-data/sorter](http://localhost:8080/park-guidance/api/park-data/sorter)
 
 
-## Main Authors
+## Author
 
-* **Neoministein** - *Initial work* - [Youtube](https://www.youtube.com/channel/UCtfBiBXVXqTotONMq6VSMbg) Neoministein#1245
+* **Neoministein** - *Initial work* - [Youtube](https://www.youtube.com/channel/UCtfBiBXVXqTotONMq6VSMbg) / Discord: Neoministein#1245
 
 ## License
 

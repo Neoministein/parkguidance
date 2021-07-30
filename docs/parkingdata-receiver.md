@@ -1,6 +1,6 @@
 # ParkGuidance-ParkingData-Receiver
 
-The parking data receiver module is designed to accept data from parking garages and sort them correctly in the database.
+The parking data receiver component is designed to accept data from parking garages and store them correctly in elasticsearch.
 ## Interface
 
 Data can be sent to the servlet with an HTTP POST request to the URL, but it requires a body with specified information.
@@ -26,7 +26,7 @@ incr    | +1 to the current number of occupied spaces           | Sensor at Gara
 decr    | -1 to the current number of occupied spaces           | Sensor at Garage
 set     | The current number of occupied spaces is set to this | Web scraper 
     
-** Note**
+**Note**
 If you use set you will need to add an amount tag to the JSON string.
 ```json
 {

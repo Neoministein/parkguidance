@@ -1,6 +1,6 @@
 # ParkGuidance-Web
 
-The Web module contains all content for creating web pages which includes:
+The Web component contains all content for creating web pages which includes:
 
 - xHtml template 
 - Css

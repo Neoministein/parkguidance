@@ -1,10 +1,10 @@
 # ParkGuidance-Admin
 
-The admin module contains all pages with which an admin user is going to interact with.
+The admin component contains all pages with which an admin user is going to interact with.
 
 ## Interface
 
-You can access the admin web pages at http://localhost:8080/park-guidance/admin.
+You can access the admin web pages at http://localhost:8080/park-guidance/admin/[pagename].
 
 Your access to the pages are blocked at first, and you will be redirected o the [Login Page](#Login-Page).
 After successfully entering the username and password you'll be able to travel through the pages freely.
@@ -22,7 +22,7 @@ The login page should have two input fields, and a button one for the username a
 
 #### Product
 
-The front firstly checks if both username and password aren't null.
+The front end firstly checks if both username and password aren't null.
 
 
 After filling out both input fields and clicking on Sign the backend gets notified. 
@@ -31,10 +31,12 @@ If it exists it hashes the received password from the user and compares it with 
 
 If one or both checks returns false the user is displayed a message containing "Login failed".
 
+> There is an autologin in place in which you will be automatically logged in using cookies if you used the "Remember Me" radio button and didn't logout since the last session
+
 
 ![Image showing login screen](images/f-Admin-Login.png)
 
-> The Remember Me, Forgot Password, and Register are currently only cosmetic and have no backend integration. 
+> The Forgot Password, and Register are currently only cosmetic and have no backend integration. 
 
 ### List Pages
 
@@ -49,17 +51,11 @@ When clicking on the name of the dataset you shall be redirected to a form in wh
 
 #### Product
 
+The implementation uses a LazyDataModel to only load the shown data from the database
+
 ##### ParkingGarages Page
 
 ![Image showing ParkingGarageList screen](images/f-Admin-ParkingGarageList.png)
-
-##### ParkingData Page
-
-![Image showing ParkingDataList screen](images/f-Admin-ParkingDataList.png)
-
-##### Datasheet Page
-
-![Image showing DatasheetList screen](images/f-Admin-DataSheetList.png)
 
 ### Form Pages
 
@@ -71,7 +67,7 @@ Form Pages are a one-to-one representation of the selected dataset from the data
 If you are creating a new dataset you'll be able to create, clear or go back with the provided buttons. 
 
 
-If you are editing a existing dataset you'll be able to save, delete or go back with the provided buttons. 
+If you are editing an existing dataset you'll be able to save, delete or go back with the provided buttons. 
 
 ##### New
 
@@ -83,32 +79,54 @@ If you are editing a existing dataset you'll be able to save, delete or go back 
 
 #### Product
 
-##### ParkingGarages Page
+##### ParkingGarages Page Save
 
-![Image showing ParkingGarageForm screen](images/f-Admin-ParkingGarageForm.png)
+![Image showing ParkingGarageForm screen](images/f-Admin-ParkingGarageForm-Save.png)
 
-##### ParkingData Page
+##### ParkingGarages Page Edit
 
-![Image showing ParkingDataForm screen](images/f-Admin-ParkingDataForm.png)
+![Image showing ParkingGarageForm screen](images/f-Admin-ParkingGarageForm-Edit.png)
 
-##### Datasheet Page
+### ElasticSearch Status Pages
 
-![Image showing DatasheetForm screen](images/f-Admin-DataSheetForm.png)
+#### Concept
 
-### Additional Infos
+The Elastic Search Status Page should display info of the received **_cluster/health** request:
 
-#### Parking Data Sorter
+ - status
+ - timed_out
+ - number_of_pending_tasks
+ - number_of_in_flight_fetch
+ 
+#### Product
 
-In the DataSheetList Screen, there is a button called Sort data. 
-This button sends an HTTP POST request to the [ParkingData-Sorter Module](parkingdata-sorter.md) to initiate the sorting of the parking data into a datasheet.
+![Image showing ElasticAdmin screen](images/f-Admin-ElasticAdmin.png)
 
-**Note**
-> The button is disabled if the module isn't available via a ping.
+### ParkingData Pages
 
-#### Delete Old
+#### Concept
 
-In the ParkingDataList Screen, there is a button called delete old.
-If pressed this button goes through the parking data and deletes all entries which have been sorted and are older than 2 Weeks.  
+The ParkData screen should display all relevant data regarding the parking data in elasticsearch.
+
+It should display these datapoint per Garage in a Table:
+
+- key of the parking garage
+- count of raw data entries that hasn't been sorted yet
+- count of raw data entries that has been sorted
+- count of sorted data entries
+- the last raw unsorted data entry has taken place 
+
+The screen should also contain a button which sends an HTTP POST request to the [ParkingData-Sorter Module](parkingdata-sorter.md)
+to initiate the sorting of the parking data.
+
+> The button should disable itself if the component isn't available via a ping.
+
+The screen should contain a second button which deletes the raw sorted parking data.
+
+#### Product
+
+![Image showing ParkingData screen](images/f-Admin-ParkingData.png)
+ 
 
 >Back to  [README.MD](../README.md)
 
