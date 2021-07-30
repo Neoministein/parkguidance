@@ -3,6 +3,7 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
                 template="/admin.xhtml">
 
     <ui:define name="head">
@@ -39,6 +40,9 @@
            href="https://github.com/neoministein/">
             Copyright (C) 2021 - Sandro Tartoni
         </a>
+        <p:link outcome="/impresum" style="margin-left: 20px">
+            <span>Impresum</span>
+        </p:link>
 
         <div class="pull-right hidden-xs" style="color: gray">
             <i>#{msg['starter.version']}</i>
