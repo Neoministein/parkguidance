@@ -34,6 +34,6 @@ public class StoredValueEntityManager extends AbstractEntityDao<StoredValue> {
         }
 
         LOGGER.error("Unable to find the stored value {} in the database" , value);
-        throw new IllegalArgumentException(getClass().getName() + " has not entry for the key " + value);
+        throw new IllegalArgumentException(getClass().getName() + " has no entry for the key " + value);
     }
 }
