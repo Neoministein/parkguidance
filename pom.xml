@@ -59,7 +59,6 @@
 	<modules>
 		<module>parkguidance-components</module>
 
-		<module>parkguidance-api</module>
 		<module>parkguidance-main</module>
 		<module>parkguidance-war</module>
 	</modules>
