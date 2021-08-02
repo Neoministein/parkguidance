@@ -1,5 +1,6 @@
 package com.neo.parkguidance.web.user.pages.geolocation;
 
+import com.neo.parkguidance.core.impl.StoredValueService;
 import com.neo.parkguidance.google.api.maps.CrossPlatformURL;
 import com.neo.parkguidance.google.api.maps.DistanceDataObject;
 import com.neo.parkguidance.google.api.maps.DistanceMatrix;
@@ -20,13 +21,14 @@ import java.util.stream.Collectors;
 
 /**
  * The screen facade for the NearAddress and NearLocation screen
- * TODO Implement changing wanted garage
  */
 @Stateless
 public class GeoLocationFacade {
 
     public static final int RADIUS_EARTH = 6371;
-    public static final int WANTED_GARAGES = 5;
+    public static final int DEFAULT_GARAGES = 5;
+
+    public static final String WANTED_GARAGES = "user.wanted-garages";
 
     private static final Logger LOGGER = LogManager.getLogger(GeoLocationFacade.class);
 
@@ -38,6 +40,9 @@ public class GeoLocationFacade {
 
     @Inject
     AbstractEntityDao<ParkingGarage> parkingGarageDao;
+
+    @Inject
+    StoredValueService storedValueService;
 
     public List<DistanceDataObject> callDistance(double latitude, double longitude) {
         List<ParkingGarage> parkingGarageList = findNearest(parkingGarageDao.findAll(), latitude, longitude);
@@ -74,7 +79,7 @@ public class GeoLocationFacade {
     protected List<ParkingGarage> findNearest(List<ParkingGarage> parkingGarageList, double latitude, double longitude) {
         LOGGER.info("Looking for nearest ParkingGarage");
         Map<String,Double> map = new HashMap<>();
-        if(parkingGarageList.size() < WANTED_GARAGES) {
+        if(parkingGarageList.size() < getWantedGarages()) {
             LOGGER.debug("There aren't enough ParkingGarages using all");
             return parkingGarageList;
         }
@@ -90,7 +95,7 @@ public class GeoLocationFacade {
         List<Map.Entry<String,Double>> entries = sortByValue(map);
 
         List<ParkingGarage> selectedGarages = new ArrayList<>();
-        for(int i = 0; i < WANTED_GARAGES;i++) {
+        for(int i = 0; i < getWantedGarages();i++) {
             selectedGarages.add(parkingGarageDao.find(entries.get(i).getKey()));
         }
 
@@ -122,5 +127,13 @@ public class GeoLocationFacade {
                 : o1.getValue().compareTo(o2.getValue()));
         return list;
 
+    }
+
+    private int getWantedGarages() {
+        try {
+            return storedValueService.getInteger(WANTED_GARAGES);
+        } catch (IllegalArgumentException ex) {
+            return DEFAULT_GARAGES;
+        }
     }
 }

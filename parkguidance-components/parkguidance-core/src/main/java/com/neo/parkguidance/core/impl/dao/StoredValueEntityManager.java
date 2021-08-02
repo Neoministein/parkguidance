@@ -7,7 +7,6 @@ import org.apache.logging.log4j.Logger;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.util.List;
 
 @Stateless
 public class StoredValueEntityManager extends AbstractEntityDao<StoredValue> {
@@ -27,10 +26,10 @@ public class StoredValueEntityManager extends AbstractEntityDao<StoredValue> {
     }
 
     public StoredValue findValue(String value) {
-        List<StoredValue> storedValues = findByColumn(StoredValue.C_KEY, value);
+        StoredValue storedValues = find(value);
 
-        if(!storedValues.isEmpty()) {
-            return storedValues.get(0);
+        if (storedValues != null) {
+            return storedValues;
         }
 
         LOGGER.error("Unable to find the stored value {} in the database" , value);

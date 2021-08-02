@@ -1,6 +1,7 @@
 package com.neo.parkguidance.web.admin.pages.login;
 
 import com.github.adminfaces.template.config.AdminConfig;
+import com.neo.parkguidance.core.impl.StoredValueService;
 import com.neo.parkguidance.web.utils.Utils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -27,6 +28,9 @@ public class AdminLoginFacade {
 
     private static final String COOKIE_USER = "admin-user";
     private static final String COOKIE_PASSWORD = "admin-pass";
+    private static final String COOKIE_TIMEOUT = "admin.cookie.timeout";
+
+    private static final int DEFAULT_COOKIE_TIMEOUT = 1800; //30 min
 
     private static final Logger LOGGER = LogManager.getLogger(AdminLoginFacade.class);
 
@@ -41,6 +45,9 @@ public class AdminLoginFacade {
 
     @Inject
     AdminConfig adminConfig;
+
+    @Inject
+    StoredValueService storedValueService;
 
     public void autoLogin(AdminLoginModel model) {
         if (isLoggedIn()) {
@@ -112,8 +119,15 @@ public class AdminLoginFacade {
     }
 
     private void storeCookieCredentials(final String email, final String password) {
-        Faces.addResponseCookie(COOKIE_USER, email, 1800);//store for 30min
-        Faces.addResponseCookie(COOKIE_PASSWORD, password, 1800);//store for 30min
+        int cookieTimeOut;
+        try {
+            cookieTimeOut = storedValueService.getInteger(COOKIE_TIMEOUT);
+        } catch (IllegalArgumentException ex) {
+            cookieTimeOut = DEFAULT_COOKIE_TIMEOUT;
+        }
+
+        Faces.addResponseCookie(COOKIE_USER, email, cookieTimeOut);
+        Faces.addResponseCookie(COOKIE_PASSWORD, password, cookieTimeOut);
     }
 
     private AuthenticationStatus continueAuthentication(String username, String password, boolean remember) {

@@ -2,13 +2,13 @@ package com.neo.parkguidance.google.api.maps;
 
 import com.neo.parkguidance.core.api.HTTPRequestSender;
 import com.neo.parkguidance.core.api.HTTPResponse;
+import com.neo.parkguidance.core.impl.StoredValueService;
 import com.neo.parkguidance.elastic.impl.ElasticSearchProvider;
 import com.neo.parkguidance.google.api.constants.GoogleConstants;
 import com.neo.parkguidance.core.entity.Address;
 import com.neo.parkguidance.core.api.HTTPRequest;
 import com.neo.parkguidance.core.entity.ParkingGarage;
 import com.neo.parkguidance.core.entity.StoredValue;
-import com.neo.parkguidance.core.impl.dao.StoredValueEntityManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
@@ -36,7 +36,7 @@ public class DistanceMatrix {
     private static final Logger LOGGER = LogManager.getLogger(DistanceMatrix.class);
 
     @Inject
-    StoredValueEntityManager storedValueManager;
+    StoredValueService storedValueService;
 
     @Inject
     ElasticSearchProvider elasticSearchProvider;
@@ -64,7 +64,7 @@ public class DistanceMatrix {
         elasticSearchProvider.save(GoogleConstants.ELASTIC_INDEX, GoogleConstants.elasticLog(TYPE,finalQuery));
 
         HTTPRequest apiRequest = new HTTPRequest();
-        apiRequest.setUrl(url + GoogleConstants.KEY + storedValueManager.findValue(StoredValue.V_GOOGLE_MAPS_API).getValue());
+        apiRequest.setUrl(url + GoogleConstants.KEY + storedValueService.getString(StoredValue.V_GOOGLE_MAPS_API));
         apiRequest.setRequestMethod("GET");
         HTTPResponse httpResponse = httpRequestSender.call(apiRequest);
 
