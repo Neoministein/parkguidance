@@ -32,7 +32,7 @@ public class DataController {
 
         if(!chartModel.isInitialized()
                 || facade.chartModelOutOfDate(chartModel)
-                || chartModel.getDataSets().containsKey(model.getKey())) {
+                || !chartModel.getDataSets().containsKey(model.getKey())) {
 
             chartModel.setDataSets(facade.loadDataSet());
             chartModel.setLabels(facade.createChartLabel());
