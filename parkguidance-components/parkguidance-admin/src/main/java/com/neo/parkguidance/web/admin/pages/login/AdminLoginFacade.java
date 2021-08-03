@@ -75,7 +75,7 @@ public class AdminLoginFacade {
             break;
         case SUCCESS:
             externalContext.getFlash().setKeepMessages(true);
-            Utils.addDetailMessage("Logged in successfully as" + username);
+            Utils.addDetailMessage("Logged in successfully as " + username);
             if (remember) {
                 storeCookieCredentials(username, password);
             }
