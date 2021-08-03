@@ -29,7 +29,8 @@
                 <div class="ui-sm-12 ui-g-6 ui-g-nopad">
                     <div class="ui-sm-12 ui-g-11" >
                         <p:panel id="spaces" header="Angebot">
-                            <h:outputText value="#{data.model.parkingGarage.occupied}/#{data.model.parkingGarage.spaces}"/>
+                            <h:outputText value="#{data.model.parkingGarage.occupied}/#{data.model.parkingGarage.spaces}" rendered="#{not data.model.parkingGarage.isEmpty()}"/>
+                            <h:outputText value="#{data.model.parkingGarage.spaces}" rendered="#{data.model.parkingGarage.isEmpty()}"/>
                         </p:panel>
                     </div>
                 </div>

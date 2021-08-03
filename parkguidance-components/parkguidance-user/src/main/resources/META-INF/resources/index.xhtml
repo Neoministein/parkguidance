@@ -14,7 +14,8 @@
                 </p:link>
             </p:column>
             <p:column headerText="Plätze">
-                <h:outputText value="#{parkingGarage.occupied}/#{parkingGarage.spaces}" />
+                <h:outputText value="#{parkingGarage.occupied}/#{parkingGarage.spaces}" rendered="#{not parkingGarage.isEmpty()}" />
+                <h:outputText value="#{parkingGarage.spaces}" rendered="#{parkingGarage.isEmpty()}" />
             </p:column>
         </p:dataTable>
         <h:outputText value="Last update: "/>

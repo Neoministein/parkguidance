@@ -53,6 +53,10 @@ public class ParkingGarage implements DataBaseEntity<ParkingGarage> {
     @Column(name = C_DESCRIPTION)
     private String description;
 
+    public boolean isEmpty() {
+        return occupied == 0;
+    }
+
     public ParkingGarage() {
         this.address = new Address();
     }
