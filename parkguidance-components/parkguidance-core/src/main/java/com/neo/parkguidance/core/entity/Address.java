@@ -132,16 +132,16 @@ public class Address implements DataBaseEntity<Address> {
 
     @Override
     public boolean compareValues(Address o) {
-        if (!cityName.equals(o.cityName)) {
+        if (!Objects.equals(cityName,o.getCityName())) {
             return false;
         }
-        if (!plz.equals(o.getPlz())) {
+        if (!Objects.equals(plz,o.getPlz())) {
             return false;
         }
-        if (!street.equals(o.getStreet())) {
+        if (!Objects.equals(street, o.getStreet())) {
             return false;
         }
-        if (!number.equals(o.getNumber())) {
+        if (!Objects.equals(number, o.getNumber())) {
             return false;
         }
         if (!Objects.equals(longitude,o.getLongitude())) {
