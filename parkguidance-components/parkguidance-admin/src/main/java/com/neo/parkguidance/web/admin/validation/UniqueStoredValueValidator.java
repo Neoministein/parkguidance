@@ -27,6 +27,12 @@ public class UniqueStoredValueValidator implements Validator<String>, Serializab
 
     @Override
     public void validate(FacesContext facesContext, UIComponent uiComponent, String o) {
+        if (o.replaceAll("[a-zA-Z\\d\\-_.]","").length() > 0) {
+            FacesMessage msg = Messages.createError("Unsupported Character, Valid Characters include a-Z, 0-9, '.', '_' and '-'.");
+            facesContext.addMessage(uiComponent.getClientId(facesContext), msg);
+            return;
+        }
+
         if (dao.find(o) != null) {
             FacesMessage msg = Messages.createError("Key already exists");
             facesContext.addMessage(uiComponent.getClientId(facesContext), msg);
