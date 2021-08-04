@@ -14,7 +14,7 @@ public class DataModel implements Serializable {
 
     private boolean isInitialized = false;
 
-    private String key;
+    private String key = "";
     private ParkingGarage parkingGarage;
     private LineChartModel cartesianLinerModel;
 

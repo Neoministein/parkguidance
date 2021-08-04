@@ -1,5 +1,6 @@
 package com.neo.parkguidance.web.user.pages.data;
 
+import com.neo.parkguidance.web.utils.Utils;
 import org.omnifaces.util.Faces;
 
 import javax.enterprise.context.RequestScoped;
@@ -30,6 +31,13 @@ public class DataController {
             return;
         }
 
+        model.setParkingGarage(facade.getParkingGarage(model.getKey()));
+        if (model.getParkingGarage() == null) {
+            Utils.addDetailMessage("Parking Garage " + model.getKey() + " does not exists");
+            facade.redirectToIndex();
+            return;
+        }
+
         if(!chartModel.isInitialized()
                 || facade.chartModelOutOfDate(chartModel)
                 || !chartModel.getDataSets().containsKey(model.getKey())) {
@@ -41,7 +49,6 @@ public class DataController {
         }
 
         if(!model.isInitialized()) {
-            model.setParkingGarage(facade.getParkingGarage(model.getKey()));
             facade.createCartesianLinerModel(model, chartModel);
             model.setInitialized(true);
         }

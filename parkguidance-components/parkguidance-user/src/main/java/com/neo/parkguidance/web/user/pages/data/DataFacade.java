@@ -18,6 +18,7 @@ import org.primefaces.model.charts.line.LineChartOptions;
 import org.primefaces.model.charts.optionconfig.title.Title;
 
 import javax.ejb.Stateless;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -43,6 +44,17 @@ public class DataFacade {
 
     @Inject
     ElasticSearchProvider elasticSearchProvider;
+
+    public void redirectToIndex() {
+        try {
+            LOGGER.info("Redirecting to index due to no ParkingGarage existing");
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.getExternalContext().redirect("index");
+        } catch (Exception e) {
+            LOGGER.warn("Unable to redirect back to index screen");
+        }
+
+    }
 
     public Map<String, LineChartDataSet> loadDataSet() {
         LOGGER.info("Loading Chart Dataset");
@@ -135,7 +147,7 @@ public class DataFacade {
             }
             return (Integer) o;
         }catch (IOException e) {
-
+            LOGGER.warn("Unable to get Average Occupation at halfhour [{}] in [{}]", halfHour, key);
         }
 
         return null;
