@@ -23,7 +23,6 @@ public class ParkDataController {
     @PostConstruct
     public void init() {
         if (!model.isInitialized()) {
-            model.setSorterOffline(facade.isSorterOffline());
             model.setParkDataObject(facade.loadParkDataStatistics());
             model.setInitialized(true);
         }

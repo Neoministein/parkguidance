@@ -1,10 +1,8 @@
 package com.neo.parkguidance.web.admin.pages.parkdata;
 
-import com.neo.parkguidance.core.api.HTTPRequest;
-import com.neo.parkguidance.core.api.HTTPRequestSender;
-import com.neo.parkguidance.core.api.HTTPResponse;
 import com.neo.parkguidance.core.entity.ParkingGarage;
 import com.neo.parkguidance.core.impl.dao.AbstractEntityDao;
+import com.neo.parkguidance.core.impl.event.ParkDataChangeEvent;
 import com.neo.parkguidance.elastic.impl.ElasticSearchProvider;
 import com.neo.parkguidance.elastic.impl.query.ElasticSearchLowLevelQuery;
 import com.neo.parkguidance.web.utils.Utils;
@@ -15,8 +13,9 @@ import org.json.JSONObject;
 import org.omnifaces.util.Messages;
 
 import javax.ejb.Stateless;
+import javax.enterprise.event.Event;
+import javax.enterprise.event.ObserverException;
 import javax.inject.Inject;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -36,24 +35,23 @@ public class ParkDataFacade {
     ElasticSearchProvider elasticSearchProvider;
 
     @Inject
+    Event<ParkDataChangeEvent> changeEvent;
+
+    @Inject
     AbstractEntityDao<ParkingGarage> entityDao;
 
-    public boolean isSorterOffline() {
-        return !Utils.pingHost(System.getProperty("parkguidance.endpoint.sorter"));
-    }
-
     public void sortParkingData() {
-        HTTPRequest httpRequest = new HTTPRequest(
-                System.getProperty("parkguidance.endpoint.sorter"),
-                "POST"
-        );
+        ParkDataChangeEvent event = new ParkDataChangeEvent(ParkDataChangeEvent.SORT_REQUEST);
+        try {
+            changeEvent.fire(event);
+        } catch (ObserverException | IllegalArgumentException ex) {
+            LOGGER.warn("An exception occurred while firing event [{}] [{}] {}",
+                    event.getType(),
+                    event.getStatus(),
+                    ex.getMessage());
 
-        HTTPResponse response = new HTTPRequestSender().call(httpRequest);
-
-        if(response.getCode() != HttpServletResponse.SC_OK) {
-            Messages.addError(null, "Something went wrong while sorting " + response.getCode() + "|" + response.getMessage());
+            Messages.addError(null, "Something went wrong while sorting " + ex.getMessage());
         }
-
     }
 
     public void deleteOld() {

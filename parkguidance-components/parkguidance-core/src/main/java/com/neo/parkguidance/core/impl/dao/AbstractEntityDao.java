@@ -1,7 +1,7 @@
 package com.neo.parkguidance.core.impl.dao;
 
 import com.neo.parkguidance.core.entity.DataBaseEntity;
-import com.neo.parkguidance.core.impl.DataBaseEntityChangeEvent;
+import com.neo.parkguidance.core.impl.event.DataBaseEntityChangeEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.Criteria;

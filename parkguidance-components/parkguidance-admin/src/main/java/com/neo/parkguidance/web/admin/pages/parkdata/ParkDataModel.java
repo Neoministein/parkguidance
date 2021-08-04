@@ -13,7 +13,6 @@ public class ParkDataModel implements Serializable {
 
     private boolean initialized = false;
 
-    private boolean sorterOffline;
     private List<ParkDataObject> parkDataObject;
 
     public boolean isInitialized() {
@@ -22,14 +21,6 @@ public class ParkDataModel implements Serializable {
 
     public void setInitialized(boolean initialized) {
         this.initialized = initialized;
-    }
-
-    public boolean isSorterOffline() {
-        return sorterOffline;
-    }
-
-    public void setSorterOffline(boolean sorterOffline) {
-        this.sorterOffline = sorterOffline;
     }
 
     public List<ParkDataObject> getParkDataObject() {

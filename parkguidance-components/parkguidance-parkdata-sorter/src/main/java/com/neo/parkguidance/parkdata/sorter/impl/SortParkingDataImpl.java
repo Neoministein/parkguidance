@@ -1,8 +1,8 @@
 package com.neo.parkguidance.parkdata.sorter.impl;
 
 import com.neo.parkguidance.core.entity.ParkingGarage;
-import com.neo.parkguidance.core.impl.ChangeDataEvent;
 import com.neo.parkguidance.core.impl.dao.AbstractEntityDao;
+import com.neo.parkguidance.core.impl.event.ParkDataChangeEvent;
 import com.neo.parkguidance.elastic.impl.ElasticSearchProvider;
 import com.neo.parkguidance.elastic.impl.query.ElasticSearchLowLevelQuery;
 import org.apache.logging.log4j.LogManager;
@@ -13,6 +13,7 @@ import org.json.JSONObject;
 import javax.ejb.Stateless;
 import javax.enterprise.event.Event;
 import javax.enterprise.event.ObserverException;
+import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 import java.io.IOException;
 import java.util.Calendar;
@@ -20,7 +21,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * This class handles the sorting of the ParkingData in the ElasticSearch via the REST endpoint {@link com.neo.parkguidance.parkdata.sorter.api.DataSorterService}
+ * This class handles the sorting of the ParkingData in the ElasticSearch using {@link Event<ParkDataChangeEvent>}
  */
 @Stateless
 public class SortParkingDataImpl {
@@ -38,7 +39,7 @@ public class SortParkingDataImpl {
     private static final Logger LOGGER = LogManager.getLogger(SortParkingDataImpl.class);
 
     @Inject
-    Event<ChangeDataEvent> changeEvent;
+    Event<ParkDataChangeEvent> changeEvent;
 
     @Inject
     AbstractEntityDao<ParkingGarage> parkingGarageManager;
@@ -46,10 +47,16 @@ public class SortParkingDataImpl {
     @Inject
     ElasticSearchProvider elasticSearchProvider;
 
+    public void eventListener(@Observes ParkDataChangeEvent changeEvent) {
+        if (ParkDataChangeEvent.SORT_REQUEST.equals(changeEvent.getStatus())) {
+            sortParkingData();
+        }
+    }
+
     /**
      * Sorts all ParkingData in ElasticSearch
      */
-    public void sortParkingData() {
+    public synchronized void sortParkingData() {
         LOGGER.info("Starting to sort ParkingData in ElasticSearch");
         List<ParkingGarage> allParkingGarages = parkingGarageManager.findAll();
 
@@ -92,14 +99,8 @@ public class SortParkingDataImpl {
             updateAsSorted(parkingGarage.getKey(), startDate, endDate);
             saveSorted(docToStore);
         }
-
-        try {
-            changeEvent.fire(new ChangeDataEvent("ParkingData"));
-        }  catch (ObserverException | IllegalArgumentException ex) {
-        LOGGER.warn("An exception occurred while firing event [ParkingData] {}",
-                ex.getMessage());
-        }
         LOGGER.info("Finished sorting ParkingData");
+        fireEvent(new ParkDataChangeEvent(ParkDataChangeEvent.SORTED_RESPONSE));
     }
 
     private void saveSorted(JSONObject[] docs) {
@@ -251,5 +252,16 @@ public class SortParkingDataImpl {
                 ElasticSearchLowLevelQuery.match("garage", key),
                 ElasticSearchLowLevelQuery.match("sorted",false)
         );
+    }
+
+    private void fireEvent(ParkDataChangeEvent event) {
+        try {
+            changeEvent.fire(event);
+        }  catch (ObserverException | IllegalArgumentException ex) {
+            LOGGER.warn("An exception occurred while firing event [{}] [{}] {}",
+                    event.getType(),
+                    event.getStatus(),
+                    ex.getMessage());
+        }
     }
 }

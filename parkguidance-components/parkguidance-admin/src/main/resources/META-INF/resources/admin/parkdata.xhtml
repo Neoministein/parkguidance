@@ -28,7 +28,6 @@
                     <div id="main-buttons" class="hidden-sm hidden-xs">
                         <p:commandButton value="Sort Parkdata" styleClass="btn-primary"
                                          action="#{parkdata.sortParkingData()}"
-                                         disabled="#{parkdata.model.sorterOffline}"
                                          process="@this">
                             <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-danger"/>
                         </p:commandButton>
@@ -42,7 +41,6 @@
 
                     <p:splitButton value="Sort Parkdata" styleClass="hidden-md hidden-lg btn-primary"
                                    action="#{parkdata.sortParkingData()}"
-                                   disabled="#{parkdata.model.sorterOffline}"
                                     process="@this">
                         <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-danger"/>
                         <p:menuitem value="Delete Selected" icon="fa fa-trash"
