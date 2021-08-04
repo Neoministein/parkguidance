@@ -1,6 +1,7 @@
 package com.neo.parkguidance.parkdata.sorter.impl;
 
 import com.neo.parkguidance.core.entity.ParkingGarage;
+import com.neo.parkguidance.core.impl.ChangeDataEvent;
 import com.neo.parkguidance.core.impl.dao.AbstractEntityDao;
 import com.neo.parkguidance.elastic.impl.ElasticSearchProvider;
 import com.neo.parkguidance.elastic.impl.query.ElasticSearchLowLevelQuery;
@@ -10,6 +11,8 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import javax.ejb.Stateless;
+import javax.enterprise.event.Event;
+import javax.enterprise.event.ObserverException;
 import javax.inject.Inject;
 import java.io.IOException;
 import java.util.Calendar;
@@ -33,6 +36,9 @@ public class SortParkingDataImpl {
     public static final int MILLISECONDS_IN_HALF_AN_HOUR = MILLISECONDS_IN_HOUR / 2;
 
     private static final Logger LOGGER = LogManager.getLogger(SortParkingDataImpl.class);
+
+    @Inject
+    Event<ChangeDataEvent> changeEvent;
 
     @Inject
     AbstractEntityDao<ParkingGarage> parkingGarageManager;
@@ -85,6 +91,13 @@ public class SortParkingDataImpl {
             }
             updateAsSorted(parkingGarage.getKey(), startDate, endDate);
             saveSorted(docToStore);
+        }
+
+        try {
+            changeEvent.fire(new ChangeDataEvent("ParkingData"));
+        }  catch (ObserverException | IllegalArgumentException ex) {
+        LOGGER.warn("An exception occurred while firing event [ParkingData] {}",
+                ex.getMessage());
         }
         LOGGER.info("Finished sorting ParkingData");
     }

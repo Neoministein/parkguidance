@@ -1,10 +1,13 @@
 package com.neo.parkguidance.web.user.pages.data;
 
+import com.neo.parkguidance.core.impl.ChangeDataEvent;
 import org.primefaces.model.charts.line.LineChartDataSet;
 
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.event.Observes;
+import javax.inject.Inject;
 import java.io.Serializable;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,28 +18,24 @@ import java.util.Map;
 @ApplicationScoped
 public class DataChartModel implements Serializable {
 
-    private boolean isInitialized = false;
-
-    private Date lastUpdate = new Date(0);
-
     private List<String> labels;
     private Map<String, LineChartDataSet> dataSets = new HashMap<>();
 
-    public boolean isInitialized() {
-        return isInitialized;
+    @Inject
+    DataChartService dataChartService;
+
+    @PostConstruct
+    public void init() {
+        labels = dataChartService.createChartLabel();
+        dataSets = dataChartService.loadDataSet();
     }
 
-    public void setInitialized(boolean initialized) {
-        isInitialized = initialized;
+    public void reloadDataSet(@Observes ChangeDataEvent changeEvent) {
+        if (changeEvent.getStatus().equals("ParkingData")) {
+            init();
+        }
     }
 
-    public Date getLastUpdate() {
-        return lastUpdate;
-    }
-
-    public void setLastUpdate(Date lastUpdate) {
-        this.lastUpdate = lastUpdate;
-    }
 
     public List<String> getLabels() {
         return labels;
