@@ -13,10 +13,10 @@ import java.util.Date;
 @Stateless
 public class ParkListFacade {
 
-    private static final long TIME_BETWEEN_UPDATES = 5000;
+    private static final long TIME_BETWEEN_UPDATES = 5000; // 5 sec
 
     @Inject
-    private AbstractEntityDao<ParkingGarage> parkingGarageManager;
+    AbstractEntityDao<ParkingGarage> parkingGarageManager;
 
     public void initDataModel(ParkListModel model) {
         if(model.getLastUpdate().getTime() + TIME_BETWEEN_UPDATES < System.currentTimeMillis()) {
