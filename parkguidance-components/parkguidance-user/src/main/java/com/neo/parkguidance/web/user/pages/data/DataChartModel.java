@@ -1,6 +1,6 @@
 package com.neo.parkguidance.web.user.pages.data;
 
-import com.neo.parkguidance.core.impl.ChangeDataEvent;
+import com.neo.parkguidance.core.impl.event.ParkDataChangeEvent;
 import org.primefaces.model.charts.line.LineChartDataSet;
 
 import javax.annotation.PostConstruct;
@@ -30,8 +30,8 @@ public class DataChartModel implements Serializable {
         dataSets = dataChartService.loadDataSet();
     }
 
-    public void reloadDataSet(@Observes ChangeDataEvent changeEvent) {
-        if (changeEvent.getStatus().equals("ParkingData")) {
+    public void reloadDataSet(@Observes ParkDataChangeEvent changeEvent) {
+        if (ParkDataChangeEvent.SORTED_RESPONSE.equals(changeEvent.getStatus())) {
             init();
         }
     }
