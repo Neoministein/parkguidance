@@ -166,7 +166,7 @@ public class Address implements DataBaseEntity<Address> {
     }
 
     public String getToAddressString() {
-        return street + " " + number + "\n" + plz + " " + cityName + " ";
+        return street + " " + ((number == null) ? "" : number) + "\n" + plz + " " + cityName + " ";
     }
 
     @Override
