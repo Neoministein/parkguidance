@@ -27,7 +27,7 @@ public class DataChartService {
     private static final Logger LOGGER = LogManager.getLogger(DataChartService.class);
 
     private static final int HALF_HOURS_IN_DAY = 48;
-    public static final String ELASTIC_UNSORTED_INDEX = "/raw-parking-data";
+    public static final String ELASTIC_SORTED_INDEX = "/sorted-parking-data";
 
     @Inject
     AbstractEntityDao<ParkingGarage> dao;
@@ -41,20 +41,28 @@ public class DataChartService {
 
         for(ParkingGarage parkingGarage: dao.findAll()) {
             LOGGER.info("Loading [{}]", parkingGarage.getKey());
+            boolean dataFound = false;
             List<Object> averageOccupied = new ArrayList<>();
             for (int i = 0; i < HALF_HOURS_IN_DAY; i++) {
 
-                Integer occupied = getAverageOccupation(parkingGarage.getKey(),i);
-                if (occupied == null) {
-                    occupied = 0;
+                int occupied = getAverageOccupation(parkingGarage.getKey(),i);
+                if (occupied != 0) {
+                    dataFound = true;
                 }
                 LOGGER.debug("Occupied [{}]", occupied);
                 averageOccupied.add(occupied);
             }
+
+            if (!dataFound) {
+                continue;
+            }
+
             LineChartDataSet dataSet = new LineChartDataSet();
             dataSet.setData(averageOccupied);
-            dataSet.setLabel("Normal");
+            dataSet.setLabel("Free Spaces");
             dataSet.setYaxisID("left-y-axis");
+            dataSet.setBorderColor("rgb(150,204,57)");
+            dataSet.setBackgroundColor("rgb(167,224,116, 0.2)");
 
             dataSetMap.put(parkingGarage.getKey(), dataSet);
         }
@@ -75,20 +83,21 @@ public class DataChartService {
         try {
             String result = elasticSearchProvider.sendLowLevelRequest(
                     "GET",
-                    ELASTIC_UNSORTED_INDEX + "/_search?size=0&filter_path=aggregations",
+                    ELASTIC_SORTED_INDEX + "/_search?size=0&filter_path=aggregations",
                     getAverageOccupationBody(key,halfHour));
             JSONObject jsonObject = new JSONObject(result);
             Object o = jsonObject.getJSONObject("aggregations").getJSONObject("avg_occupation").get("value");
 
             if (o.equals(JSONObject.NULL)) {
-                return null;
+                return 0;
             }
-            return (Integer) o;
+
+            return (int) Math.round((Double) o);
         }catch (IOException e) {
-            LOGGER.warn("Unable to get Average Occupation at halfhour [{}] in [{}]", halfHour, key);
+            LOGGER.warn("Unable to get Average Occupation at halfhour [{}] in [{}] {}", halfHour, key, e);
         }
 
-        return null;
+        return 0;
     }
 
     private String getAverageOccupationBody(String key, int halfHour) {
@@ -99,7 +108,8 @@ public class DataChartService {
         JSONObject bool = ElasticSearchLowLevelQuery.combineToJSONObject("must",must);
         JSONObject query = ElasticSearchLowLevelQuery.combineToJSONObject("bool",bool);
 
-        JSONObject avgOccupation = ElasticSearchLowLevelQuery.averageAggregation("occupied");
+        JSONObject avg = ElasticSearchLowLevelQuery.averageAggregation("occupied");
+        JSONObject avgOccupation = ElasticSearchLowLevelQuery.combineToJSONObject("avg",avg);
         JSONObject aggs = ElasticSearchLowLevelQuery.combineToJSONObject("avg_occupation",avgOccupation);
 
 

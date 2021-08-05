@@ -8,6 +8,7 @@ import org.primefaces.model.charts.ChartData;
 import org.primefaces.model.charts.axes.cartesian.CartesianScales;
 import org.primefaces.model.charts.axes.cartesian.linear.CartesianLinearAxes;
 import org.primefaces.model.charts.axes.cartesian.linear.CartesianLinearTicks;
+import org.primefaces.model.charts.line.LineChartDataSet;
 import org.primefaces.model.charts.line.LineChartModel;
 import org.primefaces.model.charts.line.LineChartOptions;
 import org.primefaces.model.charts.optionconfig.title.Title;
@@ -45,7 +46,12 @@ public class DataFacade {
         LineChartModel cartesianLinerModel = new LineChartModel();
         ChartData data = new ChartData();
 
-        data.addChartDataSet(dataChartModel.getDataSets().get(parkingGarage.getKey()));
+        LineChartDataSet lineChartDataSet = dataChartModel.getDataSets().get(parkingGarage.getKey());
+        if (lineChartDataSet == null) {
+            return null;
+        }
+
+        data.addChartDataSet(lineChartDataSet);
 
         data.setLabels(dataChartModel.getLabels());
         cartesianLinerModel.setData(data);
