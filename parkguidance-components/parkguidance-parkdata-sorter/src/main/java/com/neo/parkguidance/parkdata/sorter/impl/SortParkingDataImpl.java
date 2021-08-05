@@ -123,24 +123,31 @@ public class SortParkingDataImpl {
 
     private long[] getBounds(String key) {
         try {
+            return new long[] {
+                    getBound(key, "asc"),
+                    getBound(key, "desc")};
+        }catch (Exception e) {
+            return new long[] {};
+        }
+    }
+
+    private long getBound(String key, String sortOrder) {
+        try {
             String result = elasticSearchProvider.sendLowLevelRequest(
                     "GET",
                     ELASTIC_UNSORTED_INDEX + "/_search",
-                    getBoarderRequestBody(key));
+                    getBoarderRequestBody(key, sortOrder));
             JSONObject root = new JSONObject(result);
 
             JSONObject hitsO = root.getJSONObject("hits");
             JSONArray hitsA = hitsO.getJSONArray("hits");
 
             if (hitsA.isEmpty()) {
-                return new long[] {};
+                throw new IllegalStateException();
             }
-
-            return new long[] {
-                    hitsA.getJSONObject(0).getJSONObject("_source").getLong(ELASTIC_TIMESTAMP),
-                    hitsA.getJSONObject(hitsA.length()-1).getJSONObject("_source").getLong(ELASTIC_TIMESTAMP)};
-        }catch (IOException e) {
-            return new long[] {};
+            return hitsA.getJSONObject(0).getJSONObject("_source").getLong(ELASTIC_TIMESTAMP);
+        }catch (Exception e) {
+            throw new IllegalStateException();
         }
     }
 
@@ -207,12 +214,12 @@ public class SortParkingDataImpl {
         return root.toString();
     }
 
-    private String getBoarderRequestBody(String key) {
+    private String getBoarderRequestBody(String key, String sortOrder) {
         JSONArray must = matchGarageAndSorted(key);
         JSONObject bool = ElasticSearchLowLevelQuery.combineToJSONObject("must",must);
         JSONObject query = ElasticSearchLowLevelQuery.combineToJSONObject("bool",bool);
 
-        JSONObject sort = ElasticSearchLowLevelQuery.combineToJSONObject(ELASTIC_TIMESTAMP,"asc");
+        JSONObject sort = ElasticSearchLowLevelQuery.combineToJSONObject(ELASTIC_TIMESTAMP,sortOrder);
         JSONObject root = ElasticSearchLowLevelQuery.combineToJSONObject(
                 new ElasticSearchLowLevelQuery.Entry("sort", sort),
                 new ElasticSearchLowLevelQuery.Entry(ELASTIC_QUERY, query)
