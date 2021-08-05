@@ -16,4 +16,14 @@ public class StringUtils {
     public static boolean isEmpty(String s) {
         return s == null || s.trim().isEmpty();
     }
+
+    /**
+     * Returns empty string if object is null otherwise the received object
+     * @param o object to check
+     * @return an empty string if object is null
+     */
+    public static Object parseToEmptyString(Object o) {
+        return (o == null) ? "" : o;
+    }
+
 }

@@ -15,6 +15,7 @@ public class RegisteredUser implements DataBaseEntity<RegisteredUser> {
     public static final String TABLE_NAME = "registeredUser";
     public static final String C_USERNAME = "username";
     public static final String C_PASSWORD = "password";
+    public static final String C_TOKEN = "token";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,6 +27,9 @@ public class RegisteredUser implements DataBaseEntity<RegisteredUser> {
 
     @Column(name = C_PASSWORD, nullable = false)
     private String password;
+
+    @Column(name = C_TOKEN, unique = true)
+    private String token;
 
     @ManyToMany
     private Set<Permission> permissions;
@@ -62,6 +66,14 @@ public class RegisteredUser implements DataBaseEntity<RegisteredUser> {
         this.password = password;
     }
 
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
     public Set<Permission> getPermissions() {
         return permissions;
     }
@@ -90,7 +102,7 @@ public class RegisteredUser implements DataBaseEntity<RegisteredUser> {
         if (o == null || getClass() != o.getClass())
             return false;
         RegisteredUser that = (RegisteredUser) o;
-        return that.getId() == this.getId();
+        return that.getId().equals(this.getId());
     }
 
     @Override
