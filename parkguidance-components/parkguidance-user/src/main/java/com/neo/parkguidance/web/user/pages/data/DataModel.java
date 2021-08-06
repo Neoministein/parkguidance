@@ -15,6 +15,7 @@ public class DataModel implements Serializable {
     private boolean isInitialized = false;
 
     private String key = "";
+    private String embeddedGMapsUrl;
     private ParkingGarage parkingGarage;
     private LineChartModel cartesianLinerModel;
 
@@ -32,6 +33,14 @@ public class DataModel implements Serializable {
 
     public void setKey(String key) {
         this.key = key;
+    }
+
+    public String getEmbeddedGMapsUrl() {
+        return embeddedGMapsUrl;
+    }
+
+    public void setEmbeddedGMapsUrl(String embeddedGMapsUrl) {
+        this.embeddedGMapsUrl = embeddedGMapsUrl;
     }
 
     public ParkingGarage getParkingGarage() {

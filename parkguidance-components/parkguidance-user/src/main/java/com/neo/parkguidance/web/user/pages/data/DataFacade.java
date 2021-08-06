@@ -1,7 +1,11 @@
 package com.neo.parkguidance.web.user.pages.data;
 
+import com.neo.parkguidance.core.entity.Address;
 import com.neo.parkguidance.core.entity.ParkingGarage;
+import com.neo.parkguidance.core.entity.StoredValue;
+import com.neo.parkguidance.core.impl.StoredValueService;
 import com.neo.parkguidance.core.impl.dao.AbstractEntityDao;
+import com.neo.parkguidance.google.api.maps.embed.EmbeddedMap;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.primefaces.model.charts.ChartData;
@@ -30,6 +34,9 @@ public class DataFacade {
 
     @Inject
     DataChartModel dataChartModel;
+
+    @Inject
+    StoredValueService storedValueService;
 
     public void redirectToIndex() {
         try {
@@ -79,6 +86,13 @@ public class DataFacade {
         cartesianLinerModel.setOptions(options);
 
         return cartesianLinerModel;
+    }
+
+    public String generateStatickMapUrl(Address address) {
+        return EmbeddedMap.buildPlaceUrl(
+                storedValueService.getString(StoredValue.V_GOOGLE_MAPS_API),
+                EmbeddedMap.MapType.roadmap,
+                address).toString();
     }
 
     public ParkingGarage getParkingGarage(String key) {
