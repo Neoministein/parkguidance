@@ -86,7 +86,7 @@ public class SortParkingDataImpl {
 
                 Integer occupied = getOccupiedBetweenTimestamp(parkingGarage.getKey(), entryStart, entryEnd);
                 if (occupied == null) {
-                    occupied = docToStore[i-1].getInt(ELASTIC_OCCUPIED);
+                    continue;
                 }
                 LOGGER.debug("Interval [{}] Occupied [{}]", i, occupied);
 
