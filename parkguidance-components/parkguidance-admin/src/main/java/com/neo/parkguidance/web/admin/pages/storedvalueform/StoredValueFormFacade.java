@@ -49,6 +49,10 @@ public class StoredValueFormFacade {
     }
 
     public void create(StoredValue storedValue) {
+        if (storedValue.getHidden() == null) {
+            storedValue.setHidden(Boolean.FALSE);
+        }
+
         dao.create(storedValue);
         LOGGER.info("Created StoredValue [{}]", storedValue.getKey());
     }

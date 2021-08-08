@@ -7,5 +7,7 @@
 	<application>
 		<resource-handler>org.omnifaces.resourcehandler.CombinedResourceHandler</resource-handler>
 	</application>
-
+	<factory>
+		<exception-handler-factory>com.neo.parkguidance.web.exception.CustomExceptionHandlerFactory</exception-handler-factory>
+	</factory>
 </faces-config>

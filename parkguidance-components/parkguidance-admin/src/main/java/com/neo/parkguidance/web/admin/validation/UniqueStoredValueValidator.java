@@ -10,6 +10,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.FacesValidator;
 import javax.faces.validator.Validator;
+import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import java.io.Serializable;
 
@@ -30,12 +31,13 @@ public class UniqueStoredValueValidator implements Validator<String>, Serializab
         if (o.replaceAll("[a-zA-Z\\d\\-_.]","").length() > 0) {
             FacesMessage msg = Messages.createError("Unsupported Character, Valid Characters include a-Z, 0-9, '.', '_' and '-'.");
             facesContext.addMessage(uiComponent.getClientId(facesContext), msg);
-            return;
+            throw new ValidatorException(msg);
         }
 
         if (dao.find(o) != null) {
             FacesMessage msg = Messages.createError("Key already exists");
             facesContext.addMessage(uiComponent.getClientId(facesContext), msg);
+            throw new ValidatorException(msg);
         }
     }
 }

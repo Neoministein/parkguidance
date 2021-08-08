@@ -13,7 +13,7 @@
     </ui:define>
 
     <ui:define name="body">
-        <adm:breadcrumb title="#{empty storedValueForm.model.key ? 'New ParkingGarage' : storedValueForm.model.item.key}" link="/storedValue-form.xhtml?key=#{storedValueForm.model.key}"/>
+        <adm:breadcrumb title="#{empty storedValueForm.model.key ? 'New StoredValue' : storedValueForm.model.item.key}" link="/storedValue-form.xhtml?key=#{storedValueForm.model.key}"/>
         <h:form id="form" prependId="false">
             <p:focus rendered="#{empty storedValueForm.model.key}"/>
             <p:panel styleClass="box-primary card">
@@ -65,7 +65,7 @@
                             <p:outputLabel for="keyInput" value="Key"/>
                         </div>
                         <div class="ui-sm-12 ui-g-11" >
-                            <p:inputText id="keyInput" value="#{storedValueForm.model.item.key}" readonly="#{garageForm.new}" required="true" styleClass="#{garageForm.new ? 'form-control' : ''}" style="width: 100%;">
+                            <p:inputText id="keyInput" value="#{storedValueForm.model.item.key}" readonly="#{not storedValueForm.new}" required="true" styleClass="#{not storedValueForm.new ? 'form-control' : ''}" style="width: 100%;">
                                 <f:validator validatorId="uniqueStoredValueValidator" />
                             </p:inputText>
                             <span class="help-block">
@@ -82,13 +82,16 @@
                             <p:inputText id="inputValue"
                                          value="#{storedValueForm.model.item.value}"
                                          rendered="#{not storedValueForm.model.item.hidden}"
-                                         required="#{not storedValueForm.model.item.hidden}"/>
+                                         required="#{not storedValueForm.model.item.hidden}">
+                                <p:ajax/>
+                            </p:inputText>
 
                             <p:inputText id="inputValueHidden"
                                          placeholder="Hidden in UI"
                                          value="#{storedValueForm.model.hiddenValue}"
                                          rendered="#{storedValueForm.model.item.hidden}"
-                                         required="#{storedValueForm.model.item.hidden}"/>
+                                         required="#{storedValueForm.model.item.hidden}">
+                            </p:inputText>
                             <span class="help-block">
                                 <p:message for="inputValue" rendered="#{not storedValueForm.model.item.hidden}"/>
                                 <p:message for="inputValueHidden" rendered="#{storedValueForm.model.item.hidden}"/>
@@ -100,9 +103,7 @@
                             <p:outputLabel value="Component" for="inputComponent"/>
                         </div>
                         <div class="ui-sm-12 ui-g-11" >
-                            <p:inputText id="inputComponent" value="#{storedValueForm.model.item.key}" readonly="#{garageForm.new}" required="true" styleClass="#{garageForm.new ? 'form-control' : ''}" style="width: 100%;">
-                                <f:validator validatorId="uniqueStoredValueValidator" />
-                            </p:inputText>
+                            <p:inputText id="inputComponent" value="#{storedValueForm.model.item.component}" readonly="#{not storedValueForm.new}" required="true" styleClass="#{not storedValueForm.new ? 'form-control' : ''}" style="width: 100%;"/>
                             <span class="help-block">
                                 <p:message for="inputComponent" />
                             </span>
@@ -127,7 +128,9 @@
                             <div class="ui-sm-12 ui-g-11" >
                                 <p:selectBooleanCheckbox id="inputHidden"
                                                          value="#{storedValueForm.model.item.hidden}"
-                                                         required="true"/>
+                                                         required="true">
+                                    <p:ajax/>
+                                </p:selectBooleanCheckbox>
                                 <span class="help-block">
                                 <p:message for="inputHidden" />
                             </span>
