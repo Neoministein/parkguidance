@@ -90,7 +90,7 @@ public class DataFacade {
 
     public String generateStatickMapUrl(Address address) {
         return EmbeddedMap.buildPlaceUrl(
-                storedValueService.getString(StoredValue.V_GOOGLE_MAPS_API),
+                storedValueService.getString(StoredValue.V_GOOGLE_MAPS_API_EXTERNAL),
                 EmbeddedMap.MapType.roadmap,
                 address).toString();
     }

@@ -21,6 +21,7 @@ public class StoredValue implements DataBaseEntity<StoredValue> {
 
 
     public static final String V_GOOGLE_MAPS_API = "cloud.google.maps.api.key";
+    public static final String V_GOOGLE_MAPS_API_EXTERNAL = "cloud.google.maps.api.key.external";
 
     @Id
     @Column(name = C_KEY)
