@@ -22,6 +22,10 @@ import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * This class is copied from {@link com.github.adminfaces.template.exception.CustomExceptionHandler}
+ * due to it redirecting Validator exception to 500.xhtml
+ */
 public class CustomExceptionHandler extends ExceptionHandlerWrapper {
 
     private static final Logger LOGGER = Logger.getLogger(CustomExceptionHandler.class.getName());
@@ -39,7 +43,7 @@ public class CustomExceptionHandler extends ExceptionHandlerWrapper {
     }
 
     @Override
-    public void handle() throws FacesException {
+    public void handle() {
         FacesContext context = FacesContext.getCurrentInstance();
         this.findErrorMessages(context);
         this.handleException(context);
@@ -49,10 +53,10 @@ public class CustomExceptionHandler extends ExceptionHandlerWrapper {
     private void handleException(FacesContext context) {
         Iterator<ExceptionQueuedEvent> unhandledExceptionQueuedEvents = this.getUnhandledExceptionQueuedEvents().iterator();
         if (unhandledExceptionQueuedEvents.hasNext()) {
-            Throwable exception = ((ExceptionQueuedEvent)unhandledExceptionQueuedEvents.next()).getContext().getException();
+            Throwable exception = unhandledExceptionQueuedEvents.next().getContext().getException();
             unhandledExceptionQueuedEvents.remove();
-            Throwable rootCause = Exceptions.unwrap(exception).getCause();
-            if (UNCHECK_EXCEPTION.contains(rootCause.getClass())) {
+            Throwable rootCause = Exceptions.unwrap(exception);
+            if (rootCause != null && rootCause.getCause() != null && UNCHECK_EXCEPTION.contains(rootCause.getCause().getClass())) {
                 return;
             }
             if (rootCause instanceof BusinessException) {
@@ -65,6 +69,7 @@ public class CustomExceptionHandler extends ExceptionHandlerWrapper {
 
     }
 
+    @SuppressWarnings("java:S3776") //This class is copied from Adminfaces and I therefore won't change the complexity of this method
     private void goToErrorPage(FacesContext context, Throwable e) {
         LOGGER.log(Level.WARNING, "", e);
         if (e instanceof FileNotFoundException) {
@@ -91,7 +96,8 @@ public class CustomExceptionHandler extends ExceptionHandlerWrapper {
             try {
                 context.getExternalContext().redirect(context.getExternalContext().getRequestContextPath() + errorPage);
             } catch (IOException var9) {
-                LOGGER.log(Level.SEVERE, "Could not redirect user to error page: " + context.getExternalContext().getRequestContextPath() + errorPage, var9);
+                String msg = "Could not redirect user to error page: " + context.getExternalContext().getRequestContextPath() + errorPage;
+                LOGGER.log(Level.SEVERE, msg, var9);
             }
 
         }
@@ -102,8 +108,7 @@ public class CustomExceptionHandler extends ExceptionHandlerWrapper {
             exception = exception.getCause();
         }
 
-        String errorPage = WebXml.INSTANCE.findErrorPageLocation(exception);
-        return errorPage;
+        return WebXml.INSTANCE.findErrorPageLocation(exception);
     }
 
     private void handleBusinessException(FacesContext context, BusinessException e) {
@@ -111,10 +116,10 @@ public class CustomExceptionHandler extends ExceptionHandlerWrapper {
             throw new FacesException(e);
         } else {
             if (Assert.has(e.getExceptionList())) {
-                Iterator var3 = e.getExceptionList().iterator();
+                Iterator<BusinessException> var3 = e.getExceptionList().iterator();
 
                 while(var3.hasNext()) {
-                    BusinessException be = (BusinessException)var3.next();
+                    BusinessException be = var3.next();
                     this.addFacesMessage(be);
                 }
             } else {
@@ -148,19 +153,19 @@ public class CustomExceptionHandler extends ExceptionHandlerWrapper {
     private void validationFailed(FacesContext context) {
         Map<Object, Object> callbackParams = (Map)context.getAttributes().get("CALLBACK_PARAMS");
         if (callbackParams == null) {
-            callbackParams = new HashMap();
-            ((Map)callbackParams).put("CALLBACK_PARAMS", callbackParams);
+            callbackParams = new HashMap<>();
+            callbackParams.put("CALLBACK_PARAMS", callbackParams);
         }
 
-        ((Map)callbackParams).put("validationFailed", true);
+        callbackParams.put("validationFailed", true);
     }
 
     private void findErrorMessages(FacesContext context) {
         if (!context.getMessageList().isEmpty() && !context.isValidationFailed()) {
-            Iterator var2 = context.getMessageList().iterator();
+            Iterator<FacesMessage> var2 = context.getMessageList().iterator();
 
             while(var2.hasNext()) {
-                FacesMessage msg = (FacesMessage)var2.next();
+                FacesMessage msg = var2.next();
                 if (msg.getSeverity().equals(FacesMessage.SEVERITY_ERROR) || msg.getSeverity().equals(FacesMessage.SEVERITY_FATAL)) {
                     this.validationFailed(context);
                     break;
