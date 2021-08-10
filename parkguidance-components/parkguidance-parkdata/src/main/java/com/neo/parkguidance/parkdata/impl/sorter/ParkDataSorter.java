@@ -1,4 +1,4 @@
-package com.neo.parkguidance.parkdata.sorter.impl;
+package com.neo.parkguidance.parkdata.impl.sorter;
 
 import com.neo.parkguidance.core.entity.ParkingGarage;
 import com.neo.parkguidance.core.impl.dao.AbstractEntityDao;
@@ -20,11 +20,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-/**
- * This class handles the sorting of the ParkingData in the ElasticSearch using {@link Event<ParkDataChangeEvent>}
- */
 @Stateless
-public class SortParkingDataImpl {
+public class ParkDataSorter {
 
     public static final String ELASTIC_UNSORTED_INDEX = "raw-parking-data";
     public static final String ELASTIC_SORTED_INDEX = "sorted-parking-data";
@@ -36,7 +33,7 @@ public class SortParkingDataImpl {
     public static final int MILLISECONDS_IN_HOUR = 3600000;
     public static final int MILLISECONDS_IN_HALF_AN_HOUR = MILLISECONDS_IN_HOUR / 2;
 
-    private static final Logger LOGGER = LogManager.getLogger(SortParkingDataImpl.class);
+    private static final Logger LOGGER = LogManager.getLogger(ParkDataSorter.class);
 
     @Inject
     Event<ParkDataChangeEvent> changeEvent;

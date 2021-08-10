@@ -1,4 +1,4 @@
-package com.neo.parkguidance.web.infra;
+package com.neo.parkguidance.web.user.impl.address;
 
 import com.neo.parkguidance.core.entity.Address;
 import com.neo.parkguidance.core.impl.event.DataBaseEntityChangeEvent;
@@ -7,18 +7,18 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * This class contains static data used for autocomplete
  */
 @ApplicationScoped
-public class StaticDataModel {
+public class AddressDataService implements Serializable {
 
     private List<Address> addressList;
 
-    @Inject
-    StaticDataFacade facade;
+    @Inject AddressDataServiceFacade facade;
 
     @PostConstruct
     public void init() {

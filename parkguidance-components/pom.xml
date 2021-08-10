@@ -15,8 +15,8 @@
     <modules>
         <module>parkguidance-core</module>
 
+        <module>parkguidance-parkdata</module>
         <module>parkguidance-parkdata-receiver</module>
-        <module>parkguidance-parkdata-sorter</module>
         <module>parkguidance-gcs</module>
         <module>parkguidance-elastic</module>
 

@@ -1,4 +1,4 @@
-package com.neo.parkguidance.web.infra;
+package com.neo.parkguidance.web.user.impl.address;
 
 import com.neo.parkguidance.core.entity.Address;
 import com.neo.parkguidance.core.impl.dao.AbstractEntityDao;
@@ -11,7 +11,7 @@ import java.util.List;
  * This class handles the logic for retrieving data which is used for a lot
  */
 @Stateless
-public class StaticDataFacade {
+public class AddressDataServiceFacade {
 
     @Inject
     AbstractEntityDao<Address> addressDao;

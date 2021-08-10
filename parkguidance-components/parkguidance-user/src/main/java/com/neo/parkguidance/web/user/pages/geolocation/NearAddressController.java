@@ -3,7 +3,7 @@ package com.neo.parkguidance.web.user.pages.geolocation;
 import com.neo.parkguidance.core.entity.Address;
 import com.neo.parkguidance.core.entity.ParkingGarage;
 import com.neo.parkguidance.google.api.maps.CrossPlatformURL;
-import com.neo.parkguidance.web.infra.StaticDataModel;
+import com.neo.parkguidance.web.user.impl.address.AddressDataService;
 import org.primefaces.PrimeFaces;
 
 import javax.annotation.PostConstruct;
@@ -26,8 +26,7 @@ public class NearAddressController {
     @Inject
     NearAddressModel model;
 
-    @Inject
-    StaticDataModel staticDataModel;
+    @Inject AddressDataService staticDataModel;
 
     @Inject
     GeoLocationFacade facade;

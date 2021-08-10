@@ -1,4 +1,4 @@
-package com.neo.parkguidance.web.user.pages.data;
+package com.neo.parkguidance.web.user.impl.data;
 
 import com.neo.parkguidance.core.impl.event.ParkDataChangeEvent;
 import org.primefaces.model.charts.line.LineChartDataSet;
@@ -31,7 +31,7 @@ public class DataChartModel implements Serializable {
     }
 
     public void reloadDataSet(@Observes ParkDataChangeEvent changeEvent) {
-        if (ParkDataChangeEvent.SORTED_RESPONSE.equals(changeEvent.getStatus())) {
+        if (ParkDataChangeEvent.SERVICE_RESPONSE.equals(changeEvent.getStatus())) {
             init();
         }
     }

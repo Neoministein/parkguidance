@@ -7,6 +7,7 @@ public class ParkDataChangeEvent extends ChangeEvent {
 
     public static final String SORT_REQUEST = "sortRequest";
     public static final String SORTED_RESPONSE = "sortedResponse";
+    public static final String SERVICE_RESPONSE = "serviceResponse";
 
     private final String status;
 
