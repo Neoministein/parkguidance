@@ -34,6 +34,12 @@
                 <span>Near Address</span>
             </p:link>
         </li>
+        <li>
+            <p:link outcome="/heatmap" onclick="clearBreadCrumbs()">
+                <em class="fa fa-bullseye"/>
+                <span>HeatMap</span>
+            </p:link>
+        </li>
         <h:panelGroup rendered="#{externalContext.isUserInRole('ADMIN')}">
             <li class="header">
                 Admin
