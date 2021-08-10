@@ -1,4 +1,4 @@
-package com.neo.parkguidance.core.impl;
+package com.neo.parkguidance.core.impl.utils;
 
 /**
  * Utilities for {@link String}

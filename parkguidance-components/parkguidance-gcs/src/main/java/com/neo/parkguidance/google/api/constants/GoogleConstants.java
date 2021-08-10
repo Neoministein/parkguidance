@@ -1,7 +1,7 @@
 package com.neo.parkguidance.google.api.constants;
 
 import com.neo.parkguidance.core.entity.Address;
-import com.neo.parkguidance.core.impl.StringUtils;
+import com.neo.parkguidance.core.impl.utils.StringUtils;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;

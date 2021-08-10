@@ -1,4 +1,4 @@
-package com.neo.parkguidance.core.impl;
+package com.neo.parkguidance.core.impl.utils;
 
 import java.security.SecureRandom;
 import java.util.Locale;

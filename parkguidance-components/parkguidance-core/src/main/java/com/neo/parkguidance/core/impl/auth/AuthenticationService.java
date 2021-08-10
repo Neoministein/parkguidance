@@ -3,7 +3,7 @@ package com.neo.parkguidance.core.impl.auth;
 import com.neo.parkguidance.core.entity.ParkingGarage;
 import com.neo.parkguidance.core.entity.Permission;
 import com.neo.parkguidance.core.entity.RegisteredUser;
-import com.neo.parkguidance.core.impl.StringUtils;
+import com.neo.parkguidance.core.impl.utils.StringUtils;
 import com.neo.parkguidance.core.impl.dao.AbstractEntityDao;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.logging.log4j.LogManager;

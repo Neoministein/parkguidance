@@ -1,4 +1,4 @@
-package com.neo.parkguidance.core.impl;
+package com.neo.parkguidance.core.impl.utils;
 
 /**
  * This class is a provides math utilities for the parkguidance components
