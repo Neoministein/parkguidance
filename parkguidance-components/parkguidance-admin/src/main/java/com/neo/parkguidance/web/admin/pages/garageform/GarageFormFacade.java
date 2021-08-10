@@ -5,24 +5,17 @@ import com.neo.parkguidance.core.entity.Address;
 import com.neo.parkguidance.core.entity.ParkingGarage;
 import com.neo.parkguidance.core.impl.utils.RandomString;
 import com.neo.parkguidance.core.impl.dao.AbstractEntityDao;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import com.neo.parkguidance.web.impl.pages.form.AbstractFormFacade;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
-import static com.github.adminfaces.template.util.Assert.has;
 
 /**
  * The screen facade for the GarageForm screen
  */
 @Stateless
-public class GarageFormFacade {
-
-    private static final Logger LOGGER = LogManager.getLogger(GarageFormFacade.class);
-
-    @Inject
-    AbstractEntityDao<ParkingGarage> garageDao;
+public class GarageFormFacade extends AbstractFormFacade<ParkingGarage> {
 
     @Inject
     AbstractEntityDao<Address> addressDao;
@@ -30,37 +23,28 @@ public class GarageFormFacade {
     @Inject
     GeoCoding geoCoding;
 
-    public ParkingGarage findGarageById(String key) {
-        return garageDao.find(key);
+    @Override
+    public ParkingGarage newEntity() {
+        return new ParkingGarage();
     }
 
-    public boolean remove(ParkingGarage parkingGarage) {
-        if (has(parkingGarage) && has(parkingGarage.getKey())) {
-            garageDao.remove(parkingGarage);
-            LOGGER.info("Deleting ParkingGarage [{}]", parkingGarage.getKey());
-            return true;
-        } else {
-            return false;
-        }
-    }
-
+    @Override
     public void edit(ParkingGarage parkingGarage) {
         if(hasAddressChanged(parkingGarage.getAddress())) {
             geoCoding.findCoordinates(parkingGarage.getAddress());
             addressDao.edit(parkingGarage.getAddress());
         }
-        garageDao.edit(parkingGarage);
-        LOGGER.info("Updated ParkingGarage [{}]", parkingGarage.getKey());
+        super.edit(parkingGarage);
     }
 
+    @Override
     public void create(ParkingGarage parkingGarage) {
         parkingGarage.setKey(parkingGarage.getKey().toUpperCase());
         geoCoding.findCoordinates(parkingGarage.getAddress());
         setAccessKey(parkingGarage);
 
         addressDao.create(parkingGarage.getAddress());
-        garageDao.create(parkingGarage);
-        LOGGER.info("Created ParkingGarage [{}]", parkingGarage.getKey());
+        super.create(parkingGarage);
     }
 
     public void setAccessKey(ParkingGarage parkingGarage) {
@@ -72,7 +56,7 @@ public class GarageFormFacade {
     }
 
     protected boolean exists(String accessKey) {
-        return !garageDao.findByColumn(ParkingGarage.C_ACCESS_KEY,accessKey).isEmpty();
+        return !getDao().findByColumn(ParkingGarage.C_ACCESS_KEY,accessKey).isEmpty();
     }
 
     protected boolean hasAddressChanged(Address address) {

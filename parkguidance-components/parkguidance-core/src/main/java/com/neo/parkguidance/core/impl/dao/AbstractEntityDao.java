@@ -71,20 +71,14 @@ public abstract class AbstractEntityDao<T extends DataBaseEntity<T>> {
     }
 
     public List<T> findByColumn(String columnName, Object columnData) {
-        CriteriaBuilder cb= getEntityManager().getCriteriaBuilder();
-
-        AbstractQuery<T> cq1=cb.createQuery(entityClass);
-
-        Root<T> stud1=cq1.from(entityClass);
-
-        cq1.where(cb.equal(stud1.get(columnName), columnData));
-
-        CriteriaQuery<T> select1 = ((CriteriaQuery<T>) cq1).select(stud1);
-        TypedQuery<T> tq1 = getEntityManager().createQuery(select1);
-        return tq1.getResultList();
+        return getTypedQueryByColumn(columnName, columnData).getResultList();
     }
 
     public T findOneByColumn(String columnName, Object columnData) {
+        return getTypedQueryByColumn(columnName, columnData).getSingleResult();
+    }
+
+    protected TypedQuery<T> getTypedQueryByColumn(String columnName, Object columnData) {
         CriteriaBuilder cb= getEntityManager().getCriteriaBuilder();
 
         AbstractQuery<T> cq1=cb.createQuery(entityClass);
@@ -94,8 +88,7 @@ public abstract class AbstractEntityDao<T extends DataBaseEntity<T>> {
         cq1.where(cb.equal(stud1.get(columnName), columnData));
 
         CriteriaQuery<T> select1 = ((CriteriaQuery<T>) cq1).select(stud1);
-        TypedQuery<T> tq1 = getEntityManager().createQuery(select1);
-        return tq1.getSingleResult();
+        return getEntityManager().createQuery(select1);
     }
 
     public List<T> findLikeExample(T object) {

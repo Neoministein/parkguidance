@@ -1,32 +1,13 @@
 package com.neo.parkguidance.web.admin.pages.garageform;
 
 import com.neo.parkguidance.core.entity.ParkingGarage;
+import com.neo.parkguidance.web.impl.pages.form.AbstractFormModel;
 import org.omnifaces.cdi.ViewScoped;
-
-import java.io.Serializable;
 
 /**
  * The screen model for the GarageList screen
  */
 @ViewScoped
-public class GarageFormModel implements Serializable {
+public class GarageFormModel extends AbstractFormModel<ParkingGarage> {
 
-    private String key;
-    private ParkingGarage item;
-
-    public String getKey() {
-        return key;
-    }
-
-    public void setKey(String key) {
-        this.key = key;
-    }
-
-    public ParkingGarage getItem() {
-        return item;
-    }
-
-    public void setItem(ParkingGarage item) {
-        this.item = item;
-    }
 }

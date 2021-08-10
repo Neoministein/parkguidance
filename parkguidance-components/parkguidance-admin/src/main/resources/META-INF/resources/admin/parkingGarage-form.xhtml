@@ -6,16 +6,16 @@
 
     <ui:define name="metadata">
         <f:metadata>
-            <f:viewParam name="key" value="#{garageForm.model.key}"/>
+            <f:viewParam name="key" value="#{garageForm.model.primaryKey}"/>
             <f:event type="preRenderView" listener="#{garageForm.init}"/>
         </f:metadata>
         <ui:param name="renderFormAsterisks" value="true"/>
     </ui:define>
 
     <ui:define name="body">
-        <adm:breadcrumb title="#{empty garageForm.model.key ? 'New ParkingGarage' : garageForm.model.item.name}" link="/parkingGarage-form.xhtml?key=#{garageForm.model.key}"/>
+        <adm:breadcrumb title="#{empty garageForm.model.primaryKey ? 'New ParkingGarage' : garageForm.model.entity.name}" link="/parkingGarage-form.xhtml?key=#{garageForm.model.primaryKey}"/>
         <h:form id="form" prependId="false">
-            <p:focus rendered="#{empty garageForm.model.key}"/>
+            <p:focus rendered="#{empty garageForm.model.primaryKey}"/>
             <p:panel styleClass="box-primary card">
                 <div id="main-buttons" class="hidden-sm hidden-xs">
                     <p:commandButton value="Save" action="#{garageForm.save}" update="@form"
@@ -78,7 +78,7 @@
                             <p:outputLabel for="keyInput" value="Key"/>
                         </div>
                         <div class="ui-sm-12 ui-g-11" >
-                            <p:inputText id="keyInput" value="#{garageForm.model.item.key}" readonly="#{not garageForm.new}" required="true" styleClass="#{not garageForm.new ? 'form-control' : ''}" style="width: 100%; text-transform:uppercase;">
+                            <p:inputText id="keyInput" value="#{garageForm.model.entity.key}" readonly="#{not garageForm.new}" required="true" styleClass="#{not garageForm.new ? 'form-control' : ''}" style="width: 100%; text-transform:uppercase;">
                                 <f:validator validatorId="uniqueParkingGarageValidator" />
                             </p:inputText>
                             <span class="help-block">
@@ -91,7 +91,7 @@
                             <p:outputLabel for="accessKey" value="Accesskey"/>
                         </div>
                         <div class="ui-sm-12 ui-g-11" >
-                            <p:inputText id="accessKey" value="#{garageForm.model.item.accessKey}" readonly="true" styleClass="form-control" style="width: 100%"/>
+                            <p:inputText id="accessKey" value="#{garageForm.model.entity.accessKey}" readonly="true" styleClass="form-control" style="width: 100%"/>
                             <span class="help-block">
                                 <p:message for="accessKey" />
                             </span>
@@ -102,7 +102,7 @@
                             <p:outputLabel value="Name" for="inputName"/>
                         </div>
                         <div class="ui-sm-12 ui-g-11" >
-                            <p:inputText id="inputName" value="#{garageForm.model.item.name}" required="true"/>
+                            <p:inputText id="inputName" value="#{garageForm.model.entity.name}" required="true"/>
                             <span class="help-block"> 
                                 <p:message for="inputName" />
                             </span> 
@@ -113,7 +113,7 @@
                             <p:outputLabel value="Spaces" for="inputSpaces"/>
                         </div>
                         <div class="ui-sm-12 ui-g-11" >
-                            <p:inputNumber id="inputSpaces" value="#{garageForm.model.item.spaces}" padControl="false" required="true"/>
+                            <p:inputNumber id="inputSpaces" value="#{garageForm.model.entity.spaces}" padControl="false" required="true"/>
                             <span class="help-block"> 
                                 <p:message for="inputSpaces" />
                             </span>
@@ -124,7 +124,7 @@
                             <p:outputLabel value="Occupied" for="inputOccupied"/>
                         </div>
                         <div class="ui-sm-12 ui-g-11" >
-                            <p:inputNumber id="inputOccupied" value="#{garageForm.model.item.occupied}" padControl="false" required="true"/>
+                            <p:inputNumber id="inputOccupied" value="#{garageForm.model.entity.occupied}" padControl="false" required="true"/>
                             <span class="help-block">
                                 <p:message for="inputOccupied" />
                             </span>
@@ -135,7 +135,7 @@
                             <p:outputLabel value="Price" for="inputPrice"/>
                         </div>
                         <div class="ui-sm-12 ui-g-11" >
-                            <p:inputTextarea id="inputPrice" value="#{garageForm.model.item.price}" required="false"/>
+                            <p:inputTextarea id="inputPrice" value="#{garageForm.model.entity.price}" required="false"/>
                             <span class="help-block"> 
                                 <p:message for="inputPrice" />
                             </span>
@@ -146,7 +146,7 @@
                             <p:outputLabel value="Operator" for="inputOperator"/>
                         </div>
                         <div class="ui-sm-12 ui-g-11" >
-                            <p:inputTextarea id="inputOperator" value="#{garageForm.model.item.operator}" required="false"/>
+                            <p:inputTextarea id="inputOperator" value="#{garageForm.model.entity.operator}" required="false"/>
                             <span class="help-block">
                                 <p:message for="inputOperator" />
                             </span>
@@ -157,7 +157,7 @@
                             <p:outputLabel value="Description" for="inputDescription"/>
                         </div>
                         <div class="ui-sm-12 ui-g-11" >
-                            <p:inputTextarea id="inputDescription" value="#{garageForm.model.item.description}" required="false"/>
+                            <p:inputTextarea id="inputDescription" value="#{garageForm.model.entity.description}" required="false"/>
                             <span class="help-block">
                                 <p:message for="inputDescription" />
                             </span>
@@ -173,7 +173,7 @@
                             <p:outputLabel for="inputCityName" value="City Name"/>
                         </div>
                     <div class="ui-sm-12 ui-g-11" >
-                        <p:inputText id="inputCityName" value="#{garageForm.model.item.address.cityName}" required="true"/>
+                        <p:inputText id="inputCityName" value="#{garageForm.model.entity.address.cityName}" required="true"/>
                             <span class="help-block">
                                 <p:message for="inputCityName" />
                             </span>
@@ -184,7 +184,7 @@
                             <p:outputLabel for="inputPLZ" value="PLZ"/>
                         </div>
                         <div class="ui-sm-12 ui-g-11" >
-                            <p:inputNumber id="inputPLZ" value="#{garageForm.model.item.address.plz}" padControl="false" required="true"/>
+                            <p:inputNumber id="inputPLZ" value="#{garageForm.model.entity.address.plz}" padControl="false" required="true"/>
                             <span class="help-block">
                                 <p:message for="inputPLZ" />
                             </span>
@@ -195,7 +195,7 @@
                             <p:outputLabel for="inputStreet" value="Street Name"/>
                         </div>
                         <div class="ui-sm-12 ui-g-11" >
-                            <p:inputText id="inputStreet" value="#{garageForm.model.item.address.street}" required="true"/>
+                            <p:inputText id="inputStreet" value="#{garageForm.model.entity.address.street}" required="true"/>
                             <span class="help-block">
                                 <p:message for="inputStreet" />
                             </span>
@@ -206,7 +206,7 @@
                             <p:outputLabel for="inputStreetNumber" value="Street Number"/>
                         </div>
                         <div class="ui-sm-12 ui-g-11" >
-                            <p:inputNumber id="inputStreetNumber" value="#{garageForm.model.item.address.number}" padControl="false" required="false"/>
+                            <p:inputNumber id="inputStreetNumber" value="#{garageForm.model.entity.address.number}" padControl="false" required="false"/>
                             <span class="help-block">
                                 <p:message for="inputStreetNumber" />
                             </span>
@@ -217,7 +217,7 @@
                             <p:outputLabel for="latitude" value="Latitude"/>
                         </div>
                         <div class="ui-sm-12 ui-g-11" >
-                            <p:inputText id="latitude" value="#{garageForm.model.item.address.latitude}" readonly="true" styleClass="form-control" style="width: 100%"/>
+                            <p:inputText id="latitude" value="#{garageForm.model.entity.address.latitude}" readonly="true" styleClass="form-control" style="width: 100%"/>
                             <span class="help-block">
                                 <p:message for="latitude" />
                             </span>
@@ -228,7 +228,7 @@
                             <p:outputLabel for="longitude" value="Longitude"/>
                         </div>
                         <div class="ui-sm-12 ui-g-11" >
-                            <p:inputText id="longitude" value="#{garageForm.model.item.address.longitude}" readonly="true" styleClass="form-control" style="width: 100%"/>
+                            <p:inputText id="longitude" value="#{garageForm.model.entity.address.longitude}" readonly="true" styleClass="form-control" style="width: 100%"/>
                             <span class="help-block">
                                 <p:message for="longitude" />
                             </span>

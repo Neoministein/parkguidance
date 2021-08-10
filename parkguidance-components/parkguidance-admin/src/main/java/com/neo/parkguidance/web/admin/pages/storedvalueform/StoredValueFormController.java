@@ -1,14 +1,13 @@
 package com.neo.parkguidance.web.admin.pages.storedvalueform;
 
 import com.neo.parkguidance.core.entity.StoredValue;
-import org.omnifaces.util.Faces;
+import com.neo.parkguidance.web.impl.pages.form.AbstractFormController;
 import org.omnifaces.util.Messages;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import static com.github.adminfaces.template.util.Assert.has;
 import static com.neo.parkguidance.web.impl.utils.Utils.addDetailMessage;
 
 /**
@@ -16,46 +15,37 @@ import static com.neo.parkguidance.web.impl.utils.Utils.addDetailMessage;
  */
 @RequestScoped
 @Named(StoredValueFormController.BEAN_NAME)
-public class StoredValueFormController {
+public class StoredValueFormController extends AbstractFormController<StoredValue> {
 
     public static final String BEAN_NAME = "storedValueForm";
 
     @Inject
-    StoredValueFormFacade facade;
+    StoredValueFormModel modelImpl;
 
     @Inject
-    StoredValueFormModel model;
+    StoredValueFormFacade facadeImpl;
 
+    @Override
     public void init() {
-        if(Faces.isAjaxRequest()){
-            return;
-        }
-
-        if (has(model.getKey())) {
-            model.setItem(facade.find(model.getKey()));
-        } else {
-            model.setItem(new StoredValue());
-        }
+        super.init();
     }
 
-    public void remove() {
-        if (facade.remove(model.getItem())) {
-            addDetailMessage("Parking Garage " + model.getItem().getKey()
-                    + " removed successfully");
-            Faces.getFlash().setKeepMessages(true);
-            Faces.redirect("/admin/parkingGarage-list.xhtml");
-        }
+    @Override
+    protected String getRedirectLocation() {
+        return "admin/storedValues-form";
     }
 
+    @Override
     public void save() {
         try {
-            StringBuilder msg = new StringBuilder("Parking Garage " + model.getItem().getKey());
+            StringBuilder msg = new StringBuilder(getModel().getEntity().getClass().getSimpleName()
+                    + " " + getModel().getEntity().getPrimaryKey());
 
-            if (model.getKey() == null) {
-                facade.create(model.getItem());
+            if (getModel().getPrimaryKey() == null) {
+                getFacade().create(modelImpl.getEntity());
                 msg.append(" created successfully");
             } else {
-                facade.edit(model.getItem(), getModel().getHiddenValue());
+                facadeImpl.edit(getModel().getEntity(), modelImpl.getHiddenValue());
                 msg.append(" updated successfully");
             }
 
@@ -65,16 +55,7 @@ public class StoredValueFormController {
         }
     }
 
-    public void clear() {
-        model.setItem(new StoredValue());
-        model.setKey(null);
-    }
-
-    public boolean isNew() {
-        return model.getItem() == null || model.getItem().getKey() == null;
-    }
-
-    public StoredValueFormModel getModel() {
-        return model;
+    public StoredValueFormModel getImplModel() {
+        return modelImpl;
     }
 }

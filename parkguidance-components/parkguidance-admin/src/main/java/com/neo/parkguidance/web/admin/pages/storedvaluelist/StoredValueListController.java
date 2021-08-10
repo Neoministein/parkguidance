@@ -1,49 +1,24 @@
 package com.neo.parkguidance.web.admin.pages.storedvaluelist;
 
+import com.neo.parkguidance.core.entity.StoredValue;
+import com.neo.parkguidance.web.impl.pages.lazy.AbstractLazyController;
+
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
-import javax.inject.Inject;
 import javax.inject.Named;
-
-import static com.neo.parkguidance.web.impl.utils.Utils.addDetailMessage;
 
 /**
  * The controller for the StoredValueList screen
  */
 @RequestScoped
 @Named(StoredValueListController.BEAN_NAME)
-public class StoredValueListController {
+public class StoredValueListController extends AbstractLazyController<StoredValue> {
 
     public static final String BEAN_NAME = "storedValueList";
 
-    @Inject
-    StoredValueListFacade facade;
-
-    @Inject
-    StoredValueListModel model;
-
+    @Override
     @PostConstruct
-    public void initDataModel() {
-        if(!model.isInitialized()) {
-            clearFilter();
-            model.setData(facade.initDataModel(model.getFilter()));
-            model.setInitialized(true);
-        }
-    }
-
-    public void clearFilter() {
-        model.setFilter(facade.newFilter());
-    }
-
-    public void delete() {
-        int num = facade.delete(model.getSelected());
-        if(num != 0) {
-            addDetailMessage(num + " ParkingGarage deleted successfully!");
-            model.getSelected().clear();
-        }
-    }
-
-    public StoredValueListModel getModel() {
-        return model;
+    public void init() {
+        super.init();
     }
 }

@@ -6,16 +6,16 @@
 
     <ui:define name="metadata">
         <f:metadata>
-            <f:viewParam name="key" value="#{storedValueForm.model.key}"/>
+            <f:viewParam name="key" value="#{storedValueForm.model.primaryKey}"/>
             <f:event type="preRenderView" listener="#{storedValueForm.init}"/>
         </f:metadata>
         <ui:param name="renderFormAsterisks" value="true"/>
     </ui:define>
 
     <ui:define name="body">
-        <adm:breadcrumb title="#{empty storedValueForm.model.key ? 'New StoredValue' : storedValueForm.model.item.key}" link="/storedValue-form.xhtml?key=#{storedValueForm.model.key}"/>
+        <adm:breadcrumb title="#{empty storedValueForm.model.primaryKey ? 'New StoredValue' : storedValueForm.model.entity.key}" link="/storedValue-form.xhtml?key=#{storedValueForm.model.primaryKey}"/>
         <h:form id="form" prependId="false">
-            <p:focus rendered="#{empty storedValueForm.model.key}"/>
+            <p:focus rendered="#{empty storedValueForm.model.primaryKey}"/>
             <p:panel styleClass="box-primary card">
                 <div id="main-buttons" class="hidden-sm hidden-xs">
                     <p:commandButton value="Save" action="#{storedValueForm.save}" update="@form"
@@ -65,7 +65,7 @@
                             <p:outputLabel for="keyInput" value="Key"/>
                         </div>
                         <div class="ui-sm-12 ui-g-11" >
-                            <p:inputText id="keyInput" value="#{storedValueForm.model.item.key}" readonly="#{not storedValueForm.new}" required="true" styleClass="#{not storedValueForm.new ? 'form-control' : ''}" style="width: 100%;">
+                            <p:inputText id="keyInput" value="#{storedValueForm.model.entity.key}" readonly="#{not storedValueForm.new}" required="true" styleClass="#{not storedValueForm.new ? 'form-control' : ''}" style="width: 100%;">
                                 <f:validator validatorId="uniqueStoredValueValidator" />
                             </p:inputText>
                             <span class="help-block">
@@ -75,26 +75,26 @@
                     </div>
                     <div class="ui-sm-12 ui-g-6 ui-g-nopad">
                         <div class="ui-sm-12 ui-g-11">
-                            <p:outputLabel for="inputValue" value="Value" rendered="#{not storedValueForm.model.item.hidden}"/>
-                            <p:outputLabel for="inputValueHidden" value="Value" rendered="#{storedValueForm.model.item.hidden}"/>
+                            <p:outputLabel for="inputValue" value="Value" rendered="#{not storedValueForm.implModel.entity.hidden}"/>
+                            <p:outputLabel for="inputValueHidden" value="Value" rendered="#{storedValueForm.implModel.entity.hidden}"/>
                         </div>
                         <div class="ui-sm-12 ui-g-11" >
                             <p:inputText id="inputValue"
-                                         value="#{storedValueForm.model.item.value}"
-                                         rendered="#{not storedValueForm.model.item.hidden}"
-                                         required="#{not storedValueForm.model.item.hidden}">
+                                         value="#{storedValueForm.implModel.entity.value}"
+                                         rendered="#{not storedValueForm.implModel.entity.hidden}"
+                                         required="#{not storedValueForm.implModel.entity.hidden}">
                                 <p:ajax/>
                             </p:inputText>
 
                             <p:inputText id="inputValueHidden"
                                          placeholder="Hidden in UI"
-                                         value="#{storedValueForm.model.hiddenValue}"
-                                         rendered="#{storedValueForm.model.item.hidden}"
-                                         required="#{storedValueForm.model.item.hidden}">
+                                         value="#{storedValueForm.implModel.hiddenValue}"
+                                         rendered="#{storedValueForm.implModel.entity.hidden}"
+                                         required="#{storedValueForm.implModel.entity.hidden}">
                             </p:inputText>
                             <span class="help-block">
-                                <p:message for="inputValue" rendered="#{not storedValueForm.model.item.hidden}"/>
-                                <p:message for="inputValueHidden" rendered="#{storedValueForm.model.item.hidden}"/>
+                                <p:message for="inputValue" rendered="#{not storedValueForm.implModel.entity.hidden}"/>
+                                <p:message for="inputValueHidden" rendered="#{storedValueForm.implModel.entity.hidden}"/>
                             </span>
                         </div>
                     </div>
@@ -103,7 +103,7 @@
                             <p:outputLabel value="Component" for="inputComponent"/>
                         </div>
                         <div class="ui-sm-12 ui-g-11" >
-                            <p:inputText id="inputComponent" value="#{storedValueForm.model.item.component}" readonly="#{not storedValueForm.new}" required="true" styleClass="#{not storedValueForm.new ? 'form-control' : ''}" style="width: 100%;"/>
+                            <p:inputText id="inputComponent" value="#{storedValueForm.model.entity.component}" readonly="#{not storedValueForm.new}" required="true" styleClass="#{not storedValueForm.new ? 'form-control' : ''}" style="width: 100%;"/>
                             <span class="help-block">
                                 <p:message for="inputComponent" />
                             </span>
@@ -114,7 +114,7 @@
                             <p:outputLabel value="Description" for="inputDesription"/>
                         </div>
                         <div class="ui-sm-12 ui-g-11" >
-                            <p:inputTextarea id="inputDesription" value="#{storedValueForm.model.item.description}" required="true"/>
+                            <p:inputTextarea id="inputDesription" value="#{storedValueForm.model.entity.description}" required="true"/>
                             <span class="help-block">
                                 <p:message for="inputDesription" />
                             </span>
@@ -127,7 +127,7 @@
                             </div>
                             <div class="ui-sm-12 ui-g-11" >
                                 <p:selectBooleanCheckbox id="inputHidden"
-                                                         value="#{storedValueForm.model.item.hidden}"
+                                                         value="#{storedValueForm.model.entity.hidden}"
                                                          required="true">
                                     <p:ajax/>
                                 </p:selectBooleanCheckbox>
