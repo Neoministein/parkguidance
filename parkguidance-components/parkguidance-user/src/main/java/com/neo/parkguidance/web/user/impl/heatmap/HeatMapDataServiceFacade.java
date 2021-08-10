@@ -68,9 +68,7 @@ public class HeatMapDataServiceFacade {
 
         sb.append("<br>");
         sb.append(Utils.formatted(parkingGarage.getAddress().getToAddressString()));
-        sb.append("</div>");
-        sb.append("</p>");
-        sb.append("</div>");
+        sb.append("</div></p></div>");
         return sb.toString();
     }
 

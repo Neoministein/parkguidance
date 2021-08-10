@@ -9,8 +9,6 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import java.io.IOException;
-
 import static com.neo.parkguidance.web.utils.Utils.addDetailMessage;
 import static com.github.adminfaces.template.util.Assert.has;
 
@@ -45,7 +43,7 @@ public class GarageFormController {
         }
     }
 
-    public void remove() throws IOException {
+    public void remove() {
         if (facade.remove(model.getItem())) {
             addDetailMessage("Parking Garage " + model.getItem().getName()
                     + " removed successfully");

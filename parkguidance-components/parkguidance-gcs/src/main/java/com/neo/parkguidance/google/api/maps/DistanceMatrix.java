@@ -76,12 +76,12 @@ public class DistanceMatrix {
             throw new IllegalArgumentException(GoogleConstants.E_INVALID_ADDRESS);
         case HttpServletResponse.SC_NOT_FOUND:
             LOGGER.warn("HTTP ERROR 404 not found");
-            throw new RuntimeException(GoogleConstants.E_TRY_AGAIN);
+            throw new GoogleCloudServiceException(GoogleConstants.E_TRY_AGAIN);
         case -1:
-            throw new RuntimeException(GoogleConstants.E_INTERNAL_ERROR);
+            throw new GoogleCloudServiceException(GoogleConstants.E_INTERNAL_ERROR);
         default:
             LOGGER.warn("HTTP {} {}", httpResponse.getCode(), httpResponse.getBody());
-            throw new RuntimeException(GoogleConstants.E_EXTERNAL_ERROR + httpResponse.getCode());
+            throw new GoogleCloudServiceException(GoogleConstants.E_EXTERNAL_ERROR + httpResponse.getCode());
         }
     }
 
@@ -95,7 +95,7 @@ public class DistanceMatrix {
             throw new IllegalArgumentException(GoogleConstants.E_INVALID_ADDRESS);
         case "UNKNOWN_ERROR":
             LOGGER.warn(GoogleConstants.E_GOOGLE_CLOUD_PLATFORM, status);
-            throw new RuntimeException(GoogleConstants.E_TRY_AGAIN);
+            throw new GoogleCloudServiceException(GoogleConstants.E_TRY_AGAIN);
         case "MAX_ELEMENTS_EXCEEDED":
         case "MAX_DIMENSIONS_EXCEEDED":
         case "OVER_DAILY_LIMIT":
@@ -103,7 +103,7 @@ public class DistanceMatrix {
         case "REQUEST_DENIED":
         default:
             LOGGER.warn(GoogleConstants.E_GOOGLE_CLOUD_PLATFORM, status);
-            throw new RuntimeException(GoogleConstants.E_SYS_ADMIN + status);
+            throw new GoogleCloudServiceException(GoogleConstants.E_SYS_ADMIN + status);
         }
     }
 

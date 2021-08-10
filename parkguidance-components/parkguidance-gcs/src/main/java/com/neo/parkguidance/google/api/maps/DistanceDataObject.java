@@ -3,6 +3,7 @@ package com.neo.parkguidance.google.api.maps;
 import com.neo.parkguidance.core.entity.ParkingGarage;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * This object is a container for the return data of {@link DistanceMatrix}
@@ -60,5 +61,20 @@ public class DistanceDataObject implements Comparable<DistanceDataObject>, Seria
     @Override
     public int compareTo(DistanceDataObject o) {
         return this.getDurationInt() - o.getDurationInt();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        DistanceDataObject that = (DistanceDataObject) o;
+        return Objects.equals(parkingGarage.getKey(), that.parkingGarage.getKey());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(parkingGarage);
     }
 }
