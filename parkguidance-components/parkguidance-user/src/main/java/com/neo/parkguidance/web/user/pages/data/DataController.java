@@ -1,6 +1,6 @@
 package com.neo.parkguidance.web.user.pages.data;
 
-import com.neo.parkguidance.web.utils.Utils;
+import com.neo.parkguidance.web.impl.utils.Utils;
 import org.omnifaces.util.Faces;
 
 import javax.enterprise.context.RequestScoped;

@@ -1,5 +1,7 @@
 package com.neo.parkguidance.web.infra;
 
+import com.neo.parkguidance.web.TemplateValues;
+
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Specializes;
 

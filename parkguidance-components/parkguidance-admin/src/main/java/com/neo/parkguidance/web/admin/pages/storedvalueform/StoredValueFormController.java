@@ -9,7 +9,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import static com.github.adminfaces.template.util.Assert.has;
-import static com.neo.parkguidance.web.utils.Utils.addDetailMessage;
+import static com.neo.parkguidance.web.impl.utils.Utils.addDetailMessage;
 
 /**
  * The controller for the StoredValueForm screen

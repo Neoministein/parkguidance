@@ -1,4 +1,4 @@
-package com.neo.parkguidance.web.infra;
+package com.neo.parkguidance.web;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Named;

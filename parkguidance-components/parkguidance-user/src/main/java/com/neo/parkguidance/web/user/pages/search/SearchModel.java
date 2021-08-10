@@ -1,7 +1,7 @@
 package com.neo.parkguidance.web.user.pages.search;
 
 import com.neo.parkguidance.core.entity.ParkingGarage;
-import com.neo.parkguidance.web.infra.table.Filter;
+import com.neo.parkguidance.web.impl.table.Filter;
 import org.primefaces.model.LazyDataModel;
 
 import javax.enterprise.context.SessionScoped;

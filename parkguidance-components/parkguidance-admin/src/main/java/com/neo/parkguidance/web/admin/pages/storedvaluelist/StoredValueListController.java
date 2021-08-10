@@ -5,7 +5,7 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import static com.neo.parkguidance.web.utils.Utils.addDetailMessage;
+import static com.neo.parkguidance.web.impl.utils.Utils.addDetailMessage;
 
 /**
  * The controller for the StoredValueList screen

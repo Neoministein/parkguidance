@@ -1,7 +1,7 @@
 package com.neo.parkguidance.web.admin.pages.storedvaluelist;
 
 import com.neo.parkguidance.core.entity.StoredValue;
-import com.neo.parkguidance.web.infra.table.Filter;
+import com.neo.parkguidance.web.impl.table.Filter;
 import org.omnifaces.cdi.ViewScoped;
 import org.primefaces.model.LazyDataModel;
 

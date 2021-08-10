@@ -1,8 +1,8 @@
-package com.neo.parkguidance.web.infra.entity;
+package com.neo.parkguidance.web.impl.entity;
 
 import com.neo.parkguidance.core.entity.DataBaseEntity;
 import com.neo.parkguidance.core.impl.dao.AbstractEntityDao;
-import com.neo.parkguidance.web.infra.table.Filter;
+import com.neo.parkguidance.web.impl.table.Filter;
 import org.hibernate.criterion.Order;
 import org.primefaces.model.FilterMeta;
 import org.primefaces.model.LazyDataModel;

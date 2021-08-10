@@ -1,4 +1,4 @@
-package com.neo.parkguidance.web.infra.table;
+package com.neo.parkguidance.web.impl.table;
 
 /**
  * This enum describes the sort order of a table

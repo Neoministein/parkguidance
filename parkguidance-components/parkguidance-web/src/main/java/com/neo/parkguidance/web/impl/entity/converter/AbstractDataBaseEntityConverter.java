@@ -1,4 +1,4 @@
-package com.neo.parkguidance.web.infra.entity.converter;
+package com.neo.parkguidance.web.impl.entity.converter;
 
 import com.neo.parkguidance.core.entity.DataBaseEntity;
 import com.neo.parkguidance.core.impl.dao.AbstractEntityDao;

@@ -1,4 +1,4 @@
-package com.neo.parkguidance.web.utils;
+package com.neo.parkguidance.web.impl.utils;
 
 import org.omnifaces.util.Messages;
 

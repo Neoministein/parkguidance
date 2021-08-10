@@ -1,4 +1,4 @@
-package com.neo.parkguidance.web.infra.entity.converter;
+package com.neo.parkguidance.web.impl.entity.converter;
 
 import com.neo.parkguidance.core.entity.ParkingGarage;
 import javax.inject.Named;

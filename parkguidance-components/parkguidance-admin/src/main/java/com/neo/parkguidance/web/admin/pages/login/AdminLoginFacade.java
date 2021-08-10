@@ -2,7 +2,7 @@ package com.neo.parkguidance.web.admin.pages.login;
 
 import com.github.adminfaces.template.config.AdminConfig;
 import com.neo.parkguidance.core.impl.StoredValueService;
-import com.neo.parkguidance.web.utils.Utils;
+import com.neo.parkguidance.web.impl.utils.Utils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.omnifaces.util.Faces;

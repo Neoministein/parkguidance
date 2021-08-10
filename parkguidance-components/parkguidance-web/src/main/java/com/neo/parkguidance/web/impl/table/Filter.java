@@ -1,4 +1,4 @@
-package com.neo.parkguidance.web.infra.table;
+package com.neo.parkguidance.web.impl.table;
 
 import org.hibernate.criterion.Order;
 
@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * A Filter used Primarily for the {@link com.neo.parkguidance.web.infra.entity.LazyEntityService} for a Lazy loading Table
+ * A Filter used Primarily for the {@link com.neo.parkguidance.web.impl.entity.LazyEntityService} for a Lazy loading Table
  * @param <T> the Entity of the Filter
  */
 public class Filter<T extends Serializable> implements Serializable{
