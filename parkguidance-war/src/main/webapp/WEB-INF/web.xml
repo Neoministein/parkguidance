@@ -57,6 +57,12 @@
         <auth-constraint>
             <role-name>ADMIN</role-name>
         </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>NONE</transport-guarantee>
+            <!-- Change to CONFIDENTIAL to force HTTPS
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+            -->
+        </user-data-constraint>
     </security-constraint>
     <security-role>
         <role-name>ADMIN</role-name>
