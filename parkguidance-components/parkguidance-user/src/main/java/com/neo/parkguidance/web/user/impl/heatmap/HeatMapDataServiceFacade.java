@@ -85,7 +85,7 @@ public class HeatMapDataServiceFacade {
 
     private String getColor(int spaces, int occupied, boolean defaultColor) {
         if (occupied == 0) {
-            return "rgb(255, 255, 255)";
+            return "rgb(144, 144, 144)";
         }
         int clampOccupied = MathUtils.clamp(occupied, 0, spaces);
         double emptyPercent = 100d * clampOccupied / spaces;
