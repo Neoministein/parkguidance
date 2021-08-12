@@ -1,9 +1,10 @@
 package com.neo.parkguidance.web.admin.pages.garageform;
 
+import com.neo.parkguidance.core.impl.validation.AddressValidator;
+import com.neo.parkguidance.core.impl.validation.ParkingGarageValidator;
 import com.neo.parkguidance.google.api.maps.GeoCoding;
 import com.neo.parkguidance.core.entity.Address;
 import com.neo.parkguidance.core.entity.ParkingGarage;
-import com.neo.parkguidance.core.impl.utils.RandomString;
 import com.neo.parkguidance.core.impl.dao.AbstractEntityDao;
 import com.neo.parkguidance.web.impl.pages.form.AbstractFormFacade;
 
@@ -21,6 +22,12 @@ public class GarageFormFacade extends AbstractFormFacade<ParkingGarage> {
     AbstractEntityDao<Address> addressDao;
 
     @Inject
+    ParkingGarageValidator parkingGarageValidator;
+
+    @Inject
+    AddressValidator addressValidator;
+
+    @Inject
     GeoCoding geoCoding;
 
     @Override
@@ -30,7 +37,7 @@ public class GarageFormFacade extends AbstractFormFacade<ParkingGarage> {
 
     @Override
     public void edit(ParkingGarage parkingGarage) {
-        if(hasAddressChanged(parkingGarage.getAddress())) {
+        if(addressValidator.hasAddressChanged(parkingGarage.getAddress())) {
             geoCoding.findCoordinates(parkingGarage.getAddress());
             addressDao.edit(parkingGarage.getAddress());
         }
@@ -48,22 +55,6 @@ public class GarageFormFacade extends AbstractFormFacade<ParkingGarage> {
     }
 
     public void setAccessKey(ParkingGarage parkingGarage) {
-        String accessKey;
-        do {
-            accessKey = new RandomString().nextString();
-        } while (exists(accessKey));
-        parkingGarage.setAccessKey(accessKey);
-    }
-
-    protected boolean exists(String accessKey) {
-        return !getDao().findByColumn(ParkingGarage.C_ACCESS_KEY,accessKey).isEmpty();
-    }
-
-    protected boolean hasAddressChanged(Address address) {
-        if(address == null || address.getId() == null) {
-            return false;
-        }
-
-        return !address.compareValues(addressDao.find(address.getId()));
+        parkingGarageValidator.invalidateAccessKey(parkingGarage);
     }
 }

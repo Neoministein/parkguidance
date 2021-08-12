@@ -1,7 +1,7 @@
 package com.neo.parkguidance.web.admin.validation;
 
 import com.neo.parkguidance.core.entity.StoredValue;
-import com.neo.parkguidance.core.impl.dao.AbstractEntityDao;
+import com.neo.parkguidance.core.impl.validation.AbstractDatabaseEntityValidation;
 import org.omnifaces.util.Messages;
 
 import javax.ejb.Stateless;
@@ -18,24 +18,20 @@ import java.io.Serializable;
  * This class is a JSF {@link Validator} which checks if the {@link StoredValue} key is unique
  */
 @Stateless
-@FacesValidator(value = UniqueStoredValueValidator.BEAN_NAME, managed = true)
-public class UniqueStoredValueValidator implements Validator<String>, Serializable {
+@FacesValidator(value = StoredValueKeyValidator.BEAN_NAME, managed = true)
+public class StoredValueKeyValidator implements Validator<String>, Serializable {
 
-    public static final String BEAN_NAME = "uniqueStoredValueValidator";
+    public static final String BEAN_NAME = "storedValueKeyValidator";
 
     @Inject
-    AbstractEntityDao<StoredValue> dao;
+    AbstractDatabaseEntityValidation<StoredValue> entityValidation;
 
     @Override
     public void validate(FacesContext facesContext, UIComponent uiComponent, String o) {
-        if (o.replaceAll("[a-zA-Z\\d\\-_.]","").length() > 0) {
-            FacesMessage msg = Messages.createError("Unsupported Character, Valid Characters include a-Z, 0-9, '.', '_' and '-'.");
-            facesContext.addMessage(uiComponent.getClientId(facesContext), msg);
-            throw new ValidatorException(msg);
-        }
-
-        if (dao.find(o) != null) {
-            FacesMessage msg = Messages.createError("Key already exists");
+        try {
+            entityValidation.validatePrimaryKey(o);
+        } catch (IllegalArgumentException ex) {
+            FacesMessage msg = Messages.createError(ex.getMessage());
             facesContext.addMessage(uiComponent.getClientId(facesContext), msg);
             throw new ValidatorException(msg);
         }
