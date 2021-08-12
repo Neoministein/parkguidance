@@ -1,7 +1,6 @@
 package com.neo.parkguidance.web.user.pages.heatmap;
 
 import org.json.JSONObject;
-import org.primefaces.PrimeFaces;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
@@ -33,14 +32,14 @@ public class HeatMapController {
             model.setHeatMapGradiantNormal(facade.getHeatMapGradiantNormal());
             model.setHeatMapGradiantColorBlind(facade.getHeatMapGradiantColorBlind());
             model.setInitialized(true);
-            JSONObject root;
+            JSONObject data;
 
             if (model.isColorBlind()) {
-                root = model.getHeatMapGradiantColorBlind().get(model.getTimeOfDay());
+                data = model.getHeatMapGradiantColorBlind().get(model.getTimeOfDay());
             } else {
-                root = model.getHeatMapGradiantNormal().get(model.getTimeOfDay());
+                data = model.getHeatMapGradiantNormal().get(model.getTimeOfDay());
             }
-            PrimeFaces.current().executeScript("initMap('" + root.toString().replace("\\\"", "$-$-$") + "');");
+            facade.initLocalMap(data);
         }
 
 
@@ -56,11 +55,13 @@ public class HeatMapController {
     }
 
     public void sendUpdate() {
+        JSONObject data;
         if (model.isColorBlind()) {
-            PrimeFaces.current().executeScript("updateHeatMapPoints('" + model.getHeatMapGradiantColorBlind().get(model.getTimeOfDay()).toString() + "')");
+            data = model.getHeatMapGradiantColorBlind().get(model.getTimeOfDay());
         } else {
-            PrimeFaces.current().executeScript("updateHeatMapPoints('" + model.getHeatMapGradiantNormal().get(model.getTimeOfDay()).toString() + "')");
+            data = model.getHeatMapGradiantNormal().get(model.getTimeOfDay());
         }
+        facade.updateLocalMap(data);
     }
 
     public HeatMapModel getModel() {

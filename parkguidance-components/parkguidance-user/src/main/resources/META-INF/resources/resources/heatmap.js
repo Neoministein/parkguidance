@@ -14,17 +14,17 @@ function initMap(points) {
     setMapCircle(jsonData);
 }
 
-function updateHeatMapPoints(heatMapPoints) {
-    let jsonData = JSON.parse(heatMapPoints);
+function updateHeatMapPoints(points) {
+    let parsed = points.replaceAll("$-$-$", "\\\"");
+    let jsonData = JSON.parse(parsed);
 
     for (let i = 0; i < circles.length;i++) {
         circles[i].setMap(null);
     }
     setMapCircle(jsonData);
-    google.maps.event.addDomListener(window, 'load', initialize);
 }
 
-function setMapCircle(circleData, markerData) {
+function setMapCircle(circleData) {
     circles = [circleData.parkgingGarage.length];
     for (let i = 0; i < circleData.parkgingGarage.length; i++) {
         circles[i] = new google.maps.Circle({
