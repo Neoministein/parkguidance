@@ -4,10 +4,12 @@ import com.neo.parkguidance.core.entity.ParkingGarage;
 import com.neo.parkguidance.core.impl.utils.RandomString;
 import com.neo.parkguidance.core.impl.utils.StringUtils;
 
+import javax.ejb.Stateless;
 
 /**
  * Validates changes done to the {@link ParkingGarage} entity
  */
+@Stateless
 public class ParkingGarageValidator extends AbstractDatabaseEntityValidation<ParkingGarage> {
 
     @Override

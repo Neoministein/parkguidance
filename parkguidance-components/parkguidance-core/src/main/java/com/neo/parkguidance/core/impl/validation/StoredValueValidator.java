@@ -2,9 +2,12 @@ package com.neo.parkguidance.core.impl.validation;
 
 import com.neo.parkguidance.core.entity.StoredValue;
 
+import javax.ejb.Stateless;
+
 /**
  * Validates changes done to the {@link StoredValue} entity
  */
+@Stateless
 public class StoredValueValidator extends AbstractDatabaseEntityValidation<StoredValue> {
 
     @Override
