@@ -13,7 +13,7 @@
                 <p:inputNumber id="decimal" value="#{heatmap.model.timeOfDay}" valueChangeListener="#{heatmap.updateGMap()}" readonly="true">
                     <p:ajax />
                 </p:inputNumber>
-                <p:slider for="decimal" minValue="0" maxValue="24" step="1" range="max" onSlideEnd="sliderUpdate();" />
+                <p:slider for="decimal" minValue="0" maxValue="23" step="1" range="max" onSlideEnd="sliderUpdate();" />
 
                 <div class="ui-sm-12 ui-g-11">
                     <p:outputLabel value="Change color" for="inputColor"/>
