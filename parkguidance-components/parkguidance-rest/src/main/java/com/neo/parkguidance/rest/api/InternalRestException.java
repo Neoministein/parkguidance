@@ -1,6 +1,6 @@
 package com.neo.parkguidance.rest.api;
 
-public class InternalRestException extends RuntimeException {
+public class InternalRestException extends Exception {
 
     private final int responseStatus;
 

@@ -35,13 +35,13 @@ public class ParkingDataRestFacade {
     @Inject
     ElasticSearchProvider elasticSearchProvider;
 
-    public JSONObject getSingleData(String key, Integer time) {
+    public JSONObject getSingleData(String key, Integer time) throws InternalRestException {
         JSONObject rootObject = new JSONObject();
         rootObject.put("count", getTimeList(key).get(time));
         return rootObject;
     }
 
-    public List<Integer> getTimeList(String key) {
+    public List<Integer> getTimeList(String key) throws InternalRestException {
         List<Integer> parkData = parkDataService.getParkData(key);
 
         if (parkData == null) {
@@ -50,7 +50,7 @@ public class ParkingDataRestFacade {
         return parkData;
     }
 
-    public ParkingGarage getAccessKey(String accessKey) {
+    public ParkingGarage getAccessKey(String accessKey) throws InternalRestException {
         ParkingGarage parkingGarage = this.authenticationService.authenticateGarage(accessKey);
         if (parkingGarage == null) {
             throw new InternalRestException(HttpServletResponse.SC_BAD_REQUEST, "Invalid AccessKey");
@@ -59,7 +59,7 @@ public class ParkingDataRestFacade {
         return parkingGarage;
     }
 
-    public ParkingGarage getKey(String key, String token) {
+    public ParkingGarage getKey(String key, String token) throws InternalRestException {
         this.authorizedUser(token);
         ParkingGarage parkingGarage = parkingGarageDao.find(key);
         if (parkingGarage == null) {
@@ -69,7 +69,8 @@ public class ParkingDataRestFacade {
         return parkingGarage;
     }
 
-    public synchronized void updateParkingData(ParkingGarage parkingGarage, String type, Integer count) {
+    public synchronized void updateParkingData(ParkingGarage parkingGarage, String type, Integer count)
+            throws InternalRestException {
         switch (type) {
         case "incr":
             setOccupied(parkingGarage, offsetOccupied(parkingGarage, 1));
@@ -111,7 +112,7 @@ public class ParkingDataRestFacade {
         return jsonObject.toString();
     }
 
-    public void authorizedUser(String token) {
+    public void authorizedUser(String token) throws InternalRestException {
         if (this.authenticationService.authenticateUser(token,
                 authenticationService.getRequiredPermissions(STORED_VALUE_PERMISSION)) == null) {
             throw new InternalRestException(HttpServletResponse.SC_UNAUTHORIZED, "Invalid User token");

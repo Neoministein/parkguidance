@@ -49,9 +49,9 @@ public class ParkingGarageRestController {
             return Response.ok().entity(facade.parseParkingGarageToJSONArray(facade.getLike(example), authRequest).toString()).build();
 
         } catch (InternalRestException ex) {
-            return Response.status(ex.getResponseStatus(), ex.getMessage()).build();
+            return Response.status(ex.getResponseStatus()).entity(ex.getMessage()).build();
         } catch (Exception ex) {
-            return Response.status(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ex.getMessage()).build();
+            return Response.status(HttpServletResponse.SC_INTERNAL_SERVER_ERROR).entity(ex.getMessage()).build();
         }
     }
 
@@ -132,9 +132,9 @@ public class ParkingGarageRestController {
 
             return Response.ok().entity(facade.parseParkingGarageToJSONObject(parkingGarage, true).toString()).build();
         } catch (InternalRestException ex) {
-            return Response.status(ex.getResponseStatus(), ex.getMessage()).build();
+            return Response.status(ex.getResponseStatus()).entity(ex.getMessage()).build();
         } catch (Exception ex) {
-            return Response.status(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ex.getMessage()).build();
+            return Response.status(HttpServletResponse.SC_INTERNAL_SERVER_ERROR).entity(ex.getMessage()).build();
         }
     }
 
@@ -158,7 +158,7 @@ public class ParkingGarageRestController {
             facade.authorizedUser(token);
             ParkingGarage parkingGarage = new ParkingGarage();
 
-            parkingGarage.setKey(key);
+            parkingGarage.setKey(key.toUpperCase());
             parkingGarage.setName(name);
             parkingGarage.setSpaces(spaces);
             parkingGarage.setPrice(price);
@@ -174,9 +174,9 @@ public class ParkingGarageRestController {
 
             return Response.ok().entity(facade.parseParkingGarageToJSONObject(parkingGarage, true)).build();
         } catch (InternalRestException ex) {
-            return Response.status(ex.getResponseStatus(), ex.getMessage()).build();
+            return Response.status(ex.getResponseStatus()).entity(ex.getMessage()).build();
         } catch (Exception ex) {
-            return Response.status(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ex.getMessage()).build();
+            return Response.status(HttpServletResponse.SC_INTERNAL_SERVER_ERROR).entity(ex.getMessage()).build();
         }
     }
 

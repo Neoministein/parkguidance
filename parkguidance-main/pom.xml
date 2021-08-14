@@ -23,21 +23,10 @@
             <groupId>${project.groupId}</groupId>
             <artifactId>parkguidance-user</artifactId>
             <version>${project.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>${project.groupId}</groupId>
-                    <artifactId>parkguidance-parkdata</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>parkguidance-parkdata-receiver</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>parkguidance-parkdata</artifactId>
+            <artifactId>parkguidance-rest</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>

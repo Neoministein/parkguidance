@@ -98,6 +98,15 @@
         <dispatcher>ERROR</dispatcher>
     </filter-mapping>
 
+    <servlet>
+        <servlet-name>com.neo.parkguidance.rest.impl.RestApplication</servlet-name>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>com.neo.parkguidance.rest.impl.RestApplication</servlet-name>
+        <url-pattern>/api/*</url-pattern>
+    </servlet-mapping>
+
     <servlet-mapping>
         <servlet-name>Faces Servlet</servlet-name>
         <url-pattern>*.xhtml</url-pattern>

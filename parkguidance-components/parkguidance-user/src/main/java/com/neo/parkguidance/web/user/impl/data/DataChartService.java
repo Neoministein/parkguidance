@@ -36,7 +36,20 @@ public class DataChartService {
 
         for(ParkingGarage parkingGarage: dao.findAll()) {
             LOGGER.info("Loading [{}]", parkingGarage.getKey());
-            List<Object> averageOccupied = new ArrayList<>(parkDataService.getParkData(parkingGarage.getKey()));
+            boolean hasData = false;
+            List<Object> averageOccupied = new ArrayList<>();
+
+            for (Integer occupied: parkDataService.getParkData(parkingGarage.getKey())) {
+                if (hasData || occupied != 0) {
+                    hasData = true;
+                }
+
+                averageOccupied.add(occupied);
+            }
+            if (!hasData) {
+                continue;
+            }
+
             LineChartDataSet dataSet = new LineChartDataSet();
             dataSet.setData(averageOccupied);
             dataSet.setLabel("Free Spaces");

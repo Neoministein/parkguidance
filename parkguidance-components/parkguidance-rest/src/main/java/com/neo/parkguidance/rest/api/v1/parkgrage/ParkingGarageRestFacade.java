@@ -14,6 +14,7 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletResponse;
 
 import com.neo.parkguidance.core.impl.utils.StringUtils;
+import com.neo.parkguidance.core.impl.validation.EntityValidationException;
 import com.neo.parkguidance.core.impl.validation.ParkingGarageValidator;
 import com.neo.parkguidance.google.api.maps.GeoCoding;
 import com.neo.parkguidance.google.api.maps.GoogleCloudServiceException;
@@ -56,7 +57,7 @@ public class ParkingGarageRestFacade {
         return this.parkingGarageDao.findLikeExample(example);
     }
 
-    public ParkingGarage getKey(String key) {
+    public ParkingGarage getKey(String key) throws InternalRestException {
         ParkingGarage parkingGarage = this.parkingGarageDao.find(key);
         if (parkingGarage == null) {
             throw new InternalRestException(HttpServletResponse.SC_BAD_REQUEST, INVALID_KEY);
@@ -64,7 +65,7 @@ public class ParkingGarageRestFacade {
         return parkingGarage;
     }
 
-    public ParkingGarage getKey(String key, String token) {
+    public ParkingGarage getKey(String key, String token) throws InternalRestException {
         if (key == null) {
             throw new InternalRestException(HttpServletResponse.SC_BAD_REQUEST, INVALID_KEY);
         }
@@ -78,7 +79,7 @@ public class ParkingGarageRestFacade {
         return parkingGarage;
     }
 
-    public ParkingGarage getAccessKey(String accessKey) {
+    public ParkingGarage getAccessKey(String accessKey) throws InternalRestException {
         ParkingGarage parkingGarage = this.authenticationService.authenticateGarage(accessKey);
         if (parkingGarage == null) {
             throw new InternalRestException(HttpServletResponse.SC_BAD_REQUEST, "Invalid Accesskey");
@@ -93,14 +94,14 @@ public class ParkingGarageRestFacade {
         return parkingGarage;
     }
 
-    public void createGarage(ParkingGarage parkingGarage) {
+    public void createGarage(ParkingGarage parkingGarage) throws InternalRestException, EntityValidationException {
         entityValidation.validatePrimaryKey(parkingGarage.getPrimaryKey());
         findCoordinates(parkingGarage.getAddress());
         addressDao.edit(parkingGarage.getAddress());
         parkingGarageDao.create(parkingGarage);
     }
 
-    public void updateGarage(ParkingGarage parkingGarage) {
+    public void updateGarage(ParkingGarage parkingGarage) throws InternalRestException {
         if(!parkingGarage.getAddress().compareValues(addressDao.find(parkingGarage.getAddress().getId()))) {
             findCoordinates(parkingGarage.getAddress());
             addressDao.edit(parkingGarage.getAddress());
@@ -109,7 +110,7 @@ public class ParkingGarageRestFacade {
         parkingGarageDao.edit(parkingGarage);
     }
 
-    protected void findCoordinates(Address address) {
+    protected void findCoordinates(Address address) throws InternalRestException {
         try {
             geoCoding.findCoordinates(address);
         } catch (IllegalArgumentException ex) {
@@ -119,7 +120,7 @@ public class ParkingGarageRestFacade {
         }
     }
 
-    public void checkForMissingValues(ParkingGarage parkingGarage) {
+    public void checkForMissingValues(ParkingGarage parkingGarage) throws InternalRestException {
         List<String> missingParameters = new ArrayList<>();
 
         if (StringUtils.isEmpty(parkingGarage.getKey())) {
@@ -179,10 +180,10 @@ public class ParkingGarageRestFacade {
         return jsonGarage;
     }
 
-    public void authorizedUser(String token) {
+    public void authorizedUser(String token) throws InternalRestException {
         if (this.authenticationService.authenticateUser(token,
                 authenticationService.getRequiredPermissions(STORED_VALUE_PERMISSION)) == null) {
-            throw new InternalRestException(401, "Invalid User token");
+            throw new InternalRestException(HttpServletResponse.SC_UNAUTHORIZED, "Invalid User token");
         }
     }
 }

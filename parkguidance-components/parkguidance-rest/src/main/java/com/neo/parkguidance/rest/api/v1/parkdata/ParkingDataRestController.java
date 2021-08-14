@@ -40,9 +40,9 @@ public class ParkingDataRestController {
 
             throw new InternalRestException(HttpServletResponse.SC_BAD_REQUEST, "No time of day specified");
         } catch (InternalRestException ex) {
-            return Response.status(ex.getResponseStatus(), ex.getMessage()).build();
+            return Response.status(ex.getResponseStatus()).entity(ex.getMessage()).build();
         } catch (Exception ex) {
-            return Response.status(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ex.getMessage()).build();
+            return Response.status(HttpServletResponse.SC_INTERNAL_SERVER_ERROR).entity(ex.getMessage()).build();
         }
     }
 
@@ -59,17 +59,20 @@ public class ParkingDataRestController {
                 facade.updateParkingData(parkingGarage, type, count);
                 return Response.ok().build();
             }
-            if (!StringUtils.isEmpty(token) && !StringUtils.isEmpty(key)) {
+            if (!StringUtils.isEmpty(token)) {
+                if (!StringUtils.isEmpty(key)) {
+                    throw new InternalRestException(HttpServletResponse.SC_BAD_REQUEST, "No key specified");
+                }
                 ParkingGarage parkingGarage = facade.getKey(key, token);
                 facade.updateParkingData(parkingGarage, type, count);
                 return Response.ok().build();
             }
 
-            throw new InternalRestException(HttpServletResponse.SC_BAD_REQUEST, "");
+            throw new InternalRestException(HttpServletResponse.SC_BAD_REQUEST, "No authentication specified");
         } catch (InternalRestException ex) {
-            return Response.status(ex.getResponseStatus(), ex.getMessage()).build();
+            return Response.status(ex.getResponseStatus()).entity(ex.getMessage()).build();
         } catch (Exception ex) {
-            return Response.status(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ex.getMessage()).build();
+            return Response.status(HttpServletResponse.SC_INTERNAL_SERVER_ERROR).entity(ex.getMessage()).build();
         }
     }
 }

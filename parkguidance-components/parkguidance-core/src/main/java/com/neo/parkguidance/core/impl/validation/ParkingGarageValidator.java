@@ -13,12 +13,12 @@ import javax.ejb.Stateless;
 public class ParkingGarageValidator extends AbstractDatabaseEntityValidation<ParkingGarage> {
 
     @Override
-    public void validatePrimaryKey(Object primaryKey) {
+    public void validatePrimaryKey(Object primaryKey) throws EntityValidationException {
         super.validatePrimaryKey(primaryKey);
 
         String key = (String) primaryKey;
         if (StringUtils.isEmpty(key)) {
-            throw new IllegalArgumentException("Key cannot be empty");
+            throw new EntityValidationException("Key cannot be empty");
         }
         checkInvalidCharsInPrimaryKey(key);
     }
@@ -36,9 +36,9 @@ public class ParkingGarageValidator extends AbstractDatabaseEntityValidation<Par
     }
 
 
-    protected void checkInvalidCharsInPrimaryKey(String primaryKey) {
-        if (primaryKey.replaceAll("[A-Z\\d\\-_]","").length() > 0) {
-            throw new IllegalArgumentException("Unsupported Character, Valid Characters include A-Z, 0-9, '_' and '-'.");
+    protected void checkInvalidCharsInPrimaryKey(String primaryKey) throws EntityValidationException {
+        if (primaryKey.replaceAll("[a-zA-Z\\d\\-_]","").length() > 0) {
+            throw new EntityValidationException("Unsupported Character, Valid Characters include A-Z, 0-9, '_' and '-'.");
         }
     }
 }

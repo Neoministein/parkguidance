@@ -2,6 +2,7 @@ package com.neo.parkguidance.web.admin.validation;
 
 import com.neo.parkguidance.core.entity.StoredValue;
 import com.neo.parkguidance.core.impl.validation.AbstractDatabaseEntityValidation;
+import com.neo.parkguidance.core.impl.validation.EntityValidationException;
 import org.omnifaces.util.Messages;
 
 import javax.ejb.Stateless;
@@ -30,7 +31,7 @@ public class StoredValueKeyValidator implements Validator<String>, Serializable 
     public void validate(FacesContext facesContext, UIComponent uiComponent, String o) {
         try {
             entityValidation.validatePrimaryKey(o);
-        } catch (IllegalArgumentException ex) {
+        } catch (EntityValidationException ex) {
             FacesMessage msg = Messages.createError(ex.getMessage());
             facesContext.addMessage(uiComponent.getClientId(facesContext), msg);
             throw new ValidatorException(msg);

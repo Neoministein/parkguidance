@@ -21,13 +21,13 @@ public abstract class AbstractDatabaseEntityValidation<T extends DataBaseEntity<
      *
      * @param primaryKey the primary key to be checked
      */
-    public void validatePrimaryKey(Object primaryKey) {
+    public void validatePrimaryKey(Object primaryKey) throws EntityValidationException {
         if (primaryKey == null) {
-            throw new IllegalArgumentException("Key cannot be null");
+            throw new EntityValidationException("Key cannot be null");
         }
 
         if (dao.find(primaryKey) != null) {
-            throw new IllegalArgumentException("Key already exists");
+            throw new EntityValidationException("Key already exists");
         }
     }
 }

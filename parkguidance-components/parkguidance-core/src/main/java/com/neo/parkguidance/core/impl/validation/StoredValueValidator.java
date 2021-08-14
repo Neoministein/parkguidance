@@ -11,14 +11,14 @@ import javax.ejb.Stateless;
 public class StoredValueValidator extends AbstractDatabaseEntityValidation<StoredValue> {
 
     @Override
-    public void validatePrimaryKey(Object primaryKey) {
+    public void validatePrimaryKey(Object primaryKey) throws EntityValidationException {
         super.validatePrimaryKey(primaryKey);
         checkInvalidCharsInPrimaryKey((String) primaryKey);
     }
 
-    protected void checkInvalidCharsInPrimaryKey(String primaryKey) {
+    protected void checkInvalidCharsInPrimaryKey(String primaryKey) throws EntityValidationException {
         if (primaryKey.replaceAll("[a-zA-Z\\d\\-_.]","").length() > 0) {
-            throw new IllegalArgumentException("Unsupported Character, Valid Characters include A-z, '_' and '-'.");
+            throw new EntityValidationException("Unsupported Character, Valid Characters include A-z, '_' and '-'.");
         }
     }
 }

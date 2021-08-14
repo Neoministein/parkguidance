@@ -54,7 +54,7 @@ public class ParkingGarage implements DataBaseEntity<ParkingGarage> {
     private String description;
 
     public boolean isEmpty() {
-        return occupied == 0;
+        return occupied == -1;
     }
 
     public ParkingGarage() {
