@@ -3,6 +3,7 @@ package com.neo.parkguidance.core.impl.auth;
 import com.neo.parkguidance.core.entity.ParkingGarage;
 import com.neo.parkguidance.core.entity.Permission;
 import com.neo.parkguidance.core.entity.RegisteredUser;
+import com.neo.parkguidance.core.impl.StoredValueService;
 import com.neo.parkguidance.core.impl.utils.StringUtils;
 import com.neo.parkguidance.core.impl.dao.AbstractEntityDao;
 import org.apache.commons.codec.digest.DigestUtils;
@@ -12,6 +13,8 @@ import org.apache.logging.log4j.Logger;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 import static org.apache.commons.codec.digest.MessageDigestAlgorithms.SHA_224;
 
@@ -21,10 +24,16 @@ public class AuthenticationService {
     private static final Logger LOGGER = LogManager.getLogger(AuthenticationService.class);
 
     @Inject
+    StoredValueService storedValueService;
+
+    @Inject
     AbstractEntityDao<RegisteredUser> userDao;
 
     @Inject
     AbstractEntityDao<ParkingGarage> parkingGarageDao;
+
+    @Inject
+    AbstractEntityDao<Permission> permissionDao;
 
     public RegisteredUser authenticateUser(String username, String password) {
         LOGGER.info("User credentials authentication attempt");
@@ -96,5 +105,26 @@ public class AuthenticationService {
         }
 
         return parkingGarage;
+    }
+
+    public Set<Permission> getRequiredPermissions(String storedValueKey) {
+        Set<Permission> permissions = new HashSet<>();
+
+        try {
+            for (String permissionName: this.storedValueService.getString(storedValueKey).replaceAll("\\s", "").split(",")) {
+                Permission permission = permissionDao.findOneByColumn("name", permissionName);
+                if (permission != null) {
+                    permissions.add(permission);
+                }
+            }
+
+            if (permissions.isEmpty()) {
+                throw new IllegalStateException("No internal permission specified for using service");
+            }
+
+            return permissions;
+        } catch (IllegalArgumentException ex) {
+            throw new IllegalStateException("No internal permission specified for using service");
+        }
     }
 }

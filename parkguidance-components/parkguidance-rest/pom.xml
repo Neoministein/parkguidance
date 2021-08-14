@@ -6,8 +6,8 @@
         <artifactId>parkguidance-root</artifactId>
         <version>0.2-SNAPSHOT</version>
     </parent>
-    <artifactId>parkguidance-parkdata-receiver</artifactId>
-    <name>ParkGuidance Parkdata Receiver jar</name>
+    <artifactId>parkguidance-rest</artifactId>
+    <name>ParkGuidance Rest jar</name>
     <packaging>jar</packaging>
 
     <properties>
@@ -22,7 +22,12 @@
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>parkguidance-elastic</artifactId>
+            <artifactId>parkguidance-parkdata</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>parkguidance-gcs</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>

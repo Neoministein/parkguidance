@@ -8,6 +8,17 @@ public class MathUtils {
 
     private MathUtils() {}
 
+    public static boolean isInBounds(Integer val, int min, int max) {
+        if (val == null) {
+            return false;
+        }
+        return isInBounds(val, min, max);
+    }
+
+    public static boolean isInBounds(int val, int min, int max) {
+        return val >= min && val <= max;
+    }
+
     public static double clamp(double val, double min, double max) {
         return Math.max(min, Math.min(max, val));
     }
