@@ -24,6 +24,7 @@ import javax.inject.Inject;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 /**
  * This class provides methods to interact with elastic search
@@ -153,7 +154,7 @@ public class ElasticSearchProvider {
     }
 
     private IndexRequest indexRequest(String index, String content) {
-        final byte[] bytes = content.getBytes();
+        final byte[] bytes = content.getBytes(StandardCharsets.UTF_8);
         final IndexRequest request = new IndexRequest(index);
 
         request.source(bytes, XContentType.JSON);
