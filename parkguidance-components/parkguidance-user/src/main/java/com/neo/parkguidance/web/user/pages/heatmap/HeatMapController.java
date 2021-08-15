@@ -1,6 +1,7 @@
 package com.neo.parkguidance.web.user.pages.heatmap;
 
 import org.json.JSONObject;
+import org.primefaces.event.SlideEndEvent;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
@@ -51,15 +52,19 @@ public class HeatMapController {
             event.queue();
             return;
         }
-        sendUpdate();
+        sendUpdate(model.getTimeOfDay());
+    }
+    public void onSlideEnd(SlideEndEvent event) {
+        int value = (int) event.getValue();
+        sendUpdate(value);
     }
 
-    public void sendUpdate() {
+    public void sendUpdate(int timeOfDay) {
         JSONObject data;
         if (model.isColorBlind()) {
-            data = model.getHeatMapGradiantColorBlind().get(model.getTimeOfDay());
+            data = model.getHeatMapGradiantColorBlind().get(timeOfDay);
         } else {
-            data = model.getHeatMapGradiantNormal().get(model.getTimeOfDay());
+            data = model.getHeatMapGradiantNormal().get(timeOfDay);
         }
         facade.updateLocalMap(data);
     }

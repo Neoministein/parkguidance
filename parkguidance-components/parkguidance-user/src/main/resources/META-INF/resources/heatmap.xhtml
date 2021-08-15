@@ -9,11 +9,12 @@
     <ui:define name="body">
         <h:form>
             <h:panelGrid columns="1" style="margin-bottom: 10px">
-                <p:remoteCommand name="remoteSliderUpdate" process="@this" autoRun="false" actionListener="#{heatmap.sendUpdate()}"/>
-                <p:inputNumber id="decimal" value="#{heatmap.model.timeOfDay}" valueChangeListener="#{heatmap.updateGMap()}" readonly="true">
+                <p:inputNumber id="decimal" value="#{heatmap.model.timeOfDay}" valueChangeListener="#{heatmap.updateGMap}" readonly="true">
                     <p:ajax />
                 </p:inputNumber>
-                <p:slider for="decimal" minValue="0" maxValue="23" step="1" range="max" onSlideEnd="sliderUpdate();" />
+                <p:slider for="decimal" minValue="0" maxValue="23" step="1" range="max" >
+                    <p:ajax event="slideEnd" listener="#{heatmap.onSlideEnd}" />
+                </p:slider>
 
                 <div class="ui-sm-12 ui-g-11">
                     <p:outputLabel value="Change color" for="inputColor"/>

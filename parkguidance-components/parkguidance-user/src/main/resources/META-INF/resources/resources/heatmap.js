@@ -48,7 +48,3 @@ function setMapCircle(circleData) {
 
     }
 }
-
-function sliderUpdate() {
-    remoteSliderUpdate();
-}
