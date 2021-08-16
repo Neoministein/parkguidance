@@ -1,6 +1,6 @@
 {
-    "short_name": "Admin Starter",
-    "name": "AdminFaces Starter Application",
+    "short_name": "Parkguidance",
+    "name": "Parkguidance",
     "icons": [
         {
             "src": "/resources/favicon/favicon-196x196.png",
@@ -20,7 +20,7 @@
     ],
     "theme_color": "#3c8dbc",
     "background_color": "#ffffff",
-    "scope": "/admin-starter/",
-    "start_url": "/admin-starter/index.xhtml",
+    "scope": "/park-guidance/",
+    "start_url": "/park-guidance/index",
     "display": "standalone"
 }
