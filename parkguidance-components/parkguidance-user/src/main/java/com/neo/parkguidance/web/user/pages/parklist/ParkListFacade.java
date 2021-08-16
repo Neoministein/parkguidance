@@ -22,7 +22,7 @@ public class ParkListFacade {
         if(model.getLastUpdate().getTime() + TIME_BETWEEN_UPDATES < System.currentTimeMillis()) {
             model.setLastUpdate(new Date());
 
-            model.setParkingGarageList(parkingGarageManager.findAll());
+            model.setParkingGarageList(parkingGarageManager.findAll(ParkingGarage.C_NAME, true));
         }
     }
 }

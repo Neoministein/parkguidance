@@ -61,6 +61,26 @@ public abstract class AbstractEntityDao<T extends DataBaseEntity<T>> {
         return getEntityManager().createQuery(cq).getResultList();
     }
 
+    public List<T> findAll(String column, boolean asc) {
+        CriteriaBuilder cb= getEntityManager().getCriteriaBuilder();
+
+        CriteriaQuery<T> cq1=cb.createQuery(entityClass);
+
+        Root<T> stud1=cq1.from(entityClass);
+
+        CriteriaQuery<T> select1 = cq1.select(stud1);
+
+        javax.persistence.criteria.Order order;
+        if (asc) {
+            order = cb.asc(stud1.get(column));
+        } else {
+            order = cb.desc(stud1.get(column));
+        }
+
+        select1.orderBy(order);
+        return getEntityManager().createQuery(select1).getResultList();
+    }
+
     public int count() {
         @SuppressWarnings("java:S3740")
         CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
