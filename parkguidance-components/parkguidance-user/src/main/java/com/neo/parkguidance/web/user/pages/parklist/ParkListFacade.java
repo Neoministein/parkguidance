@@ -25,4 +25,18 @@ public class ParkListFacade {
             model.setParkingGarageList(parkingGarageManager.findAll(ParkingGarage.C_NAME, true));
         }
     }
+
+    public String getStyleColorOfOccupied(int occupied, int spaces) {
+       double percent = 100d / spaces * occupied;
+
+        if (percent > 20) {
+            return "color: #32CD32;"; //LimeGreen
+        }
+
+
+        if (percent > 5) {
+            return "color: orange;";
+        }
+        return "color: red;";
+    }
 }

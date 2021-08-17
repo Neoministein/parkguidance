@@ -14,8 +14,13 @@
                 </p:link>
             </p:column>
             <p:column headerText="Plätze">
-                <h:outputText value="#{parkingGarage.occupied}/#{parkingGarage.spaces}" rendered="#{not parkingGarage.isEmpty()}" />
-                <h:outputText value="#{parkingGarage.spaces}" rendered="#{parkingGarage.isEmpty()}" />
+                <h:panelGroup rendered="#{not parkingGarage.isEmpty()}">
+                    <h:outputText value="#{parkingGarage.occupied}" style="#{parkList.getStyleColorOfOccupied(parkingGarage)}"/>
+                    <h:outputText value="/#{parkingGarage.spaces}"/>
+                </h:panelGroup>
+                <h:panelGroup rendered="#{parkingGarage.isEmpty()}">
+                    <h:outputText value="#{parkingGarage.spaces}" />
+                </h:panelGroup>
             </p:column>
         </p:dataTable>
         <h:outputText value="Last update: "/>
