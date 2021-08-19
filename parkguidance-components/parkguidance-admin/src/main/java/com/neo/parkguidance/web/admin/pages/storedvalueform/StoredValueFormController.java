@@ -20,10 +20,10 @@ public class StoredValueFormController extends AbstractFormController<StoredValu
     public static final String BEAN_NAME = "storedValueForm";
 
     @Inject
-    StoredValueFormModel modelImpl;
+    StoredValueFormModel model;
 
     @Inject
-    StoredValueFormFacade facadeImpl;
+    StoredValueFormFacade facade;
 
     @Override
     public void init() {
@@ -42,10 +42,10 @@ public class StoredValueFormController extends AbstractFormController<StoredValu
                     + " " + getModel().getEntity().getPrimaryKey());
 
             if (getModel().getPrimaryKey() == null) {
-                getFacade().create(modelImpl.getEntity());
+                getFacade().create(model.getEntity());
                 msg.append(" created successfully");
             } else {
-                facadeImpl.edit(getModel().getEntity(), modelImpl.getHiddenValue());
+                facade.edit(getModel().getEntity(), model.getHiddenValue());
                 msg.append(" updated successfully");
             }
 
@@ -55,7 +55,13 @@ public class StoredValueFormController extends AbstractFormController<StoredValu
         }
     }
 
-    public StoredValueFormModel getImplModel() {
-        return modelImpl;
+    @Override
+    public StoredValueFormModel getModel() {
+        return model;
+    }
+
+    @Override
+    protected StoredValueFormFacade getFacade() {
+        return facade;
     }
 }

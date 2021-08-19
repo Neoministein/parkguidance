@@ -5,6 +5,7 @@ import com.neo.parkguidance.web.impl.pages.lazy.AbstractLazyController;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 
 /**
@@ -16,9 +17,25 @@ public class GarageListController extends AbstractLazyController<ParkingGarage> 
 
     public static final String BEAN_NAME = "garageList";
 
+    @Inject
+    GarageListModel model;
+
+    @Inject
+    GarageListFacade facade;
+
     @Override
     @PostConstruct
     public void init() {
         super.init();
+    }
+
+    @Override
+    public GarageListModel getModel() {
+        return model;
+    }
+
+    @Override
+    protected GarageListFacade getFacade() {
+        return facade;
     }
 }

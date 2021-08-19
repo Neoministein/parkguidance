@@ -75,26 +75,26 @@
                     </div>
                     <div class="ui-sm-12 ui-g-6 ui-g-nopad">
                         <div class="ui-sm-12 ui-g-11">
-                            <p:outputLabel for="inputValue" value="Value" rendered="#{not storedValueForm.implModel.entity.hidden}"/>
-                            <p:outputLabel for="inputValueHidden" value="Value" rendered="#{storedValueForm.implModel.entity.hidden}"/>
+                            <p:outputLabel for="inputValue" value="Value" rendered="#{not storedValueForm.model.entity.hidden}"/>
+                            <p:outputLabel for="inputValueHidden" value="Value" rendered="#{storedValueForm.model.entity.hidden}"/>
                         </div>
                         <div class="ui-sm-12 ui-g-11" >
                             <p:inputText id="inputValue"
-                                         value="#{storedValueForm.implModel.entity.value}"
-                                         rendered="#{not storedValueForm.implModel.entity.hidden}"
-                                         required="#{not storedValueForm.implModel.entity.hidden}">
+                                         value="#{storedValueForm.model.entity.value}"
+                                         rendered="#{not storedValueForm.model.entity.hidden}"
+                                         required="#{not storedValueForm.model.entity.hidden}">
                                 <p:ajax/>
                             </p:inputText>
 
                             <p:inputText id="inputValueHidden"
                                          placeholder="Hidden in UI"
-                                         value="#{storedValueForm.implModel.hiddenValue}"
-                                         rendered="#{storedValueForm.implModel.entity.hidden}"
-                                         required="#{storedValueForm.implModel.entity.hidden}">
+                                         value="#{storedValueForm.model.hiddenValue}"
+                                         rendered="#{storedValueForm.model.entity.hidden}"
+                                         required="#{storedValueForm.model.entity.hidden}">
                             </p:inputText>
                             <span class="help-block">
-                                <p:message for="inputValue" rendered="#{not storedValueForm.implModel.entity.hidden}"/>
-                                <p:message for="inputValueHidden" rendered="#{storedValueForm.implModel.entity.hidden}"/>
+                                <p:message for="inputValue" rendered="#{not storedValueForm.model.entity.hidden}"/>
+                                <p:message for="inputValueHidden" rendered="#{storedValueForm.model.entity.hidden}"/>
                             </span>
                         </div>
                     </div>

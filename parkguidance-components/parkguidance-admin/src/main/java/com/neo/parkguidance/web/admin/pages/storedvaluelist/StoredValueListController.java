@@ -5,6 +5,7 @@ import com.neo.parkguidance.web.impl.pages.lazy.AbstractLazyController;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 
 /**
@@ -16,9 +17,25 @@ public class StoredValueListController extends AbstractLazyController<StoredValu
 
     public static final String BEAN_NAME = "storedValueList";
 
+    @Inject
+    StoredValueListModel mode;
+
+    @Inject
+    StoredValueListFacade facade;
+
     @Override
     @PostConstruct
     public void init() {
         super.init();
+    }
+
+    @Override
+    public StoredValueListModel getModel() {
+        return mode;
+    }
+
+    @Override
+    protected StoredValueListFacade getFacade() {
+        return facade;
     }
 }

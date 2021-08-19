@@ -4,36 +4,28 @@ import com.neo.parkguidance.core.entity.DataBaseEntity;
 import org.omnifaces.util.Faces;
 import org.omnifaces.util.Messages;
 
-import javax.inject.Inject;
-
 import static com.github.adminfaces.template.util.Assert.has;
 import static com.neo.parkguidance.web.impl.utils.Utils.addDetailMessage;
 
 public abstract class AbstractFormController<T extends DataBaseEntity<T>> {
-
-    @Inject
-    AbstractFormModel<T> model;
-
-    @Inject
-    AbstractFormFacade<T> facade;
-
+    
     public void init() {
         if(Faces.isAjaxRequest()){
             return;
         }
 
-        if (has(model.getPrimaryKey())) {
-            model.setEntity(facade.findGarageById(model.getPrimaryKey()));
+        if (has(getModel().getPrimaryKey())) {
+            getModel().setEntity(getFacade().findGarageById(getModel().getPrimaryKey()));
         } else {
-            model.setEntity(facade.newEntity());
+            getModel().setEntity(getFacade().newEntity());
         }
     }
 
     protected abstract String getRedirectLocation();
 
     public void remove() {
-        if (facade.remove(model.getEntity())) {
-            addDetailMessage(model.getEntity().getClass().getSimpleName() + " " + model.getEntity().getPrimaryKey()
+        if (getFacade().remove(getModel().getEntity())) {
+            addDetailMessage(getModel().getEntity().getClass().getSimpleName() + " " + getModel().getEntity().getPrimaryKey()
                     + " removed successfully");
             Faces.getFlash().setKeepMessages(true);
             Faces.redirect(getRedirectLocation());
@@ -42,13 +34,13 @@ public abstract class AbstractFormController<T extends DataBaseEntity<T>> {
 
     public void save() {
         try {
-            StringBuilder msg = new StringBuilder(model.getEntity().getClass().getSimpleName() + " " + model.getEntity().getPrimaryKey());
+            StringBuilder msg = new StringBuilder(getModel().getEntity().getClass().getSimpleName() + " " + getModel().getEntity().getPrimaryKey());
 
-            if (model.getPrimaryKey() == null) {
-                facade.create(model.getEntity());
+            if (getModel().getPrimaryKey() == null) {
+                getFacade().create(getModel().getEntity());
                 msg.append(" created successfully");
             } else {
-                facade.edit(model.getEntity());
+                getFacade().edit(getModel().getEntity());
                 msg.append(" updated successfully");
             }
 
@@ -59,19 +51,15 @@ public abstract class AbstractFormController<T extends DataBaseEntity<T>> {
     }
 
     public void clear() {
-        model.setEntity(facade.newEntity());
-        model.setPrimaryKey(null);
+        getModel().setEntity(getFacade().newEntity());
+        getModel().setPrimaryKey(null);
     }
 
     public boolean isNew() {
-        return model.getEntity() == null || model.getEntity().getPrimaryKey() == null;
+        return getModel().getEntity() == null || getModel().getEntity().getPrimaryKey() == null;
     }
 
-    public AbstractFormModel<T> getModel() {
-        return model;
-    }
+    public abstract AbstractFormModel<T> getModel();
 
-    public AbstractFormFacade<T> getFacade() {
-        return facade;
-    }
+    protected abstract AbstractFormFacade<T> getFacade();
 }

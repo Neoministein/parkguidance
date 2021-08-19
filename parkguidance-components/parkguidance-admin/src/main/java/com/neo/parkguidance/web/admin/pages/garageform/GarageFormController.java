@@ -22,7 +22,10 @@ public class GarageFormController extends AbstractFormController<ParkingGarage> 
     public static final String BEAN_NAME = "garageForm";
 
     @Inject
-    GarageFormFacade facadeImpl;
+    GarageFormModel model;
+
+    @Inject
+    GarageFormFacade facade;
 
     @Override
     public void init() {
@@ -41,9 +44,18 @@ public class GarageFormController extends AbstractFormController<ParkingGarage> 
         return "admin/parkingGarage-list";
     }
 
-
     public void resetAccessKey() {
-        facadeImpl.setAccessKey(getModel().getEntity());
+        facade.setAccessKey(getModel().getEntity());
         addDetailMessage("Reset AccessKey");
+    }
+
+    @Override
+    public GarageFormModel getModel() {
+        return model;
+    }
+
+    @Override
+    protected GarageFormFacade getFacade() {
+        return facade;
     }
 }

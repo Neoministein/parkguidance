@@ -2,43 +2,31 @@ package com.neo.parkguidance.web.impl.pages.lazy;
 
 import com.neo.parkguidance.core.entity.DataBaseEntity;
 
-import javax.inject.Inject;
-
 import static com.neo.parkguidance.web.impl.utils.Utils.addDetailMessage;
 
 public abstract class AbstractLazyController<T extends DataBaseEntity<T>> {
 
-    @Inject
-    AbstractLazyModel<T> model;
-
-    @Inject
-    AbstractLazyFacade<T> facade;
-
     protected void init() {
-        if(!model.isInstantiated()) {
+        if(!getModel().isInstantiated()) {
             clearFilter();
-            model.setData(facade.initDataModel(model.getFilter()));
-            model.setInstantiated(true);
+            getModel().setData(getFacade().initDataModel(getModel().getFilter()));
+            getModel().setInstantiated(true);
         }
     }
 
     public void clearFilter() {
-        model.setFilter(facade.newFilter());
+        getModel().setFilter(getFacade().newFilter());
     }
 
     public void delete() {
-        int num = facade.delete(model.getSelected());
+        int num = getFacade().delete(getModel().getSelected());
         if(num != 0) {
             addDetailMessage(num + " ParkingGarage deleted successfully!");
-            model.getSelected().clear();
+            getModel().getSelected().clear();
         }
     }
 
-    public AbstractLazyModel<T> getModel() {
-        return model;
-    }
+    public abstract AbstractLazyModel<T> getModel();
 
-    protected AbstractLazyFacade<T> getFacade() {
-        return facade;
-    }
+    protected abstract AbstractLazyFacade<T> getFacade();
 }
