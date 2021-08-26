@@ -2,6 +2,7 @@ package com.neo.parkguidance.web.impl.pages.form;
 
 import com.neo.parkguidance.core.entity.ParkingGarage;
 import com.neo.parkguidance.web.impl.utils.Utils;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -29,6 +30,11 @@ class AbstractFormControllerTest {
         utilsMock = Mockito.mockStatic(Utils.class);
         utilsMock.when(() -> Utils.addDetailMessage(Mockito.any(String.class)))
                 .thenAnswer(invocation -> null);
+    }
+
+    @AfterAll
+    public static void close() {
+        utilsMock.close();
     }
 
     @BeforeEach
