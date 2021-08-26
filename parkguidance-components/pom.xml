@@ -15,7 +15,7 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <javax.version>8.0</javax.version>
         <junit.version>5.7.0</junit.version>
-        <mockito.version>2.21.0</mockito.version>
+        <mockito.core.version>3.12.4</mockito.core.version>
     </properties>
 
     <build>
