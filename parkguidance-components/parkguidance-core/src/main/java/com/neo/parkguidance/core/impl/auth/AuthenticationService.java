@@ -90,7 +90,7 @@ public class AuthenticationService {
             return user;
         }
 
-        LOGGER.info("User authentication required permissions not found");
+        LOGGER.info("User authentication required permissions {} not found", requiredPermissions.removeAll(user.getPermissions()));
         return null;
     }
 
