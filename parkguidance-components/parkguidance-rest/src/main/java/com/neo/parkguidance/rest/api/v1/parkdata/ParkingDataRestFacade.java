@@ -6,9 +6,9 @@ import com.neo.parkguidance.core.api.dao.AbstractEntityDao;
 import com.neo.parkguidance.elastic.impl.ElasticSearchProvider;
 import com.neo.parkguidance.parkdata.impl.service.ParkDataService;
 import com.neo.parkguidance.rest.api.InternalRestException;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -19,7 +19,7 @@ import java.util.List;
 @Stateless
 public class ParkingDataRestFacade {
 
-    private static final Logger LOGGER = LogManager.getLogger(ParkingDataRestFacade.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ParkingDataRestFacade.class);
 
     public static final String STORED_VALUE_PERMISSION = "rest.parkdata.requiredPermissionForAuth";
 

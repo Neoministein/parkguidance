@@ -9,10 +9,10 @@ import com.neo.parkguidance.core.entity.Address;
 import com.neo.parkguidance.core.impl.http.HTTPRequest;
 import com.neo.parkguidance.core.entity.ParkingGarage;
 import com.neo.parkguidance.core.entity.StoredValue;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -33,7 +33,7 @@ public class DistanceMatrix {
     public static final String ORIGIN = "origins=";
     public static final String DESTINATION = "&destinations=";
 
-    private static final Logger LOGGER = LogManager.getLogger(DistanceMatrix.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DistanceMatrix.class);
 
     @Inject
     StoredValueService storedValueService;

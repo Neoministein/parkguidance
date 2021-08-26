@@ -3,9 +3,9 @@ package com.neo.parkguidance.web.user.impl.data;
 import com.neo.parkguidance.core.entity.ParkingGarage;
 import com.neo.parkguidance.core.api.dao.AbstractEntityDao;
 import com.neo.parkguidance.parkdata.impl.service.ParkDataService;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.primefaces.model.charts.line.LineChartDataSet;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -20,7 +20,7 @@ import java.util.Map;
 @Stateless
 public class DataChartService {
 
-    private static final Logger LOGGER = LogManager.getLogger(DataChartService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DataChartService.class);
 
     private static final int HALF_HOURS_IN_DAY = 48;
 

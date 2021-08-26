@@ -6,11 +6,11 @@ import com.neo.parkguidance.core.impl.event.ParkDataChangeEvent;
 import com.neo.parkguidance.elastic.impl.ElasticSearchProvider;
 import com.neo.parkguidance.elastic.impl.query.ElasticSearchLowLevelQuery;
 import com.neo.parkguidance.web.impl.utils.Utils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.omnifaces.util.Messages;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.ejb.Stateless;
 import javax.enterprise.event.Event;
@@ -29,7 +29,7 @@ public class ParkDataFacade {
 
     public static final String ELASTIC_UNSORTED_INDEX = "/raw-parking-data";
 
-    private static final Logger LOGGER = LogManager.getLogger(ParkDataFacade.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ParkDataFacade.class);
 
     @Inject
     ElasticSearchProvider elasticSearchProvider;

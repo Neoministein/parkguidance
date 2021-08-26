@@ -1,7 +1,7 @@
 package com.neo.parkguidance.core.impl;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.Singleton;
@@ -16,7 +16,7 @@ import java.io.InputStream;
 @Startup
 public class LoadProperties {
 
-    private static final Logger LOGGER = LogManager.getLogger(LoadProperties.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(LoadProperties.class);
 
     /**
      * Loads application server properties on startup
@@ -27,7 +27,7 @@ public class LoadProperties {
             System.getProperties().load(input);
 
         } catch (Exception e) {
-            LOGGER.fatal("Unable to load application-server.properties, the application will most likely not be working correctly", e);
+            LOGGER.error("Unable to load application-server.properties, the application will most likely not be working correctly", e);
         }
     }
 }

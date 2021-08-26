@@ -2,11 +2,11 @@ package com.neo.parkguidance.core.api.dao;
 
 import com.neo.parkguidance.core.entity.DataBaseEntity;
 import com.neo.parkguidance.core.impl.event.DataBaseEntityChangeEvent;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.enterprise.event.Event;
 import javax.enterprise.event.ObserverException;
@@ -19,7 +19,7 @@ import java.util.List;
 
 public abstract class AbstractEntityDao<T extends DataBaseEntity<T>> {
 
-    private static final Logger LOGGER = LogManager.getLogger(AbstractEntityDao.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractEntityDao.class);
 
     @Inject
     Event<DataBaseEntityChangeEvent<T>> event;

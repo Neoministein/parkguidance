@@ -4,15 +4,15 @@ import com.neo.parkguidance.core.impl.http.HTTPRequest;
 import com.neo.parkguidance.core.impl.http.HTTPRequestSender;
 import com.neo.parkguidance.core.impl.http.HTTPResponse;
 import com.neo.parkguidance.elastic.api.constants.ElasticSearchConstants;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * A launcher for creating the necessary indexes in elastic search indexes
  */
 public class ElasticLauncher {
 
-    private static final Logger LOGGER = LogManager.getLogger(ElasticLauncher.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ElasticLauncher.class);
 
     public static void main(String[] args) {
         createRawDataIndex();

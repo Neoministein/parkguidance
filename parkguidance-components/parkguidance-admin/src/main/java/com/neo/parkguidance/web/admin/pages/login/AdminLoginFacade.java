@@ -3,10 +3,10 @@ package com.neo.parkguidance.web.admin.pages.login;
 import com.github.adminfaces.template.config.AdminConfig;
 import com.neo.parkguidance.core.api.storedvalue.StoredValueService;
 import com.neo.parkguidance.web.impl.utils.Utils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.omnifaces.util.Faces;
 import org.omnifaces.util.Messages;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.ejb.Stateless;
 import javax.faces.context.ExternalContext;
@@ -32,7 +32,7 @@ public class AdminLoginFacade {
 
     private static final int DEFAULT_COOKIE_TIMEOUT = 1800; //30 min
 
-    private static final Logger LOGGER = LogManager.getLogger(AdminLoginFacade.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AdminLoginFacade.class);
 
     @Inject
     SecurityContext securityContext;

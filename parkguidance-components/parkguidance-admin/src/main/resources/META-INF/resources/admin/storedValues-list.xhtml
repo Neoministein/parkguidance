@@ -33,6 +33,10 @@
                         <p:commandButton action="/admin/storedValues-form?faces-redirect=true" icon="fa fa-plus"
                                          value="New" styleClass="btn-primary"/>
                         <p:spacer width="5"/>
+                        <p:commandButton action="#{storedValueList.reload}"
+                                         process="@this" update="@form"
+                                         value="Reload cache" icon="fa fa-refresh" styleClass="btn-success"/>
+                        <p:spacer width="5"/>
                         <p:commandButton value="Delete Selected" icon="fa fa-trash" styleClass="btn-danger"
                                          action="#{storedValueList.delete}"
                                          disabled="#{storedValueList.model.selected.size() == 0}"
@@ -44,6 +48,8 @@
                     <p:splitButton value="New" action="/admin/storedValues-form?faces-redirect=true"
                                    icon="fa fa-plus"
                                    styleClass="hidden-md hidden-lg btn-primary">
+                        <p:menuitem value="Reload cache" action="#{storedValueList.reload}"
+                                    process="@this" update="@form"/>
                         <p:menuitem value="Delete Selected" action="#{storedValueList.delete}"
                                     process="@this" update="@form"
                                     disabled="#{storedValueList.model.selected.size() == 0}"

@@ -3,10 +3,10 @@ package com.neo.parkguidance.elastic.impl;
 import com.neo.parkguidance.elastic.api.ElasticSearchConnectionStatusEvent;
 import com.neo.parkguidance.elastic.api.constants.ElasticSearchConstants;
 import org.apache.http.HttpHost;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestHighLevelClient;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Event;
@@ -22,7 +22,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 @ApplicationScoped
 public class ElasticSearchConnectionProvider implements Serializable {
 
-    private static final Logger LOGGER = LogManager.getLogger(ElasticSearchConnectionProvider.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ElasticSearchConnectionProvider.class);
 
     @Inject
     Event<ElasticSearchConnectionStatusEvent> connectionStatusEvent;

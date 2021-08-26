@@ -8,8 +8,8 @@ import com.neo.parkguidance.core.entity.RegisteredUser;
 import com.neo.parkguidance.core.impl.utils.StringUtils;
 import com.neo.parkguidance.core.api.dao.AbstractEntityDao;
 import org.apache.commons.codec.digest.DigestUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -25,7 +25,7 @@ import static org.apache.commons.codec.digest.MessageDigestAlgorithms.SHA_224;
 @Stateless
 public class AuthenticationServiceImpl implements AuthenticationService {
 
-    private static final Logger LOGGER = LogManager.getLogger(AuthenticationServiceImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AuthenticationServiceImpl.class);
 
     @Inject StoredValueService storedValueService;
 

@@ -9,9 +9,9 @@ import com.neo.parkguidance.core.entity.Address;
 import com.neo.parkguidance.core.entity.ParkingGarage;
 import com.neo.parkguidance.core.api.dao.AbstractEntityDao;
 import com.neo.parkguidance.web.impl.utils.Utils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.primefaces.PrimeFaces;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -29,7 +29,7 @@ public class GeoLocationFacade {
 
     public static final String WANTED_GARAGES = "user.wanted-garages";
 
-    private static final Logger LOGGER = LogManager.getLogger(GeoLocationFacade.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(GeoLocationFacade.class);
 
     @Inject
     DistanceMatrix distanceMatrix;

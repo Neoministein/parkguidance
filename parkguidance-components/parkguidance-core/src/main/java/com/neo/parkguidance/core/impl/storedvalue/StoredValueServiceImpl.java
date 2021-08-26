@@ -4,11 +4,11 @@ import com.neo.parkguidance.core.api.storedvalue.StoredValueService;
 import com.neo.parkguidance.core.entity.StoredValue;
 import com.neo.parkguidance.core.api.dao.AbstractEntityDao;
 import com.neo.parkguidance.core.impl.event.DataBaseEntityChangeEvent;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
@@ -24,7 +24,7 @@ import java.util.Map;
 @ApplicationScoped
 public class StoredValueServiceImpl implements StoredValueService {
 
-    private static final Logger LOGGER = LogManager.getLogger(StoredValueServiceImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(StoredValueServiceImpl.class);
 
     @Inject
     AbstractEntityDao<StoredValue> dao;

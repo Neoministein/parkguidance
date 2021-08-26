@@ -7,8 +7,6 @@ import com.neo.parkguidance.core.entity.StoredValue;
 import com.neo.parkguidance.core.api.dao.AbstractEntityDao;
 import com.neo.parkguidance.google.api.maps.embed.EmbeddedMap;
 import com.neo.parkguidance.web.user.impl.data.DataChartModel;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.primefaces.model.charts.ChartData;
 import org.primefaces.model.charts.axes.cartesian.CartesianScales;
 import org.primefaces.model.charts.axes.cartesian.linear.CartesianLinearAxes;
@@ -17,6 +15,8 @@ import org.primefaces.model.charts.line.LineChartDataSet;
 import org.primefaces.model.charts.line.LineChartModel;
 import org.primefaces.model.charts.line.LineChartOptions;
 import org.primefaces.model.charts.optionconfig.title.Title;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.ejb.Stateless;
 import javax.faces.context.FacesContext;
@@ -28,7 +28,7 @@ import javax.inject.Inject;
 @Stateless
 public class DataFacade {
 
-    private static final Logger LOGGER = LogManager.getLogger(DataFacade.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DataFacade.class);
 
     @Inject
     AbstractEntityDao<ParkingGarage> parkingGarageManager;

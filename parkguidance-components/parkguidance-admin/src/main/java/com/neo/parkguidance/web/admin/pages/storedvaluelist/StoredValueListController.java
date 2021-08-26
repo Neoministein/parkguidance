@@ -2,6 +2,8 @@ package com.neo.parkguidance.web.admin.pages.storedvaluelist;
 
 import com.neo.parkguidance.core.entity.StoredValue;
 import com.neo.parkguidance.web.impl.pages.lazy.AbstractLazyController;
+import com.neo.parkguidance.web.impl.utils.Utils;
+import org.primefaces.PrimeFaces;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
@@ -27,6 +29,12 @@ public class StoredValueListController extends AbstractLazyController<StoredValu
     @PostConstruct
     public void init() {
         super.init();
+    }
+
+    public void reload() {
+        facade.reload();
+        Utils.addDetailMessage("Stored values have been reloaded from the database");
+        PrimeFaces.current().ajax().update("form");
     }
 
     @Override

@@ -5,8 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.neo.parkguidance.core.entity.DataBaseEntity;
 import com.neo.parkguidance.elastic.api.ElasticSearchConnectionStatusEvent;
 import org.apache.commons.io.IOUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.elasticsearch.action.bulk.BulkProcessor;
 import org.elasticsearch.action.bulk.BulkRequest;
 import org.elasticsearch.action.bulk.BulkResponse;
@@ -17,6 +15,8 @@ import org.elasticsearch.client.Response;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.common.unit.TimeValue;
 import org.elasticsearch.common.xcontent.XContentType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
@@ -32,7 +32,7 @@ import java.nio.charset.StandardCharsets;
 @ApplicationScoped
 public class ElasticSearchProvider {
 
-    private static final Logger LOGGER = LogManager.getLogger(ElasticSearchProvider.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ElasticSearchProvider.class);
 
     @Inject
     ElasticSearchConnectionProvider connection;

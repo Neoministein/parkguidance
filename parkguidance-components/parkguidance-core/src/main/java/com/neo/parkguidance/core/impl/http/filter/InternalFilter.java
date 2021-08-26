@@ -1,7 +1,7 @@
 package com.neo.parkguidance.core.impl.http.filter;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpFilter;
@@ -19,7 +19,7 @@ import java.util.Set;
  */
 public class InternalFilter extends HttpFilter {
 
-    private static final Logger LOGGER = LogManager.getLogger(InternalFilter.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(InternalFilter.class);
 
     private final Set<String> localAddresses = new HashSet<>();
 
@@ -31,7 +31,7 @@ public class InternalFilter extends HttpFilter {
                 localAddresses.add(inetAddress.getHostAddress());
             }
         } catch (IOException e) {
-            LOGGER.fatal("Unable to lookup local addresses");
+            LOGGER.error("Unable to lookup local addresses");
             throw new ServletException("Unable to lookup local addresses");
         }
     }
