@@ -21,7 +21,7 @@ public abstract class AbstractLazyController<T extends DataBaseEntity<T>> {
     public void delete() {
         int num = getFacade().delete(getModel().getSelected());
         if(num != 0) {
-            addDetailMessage(num + " ParkingGarage deleted successfully!");
+            addDetailMessage(num + " entries deleted successfully!");
             getModel().getSelected().clear();
         }
     }
