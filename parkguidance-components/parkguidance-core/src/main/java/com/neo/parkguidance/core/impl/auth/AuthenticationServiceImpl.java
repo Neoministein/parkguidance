@@ -1,9 +1,10 @@
 package com.neo.parkguidance.core.impl.auth;
 
+import com.neo.parkguidance.core.api.auth.AuthenticationService;
+import com.neo.parkguidance.core.api.storedvalue.StoredValueService;
 import com.neo.parkguidance.core.entity.ParkingGarage;
 import com.neo.parkguidance.core.entity.Permission;
 import com.neo.parkguidance.core.entity.RegisteredUser;
-import com.neo.parkguidance.core.impl.StoredValueService;
 import com.neo.parkguidance.core.impl.utils.StringUtils;
 import com.neo.parkguidance.core.api.dao.AbstractEntityDao;
 import org.apache.commons.codec.digest.DigestUtils;
@@ -18,13 +19,15 @@ import java.util.Set;
 
 import static org.apache.commons.codec.digest.MessageDigestAlgorithms.SHA_224;
 
+/**
+ * Implementation of {@link AuthenticationService}
+ */
 @Stateless
-public class AuthenticationService {
+public class AuthenticationServiceImpl implements AuthenticationService {
 
-    private static final Logger LOGGER = LogManager.getLogger(AuthenticationService.class);
+    private static final Logger LOGGER = LogManager.getLogger(AuthenticationServiceImpl.class);
 
-    @Inject
-    StoredValueService storedValueService;
+    @Inject StoredValueService storedValueService;
 
     @Inject
     AbstractEntityDao<RegisteredUser> userDao;
@@ -112,7 +115,7 @@ public class AuthenticationService {
 
         try {
             for (String permissionName: this.storedValueService.getString(storedValueKey).replaceAll("\\s", "").split(",")) {
-                Permission permission = permissionDao.findOneByColumn("name", permissionName);
+                Permission permission = permissionDao.findOneByColumn(Permission.C_NAME, permissionName);
                 if (permission != null) {
                     permissions.add(permission);
                 }

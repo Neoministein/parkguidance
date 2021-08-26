@@ -1,8 +1,8 @@
 package com.neo.parkguidance.web.admin.security;
 
+import com.neo.parkguidance.core.api.auth.AuthenticationService;
 import com.neo.parkguidance.core.entity.Permission;
 import com.neo.parkguidance.core.entity.RegisteredUser;
-import com.neo.parkguidance.core.impl.auth.AuthenticationService;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;

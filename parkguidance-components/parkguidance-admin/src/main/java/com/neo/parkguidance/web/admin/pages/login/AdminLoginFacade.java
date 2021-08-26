@@ -1,7 +1,7 @@
 package com.neo.parkguidance.web.admin.pages.login;
 
 import com.github.adminfaces.template.config.AdminConfig;
-import com.neo.parkguidance.core.impl.StoredValueService;
+import com.neo.parkguidance.core.api.storedvalue.StoredValueService;
 import com.neo.parkguidance.web.impl.utils.Utils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -46,8 +46,7 @@ public class AdminLoginFacade {
     @Inject
     AdminConfig adminConfig;
 
-    @Inject
-    StoredValueService storedValueService;
+    @Inject StoredValueService storedValueService;
 
     public void autoLogin(AdminLoginModel model) {
         if (isLoggedIn()) {

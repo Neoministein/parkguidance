@@ -1,10 +1,8 @@
 package com.neo.parkguidance.rest.api.v1.parkgrage;
 
+import com.neo.parkguidance.core.api.auth.AuthenticationService;
 import com.neo.parkguidance.core.entity.Address;
 import com.neo.parkguidance.core.entity.ParkingGarage;
-import com.neo.parkguidance.core.entity.Permission;
-import com.neo.parkguidance.core.impl.StoredValueService;
-import com.neo.parkguidance.core.impl.auth.AuthenticationService;
 import com.neo.parkguidance.core.api.dao.AbstractEntityDao;
 
 import java.util.ArrayList;
@@ -32,16 +30,10 @@ public class ParkingGarageRestFacade {
     AuthenticationService authenticationService;
 
     @Inject
-    StoredValueService storedValueService;
-
-    @Inject
     AbstractEntityDao<ParkingGarage> parkingGarageDao;
 
     @Inject
     AbstractEntityDao<Address> addressDao;
-
-    @Inject
-    AbstractEntityDao<Permission> permissionDao;
 
     @Inject
     ParkingGarageValidator entityValidation;

@@ -1,5 +1,6 @@
-package com.neo.parkguidance.core.impl;
+package com.neo.parkguidance.core.impl.storedvalue;
 
+import com.neo.parkguidance.core.api.storedvalue.StoredValueService;
 import com.neo.parkguidance.core.entity.StoredValue;
 import com.neo.parkguidance.core.api.dao.AbstractEntityDao;
 import com.neo.parkguidance.core.impl.event.DataBaseEntityChangeEvent;
@@ -18,13 +19,12 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * This class provided a cache between the Application and the Database for the {@link StoredValue} entity
- * The class also handles casting and non extant primary key
+ * The {@link StoredValueService} implementation
  */
 @ApplicationScoped
-public class StoredValueService {
+public class StoredValueServiceImpl implements StoredValueService {
 
-    private static final Logger LOGGER = LogManager.getLogger(StoredValueService.class);
+    private static final Logger LOGGER = LogManager.getLogger(StoredValueServiceImpl.class);
 
     @Inject
     AbstractEntityDao<StoredValue> dao;
@@ -78,7 +78,7 @@ public class StoredValueService {
 
     public int getInteger(String key) {
         try {
-            return Integer.parseInt(getStoredValue(key).getValue());
+            return Integer.parseInt(getString(key));
         } catch (NumberFormatException ex) {
             LOGGER.warn("Wrong type specified [{}] is not an Integer", key);
             throw new IllegalArgumentException(key + " is not an Integer");
@@ -86,7 +86,7 @@ public class StoredValueService {
     }
 
     public boolean getBoolean(String key) {
-        String bool = getStoredValue(key).getValue();
+        String bool = getString(key);
 
         if (bool.equalsIgnoreCase("true")) {
             return true;
@@ -100,7 +100,7 @@ public class StoredValueService {
 
     public double getDouble(String key) {
         try {
-            return Double.parseDouble(getStoredValue(key).getValue());
+            return Double.parseDouble(getString(key));
         } catch (NumberFormatException ex) {
             LOGGER.warn("Wrong type specified [{}] is not an Double", key);
             throw new IllegalArgumentException(key + " is not an Double");
@@ -109,7 +109,7 @@ public class StoredValueService {
 
     public JSONObject getJSONObject(String key) {
         try {
-            return new JSONObject(getStoredValue(key).getValue());
+            return new JSONObject(getString(key));
         }catch (JSONException ex) {
             LOGGER.warn("Wrong type specified [{}] is not an JSONObject", key);
             throw new IllegalArgumentException(key + " is not an JSONObject");
@@ -118,7 +118,7 @@ public class StoredValueService {
 
     public JSONArray getJSONArray(String key) {
         try {
-            return new JSONArray(getStoredValue(key).getValue());
+            return new JSONArray(getString(key));
         }catch (JSONException ex) {
             LOGGER.warn("Wrong type specified [{}] is not an JSONArray", key);
             throw new IllegalArgumentException(key + " is not an JSONArray");

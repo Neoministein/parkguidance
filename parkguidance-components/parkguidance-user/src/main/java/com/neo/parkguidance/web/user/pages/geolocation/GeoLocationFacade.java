@@ -1,6 +1,6 @@
 package com.neo.parkguidance.web.user.pages.geolocation;
 
-import com.neo.parkguidance.core.impl.StoredValueService;
+import com.neo.parkguidance.core.api.storedvalue.StoredValueService;
 import com.neo.parkguidance.google.api.maps.CrossPlatformURL;
 import com.neo.parkguidance.google.api.maps.DistanceDataObject;
 import com.neo.parkguidance.google.api.maps.DistanceMatrix;

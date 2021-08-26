@@ -1,7 +1,7 @@
 package com.neo.parkguidance.web.user.pages.heatmap;
 
+import com.neo.parkguidance.core.api.storedvalue.StoredValueService;
 import com.neo.parkguidance.core.entity.StoredValue;
-import com.neo.parkguidance.core.impl.StoredValueService;
 import com.neo.parkguidance.web.user.impl.heatmap.HeatMapDataService;
 import org.json.JSONObject;
 import org.primefaces.PrimeFaces;
@@ -16,7 +16,8 @@ import java.util.List;
 @Stateless
 public class HeatMapFacade {
 
-    @Inject HeatMapDataService heatMapDataService;
+    @Inject
+    HeatMapDataService heatMapDataService;
 
     @Inject
     StoredValueService storedValueService;
