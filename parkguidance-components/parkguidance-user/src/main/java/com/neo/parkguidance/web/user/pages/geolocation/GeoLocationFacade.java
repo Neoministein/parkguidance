@@ -11,11 +11,10 @@ import com.neo.parkguidance.core.impl.dao.AbstractEntityDao;
 import com.neo.parkguidance.web.impl.utils.Utils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.primefaces.PrimeFaces;
 
 import javax.ejb.Stateless;
-import javax.faces.context.FacesContext;
 import javax.inject.Inject;
-import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -62,8 +61,8 @@ public class GeoLocationFacade {
         }
     }
 
-    public void redirectSearch(ParkingGarage parkingGarage) throws IOException {
-        FacesContext.getCurrentInstance().getExternalContext().redirect(CrossPlatformURL.search(parkingGarage));
+    public void redirectSearch(ParkingGarage parkingGarage) {
+        PrimeFaces.current().executeScript("window.open('" + CrossPlatformURL.search(parkingGarage) + "', '_newtab')");
     }
 
     public List<String> autoCompleteCity(String query, List<Address> addressList) {

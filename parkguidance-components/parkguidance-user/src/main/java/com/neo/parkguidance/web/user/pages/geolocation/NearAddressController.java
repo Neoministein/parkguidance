@@ -2,16 +2,13 @@ package com.neo.parkguidance.web.user.pages.geolocation;
 
 import com.neo.parkguidance.core.entity.Address;
 import com.neo.parkguidance.core.entity.ParkingGarage;
-import com.neo.parkguidance.google.api.maps.CrossPlatformURL;
 import com.neo.parkguidance.web.user.impl.address.AddressDataService;
 import org.primefaces.PrimeFaces;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
-import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
-import java.io.IOException;
 import java.util.List;
 
 /**
@@ -44,8 +41,8 @@ public class NearAddressController {
         PrimeFaces.current().ajax().update("form");
     }
 
-    public void redirectSearch(ParkingGarage parkingGarage) throws IOException {
-        FacesContext.getCurrentInstance().getExternalContext().redirect(CrossPlatformURL.search(parkingGarage));
+    public void redirectSearch(ParkingGarage parkingGarage) {
+        facade.redirectSearch(parkingGarage);
     }
 
     public List<String> completeCity(String query) {

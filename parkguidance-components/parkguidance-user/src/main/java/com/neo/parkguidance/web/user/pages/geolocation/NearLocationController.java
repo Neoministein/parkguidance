@@ -9,7 +9,6 @@ import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
-import java.io.IOException;
 import java.util.*;
 
 /**
@@ -49,7 +48,7 @@ public class NearLocationController {
         PrimeFaces.current().ajax().update("form");
     }
 
-    public void redirectSearch(ParkingGarage parkingGarage) throws IOException {
+    public void redirectSearch(ParkingGarage parkingGarage) {
         facade.redirectSearch(parkingGarage);
     }
 
