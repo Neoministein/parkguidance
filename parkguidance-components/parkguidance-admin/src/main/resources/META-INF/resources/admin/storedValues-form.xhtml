@@ -126,11 +126,9 @@
                                 <p:outputLabel value="Hidden" for="inputHidden"/>
                             </div>
                             <div class="ui-sm-12 ui-g-11" >
-                                <p:selectBooleanCheckbox id="inputHidden"
-                                                         value="#{storedValueForm.model.entity.hidden}"
-                                                         required="true">
+                                <p:toggleSwitch id="inputHidden" value="#{storedValueForm.model.entity.hidden}" required="true">
                                     <p:ajax/>
-                                </p:selectBooleanCheckbox>
+                                </p:toggleSwitch>
                                 <span class="help-block">
                                 <p:message for="inputHidden" />
                             </span>
