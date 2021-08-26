@@ -5,7 +5,7 @@ import com.neo.parkguidance.core.entity.ParkingGarage;
 import com.neo.parkguidance.core.entity.Permission;
 import com.neo.parkguidance.core.impl.StoredValueService;
 import com.neo.parkguidance.core.impl.auth.AuthenticationService;
-import com.neo.parkguidance.core.impl.dao.AbstractEntityDao;
+import com.neo.parkguidance.core.api.dao.AbstractEntityDao;
 
 import java.util.ArrayList;
 import java.util.List;

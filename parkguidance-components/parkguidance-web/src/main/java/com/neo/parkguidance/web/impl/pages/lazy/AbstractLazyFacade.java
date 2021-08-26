@@ -1,7 +1,7 @@
 package com.neo.parkguidance.web.impl.pages.lazy;
 
 import com.neo.parkguidance.core.entity.DataBaseEntity;
-import com.neo.parkguidance.core.impl.dao.AbstractEntityDao;
+import com.neo.parkguidance.core.api.dao.AbstractEntityDao;
 import com.neo.parkguidance.web.impl.entity.LazyEntityService;
 import com.neo.parkguidance.web.impl.table.Filter;
 import org.apache.logging.log4j.LogManager;

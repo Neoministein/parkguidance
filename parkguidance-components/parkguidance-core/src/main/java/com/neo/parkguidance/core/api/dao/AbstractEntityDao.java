@@ -1,4 +1,4 @@
-package com.neo.parkguidance.core.impl.dao;
+package com.neo.parkguidance.core.api.dao;
 
 import com.neo.parkguidance.core.entity.DataBaseEntity;
 import com.neo.parkguidance.core.impl.event.DataBaseEntityChangeEvent;

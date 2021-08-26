@@ -1,7 +1,7 @@
 package com.neo.parkguidance.web.impl.entity.converter;
 
 import com.neo.parkguidance.core.entity.DataBaseEntity;
-import com.neo.parkguidance.core.impl.dao.AbstractEntityDao;
+import com.neo.parkguidance.core.api.dao.AbstractEntityDao;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;

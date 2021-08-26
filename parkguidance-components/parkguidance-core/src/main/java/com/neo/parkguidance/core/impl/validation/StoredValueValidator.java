@@ -1,5 +1,6 @@
 package com.neo.parkguidance.core.impl.validation;
 
+import com.neo.parkguidance.core.api.validation.AbstractDatabaseEntityValidation;
 import com.neo.parkguidance.core.entity.StoredValue;
 
 import javax.ejb.Stateless;

@@ -1,12 +1,12 @@
 package com.neo.parkguidance.google.api.maps;
 
-import com.neo.parkguidance.core.api.HTTPRequestSender;
-import com.neo.parkguidance.core.api.HTTPResponse;
+import com.neo.parkguidance.core.impl.http.HTTPRequestSender;
+import com.neo.parkguidance.core.impl.http.HTTPResponse;
 import com.neo.parkguidance.core.impl.StoredValueService;
 import com.neo.parkguidance.elastic.impl.ElasticSearchProvider;
 import com.neo.parkguidance.google.api.constants.GoogleConstants;
 import com.neo.parkguidance.core.entity.Address;
-import com.neo.parkguidance.core.api.HTTPRequest;
+import com.neo.parkguidance.core.impl.http.HTTPRequest;
 import com.neo.parkguidance.core.entity.StoredValue;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

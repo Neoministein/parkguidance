@@ -1,7 +1,7 @@
 package com.neo.parkguidance.parkdata.impl.service;
 
 import com.neo.parkguidance.core.entity.ParkingGarage;
-import com.neo.parkguidance.core.impl.dao.AbstractEntityDao;
+import com.neo.parkguidance.core.api.dao.AbstractEntityDao;
 import com.neo.parkguidance.elastic.impl.ElasticSearchProvider;
 import com.neo.parkguidance.elastic.impl.query.ElasticSearchLowLevelQuery;
 import org.apache.logging.log4j.LogManager;

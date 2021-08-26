@@ -7,18 +7,17 @@ Data can be sent to the servlet with an HTTP POST request to the URL, but it req
 
 ### HTTP POST Body
 
-The HTTP Post request is required to have a body with JSON syntax.
+Parkdata REST endpoint: 
 
-```json
-{
-  "accessKey": "",
-  "type": ""
-}
+```http request
+PUT /api/v1/parkdata
 ```
 
-The access key for each parking garage can be found in the [Admin Panel](admin.md) under Parking Garage and by clicking on the wanted garage.
-
-There are currently three different types you can use.
+Parameter | required | description
+----------|----------| ---
+accessKey | [X] | unique authentication key per parking garage
+type      | [X] | see type table |
+count     | [O] | a specfied count if the type is "set"
 
 Type | What does it do | Use case
 ---- | ----------------|---------

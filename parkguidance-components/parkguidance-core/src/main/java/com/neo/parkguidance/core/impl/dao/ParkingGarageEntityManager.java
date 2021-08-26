@@ -1,5 +1,6 @@
 package com.neo.parkguidance.core.impl.dao;
 
+import com.neo.parkguidance.core.api.dao.AbstractEntityDao;
 import com.neo.parkguidance.core.entity.Address;
 import com.neo.parkguidance.core.entity.ParkingGarage;
 import org.hibernate.Criteria;

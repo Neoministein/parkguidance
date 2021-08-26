@@ -2,7 +2,7 @@ package com.neo.parkguidance.web.user.impl.heatmap;
 
 import com.neo.parkguidance.core.entity.ParkingGarage;
 import com.neo.parkguidance.core.impl.utils.MathUtils;
-import com.neo.parkguidance.core.impl.dao.AbstractEntityDao;
+import com.neo.parkguidance.core.api.dao.AbstractEntityDao;
 import com.neo.parkguidance.parkdata.impl.service.ParkDataService;
 import com.neo.parkguidance.web.impl.utils.Utils;
 import org.json.JSONArray;

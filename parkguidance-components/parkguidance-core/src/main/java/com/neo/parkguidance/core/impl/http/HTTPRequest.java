@@ -1,4 +1,4 @@
-package com.neo.parkguidance.core.api;
+package com.neo.parkguidance.core.impl.http;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -1,7 +1,7 @@
 package com.neo.parkguidance.web.user.impl.address;
 
 import com.neo.parkguidance.core.entity.Address;
-import com.neo.parkguidance.core.impl.dao.AbstractEntityDao;
+import com.neo.parkguidance.core.api.dao.AbstractEntityDao;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;

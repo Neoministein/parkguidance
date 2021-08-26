@@ -3,7 +3,7 @@ package com.neo.parkguidance.core.impl.event;
 /**
  * This class is used to signal parkdata sort request or response
  */
-public class ParkDataChangeEvent extends ChangeEvent {
+public class ParkDataChangeEvent extends ChangeEventImpl {
 
     public static final String SORT_REQUEST = "sortRequest";
     public static final String SORTED_RESPONSE = "sortedResponse";

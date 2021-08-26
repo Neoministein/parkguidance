@@ -1,7 +1,8 @@
-package com.neo.parkguidance.core.impl.validation;
+package com.neo.parkguidance.core.api.validation;
 
 import com.neo.parkguidance.core.entity.DataBaseEntity;
-import com.neo.parkguidance.core.impl.dao.AbstractEntityDao;
+import com.neo.parkguidance.core.api.dao.AbstractEntityDao;
+import com.neo.parkguidance.core.impl.validation.EntityValidationException;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -29,5 +30,10 @@ public abstract class AbstractDatabaseEntityValidation<T extends DataBaseEntity<
         if (dao.find(primaryKey) != null) {
             throw new EntityValidationException("Key already exists");
         }
+    }
+
+
+    protected AbstractEntityDao<T> getDao() {
+        return dao;
     }
 }

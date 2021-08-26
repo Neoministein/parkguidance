@@ -6,7 +6,7 @@ import com.neo.parkguidance.core.entity.DataBaseEntity;
  * This is a class designed for being used for when a @{@link DataBaseEntity} has changed
  * @param <T> the {@link DataBaseEntity} which got changed
  */
-public class DataBaseEntityChangeEvent<T extends DataBaseEntity<T>> extends ChangeEvent {
+public class DataBaseEntityChangeEvent<T extends DataBaseEntity<T>> extends ChangeEventImpl {
 
     public static final String CREATE = "create";
     public static final String EDIT = "edit";

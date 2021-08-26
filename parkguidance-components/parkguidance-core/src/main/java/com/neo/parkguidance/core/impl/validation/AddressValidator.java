@@ -1,5 +1,6 @@
 package com.neo.parkguidance.core.impl.validation;
 
+import com.neo.parkguidance.core.api.validation.AbstractDatabaseEntityValidation;
 import com.neo.parkguidance.core.entity.Address;
 
 import javax.ejb.Stateless;
@@ -15,6 +16,6 @@ public class AddressValidator extends AbstractDatabaseEntityValidation<Address> 
             return false;
         }
 
-        return !address.compareValues(dao.find(address.getId()));
+        return !address.compareValues(getDao().find(address.getId()));
     }
 }

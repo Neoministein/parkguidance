@@ -1,5 +1,6 @@
 package com.neo.parkguidance.core.impl.validation;
 
+import com.neo.parkguidance.core.api.validation.AbstractDatabaseEntityValidation;
 import com.neo.parkguidance.core.entity.ParkingGarage;
 import com.neo.parkguidance.core.impl.utils.RandomString;
 import com.neo.parkguidance.core.impl.utils.StringUtils;
@@ -32,7 +33,7 @@ public class ParkingGarageValidator extends AbstractDatabaseEntityValidation<Par
     }
 
     protected boolean exists(String accessKey) {
-        return dao.findOneByColumn(ParkingGarage.C_ACCESS_KEY,accessKey) != null;
+        return getDao().findOneByColumn(ParkingGarage.C_ACCESS_KEY,accessKey) != null;
     }
 
 

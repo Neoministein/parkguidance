@@ -1,4 +1,4 @@
-package com.neo.parkguidance.core.api;
+package com.neo.parkguidance.core.impl.http;
 
 /**
  * This class is a container for a HTTP response from the {@link HTTPRequestSender}

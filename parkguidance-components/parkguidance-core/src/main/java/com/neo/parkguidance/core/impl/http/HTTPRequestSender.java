@@ -1,4 +1,4 @@
-package com.neo.parkguidance.core.api;
+package com.neo.parkguidance.core.impl.http;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.LogManager;
