@@ -55,7 +55,7 @@ public class HeatMapDataServiceFacade {
         sb.append("<h1 id=\"firstHeading\" class=\"firstHeading\">").append(Utils.formatted(parkingGarage.getName())).append("</h1>");
         sb.append("<div id=\"bodyContent\">");
         sb.append("<p>");
-        sb.append("<a href=\"/park-guidance/data?key=").append(parkingGarage.getKey()).append("\" class=\"ui-link ui-widget\">");
+        sb.append("<a href=\"/park-guidance/data?key=").append(parkingGarage.getKey()).append("\" target=\"_blank\" class=\"ui-link ui-widget\">");
         sb.append("Info</a>");
         sb.append("<br>");
         if (occupied != 0) {

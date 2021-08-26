@@ -4,38 +4,50 @@
                 xmlns:p="http://primefaces.org/ui" xmlns:adm="http://github.com/adminfaces"
                 template="#{layoutMB.template}">
 
+    <ui:define name="metadata">
+        <ui:param name="title" value="Heatmap"/> <!-- Automatic create breadCrumb and page title when param 'title' is provided. -->
+
+        <style type="text/css">
+            .ui-datatable .ui-datatable-header {
+                text-align: right !important;
+            }
+        </style>
+    </ui:define>
+
     <ui:param name="renderBreadCrumb" value="false"/>
 
     <ui:define name="body">
-        <h:form>
-            <h:panelGrid columns="1" style="margin-bottom: 10px">
-                <p:inputNumber id="decimal" value="#{heatmap.model.timeOfDay}" valueChangeListener="#{heatmap.updateGMap}" readonly="true">
-                    <p:ajax />
-                </p:inputNumber>
-                <p:slider for="decimal" minValue="0" maxValue="23" step="1" range="max" >
-                    <p:ajax event="slideEnd" listener="#{heatmap.onSlideEnd}" />
-                </p:slider>
+        <p:panel styleClass="box-primary card">
+            <h:form>
+                <h:panelGrid columns="1" style="margin-bottom: 10px">
+                    <p:outputLabel value="Hour of day: "/>
+                    <p:inputNumber id="decimal" value="#{heatmap.model.timeOfDay}" valueChangeListener="#{heatmap.updateGMap}" readonly="true">
+                        <p:ajax />
+                    </p:inputNumber>
+                    <p:slider for="decimal" minValue="0" maxValue="23" step="1" range="max" >
+                        <p:ajax event="slideEnd" listener="#{heatmap.onSlideEnd}"/>
+                    </p:slider>
+                </h:panelGrid>
+            </h:form>
+            <script src="resources/heatmap.js"></script>
+            <script type="text/javascript" src="#{heatmap.model.gMapUrl}"></script>
+            <div class="card">
+                <div id="map" style="width:100%; height:80vh"></div>
+            </div>
 
-                <div class="ui-sm-12 ui-g-11">
-                    <p:outputLabel value="Change color" for="inputColor"/>
-                </div>
-                <div class="ui-sm-12 ui-g-11" >
-                    <p:selectBooleanCheckbox id="inputColor"
-                                             value="#{heatmap.model.colorBlind}"
-                                             required="true"
-                                             valueChangeListener="#{heatmap.updateGMap}">
-                        <p:ajax/>
-                    </p:selectBooleanCheckbox>
-                    <span class="help-block">
-                    <p:message for="inputColor" />
+            <h:form>
+                <p:outputLabel value="Colorblind: " for="inputColor"/>
+                <br/>
+                <p:toggleSwitch id="inputColor"
+                                value="#{heatmap.model.colorBlind}"
+                                required="true"
+                                valueChangeListener="#{heatmap.updateGMap}">
+                    <p:ajax/>
+                </p:toggleSwitch>
+                <span class="help-block">
+                    <p:message for="inputColor"/>
                 </span>
-                </div>
-            </h:panelGrid>
-        </h:form>
-        <script src="resources/heatmap.js"></script>
-        <script type="text/javascript" src="#{heatmap.model.gMapUrl}"></script>
-        <div class="card">
-            <div id="map" style="width:100%;height:400px"></div>
-        </div>
+            </h:form>
+        </p:panel>
     </ui:define>
 </ui:composition>
