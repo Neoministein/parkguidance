@@ -3,6 +3,7 @@ package com.neo.parkguidance.parkdata.impl.service;
 import com.neo.parkguidance.core.entity.ParkingGarage;
 import com.neo.parkguidance.core.impl.event.DataBaseEntityChangeEvent;
 import com.neo.parkguidance.core.impl.event.ParkDataChangeEvent;
+import com.neo.parkguidance.parkdata.api.service.ParkDataService;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
@@ -14,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 @ApplicationScoped
-public class ParkDataService implements Serializable {
+public class ParkDataServiceImpl implements ParkDataService, Serializable {
 
     @Inject
     ParkDataServiceFacade facade;
@@ -35,6 +36,10 @@ public class ParkDataService implements Serializable {
 
     public List<Integer> getParkData(String key) {
         return parkData.get(key);
+    }
+
+    public void reload() {
+        init();
     }
 
     public void parkDataChangeListener(@Observes ParkDataChangeEvent changeEvent) {

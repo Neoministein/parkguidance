@@ -4,7 +4,7 @@ import com.neo.parkguidance.core.api.auth.AuthenticationService;
 import com.neo.parkguidance.core.entity.ParkingGarage;
 import com.neo.parkguidance.core.api.dao.AbstractEntityDao;
 import com.neo.parkguidance.elastic.impl.ElasticSearchProvider;
-import com.neo.parkguidance.parkdata.impl.service.ParkDataService;
+import com.neo.parkguidance.parkdata.api.service.ParkDataService;
 import com.neo.parkguidance.rest.api.InternalRestException;
 import org.json.JSONObject;
 import org.slf4j.Logger;
