@@ -175,6 +175,8 @@ public class DistanceMatrix {
         root.put(Address.C_CITY_NAME, address.getCityName());
         root.put(Address.C_STREET, address.getStreet());
         root.put(Address.C_NUMBER, address.getNumber());
+        root.put(Address.C_LONGITUDE, address.getLongitude());
+        root.put(Address.C_LATITUDE, address.getLatitude());
         return root;
     }
 
@@ -191,7 +193,7 @@ public class DistanceMatrix {
                 + "\"query\":{"
                 + "\"bool\":{"
                 + "\"must\":["
-                + "{\"match\":{\"type\":\"" + TYPE + "-latlng\"}},"
+                + "{\"match\":{\"type\":\"" + TYPE + "\"}},"
                 + "{\"match\":{\""+Address.C_LATITUDE+"\":\"" + latitude + "\"}},"
                 + "{\"match\":{\""+Address.C_LONGITUDE+"\":\"" + longitude + "\"}}"
                 + "]"
@@ -209,7 +211,7 @@ public class DistanceMatrix {
                 + "\"query\":{"
                 + "\"bool\":{"
                 + "\"must\":["
-                + "{\"match\":{\"type\":\"" + TYPE + "-address\"}},"
+                + "{\"match\":{\"type\":\"" + TYPE + "\"}},"
                 + "{\"match\":{\"city_name\":\"" + address.getCityName() + "\"}},"
                 + "{\"match\":{\"street\":\"" + address.getStreet() + "\"}},"
                 + "{\"match\":{\"number\":" + address.getNumber() + "}}"
