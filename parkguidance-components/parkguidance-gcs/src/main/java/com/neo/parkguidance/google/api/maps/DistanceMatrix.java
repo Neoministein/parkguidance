@@ -17,8 +17,10 @@ import org.slf4j.LoggerFactory;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -33,6 +35,9 @@ public class DistanceMatrix {
     public static final String ORIGIN = "origins=";
     public static final String DESTINATION = "&destinations=";
 
+    private static final String DISTANCE_MATRIX_CACHE_LIFESPAN = "com.neo.parkguidance.gcs.maps.distance-matrix.cache-lifespan";
+    private static final int DEFAULT_CACHE_LIFESPAN = 1000 * 60 * 60 * 24 * 14;
+
     private static final Logger LOGGER = LoggerFactory.getLogger(DistanceMatrix.class);
 
     @Inject
@@ -44,11 +49,23 @@ public class DistanceMatrix {
     HTTPRequestSender httpRequestSender = new HTTPRequestSender();
 
     public List<DistanceDataObject> findDistance(List<ParkingGarage> parkingGarageList, double latitude, double longitude) {
-        return findDistance(parkingGarageList, new StringBuilder(latitude + "%2C" + longitude + DESTINATION));
+        List<DistanceDataObject> distanceDataObjectList = checkInCache(latitude, longitude, parkingGarageList);
+        if (!distanceDataObjectList.isEmpty()) {
+            return distanceDataObjectList;
+        }
+        distanceDataObjectList = findDistance(parkingGarageList, new StringBuilder(latitude + "%2C" + longitude + DESTINATION));
+        elasticSearchProvider.save(GoogleConstants.ELASTIC_INDEX, createElasticDocument(latitude,longitude,distanceDataObjectList).toString());
+        return distanceDataObjectList;
     }
 
     public List<DistanceDataObject> findDistance(List<ParkingGarage> parkingGarageList, Address address) {
-        return findDistance(parkingGarageList, new StringBuilder(GoogleConstants.addressQuery(address) + DESTINATION));
+        List<DistanceDataObject> distanceDataObjectList = checkInCache(address, parkingGarageList);
+        if (!distanceDataObjectList.isEmpty()) {
+            return distanceDataObjectList;
+        }
+        distanceDataObjectList = findDistance(parkingGarageList, new StringBuilder(GoogleConstants.addressQuery(address) + DESTINATION));
+        elasticSearchProvider.save(GoogleConstants.ELASTIC_INDEX, createElasticDocument(address,distanceDataObjectList).toString());
+        return distanceDataObjectList;
     }
 
     public List<DistanceDataObject> findDistance(List<ParkingGarage> parkingGarageList , StringBuilder query) {
@@ -60,8 +77,6 @@ public class DistanceMatrix {
         }
         String finalQuery = query.substring(0, query.length() - 3);
         url += finalQuery;
-
-        elasticSearchProvider.save(GoogleConstants.ELASTIC_INDEX, GoogleConstants.elasticLog(TYPE,finalQuery));
 
         HTTPRequest apiRequest = new HTTPRequest();
         apiRequest.setUrl(url + GoogleConstants.KEY + storedValueService.getString(StoredValue.V_GOOGLE_MAPS_API));
@@ -129,5 +144,137 @@ public class DistanceMatrix {
         Collections.sort(dataObjectList);
 
         return dataObjectList;
+    }
+
+    protected JSONObject createRootDocument(List<DistanceDataObject> distanceDataObjectList, String type) {
+        JSONObject root = new JSONObject();
+        root.put("type",TYPE + type);
+        root.put("timestamp",new Date().getTime());
+
+        JSONArray distanceDataObjects = new JSONArray();
+        for (DistanceDataObject distanceDataObject: distanceDataObjectList) {
+            JSONObject distanceDataJSONObject = new JSONObject();
+            distanceDataJSONObject.put("distanceInt", distanceDataObject.getDistanceInt());
+            distanceDataJSONObject.put("distanceString",distanceDataObject.getDistanceString());
+            distanceDataJSONObject.put("durationInt",distanceDataObject.getDurationInt());
+            distanceDataJSONObject.put("durationString",distanceDataObject.getDurationString());
+            distanceDataJSONObject.put(ParkingGarage.C_KEY, distanceDataObject.getParkingGarage().getKey());
+
+            distanceDataObjects.put(distanceDataJSONObject);
+        }
+        root.put("distanceDataObjects",distanceDataObjects);
+        return root;
+    }
+
+    protected JSONObject createElasticDocument(Address address, List<DistanceDataObject> distanceDataObjectList) {
+        JSONObject root = createRootDocument(distanceDataObjectList, "-address");
+
+        if (address.getNumber() == null) {
+            address.setNumber(-1);
+        }
+        root.put(Address.C_CITY_NAME, address.getCityName());
+        root.put(Address.C_STREET, address.getStreet());
+        root.put(Address.C_NUMBER, address.getNumber());
+        return root;
+    }
+
+    protected JSONObject createElasticDocument(double latitude, double longitude, List<DistanceDataObject> distanceDataObjectList) {
+        JSONObject root = createRootDocument(distanceDataObjectList, "-latlng");
+
+        root.put(Address.C_LONGITUDE, longitude);
+        root.put(Address.C_LATITUDE, latitude);
+        return root;
+    }
+
+    protected List<DistanceDataObject> checkInCache(double latitude, double longitude, List<ParkingGarage> parkingGarageList) {
+        String jsonBody = "{"
+                + "\"query\":{"
+                + "\"bool\":{"
+                + "\"must\":["
+                + "{\"match\":{\"type\":\"" + TYPE + "-latlng\"}},"
+                + "{\"match\":{\""+Address.C_LATITUDE+"\":\"" + latitude + "\"}},"
+                + "{\"match\":{\""+Address.C_LONGITUDE+"\":\"" + longitude + "\"}}"
+                + "]"
+                + "}"
+                + "}"
+                + "}";
+        return checkInCache(jsonBody, parkingGarageList);
+    }
+
+    protected List<DistanceDataObject> checkInCache(Address address, List<ParkingGarage> parkingGarageList) {
+        if (address.getNumber() == null) {
+            address.setNumber(-1);
+        }
+        String jsonBody = "{"
+                + "\"query\":{"
+                + "\"bool\":{"
+                + "\"must\":["
+                + "{\"match\":{\"type\":\"" + TYPE + "-address\"}},"
+                + "{\"match\":{\"city_name\":\"" + address.getCityName() + "\"}},"
+                + "{\"match\":{\"street\":\"" + address.getStreet() + "\"}},"
+                + "{\"match\":{\"number\":" + address.getNumber() + "}}"
+                + "]"
+                + "}"
+                + "}"
+                + "}";
+        return checkInCache(jsonBody, parkingGarageList);
+
+    }
+
+    protected List<DistanceDataObject> checkInCache(String jsonBody, List<ParkingGarage> parkingGarageList) {
+        try {
+            String result = elasticSearchProvider.sendLowLevelRequest("POST", "/gcs/_search", jsonBody);
+            JSONObject root = new JSONObject(result);
+            JSONArray jsonArray = root.getJSONObject("hits").getJSONArray("hits");
+            if (jsonArray.isEmpty()) {
+                return Collections.emptyList();
+            }
+            JSONObject hit = jsonArray.getJSONObject(0);
+            JSONObject source = hit.getJSONObject("_source");
+            if (isStillValid(source)) {
+                List<DistanceDataObject> distanceDataObjectList = createObjectsFromJSONObject(source, parkingGarageList);
+                if (!distanceDataObjectList.isEmpty()) {
+                    return distanceDataObjectList;
+                }
+            }
+            invalidateCacheDocument(hit.getString("_id"));
+        } catch (IOException e) {
+            return Collections.emptyList();
+        } catch (Exception e) {
+            LOGGER.error("Unknown Elasticsearch error", e);
+
+        }
+        return Collections.emptyList();
+    }
+
+    protected boolean isStillValid(JSONObject source) {
+        return new Date().getTime() <= source.getLong("timestamp") + storedValueService
+                .getLong(DISTANCE_MATRIX_CACHE_LIFESPAN, DEFAULT_CACHE_LIFESPAN);
+    }
+
+    protected void invalidateCacheDocument(String id) {
+        elasticSearchProvider.delete("gcs", id);
+    }
+
+    protected List<DistanceDataObject> createObjectsFromJSONObject(JSONObject source, List<ParkingGarage> parkingGarageList) {
+        List<DistanceDataObject> distanceDataObjectList = new ArrayList<>();
+        JSONArray distanceDataJSONArray = source.getJSONArray("distanceDataObjects");
+        for (int i = 0; i < distanceDataJSONArray.length(); i++) {
+            JSONObject distanceDataJSONObject = distanceDataJSONArray.getJSONObject(i);
+            ParkingGarage currentParkingGarage = parkingGarageList.stream().filter(o -> o.getKey().equals(distanceDataJSONObject.get(ParkingGarage.C_KEY))).findFirst().orElse(null);
+
+            if (currentParkingGarage == null) {
+                return Collections.emptyList();
+            }
+
+            DistanceDataObject distanceDataObject = new DistanceDataObject();
+            distanceDataObject.setParkingGarage(currentParkingGarage);
+            distanceDataObject.setDistanceInt(distanceDataJSONObject.getInt("distanceInt"));
+            distanceDataObject.setDistanceString(distanceDataJSONObject.getString("distanceString"));
+            distanceDataObject.setDurationInt(distanceDataJSONObject.getInt("durationInt"));
+            distanceDataObject.setDurationString(distanceDataJSONObject.getString("durationString"));
+            distanceDataObjectList.add(distanceDataObject);
+        }
+        return distanceDataObjectList;
     }
 }

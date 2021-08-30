@@ -50,7 +50,10 @@ public class ElasticLauncher {
 
     private static void createGCSIndex() {
         HTTPRequest httpRequest = createRequest("/gcs");
-        httpRequest.setRequestBody("{\"mappings\": {\"properties\": {\"timestamp\": {\"type\": \"date\"}}}}");
+        httpRequest.setRequestBody("{\"mappings\":{\"properties\":{"
+                + "\"timestamp\":{\"type\":\"date\"},"
+                + "\"distanceDataObjects\":{\"type\":\"nested\"}"
+                + "}}}");
 
         HTTPResponse response = new HTTPRequestSender().call(httpRequest);
 

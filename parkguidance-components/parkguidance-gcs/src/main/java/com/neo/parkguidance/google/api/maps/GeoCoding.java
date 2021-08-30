@@ -16,6 +16,8 @@ import org.json.JSONObject;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.Date;
 
 /**
  * This class is used for calling the Google Cloud Platform GeoLocation service
@@ -44,11 +46,12 @@ public class GeoCoding {
      * @param address the address to use
      */
     public void findCoordinates(Address address) {
+        if (checkInCache(address)) {
+            return;
+        }
         HTTPRequest httpRequest = new HTTPRequest();
 
         String query = GoogleConstants.addressQuery(address);
-
-        elasticSearchProvider.save(GoogleConstants.ELASTIC_INDEX, GoogleConstants.elasticLog(TYPE, query));
 
         String url = API_URL + GoogleConstants.JSON + ADDRESS + query + GoogleConstants.KEY;
 
@@ -72,6 +75,7 @@ public class GeoCoding {
             LOGGER.warn("HTTP {} {}", httpResponse.getCode(), httpResponse.getBody());
             throw new GoogleCloudServiceException(GoogleConstants.E_EXTERNAL_ERROR + httpResponse.getCode());
         }
+        elasticSearchProvider.save(GoogleConstants.ELASTIC_INDEX, createElasticDocument(address).toString());
     }
 
     protected void parseRequestStatus(JSONObject jsonObject, Address address) {
@@ -100,5 +104,56 @@ public class GeoCoding {
         JSONObject location = jsonArray.getJSONObject(0).getJSONObject("geometry").getJSONObject("location");
         address.setLatitude(location.getDouble("lat"));
         address.setLongitude(location.getDouble("lng"));
+    }
+
+    protected JSONObject createElasticDocument(Address address) {
+        if (address.getNumber() == null) {
+            address.setNumber(-1);
+        }
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("type", TYPE);
+        jsonObject.put("timestamp",new Date().getTime());
+        jsonObject.put(Address.C_CITY_NAME, address.getCityName());
+        jsonObject.put(Address.C_STREET, address.getStreet());
+        jsonObject.put(Address.C_NUMBER, address.getNumber());
+        jsonObject.put(Address.C_LONGITUDE, address.getLongitude());
+        jsonObject.put(Address.C_LATITUDE, address.getLatitude());
+        return jsonObject;
+    }
+
+    protected boolean checkInCache(Address address) {
+        if (address.getNumber() == null) {
+            address.setNumber(-1);
+        }
+        String jsonBody = "{"
+                + "\"query\":{"
+                + "\"bool\":{"
+                + "\"must\":["
+                + "{\"match\":{\"type\":\"geocoding\"}},"
+                + "{\"match\":{\"city_name\":\"" + address.getCityName() +"\"}},"
+                + "{\"match\":{\"street\":\"" + address.getStreet() + "\"}},"
+                + "{\"match\":{\"number\":" + address.getNumber() + "}}"
+                + "]"
+                + "}"
+                + "}"
+                + "}";
+        try {
+            String result = elasticSearchProvider.sendLowLevelRequest("POST","/gcs/_search",jsonBody);
+            JSONObject root = new JSONObject(result);
+            JSONArray jsonArray = root.getJSONObject("hits").getJSONArray("hits");
+            if (jsonArray.isEmpty()) {
+                return false;
+            }
+            JSONObject data = jsonArray.getJSONObject(0).getJSONObject("_source");
+            address.setLongitude(data.getDouble(Address.C_LONGITUDE));
+            address.setLatitude(data.getDouble(Address.C_LATITUDE));
+            return true;
+        } catch (IOException e) {
+            LOGGER.error("Error querying Elasticsearch", e);
+            return false;
+        } catch (Exception e) {
+            LOGGER.error("Unknown Elasticsearch error", e);
+            return false;
+        }
     }
 }

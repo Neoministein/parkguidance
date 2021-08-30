@@ -2,12 +2,10 @@ package com.neo.parkguidance.google.api.constants;
 
 import com.neo.parkguidance.core.entity.Address;
 import com.neo.parkguidance.core.impl.utils.StringUtils;
-import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.util.Date;
 
 /**
  * Contains for the google cloud platform
@@ -64,13 +62,5 @@ public class GoogleConstants {
         } catch (UnsupportedEncodingException e) {
             throw new RuntimeException(StandardCharsets.UTF_8.toString() + " is not supported");
         }
-    }
-
-    public static String elasticLog(String type, String query) {
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("type", type);
-        jsonObject.put("query", query);
-        jsonObject.put("timestamp", new Date().getTime());
-        return jsonObject.toString();
     }
 }
