@@ -118,12 +118,7 @@ public class AdminLoginFacade {
     }
 
     private void storeCookieCredentials(final String email, final String password) {
-        int cookieTimeOut;
-        try {
-            cookieTimeOut = storedValueService.getInteger(COOKIE_TIMEOUT);
-        } catch (IllegalArgumentException ex) {
-            cookieTimeOut = DEFAULT_COOKIE_TIMEOUT;
-        }
+        int cookieTimeOut = storedValueService.getInteger(COOKIE_TIMEOUT, DEFAULT_COOKIE_TIMEOUT);
 
         Faces.addResponseCookie(COOKIE_USER, email, cookieTimeOut);
         Faces.addResponseCookie(COOKIE_PASSWORD, password, cookieTimeOut);

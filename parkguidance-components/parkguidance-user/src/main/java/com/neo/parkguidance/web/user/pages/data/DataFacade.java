@@ -89,7 +89,7 @@ public class DataFacade {
         return cartesianLinerModel;
     }
 
-    public String generateStatickMapUrl(Address address) {
+    public String generateStaticMapUrl(Address address) {
         return EmbeddedMap.buildPlaceUrl(
                 storedValueService.getString(StoredValue.V_GOOGLE_MAPS_API_EXTERNAL),
                 EmbeddedMap.MapType.roadmap,

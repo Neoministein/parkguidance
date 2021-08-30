@@ -66,7 +66,7 @@ public class StoredValueServiceImpl implements StoredValueService {
     public StoredValue getStoredValue(String key) {
         StoredValue storedValue = storedValues.get(key);
         if (storedValue == null) {
-            LOGGER.error("Unable to find the stored value {}" , key);
+            LOGGER.warn("Unable to find the stored value {}" , key);
             throw new IllegalArgumentException(getClass().getName() + " has no entry for the key " + key);
         }
         return storedValue;
@@ -76,12 +76,45 @@ public class StoredValueServiceImpl implements StoredValueService {
         return getStoredValue(key).getValue();
     }
 
+    public String getString(String key, String defaultValue) {
+        try {
+            return getString(key);
+        } catch (IllegalArgumentException ex) {
+            return defaultValue;
+        }
+    }
+
     public int getInteger(String key) {
         try {
             return Integer.parseInt(getString(key));
         } catch (NumberFormatException ex) {
             LOGGER.warn("Wrong type specified [{}] is not an Integer", key);
             throw new IllegalArgumentException(key + " is not an Integer");
+        }
+    }
+
+    public int getInteger(String key, int defaultValue) {
+        try {
+            return getInteger(key);
+        } catch (IllegalArgumentException ex) {
+            return defaultValue;
+        }
+    }
+
+    public long getLong(String key) {
+        try {
+            return Long.parseLong(getString(key));
+        } catch (NumberFormatException ex) {
+            LOGGER.warn("Wrong type specified [{}] is not an Long", key);
+            throw new IllegalArgumentException(key + " is not an Long");
+        }
+    }
+
+    public long getLong(String key, long defaultValue) {
+        try {
+            return getLong(key);
+        } catch (IllegalArgumentException ex) {
+            return defaultValue;
         }
     }
 
@@ -98,12 +131,28 @@ public class StoredValueServiceImpl implements StoredValueService {
         throw new IllegalArgumentException(key + " is not an Boolean");
     }
 
+    public boolean getBoolean(String key, boolean defaultValue) {
+        try {
+            return getBoolean(key);
+        } catch (IllegalArgumentException ex) {
+            return defaultValue;
+        }
+    }
+
     public double getDouble(String key) {
         try {
             return Double.parseDouble(getString(key));
         } catch (NumberFormatException ex) {
             LOGGER.warn("Wrong type specified [{}] is not an Double", key);
             throw new IllegalArgumentException(key + " is not an Double");
+        }
+    }
+
+    public double getDouble(String key, double defaultValue) {
+        try {
+            return getDouble(key);
+        } catch (IllegalArgumentException ex) {
+            return defaultValue;
         }
     }
 
@@ -116,12 +165,28 @@ public class StoredValueServiceImpl implements StoredValueService {
         }
     }
 
+    public JSONObject getJSONObject(String key, JSONObject defaultValue) {
+        try {
+            return getJSONObject(key);
+        } catch (IllegalArgumentException ex) {
+            return defaultValue;
+        }
+    }
+
     public JSONArray getJSONArray(String key) {
         try {
             return new JSONArray(getString(key));
         }catch (JSONException ex) {
             LOGGER.warn("Wrong type specified [{}] is not an JSONArray", key);
             throw new IllegalArgumentException(key + " is not an JSONArray");
+        }
+    }
+
+    public JSONArray getJSONArray(String key, JSONArray defaultValue) {
+        try {
+            return getJSONArray(key);
+        } catch (IllegalArgumentException ex) {
+            return defaultValue;
         }
     }
 }

@@ -78,7 +78,8 @@ public class GeoLocationFacade {
     protected List<ParkingGarage> findNearest(List<ParkingGarage> parkingGarageList, double latitude, double longitude) {
         LOGGER.info("Looking for nearest ParkingGarage");
         Map<String,Double> map = new HashMap<>();
-        if(parkingGarageList.size() < getWantedGarages()) {
+        int wantedGarages = storedValueService.getInteger(WANTED_GARAGES, DEFAULT_GARAGES);
+        if(parkingGarageList.size() < wantedGarages) {
             LOGGER.debug("There aren't enough ParkingGarages using all");
             return parkingGarageList;
         }
@@ -94,7 +95,7 @@ public class GeoLocationFacade {
         List<Map.Entry<String,Double>> entries = sortByValue(map);
 
         List<ParkingGarage> selectedGarages = new ArrayList<>();
-        for(int i = 0; i < getWantedGarages();i++) {
+        for(int i = 0; i < wantedGarages;i++) {
             selectedGarages.add(parkingGarageDao.find(entries.get(i).getKey()));
         }
 
@@ -126,13 +127,5 @@ public class GeoLocationFacade {
                 : o1.getValue().compareTo(o2.getValue()));
         return list;
 
-    }
-
-    private int getWantedGarages() {
-        try {
-            return storedValueService.getInteger(WANTED_GARAGES);
-        } catch (IllegalArgumentException ex) {
-            return DEFAULT_GARAGES;
-        }
     }
 }

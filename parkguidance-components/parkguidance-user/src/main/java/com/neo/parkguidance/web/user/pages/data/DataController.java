@@ -35,7 +35,7 @@ public class DataController {
                 return;
             }
 
-            model.setEmbeddedGMapsUrl(facade.generateStatickMapUrl(model.getParkingGarage().getAddress()));
+            model.setEmbeddedGMapsUrl(facade.generateStaticMapUrl(model.getParkingGarage().getAddress()));
             model.setCartesianLinerModel(facade.createCartesianLinerModel(model.getParkingGarage()));
             model.setInitialized(true);
         }

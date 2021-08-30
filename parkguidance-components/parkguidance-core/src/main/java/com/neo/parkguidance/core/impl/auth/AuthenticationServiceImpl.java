@@ -27,7 +27,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AuthenticationServiceImpl.class);
 
-    @Inject StoredValueService storedValueService;
+    @Inject
+    StoredValueService storedValueService;
 
     @Inject
     AbstractEntityDao<RegisteredUser> userDao;
