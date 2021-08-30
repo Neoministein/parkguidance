@@ -135,6 +135,20 @@ public class ElasticSearchProvider {
     }
 
     /**
+     * Deletes the content in elastic search
+     *
+     * @param index the index the content should be deleted from
+     * @param id the id of the content which should be deleted
+     */
+    public void delete(String index, String id) {
+        try {
+            sendLowLevelRequest("DELETE","/" + index + "/_doc/" + id,"");
+        } catch (IOException e) {
+            LOGGER.error("Unable to delete document [{}] in index [{}]", id, index);
+        }
+    }
+
+    /**
      * Sends a low level request to elastic search
      *
      * @param requestMethod the HTTP method
