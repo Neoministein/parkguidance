@@ -12,9 +12,11 @@ import javax.enterprise.event.Event;
 import javax.enterprise.event.ObserverException;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
 import javax.persistence.criteria.CriteriaQuery;
+import java.util.Collections;
 import java.util.List;
 
 public abstract class AbstractEntityDao<T extends DataBaseEntity<T>> {
@@ -91,11 +93,19 @@ public abstract class AbstractEntityDao<T extends DataBaseEntity<T>> {
     }
 
     public List<T> findByColumn(String columnName, Object columnData) {
-        return getTypedQueryByColumn(columnName, columnData).getResultList();
+        try {
+            return getTypedQueryByColumn(columnName, columnData).getResultList();
+        } catch (NoResultException ex) {
+            return Collections.emptyList();
+        }
     }
 
     public T findOneByColumn(String columnName, Object columnData) {
-        return getTypedQueryByColumn(columnName, columnData).getSingleResult();
+        try {
+            return getTypedQueryByColumn(columnName, columnData).getSingleResult();
+        } catch (NoResultException ex) {
+            return null;
+        }
     }
 
     protected TypedQuery<T> getTypedQueryByColumn(String columnName, Object columnData) {
