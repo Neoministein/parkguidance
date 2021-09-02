@@ -1,5 +1,6 @@
 package com.neo.parkguidance.web.user.pages.geolocation;
 
+import com.neo.parkguidance.core.api.dao.EntityDao;
 import com.neo.parkguidance.core.api.storedvalue.StoredValueService;
 import com.neo.parkguidance.google.api.maps.CrossPlatformURL;
 import com.neo.parkguidance.google.api.maps.DistanceDataObject;
@@ -7,7 +8,6 @@ import com.neo.parkguidance.google.api.maps.DistanceMatrix;
 import com.neo.parkguidance.google.api.maps.GeoCoding;
 import com.neo.parkguidance.core.entity.Address;
 import com.neo.parkguidance.core.entity.ParkingGarage;
-import com.neo.parkguidance.core.api.dao.AbstractEntityDao;
 import com.neo.parkguidance.web.impl.utils.Utils;
 import org.primefaces.PrimeFaces;
 import org.slf4j.Logger;
@@ -38,7 +38,7 @@ public class GeoLocationFacade {
     GeoCoding geoCoding;
 
     @Inject
-    AbstractEntityDao<ParkingGarage> parkingGarageDao;
+    EntityDao<ParkingGarage> parkingGarageDao;
 
     @Inject
     StoredValueService storedValueService;

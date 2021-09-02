@@ -1,7 +1,7 @@
 package com.neo.parkguidance.web.user.pages.parklist;
 
+import com.neo.parkguidance.core.api.dao.EntityDao;
 import com.neo.parkguidance.core.entity.ParkingGarage;
-import com.neo.parkguidance.core.api.dao.AbstractEntityDao;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -16,7 +16,7 @@ public class ParkListFacade {
     private static final long TIME_BETWEEN_UPDATES = 5000; // 5 sec
 
     @Inject
-    AbstractEntityDao<ParkingGarage> parkingGarageManager;
+    EntityDao<ParkingGarage> parkingGarageManager;
 
     public void initDataModel(ParkListModel model) {
         if(model.getLastUpdate().getTime() + TIME_BETWEEN_UPDATES < System.currentTimeMillis()) {

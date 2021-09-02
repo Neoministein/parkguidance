@@ -1,7 +1,7 @@
 package com.neo.parkguidance.web.admin.pages.parkdata;
 
+import com.neo.parkguidance.core.api.dao.EntityDao;
 import com.neo.parkguidance.core.entity.ParkingGarage;
-import com.neo.parkguidance.core.api.dao.AbstractEntityDao;
 import com.neo.parkguidance.core.impl.event.ParkDataChangeEvent;
 import com.neo.parkguidance.elastic.impl.ElasticSearchProvider;
 import com.neo.parkguidance.elastic.impl.query.ElasticSearchLowLevelQuery;
@@ -38,7 +38,7 @@ public class ParkDataFacade {
     Event<ParkDataChangeEvent> changeEvent;
 
     @Inject
-    AbstractEntityDao<ParkingGarage> entityDao;
+    EntityDao<ParkingGarage> entityDao;
 
     public void sortParkingData() {
         ParkDataChangeEvent event = new ParkDataChangeEvent(ParkDataChangeEvent.SORT_REQUEST);

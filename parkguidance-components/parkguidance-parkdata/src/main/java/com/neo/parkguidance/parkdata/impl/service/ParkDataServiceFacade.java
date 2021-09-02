@@ -1,7 +1,7 @@
 package com.neo.parkguidance.parkdata.impl.service;
 
+import com.neo.parkguidance.core.api.dao.EntityDao;
 import com.neo.parkguidance.core.entity.ParkingGarage;
-import com.neo.parkguidance.core.api.dao.AbstractEntityDao;
 import com.neo.parkguidance.elastic.impl.ElasticSearchProvider;
 import com.neo.parkguidance.elastic.impl.query.ElasticSearchLowLevelQuery;
 import org.json.JSONArray;
@@ -26,7 +26,7 @@ public class ParkDataServiceFacade {
     public static final String ELASTIC_SORTED_INDEX = "/sorted-parking-data";
 
     @Inject
-    AbstractEntityDao<ParkingGarage> parkingGarageDao;
+    EntityDao<ParkingGarage> parkingGarageDao;
 
     @Inject
     ElasticSearchProvider elasticSearchProvider;

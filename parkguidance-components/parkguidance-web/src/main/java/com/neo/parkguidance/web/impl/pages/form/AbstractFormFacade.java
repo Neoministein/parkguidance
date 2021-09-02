@@ -1,7 +1,7 @@
 package com.neo.parkguidance.web.impl.pages.form;
 
+import com.neo.parkguidance.core.api.dao.EntityDao;
 import com.neo.parkguidance.core.entity.DataBaseEntity;
-import com.neo.parkguidance.core.api.dao.AbstractEntityDao;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -14,7 +14,7 @@ public abstract class AbstractFormFacade<T extends DataBaseEntity<T>> {
     private static final Logger LOGGER = LogManager.getLogger(AbstractFormFacade.class);
 
     @Inject
-    AbstractEntityDao<T> dao;
+    EntityDao<T> dao;
 
     public abstract T newEntity();
 
@@ -42,7 +42,7 @@ public abstract class AbstractFormFacade<T extends DataBaseEntity<T>> {
         LOGGER.info("Created {} [{}]" ,entity.getClass().getName() ,entity.getPrimaryKey());
     }
 
-    protected AbstractEntityDao<T> getDao() {
+    protected EntityDao<T> getDao() {
         return dao;
     }
 }

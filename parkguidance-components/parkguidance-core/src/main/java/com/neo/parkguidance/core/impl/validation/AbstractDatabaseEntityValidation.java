@@ -1,10 +1,9 @@
-package com.neo.parkguidance.core.api.validation;
+package com.neo.parkguidance.core.impl.validation;
 
+import com.neo.parkguidance.core.api.dao.EntityDao;
+import com.neo.parkguidance.core.api.validation.DataBaseEntityValidation;
 import com.neo.parkguidance.core.entity.DataBaseEntity;
-import com.neo.parkguidance.core.api.dao.AbstractEntityDao;
-import com.neo.parkguidance.core.impl.validation.EntityValidationException;
 
-import javax.ejb.Stateless;
 import javax.inject.Inject;
 
 /**
@@ -12,11 +11,11 @@ import javax.inject.Inject;
  * implementation
  * @param <T> a {@link DataBaseEntity}
  */
-@Stateless
-public abstract class AbstractDatabaseEntityValidation<T extends DataBaseEntity<T>> {
+public abstract class AbstractDatabaseEntityValidation<T extends DataBaseEntity<T>> implements
+        DataBaseEntityValidation<T> {
 
     @Inject
-    AbstractEntityDao<T> dao;
+    EntityDao<T> dao;
 
     /**
      *
@@ -33,7 +32,7 @@ public abstract class AbstractDatabaseEntityValidation<T extends DataBaseEntity<
     }
 
 
-    protected AbstractEntityDao<T> getDao() {
+    protected EntityDao<T> getDao() {
         return dao;
     }
 }

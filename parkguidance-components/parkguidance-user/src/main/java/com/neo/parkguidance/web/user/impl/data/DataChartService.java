@@ -1,7 +1,7 @@
 package com.neo.parkguidance.web.user.impl.data;
 
+import com.neo.parkguidance.core.api.dao.EntityDao;
 import com.neo.parkguidance.core.entity.ParkingGarage;
-import com.neo.parkguidance.core.api.dao.AbstractEntityDao;
 import com.neo.parkguidance.parkdata.api.service.ParkDataService;
 import org.primefaces.model.charts.line.LineChartDataSet;
 import org.slf4j.Logger;
@@ -25,7 +25,7 @@ public class DataChartService {
     private static final int HALF_HOURS_IN_DAY = 48;
 
     @Inject
-    AbstractEntityDao<ParkingGarage> dao;
+    EntityDao<ParkingGarage> dao;
 
     @Inject
     ParkDataService parkDataService;

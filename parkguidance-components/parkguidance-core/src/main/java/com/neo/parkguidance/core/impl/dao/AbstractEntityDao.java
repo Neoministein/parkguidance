@@ -1,5 +1,6 @@
-package com.neo.parkguidance.core.api.dao;
+package com.neo.parkguidance.core.impl.dao;
 
+import com.neo.parkguidance.core.api.dao.EntityDaoAbstraction;
 import com.neo.parkguidance.core.entity.DataBaseEntity;
 import com.neo.parkguidance.core.impl.event.DataBaseEntityChangeEvent;
 import org.hibernate.Criteria;
@@ -19,7 +20,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import java.util.Collections;
 import java.util.List;
 
-public abstract class AbstractEntityDao<T extends DataBaseEntity<T>> {
+public abstract class AbstractEntityDao<T extends DataBaseEntity<T>> implements EntityDaoAbstraction<T> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractEntityDao.class);
 
@@ -52,8 +53,8 @@ public abstract class AbstractEntityDao<T extends DataBaseEntity<T>> {
         fireEvent(new DataBaseEntityChangeEvent<>(DataBaseEntityChangeEvent.REMOVE, entity));
     }
 
-    public T find(Object id) {
-        return getEntityManager().find(entityClass, id);
+    public T find(Object primaryKey) {
+        return getEntityManager().find(entityClass, primaryKey);
     }
 
     public List<T> findAll() {
@@ -92,17 +93,17 @@ public abstract class AbstractEntityDao<T extends DataBaseEntity<T>> {
         return ((Long) q.getSingleResult()).intValue();
     }
 
-    public List<T> findByColumn(String columnName, Object columnData) {
+    public List<T> findByColumn(String columnName, Object value) {
         try {
-            return getTypedQueryByColumn(columnName, columnData).getResultList();
+            return getTypedQueryByColumn(columnName, value).getResultList();
         } catch (NoResultException ex) {
             return Collections.emptyList();
         }
     }
 
-    public T findOneByColumn(String columnName, Object columnData) {
+    public T findOneByColumn(String columnName, Object value) {
         try {
-            return getTypedQueryByColumn(columnName, columnData).getSingleResult();
+            return getTypedQueryByColumn(columnName, value).getSingleResult();
         } catch (NoResultException ex) {
             return null;
         }

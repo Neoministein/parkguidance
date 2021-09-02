@@ -1,7 +1,7 @@
 package com.neo.parkguidance.web.impl.pages.lazy;
 
+import com.neo.parkguidance.core.api.dao.EntityDao;
 import com.neo.parkguidance.core.entity.DataBaseEntity;
-import com.neo.parkguidance.core.api.dao.AbstractEntityDao;
 import com.neo.parkguidance.web.impl.entity.LazyEntityService;
 import com.neo.parkguidance.web.impl.table.Filter;
 import org.apache.logging.log4j.LogManager;
@@ -16,7 +16,7 @@ public abstract class AbstractLazyFacade<T extends DataBaseEntity<T>> {
     private static final Logger LOGGER = LogManager.getLogger(AbstractLazyFacade.class);
 
     @Inject
-    AbstractEntityDao<T> entityDao;
+    EntityDao<T> entityDao;
 
     public LazyDataModel<T> initDataModel(Filter<T> filter) {
         return new LazyEntityService<>(entityDao, filter);

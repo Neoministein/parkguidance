@@ -1,11 +1,11 @@
 package com.neo.parkguidance.web.admin.pages.garageform;
 
+import com.neo.parkguidance.core.api.dao.EntityDao;
 import com.neo.parkguidance.core.impl.validation.AddressValidator;
 import com.neo.parkguidance.core.impl.validation.ParkingGarageValidator;
 import com.neo.parkguidance.google.api.maps.GeoCoding;
 import com.neo.parkguidance.core.entity.Address;
 import com.neo.parkguidance.core.entity.ParkingGarage;
-import com.neo.parkguidance.core.api.dao.AbstractEntityDao;
 import com.neo.parkguidance.web.impl.pages.form.AbstractFormFacade;
 
 import javax.ejb.Stateless;
@@ -19,7 +19,7 @@ import javax.inject.Inject;
 public class GarageFormFacade extends AbstractFormFacade<ParkingGarage> {
 
     @Inject
-    AbstractEntityDao<Address> addressDao;
+    EntityDao<Address> addressDao;
 
     @Inject
     ParkingGarageValidator parkingGarageValidator;

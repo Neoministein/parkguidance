@@ -1,7 +1,7 @@
 package com.neo.parkguidance.parkdata.impl.sorter;
 
+import com.neo.parkguidance.core.api.dao.EntityDao;
 import com.neo.parkguidance.core.entity.ParkingGarage;
-import com.neo.parkguidance.core.api.dao.AbstractEntityDao;
 import com.neo.parkguidance.core.impl.event.ParkDataChangeEvent;
 import com.neo.parkguidance.elastic.impl.ElasticSearchProvider;
 import com.neo.parkguidance.elastic.impl.query.ElasticSearchLowLevelQuery;
@@ -39,7 +39,7 @@ public class ParkDataSorter {
     Event<ParkDataChangeEvent> changeEvent;
 
     @Inject
-    AbstractEntityDao<ParkingGarage> parkingGarageManager;
+    EntityDao<ParkingGarage> parkingGarageManager;
 
     @Inject
     ElasticSearchProvider elasticSearchProvider;

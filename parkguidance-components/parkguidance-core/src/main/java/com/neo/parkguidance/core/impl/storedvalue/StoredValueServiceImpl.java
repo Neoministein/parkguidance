@@ -1,8 +1,8 @@
 package com.neo.parkguidance.core.impl.storedvalue;
 
+import com.neo.parkguidance.core.api.dao.EntityDao;
 import com.neo.parkguidance.core.api.storedvalue.StoredValueService;
 import com.neo.parkguidance.core.entity.StoredValue;
-import com.neo.parkguidance.core.api.dao.AbstractEntityDao;
 import com.neo.parkguidance.core.impl.event.DataBaseEntityChangeEvent;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -27,7 +27,7 @@ public class StoredValueServiceImpl implements StoredValueService {
     private static final Logger LOGGER = LoggerFactory.getLogger(StoredValueServiceImpl.class);
 
     @Inject
-    AbstractEntityDao<StoredValue> dao;
+    EntityDao<StoredValue> dao;
 
     private Map<String, StoredValue> storedValues;
 

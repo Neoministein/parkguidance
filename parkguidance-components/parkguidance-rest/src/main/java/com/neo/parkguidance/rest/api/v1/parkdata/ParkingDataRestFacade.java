@@ -1,8 +1,8 @@
 package com.neo.parkguidance.rest.api.v1.parkdata;
 
 import com.neo.parkguidance.core.api.auth.AuthenticationService;
+import com.neo.parkguidance.core.api.dao.EntityDao;
 import com.neo.parkguidance.core.entity.ParkingGarage;
-import com.neo.parkguidance.core.api.dao.AbstractEntityDao;
 import com.neo.parkguidance.elastic.impl.ElasticSearchProvider;
 import com.neo.parkguidance.parkdata.api.service.ParkDataService;
 import com.neo.parkguidance.rest.api.InternalRestException;
@@ -30,7 +30,7 @@ public class ParkingDataRestFacade {
     AuthenticationService authenticationService;
 
     @Inject
-    AbstractEntityDao<ParkingGarage> parkingGarageDao;
+    EntityDao<ParkingGarage> parkingGarageDao;
 
     @Inject
     ElasticSearchProvider elasticSearchProvider;

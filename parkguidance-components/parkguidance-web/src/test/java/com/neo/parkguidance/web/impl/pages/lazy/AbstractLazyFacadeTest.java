@@ -1,7 +1,7 @@
 package com.neo.parkguidance.web.impl.pages.lazy;
 
+import com.neo.parkguidance.core.api.dao.EntityDao;
 import com.neo.parkguidance.core.entity.ParkingGarage;
-import com.neo.parkguidance.core.api.dao.AbstractEntityDao;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -18,7 +18,7 @@ class AbstractLazyFacadeTest {
     AbstractLazyFacade facade;
 
     @Mock
-    AbstractEntityDao entityDao;
+    EntityDao entityDao;
 
 
     @BeforeEach
@@ -26,7 +26,7 @@ class AbstractLazyFacadeTest {
         facade = Mockito.spy(AbstractLazyFacade.class);
 
 
-        entityDao = Mockito.mock(AbstractEntityDao.class);
+        entityDao = Mockito.mock(EntityDao.class);
         facade.entityDao = entityDao;
     }
 

@@ -1,12 +1,12 @@
 package com.neo.parkguidance.core.impl.auth;
 
 import com.neo.parkguidance.core.api.auth.AuthenticationService;
+import com.neo.parkguidance.core.api.dao.EntityDao;
 import com.neo.parkguidance.core.api.storedvalue.StoredValueService;
 import com.neo.parkguidance.core.entity.ParkingGarage;
 import com.neo.parkguidance.core.entity.Permission;
 import com.neo.parkguidance.core.entity.RegisteredUser;
 import com.neo.parkguidance.core.impl.utils.StringUtils;
-import com.neo.parkguidance.core.api.dao.AbstractEntityDao;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,13 +31,13 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     StoredValueService storedValueService;
 
     @Inject
-    AbstractEntityDao<RegisteredUser> userDao;
+    EntityDao<RegisteredUser> userDao;
 
     @Inject
-    AbstractEntityDao<ParkingGarage> parkingGarageDao;
+    EntityDao<ParkingGarage> parkingGarageDao;
 
     @Inject
-    AbstractEntityDao<Permission> permissionDao;
+    EntityDao<Permission> permissionDao;
 
     public RegisteredUser authenticateUser(String username, String password) {
         LOGGER.info("User credentials authentication attempt");

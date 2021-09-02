@@ -1,7 +1,7 @@
 package com.neo.parkguidance.web.admin.validation;
 
 import com.neo.parkguidance.core.entity.ParkingGarage;
-import com.neo.parkguidance.core.api.validation.AbstractDatabaseEntityValidation;
+import com.neo.parkguidance.core.impl.validation.AbstractDatabaseEntityValidation;
 import com.neo.parkguidance.core.impl.validation.EntityValidationException;
 import org.omnifaces.util.Messages;
 
@@ -24,8 +24,7 @@ public class ParkingGarageKeyValidator implements Validator<String>, Serializabl
 
     public static final String BEAN_NAME = "parkingGarageKeyValidator";
 
-    @Inject
-    AbstractDatabaseEntityValidation<ParkingGarage> entityValidation;
+    @Inject AbstractDatabaseEntityValidation<ParkingGarage> entityValidation;
 
     @Override
     public void validate(FacesContext facesContext, UIComponent uiComponent, String o) {

@@ -1,7 +1,7 @@
 package com.neo.parkguidance.web.impl.entity;
 
+import com.neo.parkguidance.core.api.dao.EntityDao;
 import com.neo.parkguidance.core.entity.DataBaseEntity;
-import com.neo.parkguidance.core.api.dao.AbstractEntityDao;
 import com.neo.parkguidance.web.impl.table.Filter;
 import org.hibernate.criterion.Order;
 import org.primefaces.model.FilterMeta;
@@ -16,10 +16,10 @@ import java.util.Map;
  */
 public class LazyEntityService<T extends DataBaseEntity<T>> extends LazyDataModel<T> {
 
-    private final AbstractEntityDao<T> entityDao;
+    private final EntityDao<T> entityDao;
     private final Filter<T> filter;
 
-    public LazyEntityService(AbstractEntityDao<T> entityDao, Filter<T> filter) {
+    public LazyEntityService(EntityDao<T> entityDao, Filter<T> filter) {
         this.entityDao = entityDao;
         this.filter = filter;
     }

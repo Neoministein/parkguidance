@@ -1,7 +1,7 @@
 package com.neo.parkguidance.web.user.impl.address;
 
+import com.neo.parkguidance.core.api.dao.EntityDao;
 import com.neo.parkguidance.core.entity.Address;
-import com.neo.parkguidance.core.api.dao.AbstractEntityDao;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -14,7 +14,7 @@ import java.util.List;
 public class AddressDataServiceFacade {
 
     @Inject
-    AbstractEntityDao<Address> addressDao;
+    EntityDao<Address> addressDao;
 
 
     public List<Address> getAddress() {

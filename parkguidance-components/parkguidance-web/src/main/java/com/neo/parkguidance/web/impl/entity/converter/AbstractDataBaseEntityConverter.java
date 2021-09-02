@@ -1,7 +1,7 @@
 package com.neo.parkguidance.web.impl.entity.converter;
 
+import com.neo.parkguidance.core.api.dao.EntityDao;
 import com.neo.parkguidance.core.entity.DataBaseEntity;
-import com.neo.parkguidance.core.api.dao.AbstractEntityDao;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -15,7 +15,7 @@ import javax.inject.Inject;
 public abstract class AbstractDataBaseEntityConverter<T extends DataBaseEntity<T>> implements Converter<T> {
 
     @Inject
-    AbstractEntityDao<T> abstractEntityDao;
+    EntityDao<T> abstractEntityDao;
 
     protected abstract T newInstance();
 
