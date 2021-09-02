@@ -24,9 +24,6 @@ public class StoredValueValidator extends AbstractDatabaseEntityValidation<Store
             return false;
         }
 
-        if(!originalObject.getKey().equals(entity.getKey())) {
-            return false;
-        }
         if (!originalObject.getValue().equals(entity.getValue())) {
             return false;
         }

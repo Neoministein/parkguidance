@@ -36,6 +36,7 @@ public class DefaultTestEntity {
         storedValue.setValue("value");
         storedValue.setHidden(false);
         storedValue.setComponent("component");
+        storedValue.setDescription("description");
         return storedValue;
     }
 }
