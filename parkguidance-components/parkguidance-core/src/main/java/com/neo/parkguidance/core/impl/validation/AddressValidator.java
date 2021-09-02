@@ -11,30 +11,28 @@ import java.util.Objects;
 @Stateless
 public class AddressValidator extends AbstractDatabaseEntityValidation<Address> {
 
-    public boolean hasAddressChanged(Address address) {
-        if(address == null || address.getId() == null) {
+    @Override
+    public boolean compareValues(Address entity) {
+        Address originalObject = super.returnOriginalObject(entity);
+        if (originalObject == null) {
             return false;
         }
 
-        return !compareValues(address, getDao().find(address.getId()));
-    }
-
-    public boolean compareValues(Address currentAddress, Address databaseAddress) {
-        if (!Objects.equals(databaseAddress.getCityName(),currentAddress.getCityName())) {
+        if (!Objects.equals(originalObject.getCityName(),entity.getCityName())) {
             return false;
         }
-        if (!Objects.equals(databaseAddress.getPlz(),currentAddress.getPlz())) {
+        if (!Objects.equals(originalObject.getPlz(),entity.getPlz())) {
             return false;
         }
-        if (!Objects.equals(databaseAddress.getStreet(), currentAddress.getStreet())) {
+        if (!Objects.equals(originalObject.getStreet(), entity.getStreet())) {
             return false;
         }
-        if (!Objects.equals(databaseAddress.getNumber(), currentAddress.getNumber())) {
+        if (!Objects.equals(originalObject.getNumber(), entity.getNumber())) {
             return false;
         }
-        if (!Objects.equals(databaseAddress.getLongitude(),currentAddress.getLongitude())) {
+        if (!Objects.equals(originalObject.getLongitude(),entity.getLongitude())) {
             return false;
         }
-        return Objects.equals(databaseAddress.getLatitude(), currentAddress.getLatitude());
+        return Objects.equals(originalObject.getLatitude(), entity.getLatitude());
     }
 }

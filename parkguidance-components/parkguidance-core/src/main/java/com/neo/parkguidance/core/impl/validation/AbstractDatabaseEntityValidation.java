@@ -13,7 +13,7 @@ import javax.inject.Inject;
  * @param <T> a {@link DataBaseEntity}
  */
 public abstract class AbstractDatabaseEntityValidation<T extends DataBaseEntity> implements
-        DataBaseEntityValidation {
+        DataBaseEntityValidation<T> {
 
     @Inject
     EntityDao<T> dao;
@@ -35,6 +35,13 @@ public abstract class AbstractDatabaseEntityValidation<T extends DataBaseEntity>
         }
     }
 
+
+    protected T returnOriginalObject(T entity) {
+        if(entity == null || entity.getPrimaryKey() == null) {
+            return dao.find(entity.getPrimaryKey());
+        }
+        return null ;
+    }
 
     protected EntityDao<T> getDao() {
         return dao;

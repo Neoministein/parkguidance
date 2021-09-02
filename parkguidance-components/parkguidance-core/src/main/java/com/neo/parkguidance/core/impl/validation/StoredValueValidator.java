@@ -16,6 +16,19 @@ public class StoredValueValidator extends AbstractDatabaseEntityValidation<Store
         checkInvalidCharsInPrimaryKey((String) primaryKey);
     }
 
+    @Override
+    public boolean compareValues(StoredValue entity) {
+        StoredValue originalObject = super.returnOriginalObject(entity);
+        if (originalObject == null) {
+            return false;
+        }
+
+        if(!originalObject.getKey().equals(entity.getKey())) {
+            return false;
+        }
+        return originalObject.getKey().equals(entity.getValue());
+    }
+
     protected void checkInvalidCharsInPrimaryKey(String primaryKey) throws EntityValidationException {
         if (primaryKey.replaceAll("[a-zA-Z\\d\\-_.]","").length() > 0) {
             throw new EntityValidationException("Unsupported Character, Valid Characters include A-z, '_' and '-'.");

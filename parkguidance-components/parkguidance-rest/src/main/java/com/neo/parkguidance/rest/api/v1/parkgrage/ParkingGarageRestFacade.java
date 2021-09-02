@@ -39,7 +39,8 @@ public class ParkingGarageRestFacade {
     @Inject
     ParkingGarageValidator parkingGarageValidator;
 
-    @Inject AddressValidator addressValidator;
+    @Inject
+    AddressValidator addressValidator;
 
     @Inject
     GeoCoding geoCoding;
@@ -97,7 +98,7 @@ public class ParkingGarageRestFacade {
     }
 
     public void updateGarage(ParkingGarage parkingGarage) throws InternalRestException {
-        if (!addressValidator.hasAddressChanged(parkingGarage.getAddress())) {
+        if (!addressValidator.compareValues(parkingGarage.getAddress())) {
             findCoordinates(parkingGarage.getAddress());
             addressDao.edit(parkingGarage.getAddress());
         }

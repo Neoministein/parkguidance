@@ -37,7 +37,7 @@ public class GarageFormFacade extends AbstractFormFacade<ParkingGarage> {
 
     @Override
     public void edit(ParkingGarage parkingGarage) {
-        if(addressValidator.hasAddressChanged(parkingGarage.getAddress())) {
+        if(addressValidator.compareValues(parkingGarage.getAddress())) {
             geoCoding.findCoordinates(parkingGarage.getAddress());
             addressDao.edit(parkingGarage.getAddress());
         }

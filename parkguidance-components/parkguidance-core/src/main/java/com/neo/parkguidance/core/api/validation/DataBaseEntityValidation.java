@@ -6,7 +6,7 @@ import com.neo.parkguidance.core.impl.validation.EntityValidationException;
 /**
  * This interface is a base file for {@link DataBaseEntity} validation
  */
-public interface DataBaseEntityValidation {
+public interface DataBaseEntityValidation<T extends DataBaseEntity> {
 
     /**
      * Validates the primary key and checks if it isn't null
@@ -16,4 +16,15 @@ public interface DataBaseEntityValidation {
      * @throws EntityValidationException if the value is null
      */
     void validatePrimaryKey(Object primaryKey) throws EntityValidationException;
+
+    /**
+     * Validates if any non primary key values have change
+     *
+     * @param entity the entity to check
+     *
+     * @return true if values have change or it cannot be found </b>
+     *         false if the object or primaryKey is null or the values have not changed
+     *
+     */
+    boolean compareValues(T entity);
 }
