@@ -3,6 +3,7 @@ package com.neo.parkguidance.core.impl.validation;
 import com.neo.parkguidance.core.entity.StoredValue;
 
 import javax.ejb.Stateless;
+import java.util.Objects;
 
 /**
  * Validates changes done to the {@link StoredValue} entity
@@ -26,7 +27,16 @@ public class StoredValueValidator extends AbstractDatabaseEntityValidation<Store
         if(!originalObject.getKey().equals(entity.getKey())) {
             return false;
         }
-        return originalObject.getKey().equals(entity.getValue());
+        if (!originalObject.getValue().equals(entity.getValue())) {
+            return false;
+        }
+        if (!originalObject.getHidden().equals(entity.getHidden())) {
+            return false;
+        }
+        if (!Objects.equals(originalObject.getComponent(), entity.getComponent())) {
+            return false;
+        }
+        return Objects.equals(originalObject.getDescription(), entity.getDescription());
     }
 
     protected void checkInvalidCharsInPrimaryKey(String primaryKey) throws EntityValidationException {

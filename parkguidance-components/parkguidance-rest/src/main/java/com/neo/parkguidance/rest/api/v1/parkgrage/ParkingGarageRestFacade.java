@@ -85,7 +85,7 @@ public class ParkingGarageRestFacade {
     }
 
     public ParkingGarage revokeAccessKey(ParkingGarage parkingGarage) {
-        parkingGarageValidator.invalidateAccessKey(parkingGarage);
+        parkingGarageValidator.newUniqueAccessKey(parkingGarage);
         parkingGarageDao.edit(parkingGarage);
         return parkingGarage;
     }

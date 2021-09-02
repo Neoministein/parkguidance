@@ -2,7 +2,6 @@ package com.neo.parkguidance.core.impl.validation;
 
 import com.neo.parkguidance.core.entity.ParkingGarage;
 import com.neo.parkguidance.core.impl.utils.RandomString;
-import com.neo.parkguidance.core.impl.utils.StringUtils;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -20,12 +19,7 @@ public class ParkingGarageValidator extends AbstractDatabaseEntityValidation<Par
     @Override
     public void validatePrimaryKey(Object primaryKey) throws EntityValidationException {
         super.validatePrimaryKey(primaryKey);
-
-        String key = (String) primaryKey;
-        if (StringUtils.isEmpty(key)) {
-            throw new EntityValidationException("Key cannot be empty");
-        }
-        checkInvalidCharsInPrimaryKey(key);
+        checkInvalidCharsInPrimaryKey((String) primaryKey);
     }
 
     @Override
@@ -39,16 +33,16 @@ public class ParkingGarageValidator extends AbstractDatabaseEntityValidation<Par
             return false;
         }
 
-        if(originalObject.getSpaces().equals(entity.getSpaces())) {
+        if(!originalObject.getSpaces().equals(entity.getSpaces())) {
             return false;
         }
-        if(originalObject.getOccupied().equals(entity.getOccupied())) {
+        if(!originalObject.getOccupied().equals(entity.getOccupied())) {
             return false;
         }
         if(!originalObject.getAccessKey().equals(entity.getAccessKey())) {
             return false;
         }
-        if(!addressValidation.compareValues(entity.getAddress())) {
+        if(addressValidation.compareValues(entity.getAddress())) {
             return false;
         }
         if(!Objects.equals(originalObject.getPrice(), entity.getPrice())) {
@@ -60,7 +54,7 @@ public class ParkingGarageValidator extends AbstractDatabaseEntityValidation<Par
         return Objects.equals(originalObject.getDescription(), entity.getDescription());
     }
 
-    public void invalidateAccessKey(ParkingGarage parkingGarage) {
+    public void newUniqueAccessKey(ParkingGarage parkingGarage) {
         String accessKey;
         do {
             accessKey = new RandomString().nextString();

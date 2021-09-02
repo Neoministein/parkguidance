@@ -22,8 +22,8 @@ public interface DataBaseEntityValidation<T extends DataBaseEntity> {
      *
      * @param entity the entity to check
      *
-     * @return true if values have change or it cannot be found </b>
-     *         false if the object or primaryKey is null or the values have not changed
+     * @return true if the object or primaryKey is null or the values have not changed </b>
+     *          false if values have change or it cannot be found
      *
      */
     boolean compareValues(T entity);

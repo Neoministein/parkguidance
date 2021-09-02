@@ -37,7 +37,7 @@ public abstract class AbstractDatabaseEntityValidation<T extends DataBaseEntity>
 
 
     protected T returnOriginalObject(T entity) {
-        if(entity == null || entity.getPrimaryKey() == null) {
+        if(entity != null && entity.getPrimaryKey() != null) {
             return dao.find(entity.getPrimaryKey());
         }
         return null ;

@@ -48,13 +48,14 @@ public class GarageFormFacade extends AbstractFormFacade<ParkingGarage> {
     public void create(ParkingGarage parkingGarage) {
         parkingGarage.setKey(parkingGarage.getKey().toUpperCase());
         geoCoding.findCoordinates(parkingGarage.getAddress());
-        setAccessKey(parkingGarage);
+        parkingGarageValidator.newUniqueAccessKey(parkingGarage);
 
         addressDao.create(parkingGarage.getAddress());
         super.create(parkingGarage);
     }
 
-    public void setAccessKey(ParkingGarage parkingGarage) {
-        parkingGarageValidator.invalidateAccessKey(parkingGarage);
+    public void resetAccessKey(ParkingGarage parkingGarage) {
+        parkingGarageValidator.newUniqueAccessKey(parkingGarage);
+        getDao().edit(parkingGarage);
     }
 }

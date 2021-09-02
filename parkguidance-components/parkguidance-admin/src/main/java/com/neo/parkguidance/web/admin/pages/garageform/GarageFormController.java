@@ -45,7 +45,7 @@ public class GarageFormController extends AbstractFormController<ParkingGarage> 
     }
 
     public void resetAccessKey() {
-        facade.setAccessKey(getModel().getEntity());
+        facade.resetAccessKey(getModel().getEntity());
         addDetailMessage("Reset AccessKey");
     }
 
