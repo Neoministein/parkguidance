@@ -12,7 +12,7 @@ import javax.inject.Inject;
  * This abstract class is used for creating a {@link DataBaseEntity} for {@link Converter}
  * @param <T> a {@link DataBaseEntity} implementation
  */
-public abstract class AbstractDataBaseEntityConverter<T extends DataBaseEntity<T>> implements Converter<T> {
+public abstract class AbstractDataBaseEntityConverter<T extends DataBaseEntity> implements Converter<T> {
 
     @Inject
     EntityDao<T> abstractEntityDao;

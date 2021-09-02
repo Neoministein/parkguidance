@@ -3,6 +3,7 @@ package com.neo.parkguidance.core.impl.validation;
 import com.neo.parkguidance.core.api.dao.EntityDao;
 import com.neo.parkguidance.core.api.validation.DataBaseEntityValidation;
 import com.neo.parkguidance.core.entity.DataBaseEntity;
+import com.neo.parkguidance.core.impl.utils.StringUtils;
 
 import javax.inject.Inject;
 
@@ -11,8 +12,8 @@ import javax.inject.Inject;
  * implementation
  * @param <T> a {@link DataBaseEntity}
  */
-public abstract class AbstractDatabaseEntityValidation<T extends DataBaseEntity<T>> implements
-        DataBaseEntityValidation<T> {
+public abstract class AbstractDatabaseEntityValidation<T extends DataBaseEntity> implements
+        DataBaseEntityValidation {
 
     @Inject
     EntityDao<T> dao;
@@ -24,6 +25,9 @@ public abstract class AbstractDatabaseEntityValidation<T extends DataBaseEntity<
     public void validatePrimaryKey(Object primaryKey) throws EntityValidationException {
         if (primaryKey == null) {
             throw new EntityValidationException("Key cannot be null");
+        }
+        if (primaryKey instanceof String && StringUtils.isEmpty(primaryKey.toString())) {
+            throw new EntityValidationException("A String Key cannot be empty");
         }
 
         if (dao.find(primaryKey) != null) {

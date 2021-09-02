@@ -5,9 +5,8 @@ import com.neo.parkguidance.core.impl.validation.EntityValidationException;
 
 /**
  * This interface is a base file for {@link DataBaseEntity} validation
- * @param <T>
  */
-public interface DataBaseEntityValidation<T extends DataBaseEntity<T>> {
+public interface DataBaseEntityValidation {
 
     /**
      * Validates the primary key and checks if it isn't null

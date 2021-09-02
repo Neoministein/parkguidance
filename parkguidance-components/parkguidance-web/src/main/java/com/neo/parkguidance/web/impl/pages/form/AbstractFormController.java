@@ -7,7 +7,7 @@ import org.omnifaces.util.Messages;
 import static com.github.adminfaces.template.util.Assert.has;
 import static com.neo.parkguidance.web.impl.utils.Utils.addDetailMessage;
 
-public abstract class AbstractFormController<T extends DataBaseEntity<T>> {
+public abstract class AbstractFormController<T extends DataBaseEntity> {
     
     public void init() {
         if(Faces.isAjaxRequest()){

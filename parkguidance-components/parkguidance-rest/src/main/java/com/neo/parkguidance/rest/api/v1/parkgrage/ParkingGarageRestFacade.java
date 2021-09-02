@@ -12,6 +12,7 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletResponse;
 
 import com.neo.parkguidance.core.impl.utils.StringUtils;
+import com.neo.parkguidance.core.impl.validation.AddressValidator;
 import com.neo.parkguidance.core.impl.validation.EntityValidationException;
 import com.neo.parkguidance.core.impl.validation.ParkingGarageValidator;
 import com.neo.parkguidance.google.api.maps.GeoCoding;
@@ -36,7 +37,9 @@ public class ParkingGarageRestFacade {
     EntityDao<Address> addressDao;
 
     @Inject
-    ParkingGarageValidator entityValidation;
+    ParkingGarageValidator parkingGarageValidator;
+
+    @Inject AddressValidator addressValidator;
 
     @Inject
     GeoCoding geoCoding;
@@ -81,20 +84,20 @@ public class ParkingGarageRestFacade {
     }
 
     public ParkingGarage revokeAccessKey(ParkingGarage parkingGarage) {
-        entityValidation.invalidateAccessKey(parkingGarage);
+        parkingGarageValidator.invalidateAccessKey(parkingGarage);
         parkingGarageDao.edit(parkingGarage);
         return parkingGarage;
     }
 
     public void createGarage(ParkingGarage parkingGarage) throws InternalRestException, EntityValidationException {
-        entityValidation.validatePrimaryKey(parkingGarage.getPrimaryKey());
+        parkingGarageValidator.validatePrimaryKey(parkingGarage.getPrimaryKey());
         findCoordinates(parkingGarage.getAddress());
         addressDao.edit(parkingGarage.getAddress());
         parkingGarageDao.create(parkingGarage);
     }
 
     public void updateGarage(ParkingGarage parkingGarage) throws InternalRestException {
-        if(!parkingGarage.getAddress().compareValues(addressDao.find(parkingGarage.getAddress().getId()))) {
+        if (!addressValidator.hasAddressChanged(parkingGarage.getAddress())) {
             findCoordinates(parkingGarage.getAddress());
             addressDao.edit(parkingGarage.getAddress());
         }

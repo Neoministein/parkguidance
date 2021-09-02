@@ -10,7 +10,7 @@ import java.util.Objects;
  */
 @Entity
 @Table(name = Address.TABLE_NAME)
-public class Address implements DataBaseEntity<Address> {
+public class Address implements DataBaseEntity {
 
     public static final String TABLE_NAME = "address";
     public static final String C_ID = "id_address";
@@ -128,26 +128,6 @@ public class Address implements DataBaseEntity<Address> {
     @Override
     public Object getPrimaryKey() {
         return getId();
-    }
-
-    @Override
-    public boolean compareValues(Address o) {
-        if (!Objects.equals(cityName,o.getCityName())) {
-            return false;
-        }
-        if (!Objects.equals(plz,o.getPlz())) {
-            return false;
-        }
-        if (!Objects.equals(street, o.getStreet())) {
-            return false;
-        }
-        if (!Objects.equals(number, o.getNumber())) {
-            return false;
-        }
-        if (!Objects.equals(longitude,o.getLongitude())) {
-            return false;
-        }
-        return Objects.equals(latitude, o.getLatitude());
     }
 
     @Override

@@ -20,7 +20,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import java.util.Collections;
 import java.util.List;
 
-public abstract class AbstractEntityDao<T extends DataBaseEntity<T>> implements EntityDaoAbstraction<T> {
+public abstract class AbstractEntityDao<T extends DataBaseEntity> implements EntityDaoAbstraction<T> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractEntityDao.class);
 

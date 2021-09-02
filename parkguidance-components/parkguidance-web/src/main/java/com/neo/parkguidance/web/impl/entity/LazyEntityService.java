@@ -14,7 +14,7 @@ import java.util.Map;
  * This class is a Generic Implementation for a {@link DataBaseEntity} {@link LazyDataModel}
  * @param <T> the wanted DataBaseEntity
  */
-public class LazyEntityService<T extends DataBaseEntity<T>> extends LazyDataModel<T> {
+public class LazyEntityService<T extends DataBaseEntity> extends LazyDataModel<T> {
 
     private final EntityDao<T> entityDao;
     private final Filter<T> filter;

@@ -4,7 +4,7 @@ import com.neo.parkguidance.core.entity.DataBaseEntity;
 
 import static com.neo.parkguidance.web.impl.utils.Utils.addDetailMessage;
 
-public abstract class AbstractLazyController<T extends DataBaseEntity<T>> {
+public abstract class AbstractLazyController<T extends DataBaseEntity> {
 
     protected void init() {
         if(!getModel().isInstantiated()) {

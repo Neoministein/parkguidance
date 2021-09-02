@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * This interfaces defines the interactions capability for persistence relational data storage per database entity
  */
-public interface EntityDao<T extends DataBaseEntity<T>> {
+public interface EntityDao<T extends DataBaseEntity> {
 
     /**
      * Creates a entry in the table for the given entity {@link T}

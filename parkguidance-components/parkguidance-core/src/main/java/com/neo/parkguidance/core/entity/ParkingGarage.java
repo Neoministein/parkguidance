@@ -10,7 +10,7 @@ import java.util.Objects;
  */
 @Entity
 @Table(name = ParkingGarage.TABLE_NAME)
-public class ParkingGarage implements DataBaseEntity<ParkingGarage> {
+public class ParkingGarage implements DataBaseEntity {
 
     public static final String TABLE_NAME = "parkingGarage";
     public static final String C_KEY = "key";
@@ -136,33 +136,6 @@ public class ParkingGarage implements DataBaseEntity<ParkingGarage> {
     @Override
     public Object getPrimaryKey() {
         return getKey();
-    }
-
-    @Override
-    public boolean compareValues(ParkingGarage o) {
-        if(!name.equals(o.getName())) {
-            return false;
-        }
-
-        if(spaces.equals(o.getSpaces())) {
-            return false;
-        }
-        if(occupied.equals(o.getOccupied())) {
-            return false;
-        }
-        if(!accessKey.equals(o.getAccessKey())) {
-            return false;
-        }
-        if(!address.compareValues(o.getAddress())) {
-            return false;
-        }
-        if(!Objects.equals(price,o.getPrice())) {
-            return false;
-        }
-        if(!Objects.equals(operator, o.getOperator())) {
-            return false;
-        }
-        return Objects.equals(description, o.getDescription());
     }
 
     @Override

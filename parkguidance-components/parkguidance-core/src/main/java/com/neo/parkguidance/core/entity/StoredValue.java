@@ -9,7 +9,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = StoredValue.TABLE_NAME)
-public class StoredValue implements DataBaseEntity<StoredValue> {
+public class StoredValue implements DataBaseEntity {
 
     public static final String TABLE_NAME = "storedValue";
 
@@ -82,13 +82,5 @@ public class StoredValue implements DataBaseEntity<StoredValue> {
     @Override
     public Object getPrimaryKey() {
         return getKey();
-    }
-
-    @Override
-    public boolean compareValues(StoredValue o) {
-        if(!key.equals(o.getKey())) {
-            return false;
-        }
-        return value.equals(o.getValue());
     }
 }

@@ -10,7 +10,7 @@ import java.util.Set;
  */
 @Entity
 @Table(name = RegisteredUser.TABLE_NAME)
-public class RegisteredUser implements DataBaseEntity<RegisteredUser> {
+public class RegisteredUser implements DataBaseEntity {
 
     public static final String TABLE_NAME = "registeredUser";
     public static final String C_USERNAME = "username";
@@ -85,14 +85,6 @@ public class RegisteredUser implements DataBaseEntity<RegisteredUser> {
     @Override
     public Object getPrimaryKey() {
         return getId();
-    }
-
-    @Override
-    public boolean compareValues(RegisteredUser o) {
-        if(!username.equals(o.getUsername())) {
-            return false;
-        }
-        return password.equals(o.getPassword());
     }
 
     @Override

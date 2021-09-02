@@ -6,7 +6,7 @@ import org.hibernate.Criteria;
 /**
  * This interface defines the abstract implementation of the {@link EntityDao}
  */
-public interface EntityDaoAbstraction<T extends DataBaseEntity<T>> extends EntityDao<T> {
+public interface EntityDaoAbstraction<T extends DataBaseEntity> extends EntityDao<T> {
 
     /**
      * The criteria which a query should be sorted against

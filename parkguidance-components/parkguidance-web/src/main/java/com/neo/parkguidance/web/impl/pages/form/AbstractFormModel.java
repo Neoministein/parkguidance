@@ -4,7 +4,7 @@ import com.neo.parkguidance.core.entity.DataBaseEntity;
 
 import java.io.Serializable;
 
-public abstract class AbstractFormModel<T extends DataBaseEntity<T>> implements Serializable {
+public abstract class AbstractFormModel<T extends DataBaseEntity> implements Serializable {
 
     private Object primaryKey;
     private T entity;

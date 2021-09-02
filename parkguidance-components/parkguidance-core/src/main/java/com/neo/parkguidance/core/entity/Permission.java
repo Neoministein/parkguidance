@@ -9,7 +9,7 @@ import java.util.Objects;
  */
 @Entity
 @Table(name = Permission.TABLE_NAME)
-public class Permission implements DataBaseEntity<Permission> {
+public class Permission implements DataBaseEntity {
 
     public static final String TABLE_NAME = "permissions";
     public static final String C_ID = "id";
@@ -45,11 +45,6 @@ public class Permission implements DataBaseEntity<Permission> {
     @Override
     public Object getPrimaryKey() {
         return getId();
-    }
-
-    @Override
-    public boolean compareValues(Permission o) {
-        return name.equals(o.getName());
     }
 
     @Override

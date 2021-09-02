@@ -111,7 +111,7 @@ public class ElasticSearchProvider {
      * @param index the index the content is saved to
      * @param content the DataBaseEntity object needed to be saved
      */
-    public void save(String index, DataBaseEntity<? extends DataBaseEntity<?>> content) {
+    public void save(String index, DataBaseEntity content) {
 
         ObjectMapper mapper = new ObjectMapper();
 

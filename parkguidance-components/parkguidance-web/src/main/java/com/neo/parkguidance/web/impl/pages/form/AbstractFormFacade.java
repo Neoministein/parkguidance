@@ -9,7 +9,7 @@ import javax.inject.Inject;
 
 import static com.github.adminfaces.template.util.Assert.has;
 
-public abstract class AbstractFormFacade<T extends DataBaseEntity<T>> {
+public abstract class AbstractFormFacade<T extends DataBaseEntity> {
 
     private static final Logger LOGGER = LogManager.getLogger(AbstractFormFacade.class);
 

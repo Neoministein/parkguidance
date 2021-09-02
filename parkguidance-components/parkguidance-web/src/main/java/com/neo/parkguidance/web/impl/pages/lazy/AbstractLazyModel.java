@@ -7,7 +7,7 @@ import org.primefaces.model.LazyDataModel;
 import java.io.Serializable;
 import java.util.List;
 
-public abstract class AbstractLazyModel<T extends DataBaseEntity<T>> implements Serializable {
+public abstract class AbstractLazyModel<T extends DataBaseEntity> implements Serializable {
 
     private boolean instantiated = false;
 

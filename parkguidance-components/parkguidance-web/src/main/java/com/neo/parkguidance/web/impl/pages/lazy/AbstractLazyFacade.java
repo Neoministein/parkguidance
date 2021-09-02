@@ -11,7 +11,7 @@ import org.primefaces.model.LazyDataModel;
 import javax.inject.Inject;
 import java.util.List;
 
-public abstract class AbstractLazyFacade<T extends DataBaseEntity<T>> {
+public abstract class AbstractLazyFacade<T extends DataBaseEntity> {
 
     private static final Logger LOGGER = LogManager.getLogger(AbstractLazyFacade.class);
 
