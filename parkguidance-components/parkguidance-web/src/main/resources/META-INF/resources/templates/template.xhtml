@@ -7,6 +7,9 @@
                 template="/admin.xhtml">
 
     <ui:define name="head">
+        <f:metadata>
+            <f:event type="preRenderView" listener="#{autologin.login()}"/>
+        </f:metadata>
         <title>#{templateValues.title}</title>
         <link rel="shortcut icon" type="image/x-icon" href="#{resource['favicon/favicon.ico']}"/>
         <link rel="shortcut icon" type="image/x-icon" href="#{resource['favicon/favicon-16x16.png']}" sizes="16x16"/>

@@ -1,4 +1,4 @@
-package com.neo.parkguidance.web.admin.security;
+package com.neo.parkguidance.web.impl.security;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.faces.annotation.FacesConfig;

@@ -1,4 +1,4 @@
-package com.neo.parkguidance.web.admin.security;
+package com.neo.parkguidance.web.impl.security;
 
 import com.neo.parkguidance.core.api.auth.AuthenticationService;
 import com.neo.parkguidance.core.entity.Permission;

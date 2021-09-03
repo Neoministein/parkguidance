@@ -1,4 +1,4 @@
-package com.neo.parkguidance.web.admin.pages.login;
+package com.neo.parkguidance.web.pages.login;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -8,16 +8,14 @@ import javax.inject.Named;
  * The controller for the AdminLogin screen
  */
 @RequestScoped
-@Named(value = AdminLoginController.BEAN_NAME)
-public class AdminLoginController {
+@Named(value = LoginController.BEAN_NAME)
+public class LoginController {
 
     public static final String BEAN_NAME = "adminLogin";
 
-    @Inject
-    AdminLoginModel model;
+    @Inject LoginModel model;
 
-    @Inject
-    AdminLoginFacade facade;
+    @Inject LoginFacade facade;
 
 
     public void autoLogin() {
@@ -36,7 +34,7 @@ public class AdminLoginController {
         facade.logout(model.getUsername());
     }
 
-    public AdminLoginModel getModel() {
+    public LoginModel getModel() {
         return model;
     }
 }
