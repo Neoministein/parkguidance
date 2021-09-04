@@ -11,17 +11,17 @@
         [
           { "v":  "0"},
           { "v" : "admin"},
-          { "v" : "admin"}
+          { "v" : "58acb7acccce58ffa8b953b12b5a7702bd42dae441c1ad85057fa70b"}
         ],
         [
           { "v": "1"},
           { "v" : "normaluser"},
-          { "v" : "normaluser"}
+          { "v" : "ae8e4942f6a1264efd5ec89ddc39cf78ab52d5edd4f452449d60852b"}
         ],
         [
           { "v":  "2"},
           { "v" : "premiumuser"},
-          { "v" : "premiumuser"}
+          { "v" : "ec9a512574a5e10b4df8d28230568131bda6bddf4dc92ac185f65f27"}
         ]
       ]
     },
@@ -35,19 +35,6 @@
         [
           { "v":  "0"},
           { "v" : "ADMIN"}
-        ]
-      ]
-    },
-    {
-      "table": "permissions",
-      "column": [
-        { "v" : "id", "t" : "number"},
-        { "v" : "name", "t": "string" }
-      ],
-      "data": [
-        [
-          { "v":  "0"},
-          { "v" : "admin"}
         ]
       ]
     },

@@ -49,7 +49,7 @@ public class DataloaderTool {
     protected void executeFile(Connection con, JSONObject jsonObject) {
         JSONArray data = jsonObject.getJSONArray("list");
         for (int i = 0; i < data.length(); i++) {
-            executeListEntry(con, data.getJSONObject(0));
+            executeListEntry(con, data.getJSONObject(i));
         }
     }
 
@@ -66,7 +66,7 @@ public class DataloaderTool {
                 LOGGER.info(query);
             } catch (Exception ex) {
                 LOGGER.error("Error exectuing SQL statement",ex);
-                throw new IllegalArgumentException();
+                throw new IllegalArgumentException(ex);
             }
         }
     }
