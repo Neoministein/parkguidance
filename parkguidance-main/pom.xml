@@ -13,6 +13,9 @@
     <name>ParkGuidance Main</name>
     <packaging>jar</packaging>
 
+    <properties>
+        <postgresql.version>42.2.0</postgresql.version>
+    </properties>
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>
@@ -29,6 +32,11 @@
             <groupId>${project.groupId}</groupId>
             <artifactId>parkguidance-rest</artifactId>
             <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>${postgresql.version}</version>
         </dependency>
     </dependencies>
 

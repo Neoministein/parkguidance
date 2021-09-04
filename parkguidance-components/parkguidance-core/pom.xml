@@ -15,7 +15,6 @@
     <maven.compiler.target>1.8</maven.compiler.target>
     <hibernate.version>4.3.1.Final</hibernate.version>
     <json.version>20190722</json.version>
-    <postgresql.version>42.2.0</postgresql.version>
     <log4j2.version>2.14.1</log4j2.version>
   </properties>
 
@@ -59,11 +58,6 @@
       <groupId>commons-io</groupId>
       <artifactId>commons-io</artifactId>
       <version>2.7</version>
-    </dependency>
-    <dependency>
-      <groupId>org.postgresql</groupId>
-      <artifactId>postgresql</artifactId>
-      <version>${postgresql.version}</version>
     </dependency>
     <!-- Logging -->
     <dependency>
