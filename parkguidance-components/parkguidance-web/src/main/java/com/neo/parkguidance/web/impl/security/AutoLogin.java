@@ -2,11 +2,11 @@ package com.neo.parkguidance.web.impl.security;
 
 import com.neo.parkguidance.web.api.security.UserBasedAuthentication;
 
-import javax.enterprise.context.RequestScoped;
+import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-@RequestScoped
+@Stateless
 @Named(AutoLogin.BEAN_NAME)
 public class AutoLogin {
 
