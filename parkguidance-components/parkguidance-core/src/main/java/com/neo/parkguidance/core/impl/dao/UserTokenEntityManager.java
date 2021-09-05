@@ -1,15 +1,15 @@
 package com.neo.parkguidance.core.impl.dao;
 
 import com.neo.parkguidance.core.api.dao.EntityDaoAbstraction;
-import com.neo.parkguidance.core.entity.RegisteredUser;
+import com.neo.parkguidance.core.entity.UserToken;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 @Stateless
-public class UserEntityFactory extends AbstractEntityDao<RegisteredUser> implements
-        EntityDaoAbstraction<RegisteredUser> {
+public class UserTokenEntityManager extends AbstractEntityDao<UserToken> implements
+        EntityDaoAbstraction<UserToken> {
 
     @PersistenceContext(unitName = "data_persistence_unit")
     private EntityManager em;
@@ -19,7 +19,7 @@ public class UserEntityFactory extends AbstractEntityDao<RegisteredUser> impleme
         return em;
     }
 
-    public UserEntityFactory() {
-        super(RegisteredUser.class);
+    public UserTokenEntityManager() {
+        super(UserToken.class);
     }
 }

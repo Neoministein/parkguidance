@@ -3,6 +3,7 @@ package com.neo.parkguidance.core.api.auth;
 import com.neo.parkguidance.core.entity.ParkingGarage;
 import com.neo.parkguidance.core.entity.Permission;
 import com.neo.parkguidance.core.entity.RegisteredUser;
+import com.neo.parkguidance.core.entity.UserToken;
 
 import java.util.Collection;
 import java.util.Set;
@@ -37,7 +38,7 @@ public interface AuthenticationService {
      * @param token the token
      * @return the {@link RegisteredUser} if the token is valid else null
      */
-    RegisteredUser authenticateUser(String token);
+    UserToken authenticateUser(String token);
 
     /**
      * Checks if the token is attached to valid user and the user has the required permissions
@@ -46,7 +47,7 @@ public interface AuthenticationService {
      * @param requiredPermissions the permissions required to authenticate
      * @return the {@link RegisteredUser} if found and has requiredPermissions else null
      */
-    RegisteredUser authenticateUser(String token, Collection<Permission> requiredPermissions);
+    UserToken authenticateUser(String token, Collection<Permission> requiredPermissions);
 
     /**
      * Checks if accessKey is valid and linked to a {@link ParkingGarage}

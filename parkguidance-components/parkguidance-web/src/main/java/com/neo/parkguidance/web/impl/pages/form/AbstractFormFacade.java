@@ -18,8 +18,8 @@ public abstract class AbstractFormFacade<T extends DataBaseEntity> {
 
     public abstract T newEntity();
 
-    public T findGarageById(Object key) {
-        return dao.find(key);
+    public T findEntityById(Object key) {
+        return  dao.find(key);
     }
 
     public boolean remove(T entity) {

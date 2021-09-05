@@ -2,6 +2,7 @@ package com.neo.parkguidance.web.impl.entity;
 
 import com.neo.parkguidance.core.api.dao.EntityDao;
 import com.neo.parkguidance.core.entity.DataBaseEntity;
+import com.neo.parkguidance.core.impl.utils.MathUtils;
 import com.neo.parkguidance.web.impl.table.Filter;
 import org.hibernate.criterion.Order;
 import org.primefaces.model.FilterMeta;
@@ -46,6 +47,10 @@ public class LazyEntityService<T extends DataBaseEntity> extends LazyDataModel<T
 
     @Override
     public T getRowData(String rowKey) {
+        Long number = MathUtils.parseLong(rowKey);
+        if (number != null) {
+            return entityDao.find(number);
+        }
         return entityDao.find((rowKey));
     }
 

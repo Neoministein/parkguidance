@@ -6,6 +6,7 @@ import com.neo.parkguidance.core.api.storedvalue.StoredValueService;
 import com.neo.parkguidance.core.entity.ParkingGarage;
 import com.neo.parkguidance.core.entity.Permission;
 import com.neo.parkguidance.core.entity.RegisteredUser;
+import com.neo.parkguidance.core.entity.UserToken;
 import com.neo.parkguidance.core.impl.utils.StringUtils;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.slf4j.Logger;
@@ -39,6 +40,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Inject
     EntityDao<Permission> permissionDao;
 
+    @Inject
+    EntityDao<UserToken> tokenDao;
+
     public RegisteredUser authenticateUser(String username, String password) {
         LOGGER.info("User credentials authentication attempt");
 
@@ -47,9 +51,11 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
         if(user != null) {
             if (user.getPassword().equals(userPassword)) {
-                LOGGER.info("User credentials authentication password acknowledged with account [{}]", user.getUsername());
-
-                return user;
+                if (!Boolean.TRUE.equals(user.getDeactivated())) {
+                    LOGGER.info("User credentials authentication password acknowledged with account [{}]", user.getUsername());
+                    return user;
+                }
+                LOGGER.info("User credentials authentication password acknowledged but account is disabled with account [{}]", user.getUsername());
             } else {
                 LOGGER.info("User credentials authentication on non existent account [{}] ", user.getUsername());
             }
@@ -60,10 +66,14 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
 
     public RegisteredUser authenticateUser(String username, String password, Collection<Permission> requiredPermissions) {
-        return checkPermissions(authenticateUser(username, password), requiredPermissions);
+        RegisteredUser registeredUser = authenticateUser(username, password);
+        if (registeredUser != null && checkPermissions(registeredUser.getPermissions(), requiredPermissions)) {
+            return registeredUser;
+        }
+        return null;
     }
 
-    public RegisteredUser authenticateUser(String token) {
+    public UserToken authenticateUser(String token) {
         LOGGER.info("User token authentication attempt");
 
         if (StringUtils.isEmpty(token)) {
@@ -71,31 +81,31 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             return null;
         }
 
-        RegisteredUser user = userDao.findOneByColumn(RegisteredUser.C_TOKEN, token);
-        if (user != null) {
-            LOGGER.info("User token authentication found user [{}]", user.getUsername());
-            return user;
+        UserToken userToken = tokenDao.findOneByColumn(UserToken.C_KEY, token);
+        if (userToken != null) {
+            LOGGER.info("User token authentication found token [{}]", token);
+            return userToken;
         }
         LOGGER.info("User authentication failed");
         return null;
     }
 
-    public RegisteredUser authenticateUser(String token, Collection<Permission> requiredPermissions) {
-        return checkPermissions(authenticateUser(token), requiredPermissions);
+    public UserToken authenticateUser(String token, Collection<Permission> requiredPermissions) {
+        UserToken userToken = authenticateUser(token);
+        if (userToken != null && checkPermissions(userToken.getPermissions(), requiredPermissions)) {
+            return userToken;
+        }
+        return null;
     }
 
-    protected RegisteredUser checkPermissions(RegisteredUser user, Collection<Permission> requiredPermissions) {
-        if (user == null) {
-            return null;
-        }
-
-        if (user.getPermissions().containsAll(requiredPermissions)) {
+    protected boolean checkPermissions(Collection<Permission> userPermissions, Collection<Permission> requiredPermissions) {
+        if (userPermissions.containsAll(requiredPermissions)) {
             LOGGER.info("User authentication required permissions found");
-            return user;
+            return true;
         }
 
-        LOGGER.info("User authentication required permissions {} not found", requiredPermissions.removeAll(user.getPermissions()));
-        return null;
+        LOGGER.info("User authentication required permissions {} not found", requiredPermissions.removeAll(userPermissions));
+        return false;
     }
 
     public ParkingGarage authenticateGarage(String accessKey) {

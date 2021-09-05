@@ -65,7 +65,7 @@ public class DataloaderTool {
                 st.executeUpdate(query);
                 LOGGER.info(query);
             } catch (Exception ex) {
-                LOGGER.error("Error exectuing SQL statement",ex);
+                LOGGER.error("Error executing SQL statement",ex);
                 throw new IllegalArgumentException(ex);
             }
         }
@@ -84,6 +84,8 @@ public class DataloaderTool {
         switch (column.getDataType()) {
         case "number":
             return Integer.parseInt(entry.getString(VALUE));
+        case "boolean":
+            return Boolean.parseBoolean(entry.getString(VALUE));
         case "string":
         default:
             return "'" + entry.getString(VALUE) + "'";

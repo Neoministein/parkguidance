@@ -15,7 +15,7 @@ public abstract class AbstractFormController<T extends DataBaseEntity> {
         }
 
         if (has(getModel().getPrimaryKey())) {
-            getModel().setEntity(getFacade().findGarageById(getModel().getPrimaryKey()));
+            getModel().setEntity(getFacade().findEntityById(getModel().getPrimaryKey()));
         } else {
             getModel().setEntity(getFacade().newEntity());
         }

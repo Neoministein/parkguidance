@@ -34,4 +34,12 @@ public class MathUtils {
     public static int clamp(int val, int min, int max) {
         return Math.max(min, Math.min(max, val));
     }
+
+    public static Long parseLong(String value) {
+        try {
+            return Long.parseLong(value);
+        }catch (NumberFormatException e) {
+            return null;
+        }
+    }
 }
