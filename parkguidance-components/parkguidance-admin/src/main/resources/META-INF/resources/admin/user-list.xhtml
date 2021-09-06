@@ -81,9 +81,9 @@
                         </p:column>
                         <p:column headerText="Deactivated" filterBy="#{entity.deactivated}">
                             <f:facet name="filter">
-                                <p:toggleSwitch value="#{userlist.model.filter.entity.deactivated}">
-                                    <p:ajax process="@this" update="@none" oncomplete="PF('table').filter()"/>
-                                </p:toggleSwitch>
+                                <p:triStateCheckbox value="#{userlist.model.filter.entity.deactivated}" converter="#{tristatebooleanconverter}">
+                                    <p:ajax event="change" oncomplete="PF('table').filter()"/>
+                                </p:triStateCheckbox>
                             </f:facet>
                             <h:outputLabel value="#{entity.deactivated}"/>
                         </p:column>
