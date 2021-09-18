@@ -52,7 +52,11 @@ public class UserBasedAuthenticationImpl implements UserBasedAuthentication {
         String passCookie = Faces.getRequestCookie(COOKIE_PASSWORD);
         if (!StringUtils.isEmpty(emailCookie) && !StringUtils.isEmpty(passCookie)) {
             login(emailCookie, passCookie, false);
-            return emailCookie;
+            if (!isLoggedIn()) {
+                return emailCookie;
+            }
+            Faces.removeResponseCookie(COOKIE_USER,"");
+            Faces.removeResponseCookie(COOKIE_PASSWORD,"");
         }
         return null;
     }
