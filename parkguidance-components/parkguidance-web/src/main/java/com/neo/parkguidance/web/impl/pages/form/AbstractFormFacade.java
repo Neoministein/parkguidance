@@ -5,16 +5,18 @@ import com.neo.parkguidance.core.entity.DataBaseEntity;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import javax.ejb.Stateless;
 import javax.inject.Inject;
 
 import static com.github.adminfaces.template.util.Assert.has;
 
+@Stateless
 public abstract class AbstractFormFacade<T extends DataBaseEntity> {
 
     private static final Logger LOGGER = LogManager.getLogger(AbstractFormFacade.class);
 
     @Inject
-    EntityDao<T> dao;
+    protected EntityDao<T> dao;
 
     public abstract T newEntity();
 

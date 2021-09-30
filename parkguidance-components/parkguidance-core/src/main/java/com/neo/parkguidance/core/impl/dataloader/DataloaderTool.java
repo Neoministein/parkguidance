@@ -81,7 +81,7 @@ public class DataloaderTool {
     }
 
     protected Object parseValue(DataloaderColumn column, JSONObject entry) {
-        switch (column.getDataType()) {
+        switch (column.getDataType().toLowerCase()) {
         case "number":
             return Integer.parseInt(entry.getString(VALUE));
         case "boolean":

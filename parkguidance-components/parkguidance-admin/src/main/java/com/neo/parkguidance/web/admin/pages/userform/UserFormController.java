@@ -21,8 +21,20 @@ public class UserFormController extends AbstractFormController<RegisteredUser> {
 
     @Override
     public void init() {
-        super.init();
-        model.setAllPermissions(facade.getAllPermissions());
+        if (!model.isInitialized()) {
+            super.init();
+            model.setAllPermissions(facade.getAllPermissions());
+            model.setNewToken(facade.newUserToken());
+            model.setInitialized(true);
+        }
+    }
+
+    public void createToken() {
+        facade.createToken(model.getNewToken(), model.getEntity());
+    }
+
+    public void removeToken() {
+        facade.removeToken(model.getSelectedToken(), model.getEntity());
     }
 
     @Override

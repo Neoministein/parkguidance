@@ -1,5 +1,8 @@
 package com.neo.parkguidance.core.entity;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 public class DefaultTestEntity {
 
     private DefaultTestEntity() {}
@@ -38,5 +41,21 @@ public class DefaultTestEntity {
         storedValue.setComponent("component");
         storedValue.setDescription("description");
         return storedValue;
+    }
+
+    public static UserToken createDefaultUserToken() {
+        UserToken userToken = new UserToken();
+        userToken.setId(0l);
+        userToken.setKey("key");
+        userToken.setName("name");
+        userToken.setPermissions(new ArrayList<>(Arrays.asList(createDefaultPermission())));
+        return userToken;
+    }
+
+    public static Permission createDefaultPermission() {
+        Permission permission = new Permission();
+        permission.setId(0l);
+        permission.setName("name");
+        return permission;
     }
 }

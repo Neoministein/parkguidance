@@ -3,6 +3,8 @@ package com.neo.parkguidance.core.impl.validation;
 import com.neo.parkguidance.core.api.dao.EntityDao;
 import com.neo.parkguidance.core.api.validation.DataBaseEntityValidation;
 import com.neo.parkguidance.core.entity.DataBaseEntity;
+import com.neo.parkguidance.core.entity.UserToken;
+import com.neo.parkguidance.core.impl.utils.RandomString;
 import com.neo.parkguidance.core.impl.utils.StringUtils;
 
 import javax.inject.Inject;
@@ -35,12 +37,15 @@ public abstract class AbstractDatabaseEntityValidation<T extends DataBaseEntity>
         }
     }
 
-
     protected T returnOriginalObject(T entity) {
         if(entity != null && entity.getPrimaryKey() != null) {
             return dao.find(entity.getPrimaryKey());
         }
         return null ;
+    }
+
+    protected boolean valueExists(String column, String value) {
+        return dao.findOneByColumn(column, value) != null;
     }
 
     protected EntityDao<T> getDao() {

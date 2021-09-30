@@ -58,14 +58,9 @@ public class ParkingGarageValidator extends AbstractDatabaseEntityValidation<Par
         String accessKey;
         do {
             accessKey = new RandomString().nextString();
-        } while (exists(accessKey));
+        } while (valueExists(ParkingGarage.C_ACCESS_KEY ,accessKey));
         parkingGarage.setAccessKey(accessKey);
     }
-
-    protected boolean exists(String accessKey) {
-        return getDao().findOneByColumn(ParkingGarage.C_ACCESS_KEY,accessKey) != null;
-    }
-
 
     protected void checkInvalidCharsInPrimaryKey(String primaryKey) throws EntityValidationException {
         if (primaryKey.replaceAll("[a-zA-Z\\d\\-_]","").length() > 0) {
