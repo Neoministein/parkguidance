@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.neo.parkguidance</groupId>
         <artifactId>parkguidance-root</artifactId>
-        <version>0.2-SNAPSHOT</version>
+        <version>0.2.0</version>
         <relativePath>../parkguidance-components/pom.xml</relativePath>
     </parent>
     <artifactId>parkguidance-main</artifactId>
