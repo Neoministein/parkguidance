@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.neo.parkguidance</groupId>
     <artifactId>parkguidance-root</artifactId>
-    <version>0.2-SNAPSHOT</version>
+    <version>0.3-SNAPSHOT</version>
     <name>ParkGuidance Root POM</name>
     <packaging>pom</packaging>
 
