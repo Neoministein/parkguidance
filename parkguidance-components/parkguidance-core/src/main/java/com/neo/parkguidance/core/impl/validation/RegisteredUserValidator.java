@@ -1,8 +1,6 @@
 package com.neo.parkguidance.core.impl.validation;
 
 import com.neo.parkguidance.core.entity.RegisteredUser;
-import com.neo.parkguidance.core.entity.UserToken;
-import com.neo.parkguidance.core.impl.utils.RandomString;
 
 import javax.ejb.Stateless;
 import java.util.HashSet;
@@ -56,11 +54,15 @@ public class RegisteredUserValidator extends AbstractDatabaseEntityValidation<Re
         return new HashSet<>(entity.getTokens()).equals(new HashSet<>(originalObject.getTokens()));
     }
 
-    public void newUniqueKey(UserToken userToken) {
-        String accessKey;
-        do {
-            accessKey = new RandomString().nextString();
-        } while (valueExists(UserToken.C_KEY, accessKey));
-        userToken.setKey(accessKey);
+    public void uniqueUsername(String username) throws EntityValidationException {
+        if (valueExists(RegisteredUser.C_USERNAME , username)) {
+            throw new EntityValidationException("This username already exists");
+        }
+    }
+
+    public void uniqueEmail(String email) throws EntityValidationException {
+        if (valueExists(RegisteredUser.C_EMAIL , email)) {
+            throw new EntityValidationException("This e-mail is already used");
+        }
     }
 }

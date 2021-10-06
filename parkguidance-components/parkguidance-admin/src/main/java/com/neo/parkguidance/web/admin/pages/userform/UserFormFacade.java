@@ -11,7 +11,6 @@ import org.primefaces.PrimeFaces;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
-import java.util.Date;
 import java.util.List;
 
 @Stateless
@@ -57,13 +56,6 @@ public class UserFormFacade extends AbstractFormFacade<RegisteredUser> {
         return user;
     }
 
-    @Override
-    public void edit(RegisteredUser registeredUser) {
-        if (Boolean.TRUE.equals(registeredUser.getDeactivated()) && registeredUser.getDeactivatedOn() == null) {
-            registeredUser.setDeactivatedOn(new Date());
-        }
-        super.edit(registeredUser);
-    }
 
     public List<Permission> getAllPermissions() {
         return permissionDao.findAll();

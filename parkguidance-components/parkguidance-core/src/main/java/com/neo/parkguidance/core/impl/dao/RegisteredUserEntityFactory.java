@@ -29,4 +29,14 @@ public class RegisteredUserEntityFactory extends AbstractEntityDao<RegisteredUse
         entity.setCreatedOn(new Date());
         super.create(entity);
     }
+
+    @Override
+    public void edit(RegisteredUser registeredUser) {
+        if (Boolean.TRUE.equals(registeredUser.getDeactivated()) && registeredUser.getDeactivatedOn() == null) {
+            registeredUser.setDeactivatedOn(new Date());
+        }
+        if (Boolean.FALSE.equals(registeredUser.getDeactivated() && registeredUser.getDeactivatedOn() != null)) {
+            registeredUser.setDeactivatedOn(null);
+        }
+    }
 }
