@@ -5,6 +5,7 @@
       "column": [
         { "v" : "id", "t" : "number"},
         { "v" : "username", "t": "string" },
+        { "v" : "email", "t" : "string"},
         { "v" : "password", "t": "string" },
         { "v" : "deactivated", "t": "boolean"}
       ],
@@ -12,25 +13,28 @@
         [
           { "v" :  "0"},
           { "v" : "admin"},
+          { "v" : "admin@admin.com"},
           { "v" : "58acb7acccce58ffa8b953b12b5a7702bd42dae441c1ad85057fa70b"},
           { "v" : "false"}
         ],
         [
           { "v" : "1"},
           { "v" : "normaluser"},
+          { "v" : "normaluser@normaluser.com"},
           { "v" : "ae8e4942f6a1264efd5ec89ddc39cf78ab52d5edd4f452449d60852b"},
           { "v" : "false"}
         ],
         [
           { "v" : "2"},
           { "v" : "premiumuser"},
+          { "v" : "premiumuser@premiumuser.com"},
           { "v" : "ec9a512574a5e10b4df8d28230568131bda6bddf4dc92ac185f65f27"},
           { "v" : "false"}
         ]
       ]
     },
     {
-      "table": "permissions",
+      "table": "permission",
       "column": [
         { "v" : "id", "t" : "number"},
         { "v" : "name", "t": "string" }
@@ -43,7 +47,7 @@
       ]
     },
     {
-      "table": "registereduser_permissions",
+      "table": "registereduser_permission",
       "column": [
         { "v" : "permissions_id", "t" : "number"},
         { "v" : "registereduser_id", "t": "number" }
@@ -73,7 +77,7 @@
       ]
     },
     {
-      "table": "usertoken_permissions",
+      "table": "usertoken_permission",
       "column": [
         { "v" : "usertoken_id", "t" : "number"},
         { "v" : "permissions_id", "t": "number" }

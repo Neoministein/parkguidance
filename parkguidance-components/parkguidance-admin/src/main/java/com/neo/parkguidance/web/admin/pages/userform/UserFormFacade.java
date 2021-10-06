@@ -11,6 +11,7 @@ import org.primefaces.PrimeFaces;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import java.util.Date;
 import java.util.List;
 
 @Stateless
@@ -33,12 +34,13 @@ public class UserFormFacade extends AbstractFormFacade<RegisteredUser> {
     }
 
     public UserToken createToken(UserToken userToken, RegisteredUser registeredUser) {
-        userTokenValidator.newUniqueKey(userToken);
         userTokenDao.create(userToken);
+        //TODO FIND OUT WHY IT NEED TIME OR OTHERWISE DOESN'T FIND IT
         try {
             Thread.sleep(100);
         } catch (InterruptedException e) {
             e.printStackTrace();
+            Thread.currentThread().interrupt();
         }
         registeredUser.getTokens().add(userToken);
         super.edit(registeredUser);
@@ -53,6 +55,14 @@ public class UserFormFacade extends AbstractFormFacade<RegisteredUser> {
     private RegisteredUser lazyLoadData(RegisteredUser user) {
         user.getTokens().size();
         return user;
+    }
+
+    @Override
+    public void edit(RegisteredUser registeredUser) {
+        if (Boolean.TRUE.equals(registeredUser.getDeactivated()) && registeredUser.getDeactivatedOn() == null) {
+            registeredUser.setDeactivatedOn(new Date());
+        }
+        super.edit(registeredUser);
     }
 
     public List<Permission> getAllPermissions() {

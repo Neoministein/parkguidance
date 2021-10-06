@@ -26,5 +26,5 @@ public interface DataBaseEntityValidation<T extends DataBaseEntity> {
      *          false if values have change or it cannot be found
      *
      */
-    boolean compareValues(T entity);
+    boolean hasNothingChanged(T entity);
 }

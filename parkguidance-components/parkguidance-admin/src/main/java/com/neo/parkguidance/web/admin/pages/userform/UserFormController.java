@@ -31,6 +31,8 @@ public class UserFormController extends AbstractFormController<RegisteredUser> {
 
     public void createToken() {
         facade.createToken(model.getNewToken(), model.getEntity());
+        model.setSelectedToken(model.getNewToken());
+        model.setNewToken(facade.newUserToken());
     }
 
     public void removeToken() {

@@ -8,10 +8,10 @@ import java.util.HashSet;
 import java.util.Objects;
 
 @Stateless
-public class UserTokenValidator extends AbstractDatabaseEntityValidation<UserToken>{
+public class UserTokenValidator extends AbstractDatabaseEntityValidation<UserToken> {
 
     @Override
-    public boolean compareValues(UserToken entity) {
+    public boolean hasNothingChanged(UserToken entity) {
         UserToken originalObject = super.returnOriginalObject(entity);
         if (originalObject == null) {
             return false;

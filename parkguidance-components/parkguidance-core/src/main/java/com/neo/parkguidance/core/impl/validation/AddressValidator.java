@@ -12,7 +12,7 @@ import java.util.Objects;
 public class AddressValidator extends AbstractDatabaseEntityValidation<Address> {
 
     @Override
-    public boolean compareValues(Address entity) {
+    public boolean hasNothingChanged(Address entity) {
         Address originalObject = super.returnOriginalObject(entity);
         if (originalObject == null) {
             return false;

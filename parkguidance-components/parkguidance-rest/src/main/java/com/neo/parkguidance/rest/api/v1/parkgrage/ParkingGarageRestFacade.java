@@ -98,7 +98,7 @@ public class ParkingGarageRestFacade {
     }
 
     public void updateGarage(ParkingGarage parkingGarage) throws InternalRestException {
-        if (!addressValidator.compareValues(parkingGarage.getAddress())) {
+        if (!addressValidator.hasNothingChanged(parkingGarage.getAddress())) {
             findCoordinates(parkingGarage.getAddress());
             addressDao.edit(parkingGarage.getAddress());
         }

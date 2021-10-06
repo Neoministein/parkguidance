@@ -33,7 +33,7 @@ class UserTokenValidatorTest {
 
         boolean result;
         //Act
-        result = subject.compareValues(createDefaultUserToken());
+        result = subject.hasNothingChanged(createDefaultUserToken());
 
         //assert
         assertEquals(true, result);
@@ -48,7 +48,7 @@ class UserTokenValidatorTest {
 
         boolean result;
         //Act
-        result = subject.compareValues(createDefaultUserToken());
+        result = subject.hasNothingChanged(createDefaultUserToken());
 
         //assert
         assertEquals(false, result);
@@ -63,7 +63,7 @@ class UserTokenValidatorTest {
 
         boolean result;
         //Act
-        result = subject.compareValues(createDefaultUserToken());
+        result = subject.hasNothingChanged(createDefaultUserToken());
 
         //assert
         assertEquals(false, result);
@@ -80,7 +80,7 @@ class UserTokenValidatorTest {
 
         boolean result;
         //Act
-        result = subject.compareValues(createDefaultUserToken());
+        result = subject.hasNothingChanged(createDefaultUserToken());
 
         //assert
         assertEquals(false, result);

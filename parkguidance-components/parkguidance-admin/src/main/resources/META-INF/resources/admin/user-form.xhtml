@@ -216,6 +216,7 @@
                                                  update=":tokenForm:tokenDialog"
                                                  icon="fa fa-trash"
                                                  styleClass="btn-danger">
+                                    <f:setPropertyActionListener value="#{entity}" target="#{userform.model.selectedToken}"/>
                                 </p:commandButton>
                                 <p:commandButton action="#{userform.removeToken}"
                                                  process="@this"
@@ -241,10 +242,7 @@
 
                 <p:dialog id="tokenDialog" widgetVar="tokenKeyDialog" resizable="false" global="true" showEffect="fade" hideEffect="fade" styleClass="box-success box-solid" nglf="">
                     <p:panel id="dialogBody">
-                        <p:outputLabel value="This is the only time you see this key: #{userform.model.newToken.key}"/>
-                        <br/>
-                        <p:outputLabel value="#{userform.model.newToken.name}"/>
-                        <p:outputLabel value="#{userform.model.newToken.key}"/>
+                        <p:outputLabel value="Token key: #{userform.model.selectedToken.key} #{userform.model.newToken.key}"/>
                     </p:panel>
                 </p:dialog>
 

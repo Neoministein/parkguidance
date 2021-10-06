@@ -5,17 +5,15 @@ import javax.validation.constraints.Size;
 import java.util.Objects;
 
 /**
- * This entity class is used for segregation of parts of the website with user permisions
+ * This entity class is used for segregation of parts of the website with user permissions
  */
 @Entity
 @Table(name = Permission.TABLE_NAME)
 public class Permission implements DataBaseEntity {
 
-    public static final String TABLE_NAME = "permissions";
+    public static final String TABLE_NAME = "permission";
     public static final String C_ID = "id";
     public static final String C_NAME = "name";
-
-    public static final String SUPER_USER = "superUser";
 
     @Id
     @Column(name = C_ID)

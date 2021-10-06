@@ -24,9 +24,9 @@ import static org.apache.commons.codec.digest.MessageDigestAlgorithms.SHA_224;
  * Implementation of {@link AuthenticationService}
  */
 @Stateless
-public class AuthenticationServiceImpl implements AuthenticationService {
+public class DatabaseAuthenticationServiceImpl implements AuthenticationService {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(AuthenticationServiceImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DatabaseAuthenticationServiceImpl.class);
 
     @Inject
     StoredValueService storedValueService;
@@ -57,7 +57,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 }
                 LOGGER.info("User credentials authentication password acknowledged but account is disabled with account [{}]", user.getUsername());
             } else {
-                LOGGER.info("User credentials authentication on non existent account [{}] ", user.getUsername());
+                LOGGER.info("User credentials authentication on non existent account failed due to wrong password [{}] ", user.getUsername());
             }
         } else {
             LOGGER.info("User credentials authentication on non existent account [{}] ", username);

@@ -3,8 +3,6 @@ package com.neo.parkguidance.core.impl.validation;
 import com.neo.parkguidance.core.api.dao.EntityDao;
 import com.neo.parkguidance.core.api.validation.DataBaseEntityValidation;
 import com.neo.parkguidance.core.entity.DataBaseEntity;
-import com.neo.parkguidance.core.entity.UserToken;
-import com.neo.parkguidance.core.impl.utils.RandomString;
 import com.neo.parkguidance.core.impl.utils.StringUtils;
 
 import javax.inject.Inject;

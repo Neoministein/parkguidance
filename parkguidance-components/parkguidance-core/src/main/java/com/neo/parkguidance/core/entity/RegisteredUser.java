@@ -1,6 +1,7 @@
 package com.neo.parkguidance.core.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.Size;
 import java.util.Date;
 import java.util.List;
@@ -15,6 +16,7 @@ public class RegisteredUser implements DataBaseEntity {
 
     public static final String TABLE_NAME = "registeredUser";
     public static final String C_USERNAME = "username";
+    public static final String C_EMAIL = "email";
     public static final String C_PASSWORD = "password";
     public static final String C_DEACTIVATED = "deactivated";
     public static final String C_CREATE_ON = "createdOn";
@@ -27,6 +29,10 @@ public class RegisteredUser implements DataBaseEntity {
     @Size(max = 50)
     @Column(name = C_USERNAME, unique = true, nullable = false)
     private String username;
+
+    @Email
+    @Column(name = C_EMAIL, unique = true, nullable = false)
+    private String email;
 
     @Column(name = C_PASSWORD, nullable = false)
     private String password;
@@ -70,6 +76,14 @@ public class RegisteredUser implements DataBaseEntity {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPassword() {

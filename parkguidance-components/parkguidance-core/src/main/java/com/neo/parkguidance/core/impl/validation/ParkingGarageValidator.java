@@ -23,7 +23,7 @@ public class ParkingGarageValidator extends AbstractDatabaseEntityValidation<Par
     }
 
     @Override
-    public boolean compareValues(ParkingGarage entity) {
+    public boolean hasNothingChanged(ParkingGarage entity) {
         ParkingGarage originalObject = super.returnOriginalObject(entity);
         if (originalObject == null) {
             return false;
@@ -42,7 +42,7 @@ public class ParkingGarageValidator extends AbstractDatabaseEntityValidation<Par
         if(!originalObject.getAccessKey().equals(entity.getAccessKey())) {
             return false;
         }
-        if(addressValidation.compareValues(entity.getAddress())) {
+        if(addressValidation.hasNothingChanged(entity.getAddress())) {
             return false;
         }
         if(!Objects.equals(originalObject.getPrice(), entity.getPrice())) {
