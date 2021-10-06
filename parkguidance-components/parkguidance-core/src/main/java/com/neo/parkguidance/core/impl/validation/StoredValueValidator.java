@@ -18,7 +18,7 @@ public class StoredValueValidator extends AbstractDatabaseEntityValidation<Store
     }
 
     @Override
-    public boolean compareValues(StoredValue entity) {
+    public boolean hasNothingChanged(StoredValue entity) {
         StoredValue originalObject = super.returnOriginalObject(entity);
         if (originalObject == null) {
             return false;

@@ -1,5 +1,9 @@
 package com.neo.parkguidance.core.entity;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+
 public class DefaultTestEntity {
 
     private DefaultTestEntity() {}
@@ -38,5 +42,34 @@ public class DefaultTestEntity {
         storedValue.setComponent("component");
         storedValue.setDescription("description");
         return storedValue;
+    }
+
+    public static RegisteredUser createDefaultRegisteredUser() {
+        RegisteredUser registeredUser = new RegisteredUser();
+        registeredUser.setId(0l);
+        registeredUser.setUsername("username");
+        registeredUser.setEmail("email@email.email");
+        registeredUser.setCreatedOn(new Date(0));
+        registeredUser.setDeactivatedOn(new Date(0));
+        registeredUser.setDeactivated(false);
+        registeredUser.setPermissions(new ArrayList<>(Arrays.asList(createDefaultPermission())));
+        registeredUser.setTokens(new ArrayList<>(Arrays.asList(createDefaultUserToken())));
+        return registeredUser;
+    }
+
+    public static UserToken createDefaultUserToken() {
+        UserToken userToken = new UserToken();
+        userToken.setId(0l);
+        userToken.setKey("key");
+        userToken.setName("name");
+        userToken.setPermissions(new ArrayList<>(Arrays.asList(createDefaultPermission())));
+        return userToken;
+    }
+
+    public static Permission createDefaultPermission() {
+        Permission permission = new Permission();
+        permission.setId(0l);
+        permission.setName("name");
+        return permission;
     }
 }

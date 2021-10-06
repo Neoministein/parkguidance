@@ -30,7 +30,7 @@ class ParkingGarageValidatorTest {
         addressValidator = Mockito.mock(AddressValidator.class);
         subject.addressValidation = addressValidator;
 
-        Mockito.doReturn(false).when(addressValidator).compareValues(any());
+        Mockito.doReturn(false).when(addressValidator).hasNothingChanged(any());
         Mockito.doReturn(entityDao).when(subject).getDao();
     }
 
@@ -81,7 +81,7 @@ class ParkingGarageValidatorTest {
 
         boolean result;
         //Act
-        result = subject.compareValues(createDefaultParkingGarage());
+        result = subject.hasNothingChanged(createDefaultParkingGarage());
 
         //assert
         assertEquals(true, result);
@@ -96,7 +96,7 @@ class ParkingGarageValidatorTest {
 
         boolean result;
         //Act
-        result = subject.compareValues(createDefaultParkingGarage());
+        result = subject.hasNothingChanged(createDefaultParkingGarage());
 
         //assert
         assertEquals(false, result);
@@ -111,7 +111,7 @@ class ParkingGarageValidatorTest {
 
         boolean result;
         //Act
-        result = subject.compareValues(createDefaultParkingGarage());
+        result = subject.hasNothingChanged(createDefaultParkingGarage());
 
         //assert
         assertEquals(false, result);
@@ -126,7 +126,7 @@ class ParkingGarageValidatorTest {
 
         boolean result;
         //Act
-        result = subject.compareValues(createDefaultParkingGarage());
+        result = subject.hasNothingChanged(createDefaultParkingGarage());
 
         //assert
         assertEquals(false, result);
@@ -141,7 +141,7 @@ class ParkingGarageValidatorTest {
 
         boolean result;
         //Act
-        result = subject.compareValues(createDefaultParkingGarage());
+        result = subject.hasNothingChanged(createDefaultParkingGarage());
 
         //assert
         assertEquals(false, result);
@@ -156,7 +156,7 @@ class ParkingGarageValidatorTest {
 
         boolean result;
         //Act
-        result = subject.compareValues(createDefaultParkingGarage());
+        result = subject.hasNothingChanged(createDefaultParkingGarage());
 
         //assert
         assertEquals(false, result);
@@ -171,7 +171,7 @@ class ParkingGarageValidatorTest {
 
         boolean result;
         //Act
-        result = subject.compareValues(createDefaultParkingGarage());
+        result = subject.hasNothingChanged(createDefaultParkingGarage());
 
         //assert
         assertEquals(false, result);
@@ -186,7 +186,7 @@ class ParkingGarageValidatorTest {
 
         boolean result;
         //Act
-        result = subject.compareValues(createDefaultParkingGarage());
+        result = subject.hasNothingChanged(createDefaultParkingGarage());
 
         //assert
         assertEquals(false, result);

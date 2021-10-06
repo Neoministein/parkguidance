@@ -3,6 +3,7 @@ package com.neo.parkguidance.core.impl.dao;
 import com.neo.parkguidance.core.api.dao.EntityDaoAbstraction;
 import com.neo.parkguidance.core.entity.Address;
 import com.neo.parkguidance.core.entity.ParkingGarage;
+import com.neo.parkguidance.core.impl.validation.ParkingGarageValidator;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Example;
 import org.hibernate.criterion.MatchMode;
@@ -18,10 +19,14 @@ import javax.persistence.PersistenceContext;
 public class ParkingGarageEntityManager extends AbstractEntityDao<ParkingGarage> implements
         EntityDaoAbstraction<ParkingGarage> {
 
+    @Inject
+    ParkingGarageValidator parkingGarageValidator;
+
     @PersistenceContext(unitName = "data_persistence_unit")
     private EntityManager em;
 
-    @Inject EntityDaoAbstraction<Address> abstractAddressDao;
+    @Inject
+    EntityDaoAbstraction<Address> abstractAddressDao;
 
     @Override
     protected EntityManager getEntityManager() {
@@ -38,6 +43,12 @@ public class ParkingGarageEntityManager extends AbstractEntityDao<ParkingGarage>
 
     public ParkingGarageEntityManager() {
         super(ParkingGarage.class);
+    }
+
+    @Override
+    public void create(ParkingGarage parkingGarage) {
+        parkingGarageValidator.newUniqueAccessKey(parkingGarage);
+        super.create(parkingGarage);
     }
 
     @Override

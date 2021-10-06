@@ -65,7 +65,6 @@ public class DataloaderTool {
                 st.executeUpdate(query);
                 LOGGER.info(query);
             } catch (Exception ex) {
-                LOGGER.error("Error exectuing SQL statement",ex);
                 throw new IllegalArgumentException(ex);
             }
         }
@@ -81,9 +80,11 @@ public class DataloaderTool {
     }
 
     protected Object parseValue(DataloaderColumn column, JSONObject entry) {
-        switch (column.getDataType()) {
+        switch (column.getDataType().toLowerCase()) {
         case "number":
-            return Integer.parseInt(entry.getString(VALUE));
+            return entry.getString(VALUE);
+        case "boolean":
+            return Boolean.parseBoolean(entry.getString(VALUE));
         case "string":
         default:
             return "'" + entry.getString(VALUE) + "'";

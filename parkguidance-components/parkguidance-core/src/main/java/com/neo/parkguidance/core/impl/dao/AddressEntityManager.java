@@ -7,6 +7,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+//TODO Implement ADD GEOLOCATION TO AN INTERFACE IN CORE IN ORDER TO GET GEOLOCATION IN THIS CLASS
 @Stateless
 public class AddressEntityManager extends AbstractEntityDao<Address> implements EntityDaoAbstraction<Address> {
 

@@ -6,8 +6,17 @@ import java.io.Serializable;
 
 public abstract class AbstractFormModel<T extends DataBaseEntity> implements Serializable {
 
+    private boolean initialized = false;
     private Object primaryKey;
     private T entity;
+
+    public boolean isInitialized() {
+        return initialized;
+    }
+
+    public void setInitialized(boolean initialized) {
+        this.initialized = initialized;
+    }
 
     public Object getPrimaryKey() {
         return primaryKey;

@@ -32,7 +32,7 @@ class AddressValidatorTest {
 
         boolean result;
         //Act
-        result = subject.compareValues(newAddress);
+        result = subject.hasNothingChanged(newAddress);
 
         //assert
         assertEquals(true, result);
@@ -48,7 +48,7 @@ class AddressValidatorTest {
 
         boolean result;
         //Act
-        result = subject.compareValues(newAddress);
+        result = subject.hasNothingChanged(newAddress);
 
         //assert
         assertEquals(false, result);
@@ -64,7 +64,7 @@ class AddressValidatorTest {
 
         boolean result;
         //Act
-        result = subject.compareValues(newAddress);
+        result = subject.hasNothingChanged(newAddress);
 
         //assert
         assertEquals(false, result);
@@ -81,7 +81,7 @@ class AddressValidatorTest {
 
         boolean result;
         //Act
-        result = subject.compareValues(newAddress);
+        result = subject.hasNothingChanged(newAddress);
 
         //assert
         assertEquals(false, result);
@@ -97,7 +97,7 @@ class AddressValidatorTest {
 
         boolean result;
         //Act
-        result = subject.compareValues(newAddress);
+        result = subject.hasNothingChanged(newAddress);
 
         //assert
         assertEquals(false, result);
@@ -113,7 +113,7 @@ class AddressValidatorTest {
 
         boolean result;
         //Act
-        result = subject.compareValues(newAddress);
+        result = subject.hasNothingChanged(newAddress);
 
         //assert
         assertEquals(false, result);
@@ -129,7 +129,7 @@ class AddressValidatorTest {
 
         boolean result;
         //Act
-        result = subject.compareValues(newAddress);
+        result = subject.hasNothingChanged(newAddress);
 
         //assert
         assertEquals(false, result);

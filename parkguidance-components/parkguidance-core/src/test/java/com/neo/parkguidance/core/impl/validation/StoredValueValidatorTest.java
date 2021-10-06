@@ -73,7 +73,7 @@ class StoredValueValidatorTest {
 
         boolean result;
         //Act
-        result = subject.compareValues(createDefaultStoredValue());
+        result = subject.hasNothingChanged(createDefaultStoredValue());
 
         //assert
         assertEquals(true, result);
@@ -88,7 +88,7 @@ class StoredValueValidatorTest {
 
         boolean result;
         //Act
-        result = subject.compareValues(createDefaultStoredValue());
+        result = subject.hasNothingChanged(createDefaultStoredValue());
 
         //assert
         assertEquals(false, result);
@@ -103,7 +103,7 @@ class StoredValueValidatorTest {
 
         boolean result;
         //Act
-        result = subject.compareValues(createDefaultStoredValue());
+        result = subject.hasNothingChanged(createDefaultStoredValue());
 
         //assert
         assertEquals(false, result);
@@ -118,7 +118,7 @@ class StoredValueValidatorTest {
 
         boolean result;
         //Act
-        result = subject.compareValues(createDefaultStoredValue());
+        result = subject.hasNothingChanged(createDefaultStoredValue());
 
         //assert
         assertEquals(false, result);
@@ -133,7 +133,7 @@ class StoredValueValidatorTest {
 
         boolean result;
         //Act
-        result = subject.compareValues(createDefaultStoredValue());
+        result = subject.hasNothingChanged(createDefaultStoredValue());
 
         //assert
         assertEquals(false, result);
