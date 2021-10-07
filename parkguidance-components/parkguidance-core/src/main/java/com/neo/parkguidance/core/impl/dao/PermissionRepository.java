@@ -10,7 +10,7 @@ import javax.persistence.PersistenceContext;
 
 @Default
 @Stateless
-public class PermissionEntityManager extends AbstractEntityDao<Permission> implements EntityDaoAbstraction<Permission> {
+public class PermissionRepository extends AbstractEntityDao<Permission> implements EntityDaoAbstraction<Permission> {
 
     @PersistenceContext(unitName = "data_persistence_unit")
     private EntityManager em;
@@ -20,7 +20,7 @@ public class PermissionEntityManager extends AbstractEntityDao<Permission> imple
         return em;
     }
 
-    public PermissionEntityManager() {
+    public PermissionRepository() {
         super(Permission.class);
     }
 }

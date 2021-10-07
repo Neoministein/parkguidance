@@ -35,6 +35,12 @@ public class UserFormController extends AbstractFormController<RegisteredUser> {
         model.setNewToken(facade.newUserToken());
     }
 
+    @Override
+    public void save() {
+        model.getEntity().setPassword(model.getNewPassword());
+        super.save();
+    }
+
     public void removeToken() {
         facade.removeToken(model.getSelectedToken(), model.getEntity());
     }

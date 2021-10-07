@@ -13,11 +13,13 @@ public interface EntityDao<T extends DataBaseEntity> {
      * Creates a entry in the table for the given entity {@link T}
      *
      * @param entity the entity to be created
+     * @throws com.neo.parkguidance.core.impl.validation.EntityValidationException when values aren't valid
      */
     void create(T entity);
 
     /**
      * Edits the given entry in the table for the given entity {@link T}
+     * @throws com.neo.parkguidance.core.impl.validation.EntityValidationException when values aren't valid
      *
      * @param entity the entity to be edited
      */

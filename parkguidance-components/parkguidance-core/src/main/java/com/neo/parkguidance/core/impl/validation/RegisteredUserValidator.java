@@ -5,9 +5,22 @@ import com.neo.parkguidance.core.entity.RegisteredUser;
 import javax.ejb.Stateless;
 import java.util.HashSet;
 import java.util.Objects;
+import java.util.regex.Pattern;
 
 @Stateless
 public class RegisteredUserValidator extends AbstractDatabaseEntityValidation<RegisteredUser> {
+
+    public static final String INVALID_PASSWORD = "The password must contain"
+            + ", a digit [0-9]"
+            + ", a lower case character [a-z]"
+            + ", a upper case character [A-Z]"
+            + ", a special character like ! @ # & ( )"
+            + ", of at least 8 and a maximum of 64 characters";
+
+    // digit + lowercase char + uppercase char + punctuation + symbol
+    private static final String PASSWORD_PATTERN =
+            "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#&()–[{}]:;',?/*~$^+=<>]).{8,64}$";
+    private static final Pattern pattern = Pattern.compile(PASSWORD_PATTERN);
 
     @Override
     public boolean hasNothingChanged(RegisteredUser entity) {
@@ -54,15 +67,9 @@ public class RegisteredUserValidator extends AbstractDatabaseEntityValidation<Re
         return new HashSet<>(entity.getTokens()).equals(new HashSet<>(originalObject.getTokens()));
     }
 
-    public void uniqueUsername(String username) throws EntityValidationException {
-        if (valueExists(RegisteredUser.C_USERNAME , username)) {
-            throw new EntityValidationException("This username already exists");
-        }
-    }
-
-    public void uniqueEmail(String email) throws EntityValidationException {
-        if (valueExists(RegisteredUser.C_EMAIL , email)) {
-            throw new EntityValidationException("This e-mail is already used");
+    public void validatePassword(String password) {
+        if (password == null || !pattern.matcher(password).matches()) {
+            throw new EntityValidationException(INVALID_PASSWORD);
         }
     }
 }

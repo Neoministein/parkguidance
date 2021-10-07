@@ -8,7 +8,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 @Stateless
-public class StoredValueEntityManager extends AbstractEntityDao<StoredValue> implements
+public class StoredValueRepository extends AbstractEntityDao<StoredValue> implements
         EntityDaoAbstraction<StoredValue> {
 
     @PersistenceContext(unitName = "data_persistence_unit")
@@ -19,7 +19,7 @@ public class StoredValueEntityManager extends AbstractEntityDao<StoredValue> imp
         return em;
     }
 
-    public StoredValueEntityManager() {
+    public StoredValueRepository() {
         super(StoredValue.class);
     }
 }

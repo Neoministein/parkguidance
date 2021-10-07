@@ -10,7 +10,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 @Stateless
-public class UserTokenEntityManager extends AbstractEntityDao<UserToken> implements
+public class UserTokenRepository extends AbstractEntityDao<UserToken> implements
         EntityDaoAbstraction<UserToken> {
 
     @Inject
@@ -24,7 +24,7 @@ public class UserTokenEntityManager extends AbstractEntityDao<UserToken> impleme
         return em;
     }
 
-    public UserTokenEntityManager() {
+    public UserTokenRepository() {
         super(UserToken.class);
     }
 
