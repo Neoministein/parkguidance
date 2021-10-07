@@ -11,12 +11,11 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletResponse;
 
+import com.neo.parkguidance.core.impl.utils.MathUtils;
 import com.neo.parkguidance.core.impl.utils.StringUtils;
 import com.neo.parkguidance.core.impl.validation.AddressValidator;
 import com.neo.parkguidance.core.impl.validation.EntityValidationException;
 import com.neo.parkguidance.core.impl.validation.ParkingGarageValidator;
-import com.neo.parkguidance.google.api.maps.GeoCoding;
-import com.neo.parkguidance.google.api.maps.GoogleCloudServiceException;
 import com.neo.parkguidance.rest.api.InternalRestException;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -41,9 +40,6 @@ public class ParkingGarageRestFacade {
 
     @Inject
     AddressValidator addressValidator;
-
-    @Inject
-    GeoCoding geoCoding;
 
     public List<ParkingGarage> getAll() {
         return this.parkingGarageDao.findAll();
@@ -90,30 +86,18 @@ public class ParkingGarageRestFacade {
         return parkingGarage;
     }
 
-    public void createGarage(ParkingGarage parkingGarage) throws InternalRestException, EntityValidationException {
+    public void createGarage(ParkingGarage parkingGarage) throws EntityValidationException {
         parkingGarageValidator.validatePrimaryKey(parkingGarage.getPrimaryKey());
-        findCoordinates(parkingGarage.getAddress());
         addressDao.edit(parkingGarage.getAddress());
         parkingGarageDao.create(parkingGarage);
     }
 
     public void updateGarage(ParkingGarage parkingGarage) throws InternalRestException {
         if (!addressValidator.hasNothingChanged(parkingGarage.getAddress())) {
-            findCoordinates(parkingGarage.getAddress());
             addressDao.edit(parkingGarage.getAddress());
         }
 
         parkingGarageDao.edit(parkingGarage);
-    }
-
-    protected void findCoordinates(Address address) throws InternalRestException {
-        try {
-            geoCoding.findCoordinates(address);
-        } catch (IllegalArgumentException ex) {
-            throw new InternalRestException(HttpServletResponse.SC_BAD_REQUEST, ex.getMessage());
-        } catch (GoogleCloudServiceException ex) {
-            throw new InternalRestException(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ex.getMessage());
-        }
     }
 
     public void checkForMissingValues(ParkingGarage parkingGarage) throws InternalRestException {
@@ -126,13 +110,13 @@ public class ParkingGarageRestFacade {
         if (StringUtils.isEmpty(parkingGarage.getName())) {
             missingParameters.add("name");
         }
-        if (parkingGarage.getSpaces() == 0) {
+        if (MathUtils.isZero(parkingGarage.getSpaces())) {
             missingParameters.add("spaces");
         }
         if (StringUtils.isEmpty(parkingGarage.getAddress().getCityName())) {
             missingParameters.add("cityName");
         }
-        if (parkingGarage.getAddress().getPlz() == null) {
+        if (MathUtils.isZero(parkingGarage.getAddress().getPlz())) {
             missingParameters.add("plz");
         }
         if (StringUtils.isEmpty(parkingGarage.getAddress().getStreet())) {

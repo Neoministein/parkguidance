@@ -1,5 +1,6 @@
 package com.neo.parkguidance.google.api.maps;
 
+import com.neo.parkguidance.core.api.geomap.GeoCodingService;
 import com.neo.parkguidance.core.api.storedvalue.StoredValueService;
 import com.neo.parkguidance.core.impl.http.HTTPRequestSender;
 import com.neo.parkguidance.core.impl.http.HTTPResponse;
@@ -23,14 +24,14 @@ import java.util.Date;
  * This class is used for calling the Google Cloud Platform GeoLocation service
  */
 @Stateless
-public class GeoCoding {
+public class GcsGeoCodingService implements GeoCodingService {
 
     public static final String TYPE = "geocoding";
 
     public static final String API_URL = "https://maps.googleapis.com/maps/api/geocode/";
     public static final String ADDRESS = "address=";
 
-    private static final Logger LOGGER = LogManager.getLogger(GeoCoding.class);
+    private static final Logger LOGGER = LogManager.getLogger(GcsGeoCodingService.class);
 
     @Inject
     StoredValueService storedValueService;
@@ -76,6 +77,12 @@ public class GeoCoding {
             throw new GoogleCloudServiceException(GoogleConstants.E_EXTERNAL_ERROR + httpResponse.getCode());
         }
         elasticSearchProvider.save(GoogleConstants.ELASTIC_INDEX, createElasticDocument(address).toString());
+    }
+
+    @Override
+    public void findAddress(Address address) {
+        //TODO
+        throw new RuntimeException("Not Impl Yet");
     }
 
     protected void parseRequestStatus(JSONObject jsonObject, Address address) {

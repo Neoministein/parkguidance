@@ -1,11 +1,11 @@
 package com.neo.parkguidance.web.user.pages.geolocation;
 
 import com.neo.parkguidance.core.api.dao.EntityDao;
+import com.neo.parkguidance.core.api.geomap.DistanceMatrixService;
+import com.neo.parkguidance.core.api.geomap.GeoCodingService;
 import com.neo.parkguidance.core.api.storedvalue.StoredValueService;
 import com.neo.parkguidance.google.api.maps.CrossPlatformURL;
-import com.neo.parkguidance.google.api.maps.DistanceDataObject;
-import com.neo.parkguidance.google.api.maps.DistanceMatrix;
-import com.neo.parkguidance.google.api.maps.GeoCoding;
+import com.neo.parkguidance.core.impl.geomap.DistanceDataObject;
 import com.neo.parkguidance.core.entity.Address;
 import com.neo.parkguidance.core.entity.ParkingGarage;
 import com.neo.parkguidance.web.impl.utils.Utils;
@@ -32,10 +32,10 @@ public class GeoLocationFacade {
     private static final Logger LOGGER = LoggerFactory.getLogger(GeoLocationFacade.class);
 
     @Inject
-    DistanceMatrix distanceMatrix;
+    DistanceMatrixService distanceMatrix;
 
     @Inject
-    GeoCoding geoCoding;
+    GeoCodingService geoCoding;
 
     @Inject
     EntityDao<ParkingGarage> parkingGarageDao;

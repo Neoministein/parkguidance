@@ -1,7 +1,7 @@
 package com.neo.parkguidance.web.user.pages.geolocation;
 
 import com.neo.parkguidance.core.entity.Address;
-import com.neo.parkguidance.google.api.maps.DistanceDataObject;
+import com.neo.parkguidance.core.impl.geomap.DistanceDataObject;
 
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;

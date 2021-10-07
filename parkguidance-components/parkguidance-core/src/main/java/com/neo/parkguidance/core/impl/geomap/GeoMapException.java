@@ -1,34 +1,33 @@
-package com.neo.parkguidance.google.api.maps;
-
-import com.neo.parkguidance.core.impl.geomap.GeoMapException;
-
+package com.neo.parkguidance.core.impl.geomap;
 /**
- * This class handles Google Cloud Service Exceptions which aren't from invalid user input
- */
-public class GoogleCloudServiceException extends GeoMapException {
+ * This class provides the base for a GeoMapException which shall be extend when used by a GeoMap Service
+ * */
+public abstract class GeoMapException extends RuntimeException {
 
-    /** Constructs a GoogleCloudServiceException  with {@code null} as its
-     * detail message.  The cause is not initialized, and may subsequently be
+    /**
+     * Constructs a GeoMapException  with {@code null} as its
+     * detail message. The cause is not initialized, and may subsequently be
      * initialized by a call to {@link #initCause}.
      */
-    public GoogleCloudServiceException() {
+    protected GeoMapException() {
         super();
     }
 
-    /** Constructs a GoogleCloudServiceException with the specified detail message.
+    /**
+     * Constructs a GeoMapException with the specified detail message.
      * The cause is not initialized, and may subsequently be initialized by a
      * call to {@link #initCause}.
      *
      * @param   message   the detail message. The detail message is saved for
      *          later retrieval by the {@link #getMessage()} method.
      */
-    public GoogleCloudServiceException(String message) {
+    protected GeoMapException(String message) {
         super(message);
     }
 
     /**
-     * Constructs a GoogleCloudServiceException with the specified detail message and
-     * cause.  <p>Note that the detail message associated with
+     * Constructs a GeoMapException with the specified detail message and
+     * cause.<p> Note that the detail message associated with
      * {@code cause} is <i>not</i> automatically incorporated in
      * this runtime exception's detail message.
      *
@@ -39,11 +38,11 @@ public class GoogleCloudServiceException extends GeoMapException {
      *         permitted, and indicates that the cause is nonexistent or
      *         unknown.)
      */
-    public GoogleCloudServiceException(String message, Throwable cause) {
+    protected GeoMapException(String message, Throwable cause) {
         super(message, cause);
     }
 
-    /** Constructs a GoogleCloudServiceException with the specified cause and a
+    /** Constructs a GeoMapExceptio) with the specified cause and a
      * detail message of <tt>(cause==null ? null : cause.toString())</tt>
      * (which typically contains the class and detail message of
      * <tt>cause</tt>).  This constructor is useful for runtime exceptions
@@ -54,7 +53,7 @@ public class GoogleCloudServiceException extends GeoMapException {
      *         permitted, and indicates that the cause is nonexistent or
      *         unknown.)
      */
-    public GoogleCloudServiceException(Throwable cause) {
+    protected GeoMapException(Throwable cause) {
         super(cause);
     }
 }
