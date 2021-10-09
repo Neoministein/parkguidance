@@ -1,6 +1,8 @@
 package com.neo.parkguidance.core.impl.validation;
 
 import com.neo.parkguidance.core.entity.RegisteredUser;
+import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.codec.digest.MessageDigestAlgorithms;
 
 import javax.ejb.Stateless;
 import java.util.HashSet;
@@ -9,6 +11,9 @@ import java.util.regex.Pattern;
 
 @Stateless
 public class RegisteredUserValidator extends AbstractDatabaseEntityValidation<RegisteredUser> {
+
+    public static final int HASH_LENGTH = 128;
+    public static final String HASH_TYPE = MessageDigestAlgorithms.SHA3_512;
 
     public static final String INVALID_PASSWORD = "The password must contain"
             + ", a digit [0-9]"
@@ -68,8 +73,15 @@ public class RegisteredUserValidator extends AbstractDatabaseEntityValidation<Re
     }
 
     public void validatePassword(String password) {
-        if (password == null || !pattern.matcher(password).matches()) {
+        if (password == null || (password.length() != HASH_LENGTH && !pattern.matcher(password).matches())) {
             throw new EntityValidationException(INVALID_PASSWORD);
         }
+    }
+
+    public String hashPassword(String password) {
+        if (password.length() != HASH_LENGTH) {
+            return new DigestUtils(HASH_TYPE).digestAsHex(password.getBytes());
+        }
+        return password;
     }
 }

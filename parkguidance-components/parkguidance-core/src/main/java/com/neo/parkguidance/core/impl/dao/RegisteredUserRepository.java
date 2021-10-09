@@ -32,6 +32,7 @@ public class RegisteredUserRepository extends AbstractEntityDao<RegisteredUser> 
     @Override
     public void create(RegisteredUser registeredUser) {
         registeredUserValidator.validatePassword(registeredUser.getPassword());
+        registeredUser.setPassword(registeredUserValidator.hashPassword(registeredUser.getPassword()));
         registeredUser.setCreatedOn(new Date());
         super.create(registeredUser);
     }
@@ -39,6 +40,7 @@ public class RegisteredUserRepository extends AbstractEntityDao<RegisteredUser> 
     @Override
     public void edit(RegisteredUser registeredUser) {
         registeredUserValidator.validatePassword(registeredUser.getPassword());
+        registeredUser.setPassword(registeredUserValidator.hashPassword(registeredUser.getPassword()));
         if (Boolean.TRUE.equals(registeredUser.getDeactivated()) && registeredUser.getDeactivatedOn() == null) {
             registeredUser.setDeactivatedOn(new Date());
         }
