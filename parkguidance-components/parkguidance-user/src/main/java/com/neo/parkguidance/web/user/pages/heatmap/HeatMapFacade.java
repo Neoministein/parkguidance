@@ -1,10 +1,9 @@
 package com.neo.parkguidance.web.user.pages.heatmap;
 
 import com.neo.parkguidance.core.api.storedvalue.StoredValueService;
-import com.neo.parkguidance.core.entity.StoredValue;
+import com.neo.parkguidance.web.api.component.heatmap.HeatmapComponentLogic;
 import com.neo.parkguidance.web.user.impl.heatmap.HeatMapDataService;
 import org.json.JSONObject;
-import org.primefaces.PrimeFaces;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -22,6 +21,9 @@ public class HeatMapFacade {
     @Inject
     StoredValueService storedValueService;
 
+    @Inject
+    HeatmapComponentLogic heatmapComponentLogic;
+
     public List<JSONObject> getHeatMapGradiantNormal() {
         return heatMapDataService.getHeatMapGradiantNormal();
     }
@@ -31,19 +33,14 @@ public class HeatMapFacade {
     }
 
     public void initLocalMap(JSONObject data) {
-        callLocalJavascript("initMap('" + data.toString().replace("\\\"", "$-$-$") + "');");
+        heatmapComponentLogic.initMap(data);
     }
 
     public void updateLocalMap(JSONObject data) {
-        callLocalJavascript("updateHeatMapPoints('" + data.toString().replace("\\\"", "$-$-$") + "')");
+        heatmapComponentLogic.updateMap(data);
     }
 
-    private void callLocalJavascript(String command) {
-        PrimeFaces.current().executeScript(command);
+    public HeatmapComponentLogic getHeatmapComponentLogic() {
+        return heatmapComponentLogic;
     }
-
-    public String generateMapUrl() {
-        return "https://maps.googleapis.com/maps/api/js?key=" + storedValueService.getString(StoredValue.V_GOOGLE_MAPS_API_EXTERNAL) + "&libraries=visualization";
-    }
-
 }

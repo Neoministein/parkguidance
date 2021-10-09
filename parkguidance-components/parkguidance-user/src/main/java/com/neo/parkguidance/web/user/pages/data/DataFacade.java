@@ -1,11 +1,8 @@
 package com.neo.parkguidance.web.user.pages.data;
 
 import com.neo.parkguidance.core.api.dao.EntityDao;
-import com.neo.parkguidance.core.api.storedvalue.StoredValueService;
-import com.neo.parkguidance.core.entity.Address;
 import com.neo.parkguidance.core.entity.ParkingGarage;
-import com.neo.parkguidance.core.entity.StoredValue;
-import com.neo.parkguidance.google.api.maps.embed.EmbeddedMap;
+import com.neo.parkguidance.web.api.component.embeddedmap.EmbeddedMapComponentLogic;
 import com.neo.parkguidance.web.user.impl.data.DataChartModel;
 import org.primefaces.model.charts.ChartData;
 import org.primefaces.model.charts.axes.cartesian.CartesianScales;
@@ -36,8 +33,9 @@ public class DataFacade {
     @Inject
     DataChartModel dataChartModel;
 
+
     @Inject
-    StoredValueService storedValueService;
+    EmbeddedMapComponentLogic embeddedMapLogic;
 
     public void redirectToIndex() {
         try {
@@ -89,14 +87,12 @@ public class DataFacade {
         return cartesianLinerModel;
     }
 
-    public String generateStaticMapUrl(Address address) {
-        return EmbeddedMap.buildPlaceUrl(
-                storedValueService.getString(StoredValue.V_GOOGLE_MAPS_API_EXTERNAL),
-                EmbeddedMap.MapType.roadmap,
-                address).toString();
-    }
-
     public ParkingGarage getParkingGarage(String key) {
        return parkingGarageManager.find(key);
+    }
+
+
+    public EmbeddedMapComponentLogic getEmbeddedMapLogic() {
+        return embeddedMapLogic;
     }
 }
