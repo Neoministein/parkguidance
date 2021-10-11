@@ -22,7 +22,7 @@
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>parkguidance-gcs</artifactId>
+            <artifactId>parkguidance-elastic</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>

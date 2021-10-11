@@ -22,7 +22,6 @@
             <artifactId>parkguidance-admin</artifactId>
             <version>${project.version}</version>
         </dependency>
-
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>parkguidance-user</artifactId>
@@ -31,6 +30,11 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>parkguidance-rest</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>parkguidance-gcs</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>

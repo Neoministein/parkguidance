@@ -4,9 +4,12 @@ import com.neo.parkguidance.core.api.geomap.GeoMapURL;
 import com.neo.parkguidance.google.api.constants.GoogleConstants;
 import com.neo.parkguidance.core.entity.ParkingGarage;
 
+import javax.ejb.Stateless;
+
 /**
  * This class is used to generate urls to lead to Google Services
  */
+@Stateless
 public class GcsCrossPlatformURL implements GeoMapURL {
 
     public static final String API_VERSION = "?api=1";
