@@ -28,6 +28,10 @@ public class ElasticAdminController {
         }
     }
 
+    public void reconnect() {
+        facade.reconnect();
+    }
+
     public String getStatusStyleClass() {
         return  facade.statusStyleClass(model.getStatus());
     }

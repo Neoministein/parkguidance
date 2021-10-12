@@ -31,6 +31,10 @@ public class ElasticAdminFacade {
         }
     }
 
+    public void reconnect() {
+        elasticSearchProvider.reconnect();
+    }
+
     public String statusStyleClass(String status){
         switch (status) {
         case "red":

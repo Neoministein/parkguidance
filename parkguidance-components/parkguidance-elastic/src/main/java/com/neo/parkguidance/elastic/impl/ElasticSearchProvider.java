@@ -25,6 +25,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.util.concurrent.TimeUnit;
 
 /**
  * This class provides methods to interact with elastic search
@@ -173,5 +174,27 @@ public class ElasticSearchProvider {
 
         request.source(bytes, XContentType.JSON);
         return request;
+    }
+
+    public void reconnect() {
+        closeBulkProcessor();
+        connection.disconnect();
+        connection.connect();
+    }
+
+    /**
+     * prepare shutdown and close bulk processor
+     */
+    protected void closeBulkProcessor() {
+        // make sure all bulk requests have been processed
+        try {
+            if (bulkProcessor != null) {
+                bulkProcessor.awaitClose(30l,
+                        TimeUnit.SECONDS);
+            }
+        } catch (InterruptedException e) {
+            LOGGER.warn("exception while closing bulkProcessor, error: {}", e.getMessage());
+        }
+        bulkProcessor = null;
     }
 }

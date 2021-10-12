@@ -46,6 +46,12 @@
                 <div class="ui-sm-6 ui-g-6 ui-g-nopad">
                     <h:outputLabel value="#{elasticAdmin.model.taskMaxWaitingInQueueMillis}"/>
                 </div>
+                <div class="ui-sm-6 ui-g-6 ui-g-nopad">
+                    <h:outputLabel value="Reconnect: "/>
+                </div>
+                <div class="ui-sm-6 ui-g-6 ui-g-nopad">
+                    <p:commandButton value="Reconnect" action="#{elasticAdmin.reconnect}" style="width: 125px;" styleClass="btn-primary"/>
+                </div>
             </div>
         </p:panel>
     </ui:define>
