@@ -1,6 +1,8 @@
 package com.neo.parkguidance.google.api.maps;
 
+import com.neo.parkguidance.core.api.geomap.DistanceMatrixService;
 import com.neo.parkguidance.core.api.storedvalue.StoredValueService;
+import com.neo.parkguidance.core.impl.geomap.DistanceDataObject;
 import com.neo.parkguidance.core.impl.http.HTTPRequestSender;
 import com.neo.parkguidance.core.impl.http.HTTPResponse;
 import com.neo.parkguidance.elastic.impl.ElasticSearchProvider;
@@ -27,7 +29,7 @@ import java.util.List;
  * This class is used for calling the Google Cloud Platform Distance Matrix service
  */
 @Stateless
-public class DistanceMatrix {
+public class GcsDistanceMatrixService implements DistanceMatrixService {
 
     public static final String TYPE = "DistanceMatrix";
 
@@ -38,7 +40,7 @@ public class DistanceMatrix {
     private static final String DISTANCE_MATRIX_CACHE_LIFESPAN = "com.neo.parkguidance.gcs.maps.distance-matrix.cache-lifespan";
     private static final int DEFAULT_CACHE_LIFESPAN = 1000 * 60 * 60 * 24 * 14;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(DistanceMatrix.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(GcsDistanceMatrixService.class);
 
     @Inject
     StoredValueService storedValueService;
@@ -68,7 +70,7 @@ public class DistanceMatrix {
         return distanceDataObjectList;
     }
 
-    public List<DistanceDataObject> findDistance(List<ParkingGarage> parkingGarageList , StringBuilder query) {
+    protected List<DistanceDataObject> findDistance(List<ParkingGarage> parkingGarageList , StringBuilder query) {
         String url = API_URL + GoogleConstants.JSON + ORIGIN;
 
         for (ParkingGarage parkingGarage : parkingGarageList) {

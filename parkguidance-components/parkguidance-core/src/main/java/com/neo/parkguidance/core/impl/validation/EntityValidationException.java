@@ -3,7 +3,7 @@ package com.neo.parkguidance.core.impl.validation;
 /**
  * This class handles {@link com.neo.parkguidance.core.entity.DataBaseEntity} exceptions validation on the parameters
  */
-public class EntityValidationException extends Exception {
+public class EntityValidationException extends RuntimeException {
 
     /**
      * Constructs a new EntityValidationException with {@code null} as its detail message.

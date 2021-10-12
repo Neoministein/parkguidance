@@ -1,5 +1,6 @@
 package com.neo.parkguidance.web.user.pages.data;
 
+import com.neo.parkguidance.web.api.component.embeddedmap.EmbeddedMapComponentLogic;
 import com.neo.parkguidance.web.impl.utils.Utils;
 import org.omnifaces.util.Faces;
 
@@ -35,10 +36,13 @@ public class DataController {
                 return;
             }
 
-            model.setEmbeddedGMapsUrl(facade.generateStaticMapUrl(model.getParkingGarage().getAddress()));
             model.setCartesianLinerModel(facade.createCartesianLinerModel(model.getParkingGarage()));
             model.setInitialized(true);
         }
+    }
+
+    public EmbeddedMapComponentLogic getEmbeddedMapLogic() {
+        return facade.getEmbeddedMapLogic();
     }
 
     public DataModel getModel() {

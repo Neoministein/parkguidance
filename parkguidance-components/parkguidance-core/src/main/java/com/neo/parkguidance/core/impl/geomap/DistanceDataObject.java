@@ -1,4 +1,4 @@
-package com.neo.parkguidance.google.api.maps;
+package com.neo.parkguidance.core.impl.geomap;
 
 import com.neo.parkguidance.core.entity.ParkingGarage;
 
@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 /**
- * This object is a container for the return data of {@link DistanceMatrix}
+ * This object is a container for the return data of {@link com.neo.parkguidance.core.api.geomap.DistanceMatrixService}
  */
 public class DistanceDataObject implements Comparable<DistanceDataObject>, Serializable {
 

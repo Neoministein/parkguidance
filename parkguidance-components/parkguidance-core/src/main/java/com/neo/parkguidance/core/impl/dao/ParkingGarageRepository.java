@@ -16,7 +16,7 @@ import javax.persistence.PersistenceContext;
 
 @Default
 @Stateless
-public class ParkingGarageEntityManager extends AbstractEntityDao<ParkingGarage> implements
+public class ParkingGarageRepository extends AbstractEntityDao<ParkingGarage> implements
         EntityDaoAbstraction<ParkingGarage> {
 
     @Inject
@@ -41,13 +41,17 @@ public class ParkingGarageEntityManager extends AbstractEntityDao<ParkingGarage>
         abstractAddressDao.addSubCriteria(subCriteria, object.getAddress());
     }
 
-    public ParkingGarageEntityManager() {
+    public ParkingGarageRepository() {
         super(ParkingGarage.class);
     }
 
     @Override
     public void create(ParkingGarage parkingGarage) {
         parkingGarageValidator.newUniqueAccessKey(parkingGarage);
+        parkingGarageValidator.validatePrimaryKey(parkingGarage.getPrimaryKey());
+        if (parkingGarage.getAddress().getId() == null) {
+            abstractAddressDao.create(parkingGarage.getAddress());
+        }
         super.create(parkingGarage);
     }
 

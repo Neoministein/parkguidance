@@ -42,4 +42,8 @@ public class MathUtils {
             return null;
         }
     }
+
+    public static boolean isZero(Integer integer) {
+        return integer == null || integer == 0;
+    }
 }

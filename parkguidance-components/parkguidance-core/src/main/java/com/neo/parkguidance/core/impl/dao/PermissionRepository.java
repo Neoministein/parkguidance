@@ -1,15 +1,16 @@
 package com.neo.parkguidance.core.impl.dao;
 
 import com.neo.parkguidance.core.api.dao.EntityDaoAbstraction;
-import com.neo.parkguidance.core.entity.StoredValue;
+import com.neo.parkguidance.core.entity.Permission;
 
 import javax.ejb.Stateless;
+import javax.enterprise.inject.Default;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+@Default
 @Stateless
-public class StoredValueEntityManager extends AbstractEntityDao<StoredValue> implements
-        EntityDaoAbstraction<StoredValue> {
+public class PermissionRepository extends AbstractEntityDao<Permission> implements EntityDaoAbstraction<Permission> {
 
     @PersistenceContext(unitName = "data_persistence_unit")
     private EntityManager em;
@@ -19,7 +20,7 @@ public class StoredValueEntityManager extends AbstractEntityDao<StoredValue> imp
         return em;
     }
 
-    public StoredValueEntityManager() {
-        super(StoredValue.class);
+    public PermissionRepository() {
+        super(Permission.class);
     }
 }

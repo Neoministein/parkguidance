@@ -79,7 +79,7 @@ public class ParkingGarageRestController {
             if (accessKey != null) {
                 parkingGarage = facade.getAccessKey(accessKey);
             } else {
-                parkingGarage = facade.getKey(token, key);
+                parkingGarage = facade.getKey(key, token);
             }
 
             if (Boolean.TRUE.equals(revokeAccessKey)) {

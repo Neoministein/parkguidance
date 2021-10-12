@@ -1,11 +1,11 @@
 package com.neo.parkguidance.web.user.pages.geolocation;
 
 import com.neo.parkguidance.core.api.dao.EntityDao;
+import com.neo.parkguidance.core.api.geomap.DistanceMatrixService;
+import com.neo.parkguidance.core.api.geomap.GeoCodingService;
+import com.neo.parkguidance.core.api.geomap.GeoMapURL;
 import com.neo.parkguidance.core.api.storedvalue.StoredValueService;
-import com.neo.parkguidance.google.api.maps.CrossPlatformURL;
-import com.neo.parkguidance.google.api.maps.DistanceDataObject;
-import com.neo.parkguidance.google.api.maps.DistanceMatrix;
-import com.neo.parkguidance.google.api.maps.GeoCoding;
+import com.neo.parkguidance.core.impl.geomap.DistanceDataObject;
 import com.neo.parkguidance.core.entity.Address;
 import com.neo.parkguidance.core.entity.ParkingGarage;
 import com.neo.parkguidance.web.impl.utils.Utils;
@@ -32,10 +32,13 @@ public class GeoLocationFacade {
     private static final Logger LOGGER = LoggerFactory.getLogger(GeoLocationFacade.class);
 
     @Inject
-    DistanceMatrix distanceMatrix;
+    DistanceMatrixService distanceMatrix;
 
     @Inject
-    GeoCoding geoCoding;
+    GeoCodingService geoCoding;
+
+    @Inject
+    GeoMapURL geoMapURL;
 
     @Inject
     EntityDao<ParkingGarage> parkingGarageDao;
@@ -62,7 +65,7 @@ public class GeoLocationFacade {
     }
 
     public void redirectSearch(ParkingGarage parkingGarage) {
-        PrimeFaces.current().executeScript("window.open('" + CrossPlatformURL.search(parkingGarage) + "', '_newtab')");
+        PrimeFaces.current().executeScript("window.open('" + geoMapURL.search(parkingGarage) + "', '_newtab')");
     }
 
     public List<String> autoCompleteCity(String query, List<Address> addressList) {

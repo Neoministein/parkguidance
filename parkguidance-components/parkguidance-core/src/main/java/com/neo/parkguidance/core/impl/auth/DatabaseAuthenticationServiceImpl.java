@@ -8,7 +8,7 @@ import com.neo.parkguidance.core.entity.Permission;
 import com.neo.parkguidance.core.entity.RegisteredUser;
 import com.neo.parkguidance.core.entity.UserToken;
 import com.neo.parkguidance.core.impl.utils.StringUtils;
-import org.apache.commons.codec.digest.DigestUtils;
+import com.neo.parkguidance.core.impl.validation.RegisteredUserValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,8 +17,6 @@ import javax.inject.Inject;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
-
-import static org.apache.commons.codec.digest.MessageDigestAlgorithms.SHA_224;
 
 /**
  * Implementation of {@link AuthenticationService}
@@ -43,10 +41,13 @@ public class DatabaseAuthenticationServiceImpl implements AuthenticationService 
     @Inject
     EntityDao<UserToken> tokenDao;
 
+    @Inject
+    RegisteredUserValidator registeredUserValidator;
+
     public RegisteredUser authenticateUser(String username, String password) {
         LOGGER.info("User credentials authentication attempt");
 
-        String userPassword = new DigestUtils(SHA_224).digestAsHex(password.getBytes());
+        String userPassword = registeredUserValidator.hashPassword(password);
         RegisteredUser user = userDao.findOneByColumn(RegisteredUser.C_USERNAME, username);
 
         if(user != null) {
