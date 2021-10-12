@@ -48,7 +48,7 @@ public class ElasticSearchConnectionProvider implements Serializable {
     public void onStartUp() {
         LOGGER.debug("Loading elastic search configuration");
         String nodes = storedValueService.getString(ElasticSearchConstants.SEARCH_NODES_ADDRESS,
-                ElasticSearchConstants.DEFAULT_HOST_NAME);
+                ElasticSearchConstants.DEFAULT_URL);
         nodeList.clear();
         nodeList.addAll(StringUtils.commaSeparatedStrToList(nodes));
         LOGGER.debug("Elasticsearch nodes {}", nodes);

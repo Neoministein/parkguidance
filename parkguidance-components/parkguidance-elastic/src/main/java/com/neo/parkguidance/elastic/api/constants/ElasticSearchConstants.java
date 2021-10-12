@@ -11,8 +11,8 @@ public interface ElasticSearchConstants {
     String SEARCH_NODES_ADDRESS = "com.neo.parkguidance.elastic.nodes";
 
     String DEFAULT_SCHEME = "http";
-    String DEFAULT_HOST_NAME = "127.0.0.1";
+    String LOCALHOST_HOST_NAME = "127.0.0.1";
     int DEFAULT_PORT = 9200;
 
-    String DEFAULT_URL = DEFAULT_SCHEME + "://" + DEFAULT_HOST_NAME + ":" + DEFAULT_PORT;
+    String DEFAULT_URL = DEFAULT_SCHEME + "://" + LOCALHOST_HOST_NAME + ":" + DEFAULT_PORT;
 }
