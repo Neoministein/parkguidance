@@ -1,8 +1,8 @@
-package com.neo.parkguidance.core.impl.storedvalue;
+package com.neo.parkguidance.core.impl.config;
 
 import com.neo.parkguidance.core.api.dao.EntityDao;
-import com.neo.parkguidance.core.api.storedvalue.StoredValueService;
-import com.neo.parkguidance.core.entity.StoredValue;
+import com.neo.parkguidance.core.api.config.ConfigService;
+import com.neo.parkguidance.core.entity.ConfigValue;
 import com.neo.parkguidance.core.impl.event.DataBaseEntityChangeEvent;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -19,32 +19,32 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * The {@link StoredValueService} implementation
+ * The {@link ConfigService} implementation
  */
 @ApplicationScoped
-public class StoredValueServiceImpl implements StoredValueService {
+public class ConfigServiceImpl implements ConfigService {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(StoredValueServiceImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ConfigServiceImpl.class);
 
     @Inject
-    EntityDao<StoredValue> dao;
+    EntityDao<ConfigValue> dao;
 
-    private Map<String, StoredValue> storedValues;
+    private Map<String, ConfigValue> storedValues;
 
     @PostConstruct
     protected void init() {
-        List<StoredValue> allValues = dao.findAll();
+        List<ConfigValue> allValues = dao.findAll();
 
 
-        Map<String, StoredValue> newMap = new HashMap<>();
-        for (StoredValue storedValue: allValues) {
+        Map<String, ConfigValue> newMap = new HashMap<>();
+        for (ConfigValue storedValue: allValues) {
             newMap.put(storedValue.getKey(), storedValue);
         }
 
         storedValues = newMap;
     }
 
-    public void changeEvent(@Observes DataBaseEntityChangeEvent<StoredValue> changeEvent) {
+    public void changeEvent(@Observes DataBaseEntityChangeEvent<ConfigValue> changeEvent) {
         switch (changeEvent.getStatus()) {
         case DataBaseEntityChangeEvent.CREATE:
         case DataBaseEntityChangeEvent.EDIT:
@@ -63,8 +63,8 @@ public class StoredValueServiceImpl implements StoredValueService {
         init();
     }
 
-    public StoredValue getStoredValue(String key) {
-        StoredValue storedValue = storedValues.get(key);
+    public ConfigValue getStoredValue(String key) {
+        ConfigValue storedValue = storedValues.get(key);
         if (storedValue == null) {
             LOGGER.warn("Unable to find the stored value {}" , key);
             throw new IllegalArgumentException(getClass().getName() + " has no entry for the key " + key);

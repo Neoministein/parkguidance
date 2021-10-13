@@ -1,22 +1,20 @@
 package com.neo.parkguidance.core.entity;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 /**
- * This entity class is used for storing persistent data like in {@link java.util.Map.Entry}.
- * This data can change from environment to environment like:
- * - API access keys
+ * This entity stored the values for a {@link Configuration}
  */
 @Entity
-@Table(name = StoredValue.TABLE_NAME)
-public class StoredValue implements DataBaseEntity {
+@Table(name = ConfigValue.TABLE_NAME)
+public class ConfigValue implements DataBaseEntity {
 
-    public static final String TABLE_NAME = "storedValue";
+    public static final String TABLE_NAME = "configValue";
 
     public static final String C_KEY = "key";
     public static final String C_VALUE = "value";
     public static final String C_HIDDEN = "hidden";
-    public static final String C_COMPONENT = "component";
     public static final String C_DESCRIPTION = "description";
 
 
@@ -32,9 +30,6 @@ public class StoredValue implements DataBaseEntity {
 
     @Column(name = C_HIDDEN, nullable = false)
     private Boolean hidden;
-
-    @Column(name = C_COMPONENT)
-    private String component;
 
     @Column(name = C_DESCRIPTION)
     private String description;
@@ -63,14 +58,6 @@ public class StoredValue implements DataBaseEntity {
         this.hidden = hidden;
     }
 
-    public String getComponent() {
-        return component;
-    }
-
-    public void setComponent(String component) {
-        this.component = component;
-    }
-
     public String getDescription() {
         return description;
     }
@@ -82,5 +69,20 @@ public class StoredValue implements DataBaseEntity {
     @Override
     public Object getPrimaryKey() {
         return getKey();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        ConfigValue that = (ConfigValue) o;
+        return Objects.equals(key, that.key);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(key);
     }
 }

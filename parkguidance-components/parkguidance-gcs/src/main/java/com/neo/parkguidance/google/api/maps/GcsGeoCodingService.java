@@ -1,14 +1,14 @@
 package com.neo.parkguidance.google.api.maps;
 
 import com.neo.parkguidance.core.api.geomap.GeoCodingService;
-import com.neo.parkguidance.core.api.storedvalue.StoredValueService;
+import com.neo.parkguidance.core.api.config.ConfigService;
 import com.neo.parkguidance.core.impl.http.HTTPRequestSender;
 import com.neo.parkguidance.core.impl.http.HTTPResponse;
 import com.neo.parkguidance.elastic.impl.ElasticSearchProvider;
 import com.neo.parkguidance.google.api.constants.GoogleConstants;
 import com.neo.parkguidance.core.entity.Address;
 import com.neo.parkguidance.core.impl.http.HTTPRequest;
-import com.neo.parkguidance.core.entity.StoredValue;
+import com.neo.parkguidance.core.entity.ConfigValue;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
@@ -33,8 +33,7 @@ public class GcsGeoCodingService implements GeoCodingService {
 
     private static final Logger LOGGER = LogManager.getLogger(GcsGeoCodingService.class);
 
-    @Inject
-    StoredValueService storedValueService;
+    @Inject ConfigService configService;
 
     @Inject
     ElasticSearchProvider elasticSearchProvider;
@@ -56,7 +55,7 @@ public class GcsGeoCodingService implements GeoCodingService {
 
         String url = API_URL + GoogleConstants.JSON + ADDRESS + query + GoogleConstants.KEY;
 
-        httpRequest.setUrl(url + storedValueService.getString(StoredValue.V_GOOGLE_MAPS_API));
+        httpRequest.setUrl(url + configService.getString(ConfigValue.V_GOOGLE_MAPS_API));
         httpRequest.setRequestMethod("GET");
         HTTPResponse httpResponse = httpRequestSender.call(httpRequest);
 

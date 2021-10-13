@@ -1,7 +1,7 @@
-package com.neo.parkguidance.core.impl.storedvalue;
+package com.neo.parkguidance.core.impl.config;
 
 import com.neo.parkguidance.core.api.dao.EntityDao;
-import com.neo.parkguidance.core.entity.StoredValue;
+import com.neo.parkguidance.core.entity.ConfigValue;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeAll;
@@ -16,46 +16,46 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class StoredValueServiceImplTest {
 
-    StoredValueServiceImpl subject;
+    ConfigServiceImpl subject;
 
     EntityDao entityDao;
-    static List<StoredValue> storedValueList;
+    static List<ConfigValue> storedValueList;
 
     @BeforeAll
     public static void setUpDao() {
         storedValueList = new ArrayList<>();
 
-        StoredValue string = new StoredValue();
+        ConfigValue string = new ConfigValue();
         string.setKey("string");
         string.setValue("This is a string");
         storedValueList.add(string);
 
-        StoredValue integer = new StoredValue();
+        ConfigValue integer = new ConfigValue();
         integer.setKey("integer");
         integer.setValue("5000");
         storedValueList.add(integer);
 
-        StoredValue l0ng = new StoredValue();
+        ConfigValue l0ng = new ConfigValue();
         l0ng.setKey("long");
         l0ng.setValue("5000");
         storedValueList.add(l0ng);
 
-        StoredValue b00lean = new StoredValue();
+        ConfigValue b00lean = new ConfigValue();
         b00lean.setKey("boolean");
         b00lean.setValue("false");
         storedValueList.add(b00lean);
 
-        StoredValue d0uble = new StoredValue();
+        ConfigValue d0uble = new ConfigValue();
         d0uble.setKey("double");
         d0uble.setValue("5000");
         storedValueList.add(d0uble);
 
-        StoredValue jsonObject = new StoredValue();
+        ConfigValue jsonObject = new ConfigValue();
         jsonObject.setKey("jsonObject");
         jsonObject.setValue(new JSONObject().toString());
         storedValueList.add(jsonObject);
 
-        StoredValue jsonArray = new StoredValue();
+        ConfigValue jsonArray = new ConfigValue();
         jsonArray.setKey("jsonArray");
         jsonArray.setValue(new JSONArray().toString());
         storedValueList.add(jsonArray);
@@ -64,7 +64,7 @@ class StoredValueServiceImplTest {
 
     @BeforeEach
     public void setUp() {
-        subject = Mockito.spy(StoredValueServiceImpl.class);
+        subject = Mockito.spy(ConfigServiceImpl.class);
 
         entityDao = Mockito.mock(EntityDao.class);
         subject.dao = entityDao;

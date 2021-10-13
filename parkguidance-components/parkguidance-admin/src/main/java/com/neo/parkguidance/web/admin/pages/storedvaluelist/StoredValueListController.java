@@ -1,6 +1,6 @@
 package com.neo.parkguidance.web.admin.pages.storedvaluelist;
 
-import com.neo.parkguidance.core.entity.StoredValue;
+import com.neo.parkguidance.core.entity.ConfigValue;
 import com.neo.parkguidance.web.impl.pages.lazy.AbstractLazyController;
 import com.neo.parkguidance.web.impl.utils.Utils;
 import org.primefaces.PrimeFaces;
@@ -15,7 +15,7 @@ import javax.inject.Named;
  */
 @RequestScoped
 @Named(StoredValueListController.BEAN_NAME)
-public class StoredValueListController extends AbstractLazyController<StoredValue> {
+public class StoredValueListController extends AbstractLazyController<ConfigValue> {
 
     public static final String BEAN_NAME = "storedValueList";
 

@@ -1,6 +1,6 @@
 package com.neo.parkguidance.web.admin.validation;
 
-import com.neo.parkguidance.core.entity.StoredValue;
+import com.neo.parkguidance.core.entity.ConfigValue;
 import com.neo.parkguidance.core.impl.validation.AbstractDatabaseEntityValidation;
 import com.neo.parkguidance.core.impl.validation.EntityValidationException;
 import org.omnifaces.util.Messages;
@@ -16,7 +16,7 @@ import javax.inject.Inject;
 import java.io.Serializable;
 
 /**
- * This class is a JSF {@link Validator} which checks if the {@link StoredValue} key is unique
+ * This class is a JSF {@link Validator} which checks if the {@link ConfigValue} key is unique
  */
 @Stateless
 @FacesValidator(value = StoredValueKeyValidator.BEAN_NAME, managed = true)
@@ -25,7 +25,7 @@ public class StoredValueKeyValidator implements Validator<String>, Serializable 
     public static final String BEAN_NAME = "storedValueKeyValidator";
 
     @Inject
-    AbstractDatabaseEntityValidation<StoredValue> entityValidation;
+    AbstractDatabaseEntityValidation<ConfigValue> entityValidation;
 
     @Override
     public void validate(FacesContext facesContext, UIComponent uiComponent, String o) {

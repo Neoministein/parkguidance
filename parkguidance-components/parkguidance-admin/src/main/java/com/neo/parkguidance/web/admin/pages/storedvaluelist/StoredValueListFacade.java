@@ -1,7 +1,7 @@
 package com.neo.parkguidance.web.admin.pages.storedvaluelist;
 
-import com.neo.parkguidance.core.api.storedvalue.StoredValueService;
-import com.neo.parkguidance.core.entity.StoredValue;
+import com.neo.parkguidance.core.api.config.ConfigService;
+import com.neo.parkguidance.core.entity.ConfigValue;
 import com.neo.parkguidance.web.impl.pages.lazy.AbstractLazyFacade;
 import com.neo.parkguidance.web.impl.table.Filter;
 
@@ -12,16 +12,15 @@ import javax.inject.Inject;
  * The screen facade for the StoredValueList screen
  */
 @Stateless
-public class StoredValueListFacade extends AbstractLazyFacade<StoredValue> {
+public class StoredValueListFacade extends AbstractLazyFacade<ConfigValue> {
 
-    @Inject
-    StoredValueService storedValueService;
+    @Inject ConfigService configService;
 
-    public Filter<StoredValue> newFilter() {
-        return new Filter<>(new StoredValue());
+    public Filter<ConfigValue> newFilter() {
+        return new Filter<>(new ConfigValue());
     }
 
     public void reload() {
-        storedValueService.reload();
+        configService.reload();
     }
 }

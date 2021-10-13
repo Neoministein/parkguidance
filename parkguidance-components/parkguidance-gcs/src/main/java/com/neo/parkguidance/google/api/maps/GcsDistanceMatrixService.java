@@ -1,7 +1,7 @@
 package com.neo.parkguidance.google.api.maps;
 
 import com.neo.parkguidance.core.api.geomap.DistanceMatrixService;
-import com.neo.parkguidance.core.api.storedvalue.StoredValueService;
+import com.neo.parkguidance.core.api.config.ConfigService;
 import com.neo.parkguidance.core.impl.geomap.DistanceDataObject;
 import com.neo.parkguidance.core.impl.http.HTTPRequestSender;
 import com.neo.parkguidance.core.impl.http.HTTPResponse;
@@ -10,7 +10,7 @@ import com.neo.parkguidance.google.api.constants.GoogleConstants;
 import com.neo.parkguidance.core.entity.Address;
 import com.neo.parkguidance.core.impl.http.HTTPRequest;
 import com.neo.parkguidance.core.entity.ParkingGarage;
-import com.neo.parkguidance.core.entity.StoredValue;
+import com.neo.parkguidance.core.entity.ConfigValue;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -42,8 +42,7 @@ public class GcsDistanceMatrixService implements DistanceMatrixService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GcsDistanceMatrixService.class);
 
-    @Inject
-    StoredValueService storedValueService;
+    @Inject ConfigService configService;
 
     @Inject
     ElasticSearchProvider elasticSearchProvider;
@@ -81,7 +80,7 @@ public class GcsDistanceMatrixService implements DistanceMatrixService {
         url += finalQuery;
 
         HTTPRequest apiRequest = new HTTPRequest();
-        apiRequest.setUrl(url + GoogleConstants.KEY + storedValueService.getString(StoredValue.V_GOOGLE_MAPS_API));
+        apiRequest.setUrl(url + GoogleConstants.KEY + configService.getString(ConfigValue.V_GOOGLE_MAPS_API));
         apiRequest.setRequestMethod("GET");
         HTTPResponse httpResponse = httpRequestSender.call(apiRequest);
 
@@ -252,7 +251,7 @@ public class GcsDistanceMatrixService implements DistanceMatrixService {
     }
 
     protected boolean isStillValid(JSONObject source) {
-        return new Date().getTime() <= source.getLong("timestamp") + storedValueService
+        return new Date().getTime() <= source.getLong("timestamp") + configService
                 .getLong(DISTANCE_MATRIX_CACHE_LIFESPAN, DEFAULT_CACHE_LIFESPAN);
     }
 

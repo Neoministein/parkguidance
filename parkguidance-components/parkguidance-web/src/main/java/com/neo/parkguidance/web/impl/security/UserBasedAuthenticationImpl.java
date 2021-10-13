@@ -1,7 +1,7 @@
 package com.neo.parkguidance.web.impl.security;
 
 import com.github.adminfaces.template.config.AdminConfig;
-import com.neo.parkguidance.core.api.storedvalue.StoredValueService;
+import com.neo.parkguidance.core.api.config.ConfigService;
 import com.neo.parkguidance.core.impl.utils.StringUtils;
 import com.neo.parkguidance.web.api.security.UserBasedAuthentication;
 import com.neo.parkguidance.web.impl.utils.Utils;
@@ -42,8 +42,7 @@ public class UserBasedAuthenticationImpl implements UserBasedAuthentication {
     @Inject
     SecurityContext securityContext;
 
-    @Inject
-    StoredValueService storedValueService;
+    @Inject ConfigService configService;
 
 
     public String attemptCookieBasedLogin() {
@@ -116,7 +115,7 @@ public class UserBasedAuthenticationImpl implements UserBasedAuthentication {
     }
 
     private void storeCookieCredentials(final String email, final String password) {
-        int cookieTimeOut = storedValueService.getInteger(COOKIE_TIMEOUT, DEFAULT_COOKIE_TIMEOUT);
+        int cookieTimeOut = configService.getInteger(COOKIE_TIMEOUT, DEFAULT_COOKIE_TIMEOUT);
 
         Faces.addResponseCookie(COOKIE_USER, email, cookieTimeOut);
         Faces.addResponseCookie(COOKIE_PASSWORD, password, cookieTimeOut);

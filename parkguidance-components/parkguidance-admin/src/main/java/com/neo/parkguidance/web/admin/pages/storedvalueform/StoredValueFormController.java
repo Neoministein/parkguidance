@@ -1,6 +1,6 @@
 package com.neo.parkguidance.web.admin.pages.storedvalueform;
 
-import com.neo.parkguidance.core.entity.StoredValue;
+import com.neo.parkguidance.core.entity.ConfigValue;
 import com.neo.parkguidance.web.impl.pages.form.AbstractFormController;
 import org.omnifaces.util.Messages;
 
@@ -15,7 +15,7 @@ import static com.neo.parkguidance.web.impl.utils.Utils.addDetailMessage;
  */
 @RequestScoped
 @Named(StoredValueFormController.BEAN_NAME)
-public class StoredValueFormController extends AbstractFormController<StoredValue> {
+public class StoredValueFormController extends AbstractFormController<ConfigValue> {
 
     public static final String BEAN_NAME = "storedValueForm";
 

@@ -1,26 +1,26 @@
 package com.neo.parkguidance.core.impl.validation;
 
 import com.neo.parkguidance.core.api.dao.EntityDao;
-import com.neo.parkguidance.core.entity.StoredValue;
+import com.neo.parkguidance.core.entity.Configuration;
+import com.neo.parkguidance.core.impl.config.ConfigType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-import static com.neo.parkguidance.core.entity.DefaultTestEntity.createDefaultStoredValue;
+import static com.neo.parkguidance.core.entity.DefaultTestEntity.*;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 
-class StoredValueValidatorTest {
+class ConfigurationValidatorTest {
 
-    StoredValueValidator subject;
+    ConfigurationValidator subject;
 
     EntityDao entityDao;
 
 
     @BeforeEach
     public void setUp() {
-        subject = Mockito.spy(StoredValueValidator.class);
+        subject = Mockito.spy(ConfigurationValidator.class);
 
         entityDao = Mockito.mock(EntityDao.class);
         subject.dao = entityDao;
@@ -30,7 +30,7 @@ class StoredValueValidatorTest {
     void validationSuccessTest() {
         //Arrange
         Mockito.doReturn(null).when(entityDao).find(any());
-        String primaryKey = "Test02-_";
+        String primaryKey = "Test02-_.";
 
         assertDoesNotThrow(() -> subject.validatePrimaryKey(primaryKey));
     }
@@ -68,57 +68,42 @@ class StoredValueValidatorTest {
     @Test
     void nothingHasChanged() {
         //Arrange
-        StoredValue entity = createDefaultStoredValue();
+        Configuration entity = createDefaultConfiguration();
         Mockito.doReturn(entity).when(entityDao).find(entity.getPrimaryKey());
 
         boolean result;
         //Act
-        result = subject.hasNothingChanged(createDefaultStoredValue());
+        result = subject.hasNothingChanged(createDefaultConfiguration());
 
         //assert
         assertEquals(true, result);
     }
 
     @Test
-    void valueHasChanged() {
-        //Arrange
-        StoredValue entity = createDefaultStoredValue();
-        entity.setValue("newValue");
-        Mockito.doReturn(entity).when(entityDao).find(entity.getPrimaryKey());
-
-        boolean result;
-        //Act
-        result = subject.hasNothingChanged(createDefaultStoredValue());
-
-        //assert
-        assertEquals(false, result);
-    }
-
-    @Test
-    void hiddenHasChanged() {
-        //Arrange
-        StoredValue entity = createDefaultStoredValue();
-        entity.setHidden(true);
-        Mockito.doReturn(entity).when(entityDao).find(entity.getPrimaryKey());
-
-        boolean result;
-        //Act
-        result = subject.hasNothingChanged(createDefaultStoredValue());
-
-        //assert
-        assertEquals(false, result);
-    }
-
-    @Test
     void componentHasChanged() {
         //Arrange
-        StoredValue entity = createDefaultStoredValue();
+        Configuration entity = createDefaultConfiguration();
         entity.setComponent("newValue");
         Mockito.doReturn(entity).when(entityDao).find(entity.getPrimaryKey());
 
         boolean result;
         //Act
-        result = subject.hasNothingChanged(createDefaultStoredValue());
+        result = subject.hasNothingChanged(createDefaultConfiguration());
+
+        //assert
+        assertEquals(false, result);
+    }
+
+    @Test
+    void typeHasChanged() {
+        //Arrange
+        Configuration entity = createDefaultConfiguration();
+        entity.setType(ConfigType.MAP);
+        Mockito.doReturn(entity).when(entityDao).find(entity.getPrimaryKey());
+
+        boolean result;
+        //Act
+        result = subject.hasNothingChanged(createDefaultConfiguration());
 
         //assert
         assertEquals(false, result);
@@ -127,13 +112,13 @@ class StoredValueValidatorTest {
     @Test
     void descriptionHasChanged() {
         //Arrange
-        StoredValue entity = createDefaultStoredValue();
-        entity.setComponent("newValue");
+        Configuration entity = createDefaultConfiguration();
+        entity.setDescription("newValue");
         Mockito.doReturn(entity).when(entityDao).find(entity.getPrimaryKey());
 
         boolean result;
         //Act
-        result = subject.hasNothingChanged(createDefaultStoredValue());
+        result = subject.hasNothingChanged(createDefaultConfiguration());
 
         //assert
         assertEquals(false, result);

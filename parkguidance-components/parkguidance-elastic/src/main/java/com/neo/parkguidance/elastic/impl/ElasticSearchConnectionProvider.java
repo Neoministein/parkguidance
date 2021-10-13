@@ -1,6 +1,6 @@
 package com.neo.parkguidance.elastic.impl;
 
-import com.neo.parkguidance.core.api.storedvalue.StoredValueService;
+import com.neo.parkguidance.core.api.config.ConfigService;
 import com.neo.parkguidance.core.impl.utils.StringUtils;
 import com.neo.parkguidance.elastic.api.ElasticSearchConnectionStatusEvent;
 import com.neo.parkguidance.elastic.api.constants.ElasticSearchConstants;
@@ -32,8 +32,7 @@ public class ElasticSearchConnectionProvider implements Serializable {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ElasticSearchConnectionProvider.class);
 
-    @Inject
-    StoredValueService storedValueService;
+    @Inject ConfigService configService;
 
     @Inject
     Event<ElasticSearchConnectionStatusEvent> connectionStatusEvent;
@@ -47,7 +46,7 @@ public class ElasticSearchConnectionProvider implements Serializable {
     @PostConstruct
     public void onStartUp() {
         LOGGER.debug("Loading elastic search configuration");
-        String nodes = storedValueService.getString(ElasticSearchConstants.SEARCH_NODES_ADDRESS,
+        String nodes = configService.getString(ElasticSearchConstants.SEARCH_NODES_ADDRESS,
                 ElasticSearchConstants.DEFAULT_URL);
         nodeList.clear();
         nodeList.addAll(StringUtils.commaSeparatedStrToList(nodes));
@@ -139,13 +138,13 @@ public class ElasticSearchConnectionProvider implements Serializable {
 
     /**
      * Creates a CredentialsProvider in order to connect to the elastic search cluster if credentials are needed.
-     * If no username or password is found in the {@link StoredValueService} null will be returned
+     * If no username or password is found in the {@link ConfigService} null will be returned
      *
      * @return credentialsProvider
      */
     protected CredentialsProvider getCredentialsProvider() {
-        String username = storedValueService.getString(ElasticSearchConstants.ELASTIC_SEARCH_USERNAME, null);
-        String password = storedValueService.getString(ElasticSearchConstants.ELASTIC_SEARCH_PASSWORD, null);
+        String username = configService.getString(ElasticSearchConstants.ELASTIC_SEARCH_USERNAME, null);
+        String password = configService.getString(ElasticSearchConstants.ELASTIC_SEARCH_PASSWORD, null);
 
         if (StringUtils.isEmpty(username) || StringUtils.isEmpty(password)) {
             return null;
