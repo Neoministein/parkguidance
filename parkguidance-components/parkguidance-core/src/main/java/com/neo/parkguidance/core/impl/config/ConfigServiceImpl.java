@@ -3,9 +3,10 @@ package com.neo.parkguidance.core.impl.config;
 import com.neo.parkguidance.core.api.dao.EntityDao;
 import com.neo.parkguidance.core.api.config.ConfigService;
 import com.neo.parkguidance.core.entity.ConfigValue;
+import com.neo.parkguidance.core.entity.Configuration;
 import com.neo.parkguidance.core.impl.event.DataBaseEntityChangeEvent;
+import com.neo.parkguidance.core.impl.utils.ConfigValueUtils;
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,31 +28,46 @@ public class ConfigServiceImpl implements ConfigService {
     private static final Logger LOGGER = LoggerFactory.getLogger(ConfigServiceImpl.class);
 
     @Inject
-    EntityDao<ConfigValue> dao;
+    EntityDao<Configuration> dao;
 
-    private Map<String, ConfigValue> storedValues;
+    private Map<String, Configuration> configuration;
 
     @PostConstruct
     protected void init() {
-        List<ConfigValue> allValues = dao.findAll();
+        List<Configuration> allValues = dao.findAll();
 
 
-        Map<String, ConfigValue> newMap = new HashMap<>();
-        for (ConfigValue storedValue: allValues) {
+        Map<String, Configuration> newMap = new HashMap<>();
+        for (Configuration storedValue: allValues) {
             newMap.put(storedValue.getKey(), storedValue);
         }
 
-        storedValues = newMap;
+        configuration = newMap;
     }
 
-    public void changeEvent(@Observes DataBaseEntityChangeEvent<ConfigValue> changeEvent) {
+    public void configValueChangeEvent(@Observes DataBaseEntityChangeEvent<ConfigValue> changeEvent) {
         switch (changeEvent.getStatus()) {
         case DataBaseEntityChangeEvent.CREATE:
         case DataBaseEntityChangeEvent.EDIT:
-            storedValues.put(changeEvent.getChangedObject().getKey(), changeEvent.getChangedObject());
+            configuration.put(changeEvent.getChangedObject().getKey(), changeEvent.getChangedObject().getConfiguration());
             break;
         case DataBaseEntityChangeEvent.REMOVE:
-            storedValues.remove(changeEvent.getChangedObject().getKey());
+            configuration.remove(changeEvent.getChangedObject().getKey());
+            break;
+        default:
+            init();
+        }
+        LOGGER.debug("StoredValueService has been updated");
+    }
+
+    public void configurationChangeEvent(@Observes DataBaseEntityChangeEvent<Configuration> changeEvent) {
+        switch (changeEvent.getStatus()) {
+        case DataBaseEntityChangeEvent.CREATE:
+        case DataBaseEntityChangeEvent.EDIT:
+            configuration.put(changeEvent.getChangedObject().getKey(), changeEvent.getChangedObject());
+            break;
+        case DataBaseEntityChangeEvent.REMOVE:
+            configuration.remove(changeEvent.getChangedObject().getKey());
             break;
         default:
             init();
@@ -64,9 +80,9 @@ public class ConfigServiceImpl implements ConfigService {
     }
 
     public ConfigValue getStoredValue(String key) {
-        ConfigValue storedValue = storedValues.get(key);
+        ConfigValue storedValue = configuration.get(key).getSingleValue();
         if (storedValue == null) {
-            LOGGER.warn("Unable to find the stored value {}" , key);
+            LOGGER.warn("Unable to find the Configuration {}" , key);
             throw new IllegalArgumentException(getClass().getName() + " has no entry for the key " + key);
         }
         return storedValue;
@@ -85,108 +101,55 @@ public class ConfigServiceImpl implements ConfigService {
     }
 
     public int getInteger(String key) {
-        try {
-            return Integer.parseInt(getString(key));
-        } catch (NumberFormatException ex) {
-            LOGGER.warn("Wrong type specified [{}] is not an Integer", key);
-            throw new IllegalArgumentException(key + " is not an Integer");
-        }
+        return ConfigValueUtils.parseInteger(getStoredValue(key));
     }
 
     public int getInteger(String key, int defaultValue) {
-        try {
-            return getInteger(key);
-        } catch (IllegalArgumentException ex) {
-            return defaultValue;
-        }
+        return ConfigValueUtils.parseInteger(getStoredValue(key), defaultValue);
     }
 
     public long getLong(String key) {
-        try {
-            return Long.parseLong(getString(key));
-        } catch (NumberFormatException ex) {
-            LOGGER.warn("Wrong type specified [{}] is not an Long", key);
-            throw new IllegalArgumentException(key + " is not an Long");
-        }
+        return ConfigValueUtils.parseLong(getStoredValue(key));
     }
 
     public long getLong(String key, long defaultValue) {
-        try {
-            return getLong(key);
-        } catch (IllegalArgumentException ex) {
-            return defaultValue;
-        }
+        return ConfigValueUtils.parseLong(getStoredValue(key), defaultValue);
     }
 
     public boolean getBoolean(String key) {
-        String bool = getString(key);
-
-        if (bool.equalsIgnoreCase("true")) {
-            return true;
-        }
-        if (bool.equalsIgnoreCase("false")) {
-            return false;
-        }
-        LOGGER.warn("Wrong type specified [{}] is not a Boolean", key);
-        throw new IllegalArgumentException(key + " is not an Boolean");
+        return ConfigValueUtils.parseBoolean(getStoredValue(key));
     }
 
     public boolean getBoolean(String key, boolean defaultValue) {
-        try {
-            return getBoolean(key);
-        } catch (IllegalArgumentException ex) {
-            return defaultValue;
-        }
+        return ConfigValueUtils.parseBoolean(getStoredValue(key), defaultValue);
     }
 
     public double getDouble(String key) {
-        try {
-            return Double.parseDouble(getString(key));
-        } catch (NumberFormatException ex) {
-            LOGGER.warn("Wrong type specified [{}] is not an Double", key);
-            throw new IllegalArgumentException(key + " is not an Double");
-        }
+        return ConfigValueUtils.parseDouble(getStoredValue(key));
     }
 
     public double getDouble(String key, double defaultValue) {
-        try {
-            return getDouble(key);
-        } catch (IllegalArgumentException ex) {
-            return defaultValue;
-        }
+        return ConfigValueUtils.parseDouble(getStoredValue(key), defaultValue);
     }
 
     public JSONObject getJSONObject(String key) {
-        try {
-            return new JSONObject(getString(key));
-        }catch (JSONException ex) {
-            LOGGER.warn("Wrong type specified [{}] is not an JSONObject", key);
-            throw new IllegalArgumentException(key + " is not an JSONObject");
-        }
+        return ConfigValueUtils.parseJSONObject(getStoredValue(key));
     }
 
     public JSONObject getJSONObject(String key, JSONObject defaultValue) {
-        try {
-            return getJSONObject(key);
-        } catch (IllegalArgumentException ex) {
-            return defaultValue;
-        }
+        return ConfigValueUtils.parseJSONObject(getStoredValue(key), defaultValue);
     }
 
     public JSONArray getJSONArray(String key) {
-        try {
-            return new JSONArray(getString(key));
-        }catch (JSONException ex) {
-            LOGGER.warn("Wrong type specified [{}] is not an JSONArray", key);
-            throw new IllegalArgumentException(key + " is not an JSONArray");
-        }
-    }
+        return ConfigValueUtils.parseJSONArray(getStoredValue(key))
+;    }
 
     public JSONArray getJSONArray(String key, JSONArray defaultValue) {
-        try {
-            return getJSONArray(key);
-        } catch (IllegalArgumentException ex) {
-            return defaultValue;
-        }
+        return ConfigValueUtils.parseJSONArray(getStoredValue(key), defaultValue);
+    }
+
+    @Override
+    public Map<String, ConfigValue> getConfigMap(String key) {
+        return configuration.get(key).getMap();
     }
 }

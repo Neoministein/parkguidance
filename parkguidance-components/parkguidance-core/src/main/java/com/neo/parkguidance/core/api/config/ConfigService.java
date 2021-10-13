@@ -1,8 +1,11 @@
 package com.neo.parkguidance.core.api.config;
 
 import com.neo.parkguidance.core.entity.ConfigValue;
+import com.neo.parkguidance.core.entity.Configuration;
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+import java.util.Map;
 
 /**
  * This class provided a cache between the Application and the Database for the {@link ConfigValue} entity
@@ -160,4 +163,13 @@ public interface ConfigService {
      * @return
      */
     JSONArray getJSONArray(String key, JSONArray defaultValue);
+
+    /**
+     * Returns the data map of a {@link Configuration} entity<br>
+     * throws an {@link IllegalArgumentException} if not found
+     *
+     * @param key the {@link Configuration} key
+     * @return
+     */
+    Map<String, ConfigValue> getConfigMap(String key);
 }

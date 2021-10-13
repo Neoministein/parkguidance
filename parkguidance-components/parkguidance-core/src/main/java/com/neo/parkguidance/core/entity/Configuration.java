@@ -3,8 +3,7 @@ package com.neo.parkguidance.core.entity;
 import com.neo.parkguidance.core.impl.config.ConfigType;
 
 import javax.persistence.*;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * This entity class is used for storing persistent configuration with either a single value or a {@link java.util.Map}.
@@ -36,7 +35,7 @@ public class Configuration implements DataBaseEntity{
     @Column(name = C_DESCRIPTION)
     private String description;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.EAGER)
     private List<ConfigValue> configValues;
 
     public String getKey() {
@@ -79,9 +78,31 @@ public class Configuration implements DataBaseEntity{
         this.configValues = configValues;
     }
 
+    public Map<String, ConfigValue> getMap() {
+        if (getType() != ConfigType.MAP) {
+            throw new IllegalArgumentException(getKey() + " is a ConfigType." + getType().toString());
+        }
+        Map<String, ConfigValue> map = new HashMap<>();
+        for (ConfigValue configValue : configValues) {
+            map.put(configValue.getKey(), configValue);
+        }
+        return map;
+    }
+
+
+    public ConfigValue getSingleValue() {
+        if (getType() != ConfigType.SINGLE) {
+            throw new IllegalArgumentException(getKey() + " is a ConfigType." + getType().toString());
+        } else if (!configValues.isEmpty()) {
+            return configValues.get(0);
+        } else {
+            return null;
+        }
+    }
+
     @Override
     public Object getPrimaryKey() {
-        return key;
+        return getKey();
     }
 
     @Override

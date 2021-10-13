@@ -34,6 +34,10 @@ public class ConfigValue implements DataBaseEntity {
     @Column(name = C_DESCRIPTION)
     private String description;
 
+    @ManyToOne
+    @JoinColumn(name = Configuration.C_KEY, updatable = false, insertable = false)
+    private Configuration configuration;
+
     public String getKey() {
         return key;
     }
@@ -64,6 +68,14 @@ public class ConfigValue implements DataBaseEntity {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Configuration getConfiguration() {
+        return configuration;
+    }
+
+    public void setConfiguration(Configuration configuration) {
+        this.configuration = configuration;
     }
 
     @Override
