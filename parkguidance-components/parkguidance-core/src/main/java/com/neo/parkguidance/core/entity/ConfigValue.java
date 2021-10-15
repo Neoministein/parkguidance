@@ -22,7 +22,10 @@ public class ConfigValue implements DataBaseEntity {
     public static final String V_GOOGLE_MAPS_API_EXTERNAL = "cloud.google.maps.api.key.external";
 
     @Id
-    @Column(name = C_KEY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = C_KEY, nullable = false, unique = true)
     private String key;
 
     @Column(name = C_VALUE, nullable = false)
@@ -34,9 +37,16 @@ public class ConfigValue implements DataBaseEntity {
     @Column(name = C_DESCRIPTION)
     private String description;
 
-    @ManyToOne
-    @JoinColumn(name = Configuration.C_KEY, updatable = false, insertable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Configuration configuration;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getKey() {
         return key;
@@ -80,7 +90,7 @@ public class ConfigValue implements DataBaseEntity {
 
     @Override
     public Object getPrimaryKey() {
-        return getKey();
+        return getId();
     }
 
     @Override

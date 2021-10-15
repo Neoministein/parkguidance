@@ -22,7 +22,10 @@ public class Configuration implements DataBaseEntity{
     public static final String C_DESCRIPTION = "description";
 
     @Id
-    @Column(name = C_KEY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = C_KEY, nullable = false, unique = true)
     private String key;
 
     @Enumerated(EnumType.STRING)
@@ -35,8 +38,20 @@ public class Configuration implements DataBaseEntity{
     @Column(name = C_DESCRIPTION)
     private String description;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "configuration", orphanRemoval = true,fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<ConfigValue> configValues;
+
+    public Configuration() {
+        configValues = new ArrayList<>();
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getKey() {
         return key;
@@ -89,7 +104,6 @@ public class Configuration implements DataBaseEntity{
         return map;
     }
 
-
     public ConfigValue getSingleValue() {
         if (getType() != ConfigType.SINGLE) {
             throw new IllegalArgumentException(getKey() + " is a ConfigType." + getType().toString());
@@ -102,7 +116,7 @@ public class Configuration implements DataBaseEntity{
 
     @Override
     public Object getPrimaryKey() {
-        return getKey();
+        return getId();
     }
 
     @Override
