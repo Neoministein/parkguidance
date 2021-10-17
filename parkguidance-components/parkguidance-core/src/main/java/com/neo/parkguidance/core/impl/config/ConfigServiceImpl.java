@@ -80,12 +80,12 @@ public class ConfigServiceImpl implements ConfigService {
     }
 
     public ConfigValue getStoredValue(String key) {
-        ConfigValue storedValue = configuration.get(key).getSingleValue();
-        if (storedValue == null) {
+        Configuration config = configuration.get(key);
+        if (config == null) {
             LOGGER.warn("Unable to find the Configuration {}" , key);
-            throw new IllegalArgumentException(getClass().getName() + " has no entry for the key " + key);
+            return null;
         }
-        return storedValue;
+        return config.getSingleValue();
     }
 
     public String getString(String key) {

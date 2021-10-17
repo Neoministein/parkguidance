@@ -37,7 +37,7 @@ public class ConfigValue implements DataBaseEntity {
     @Column(name = C_DESCRIPTION)
     private String description;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private Configuration configuration;
 
     public Long getId() {

@@ -1,6 +1,7 @@
 package com.neo.parkguidance.core.impl.validation;
 
 import com.neo.parkguidance.core.entity.Configuration;
+import com.neo.parkguidance.core.impl.utils.StringUtils;
 
 import javax.ejb.Stateless;
 import java.util.HashSet;
@@ -11,12 +12,6 @@ import java.util.Objects;
  */
 @Stateless
 public class ConfigurationValidator extends AbstractDatabaseEntityValidation<Configuration> {
-
-    @Override
-    public void validatePrimaryKey(Object primaryKey) {
-        super.validatePrimaryKey(primaryKey);
-        checkInvalidCharsInPrimaryKey((String) primaryKey);
-    }
 
     @Override
     public boolean hasNothingChanged(Configuration entity) {
@@ -38,9 +33,18 @@ public class ConfigurationValidator extends AbstractDatabaseEntityValidation<Con
         return new HashSet<>(originalObject.getConfigValues()).equals(new HashSet<>(entity.getConfigValues()));
     }
 
-    protected void checkInvalidCharsInPrimaryKey(String primaryKey) {
-        if (primaryKey.replaceAll("[a-zA-Z\\d\\-_.]","").length() > 0) {
+    public void checkInvalidCharsInKey(String key) {
+        if (key == null) {
+            throw new EntityValidationException("Key cannot be null");
+        }
+        if (StringUtils.isEmpty(key)) {
+            throw new EntityValidationException("A String Key cannot be empty");
+        }
+        if (key.replaceAll("[a-zA-Z\\d\\-_.]","").length() > 0) {
             throw new EntityValidationException("Unsupported Character, Valid Characters include A-z, 0-9, '_', '-' and '.'");
+        }
+        if (uniqueValue(Configuration.C_KEY, key)) {
+            throw new EntityValidationException("Key already exists");
         }
     }
 }
