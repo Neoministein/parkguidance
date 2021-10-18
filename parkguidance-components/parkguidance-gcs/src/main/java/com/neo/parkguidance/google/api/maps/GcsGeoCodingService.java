@@ -4,6 +4,7 @@ import com.neo.parkguidance.core.api.geomap.GeoCodingService;
 import com.neo.parkguidance.core.api.config.ConfigService;
 import com.neo.parkguidance.core.impl.http.HTTPRequestSender;
 import com.neo.parkguidance.core.impl.http.HTTPResponse;
+import com.neo.parkguidance.core.impl.utils.ConfigValueUtils;
 import com.neo.parkguidance.elastic.impl.ElasticSearchProvider;
 import com.neo.parkguidance.google.api.constants.GoogleConstants;
 import com.neo.parkguidance.core.entity.Address;
@@ -14,11 +15,13 @@ import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import javax.annotation.PostConstruct;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Date;
+import java.util.Map;
 
 /**
  * This class is used for calling the Google Cloud Platform GeoLocation service
@@ -38,7 +41,14 @@ public class GcsGeoCodingService implements GeoCodingService {
     @Inject
     ElasticSearchProvider elasticSearchProvider;
 
-    HTTPRequestSender httpRequestSender = new HTTPRequestSender();
+    protected HTTPRequestSender httpRequestSender = new HTTPRequestSender();
+
+    protected Map<String, ConfigValue> configValueMap = null;
+
+    @PostConstruct
+    public void init() {
+        configValueMap = configService.getConfigMap("com.neo.parkguidance.gcs");
+    }
 
     /**
      * Find the coordinates associated with the address
@@ -55,7 +65,7 @@ public class GcsGeoCodingService implements GeoCodingService {
 
         String url = API_URL + GoogleConstants.JSON + ADDRESS + query + GoogleConstants.KEY;
 
-        httpRequest.setUrl(url + configService.getString(ConfigValue.V_GOOGLE_MAPS_API));
+        httpRequest.setUrl(url + ConfigValueUtils.parseString(configValueMap.get(ConfigValue.V_GOOGLE_MAPS_API)));
         httpRequest.setRequestMethod("GET");
         HTTPResponse httpResponse = httpRequestSender.call(httpRequest);
 

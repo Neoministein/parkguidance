@@ -1,7 +1,7 @@
 {
   "files": [
     {
-      "location" : "data/permissions.json"
+      "location" : "data/configvalues.json"
     }
   ]
 }

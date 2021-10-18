@@ -24,7 +24,7 @@ public class UserBasedAuthenticationImpl implements UserBasedAuthentication {
 
     private static final String COOKIE_USER = "admin-user";
     private static final String COOKIE_PASSWORD = "admin-pass";
-    private static final String COOKIE_TIMEOUT = "web.cookie.timeout";
+    private static final String COOKIE_TIMEOUT = "web.auth.cookie.timeout";
 
     private static final int DEFAULT_COOKIE_TIMEOUT = 1800; //30 min
 
@@ -42,7 +42,8 @@ public class UserBasedAuthenticationImpl implements UserBasedAuthentication {
     @Inject
     SecurityContext securityContext;
 
-    @Inject ConfigService configService;
+    @Inject
+    ConfigService configService;
 
 
     public String attemptCookieBasedLogin() {

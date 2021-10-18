@@ -3,6 +3,7 @@ package com.neo.parkguidance.google.api.maps.components.embededmap;
 import com.neo.parkguidance.core.api.config.ConfigService;
 import com.neo.parkguidance.core.entity.Address;
 import com.neo.parkguidance.core.entity.ConfigValue;
+import com.neo.parkguidance.core.impl.utils.ConfigValueUtils;
 import com.neo.parkguidance.google.api.maps.embed.EmbeddedMap;
 import com.neo.parkguidance.web.api.component.embeddedmap.EmbeddedMapComponentLogic;
 
@@ -17,7 +18,7 @@ public class GcsEmbeddedMapComponentLogic implements EmbeddedMapComponentLogic {
     @Override
     public String generateHTML(Address center) {
         String url =  EmbeddedMap.buildPlaceUrl(
-                configService.getString(ConfigValue.V_GOOGLE_MAPS_API_EXTERNAL),
+                ConfigValueUtils.parseString(configService.getConfigMap("com.neo.parkguidance.gcs").get(ConfigValue.V_GOOGLE_MAPS_API_EXTERNAL)),
                 EmbeddedMap.MapType.roadmap,
                 center).toString();
 

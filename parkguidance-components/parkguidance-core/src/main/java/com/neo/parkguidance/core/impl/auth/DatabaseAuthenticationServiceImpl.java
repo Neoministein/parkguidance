@@ -26,7 +26,8 @@ public class DatabaseAuthenticationServiceImpl implements AuthenticationService 
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DatabaseAuthenticationServiceImpl.class);
 
-    @Inject ConfigService configService;
+    @Inject
+    ConfigService configService;
 
     @Inject
     EntityDao<RegisteredUser> userDao;

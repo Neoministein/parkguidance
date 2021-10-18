@@ -1,6 +1,8 @@
 package com.neo.parkguidance.elastic.impl;
 
 import com.neo.parkguidance.core.api.config.ConfigService;
+import com.neo.parkguidance.core.entity.ConfigValue;
+import com.neo.parkguidance.core.impl.utils.ConfigValueUtils;
 import com.neo.parkguidance.core.impl.utils.StringUtils;
 import com.neo.parkguidance.elastic.api.ElasticSearchConnectionStatusEvent;
 import com.neo.parkguidance.elastic.api.constants.ElasticSearchConstants;
@@ -22,6 +24,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
@@ -32,7 +35,8 @@ public class ElasticSearchConnectionProvider implements Serializable {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ElasticSearchConnectionProvider.class);
 
-    @Inject ConfigService configService;
+    @Inject
+    ConfigService configService;
 
     @Inject
     Event<ElasticSearchConnectionStatusEvent> connectionStatusEvent;
@@ -46,7 +50,8 @@ public class ElasticSearchConnectionProvider implements Serializable {
     @PostConstruct
     public void onStartUp() {
         LOGGER.debug("Loading elastic search configuration");
-        String nodes = configService.getString(ElasticSearchConstants.SEARCH_NODES_ADDRESS,
+        Map<String, ConfigValue> configValueMap = configService.getConfigMap(ElasticSearchConstants.ELASTIC_SEARCH_CONFIG_MAP);
+        String nodes = ConfigValueUtils.parseString(configValueMap.get(ElasticSearchConstants.SEARCH_NODES_ADDRESS),
                 ElasticSearchConstants.DEFAULT_URL);
         nodeList.clear();
         nodeList.addAll(StringUtils.commaSeparatedStrToList(nodes));
@@ -143,8 +148,10 @@ public class ElasticSearchConnectionProvider implements Serializable {
      * @return credentialsProvider
      */
     protected CredentialsProvider getCredentialsProvider() {
-        String username = configService.getString(ElasticSearchConstants.ELASTIC_SEARCH_USERNAME, null);
-        String password = configService.getString(ElasticSearchConstants.ELASTIC_SEARCH_PASSWORD, null);
+        Map<String, ConfigValue> configValueMap = configService.getConfigMap(ElasticSearchConstants.ELASTIC_SEARCH_CONFIG_MAP);
+
+        String username = ConfigValueUtils.parseString(configValueMap.get(ElasticSearchConstants.ELASTIC_SEARCH_USERNAME), null);
+        String password = ConfigValueUtils.parseString(configValueMap.get(ElasticSearchConstants.ELASTIC_SEARCH_PASSWORD), null);
 
         if (StringUtils.isEmpty(username) || StringUtils.isEmpty(password)) {
             return null;
