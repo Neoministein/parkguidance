@@ -89,15 +89,11 @@ public class ConfigServiceImpl implements ConfigService {
     }
 
     public String getString(String key) {
-        return getStoredValue(key).getValue();
+        return ConfigValueUtils.parseString(getStoredValue(key));
     }
 
     public String getString(String key, String defaultValue) {
-        try {
-            return getString(key);
-        } catch (IllegalArgumentException ex) {
-            return defaultValue;
-        }
+        return ConfigValueUtils.parseString(getStoredValue(key), defaultValue);
     }
 
     public int getInteger(String key) {
@@ -150,6 +146,10 @@ public class ConfigServiceImpl implements ConfigService {
 
     @Override
     public Map<String, ConfigValue> getConfigMap(String key) {
+        Configuration map = configuration.get(key);
+        if (map == null) {
+            throw new IllegalArgumentException("Configuration object is null");
+        }
         return configuration.get(key).getMap();
     }
 }

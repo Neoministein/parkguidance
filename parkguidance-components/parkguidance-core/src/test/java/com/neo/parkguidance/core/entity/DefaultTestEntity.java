@@ -38,6 +38,7 @@ public class DefaultTestEntity {
 
     public static Configuration createDefaultConfiguration() {
         Configuration configuration = new Configuration();
+        configuration.setId(0l);
         configuration.setKey("key");
         configuration.setType(ConfigType.SINGLE);
         configuration.setComponent("component");
@@ -48,6 +49,7 @@ public class DefaultTestEntity {
 
     public static ConfigValue createDefaultConfigValue() {
         ConfigValue configValue = new ConfigValue();
+        configValue.setId(0l);
         configValue.setKey("key");
         configValue.setValue("value");
         configValue.setHidden(false);
@@ -82,5 +84,16 @@ public class DefaultTestEntity {
         permission.setId(0l);
         permission.setName("name");
         return permission;
+    }
+
+    public static Configuration createSingleConfiguration(String key, String value) {
+        ConfigValue configValue = new ConfigValue();
+        configValue.setKey(key);
+        configValue.setValue(value);
+        Configuration configuration = new Configuration();
+        configuration.setKey(key);
+        configuration.setType(ConfigType.SINGLE);
+        configuration.setConfigValues(Arrays.asList(configValue));
+        return configuration;
     }
 }

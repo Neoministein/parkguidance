@@ -32,7 +32,7 @@ class ConfigValueValidatorTest {
         Mockito.doReturn(null).when(entityDao).find(any());
         String primaryKey = "Test02-_.";
 
-        assertDoesNotThrow(() -> subject.validatePrimaryKey(primaryKey));
+        assertDoesNotThrow(() -> subject.checkInvalidCharsInKey(primaryKey));
     }
 
     @Test
@@ -44,7 +44,7 @@ class ConfigValueValidatorTest {
         String expectedMessage = "Unsupported Character";
 
         //Act
-        Exception exception = assertThrows(EntityValidationException.class, () -> subject.validatePrimaryKey(primaryKey));
+        Exception exception = assertThrows(EntityValidationException.class, () -> subject.checkInvalidCharsInKey(primaryKey));
         //Assert
 
         assertTrue(exception.getMessage().contains(expectedMessage));
@@ -59,7 +59,7 @@ class ConfigValueValidatorTest {
         String expectedMessage = "Unsupported Character";
 
         //Act
-        Exception exception = assertThrows(EntityValidationException.class, () -> subject.validatePrimaryKey(primaryKey));
+        Exception exception = assertThrows(EntityValidationException.class, () -> subject.checkInvalidCharsInKey(primaryKey));
         //Assert
 
         assertTrue(exception.getMessage().contains(expectedMessage));

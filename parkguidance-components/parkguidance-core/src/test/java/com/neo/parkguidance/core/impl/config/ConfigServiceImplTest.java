@@ -2,6 +2,7 @@ package com.neo.parkguidance.core.impl.config;
 
 import com.neo.parkguidance.core.api.dao.EntityDao;
 import com.neo.parkguidance.core.entity.ConfigValue;
+import com.neo.parkguidance.core.entity.Configuration;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeAll;
@@ -10,56 +11,45 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
+import static com.neo.parkguidance.core.entity.DefaultTestEntity.createSingleConfiguration;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
-class StoredValueServiceImplTest {
+class ConfigServiceImplTest {
 
     ConfigServiceImpl subject;
 
     EntityDao entityDao;
-    static List<ConfigValue> storedValueList;
+    static List<Configuration> storedValueList;
 
     @BeforeAll
     public static void setUpDao() {
         storedValueList = new ArrayList<>();
 
-        ConfigValue string = new ConfigValue();
-        string.setKey("string");
-        string.setValue("This is a string");
-        storedValueList.add(string);
+        storedValueList.add(createSingleConfiguration("string","This is a string"));
+        storedValueList.add(createSingleConfiguration("integer","5000"));
+        storedValueList.add(createSingleConfiguration("long","5000"));
+        storedValueList.add(createSingleConfiguration("boolean","false"));
+        storedValueList.add(createSingleConfiguration("double","5000"));
+        storedValueList.add(createSingleConfiguration("jsonObject",new JSONObject().toString()));
+        storedValueList.add(createSingleConfiguration("jsonArray",new JSONArray().toString()));
 
-        ConfigValue integer = new ConfigValue();
-        integer.setKey("integer");
-        integer.setValue("5000");
-        storedValueList.add(integer);
 
-        ConfigValue l0ng = new ConfigValue();
-        l0ng.setKey("long");
-        l0ng.setValue("5000");
-        storedValueList.add(l0ng);
-
-        ConfigValue b00lean = new ConfigValue();
-        b00lean.setKey("boolean");
-        b00lean.setValue("false");
-        storedValueList.add(b00lean);
-
-        ConfigValue d0uble = new ConfigValue();
-        d0uble.setKey("double");
-        d0uble.setValue("5000");
-        storedValueList.add(d0uble);
-
-        ConfigValue jsonObject = new ConfigValue();
-        jsonObject.setKey("jsonObject");
-        jsonObject.setValue(new JSONObject().toString());
-        storedValueList.add(jsonObject);
-
-        ConfigValue jsonArray = new ConfigValue();
-        jsonArray.setKey("jsonArray");
-        jsonArray.setValue(new JSONArray().toString());
-        storedValueList.add(jsonArray);
-
+        ConfigValue entryOne = new ConfigValue();
+        entryOne.setKey("entryOne");
+        entryOne.setValue("entryOne");
+        ConfigValue entryTwo = new ConfigValue();
+        entryTwo.setValue("entryTwo");
+        entryTwo.setValue("entryTwo");
+        Configuration configurationMap = new Configuration();
+        configurationMap.setKey("map");
+        configurationMap.setType(ConfigType.MAP);
+        configurationMap.setConfigValues(Arrays.asList(entryOne,entryTwo));
+        storedValueList.add(configurationMap);
     }
 
     @BeforeEach
@@ -267,5 +257,15 @@ class StoredValueServiceImplTest {
         //Assert
 
         assertEquals(expected, result);
+    }
+
+    @Test
+    void mapExistTest() {
+        //Arrange
+
+        //Act
+        Map<String, ConfigValue> map = subject.getConfigMap("map");
+        //Assert
+        assertNotEquals(null,map);
     }
 }

@@ -44,7 +44,7 @@ class ConfigurationValidatorTest {
         String expectedMessage = "Unsupported Character";
 
         //Act
-        Exception exception = assertThrows(EntityValidationException.class, () -> subject.validatePrimaryKey(primaryKey));
+        Exception exception = assertThrows(EntityValidationException.class, () -> subject.checkInvalidCharsInKey(primaryKey));
         //Assert
 
         assertTrue(exception.getMessage().contains(expectedMessage));
@@ -59,7 +59,7 @@ class ConfigurationValidatorTest {
         String expectedMessage = "Unsupported Character";
 
         //Act
-        Exception exception = assertThrows(EntityValidationException.class, () -> subject.validatePrimaryKey(primaryKey));
+        Exception exception = assertThrows(EntityValidationException.class, () -> subject.checkInvalidCharsInKey(primaryKey));
         //Assert
 
         assertTrue(exception.getMessage().contains(expectedMessage));

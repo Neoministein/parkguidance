@@ -7,15 +7,12 @@ import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+@SuppressWarnings("java:S2259") //Null is checked by parseString
 public class ConfigValueUtils {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ConfigValueUtils.class);
 
     private ConfigValueUtils() {}
-
-    private static String parseString(ConfigValue configValue) {
-        return configValue.getValue();
-    }
 
     private static void checkNull(ConfigValue configValue) {
         if (configValue == null) {
@@ -24,8 +21,20 @@ public class ConfigValueUtils {
         }
     }
 
-    public static int parseInteger(ConfigValue configValue) {
+    public static String parseString(ConfigValue configValue) {
         checkNull(configValue);
+        return configValue.getValue();
+    }
+
+    public static String parseString(ConfigValue configValue, String defaultValue) {
+        try {
+            return parseString(configValue);
+        } catch (IllegalArgumentException ex) {
+            return defaultValue;
+        }
+    }
+
+    public static int parseInteger(ConfigValue configValue) {
         try {
             return Integer.parseInt(parseString(configValue));
         } catch (NumberFormatException ex) {
@@ -43,7 +52,6 @@ public class ConfigValueUtils {
     }
 
     public static long parseLong(ConfigValue configValue) {
-        checkNull(configValue);
         try {
             return Long.parseLong(parseString(configValue));
         } catch (NumberFormatException ex) {
@@ -61,7 +69,6 @@ public class ConfigValueUtils {
     }
 
     public static boolean parseBoolean(ConfigValue configValue) {
-        checkNull(configValue);
         String bool = parseString(configValue);
 
         if (bool.equalsIgnoreCase("true")) {
@@ -83,7 +90,6 @@ public class ConfigValueUtils {
     }
 
     public static double parseDouble(ConfigValue configValue) {
-        checkNull(configValue);
         try {
             return Double.parseDouble(parseString(configValue));
         } catch (NumberFormatException ex) {
@@ -101,7 +107,6 @@ public class ConfigValueUtils {
     }
 
     public static JSONObject parseJSONObject(ConfigValue configValue) {
-        checkNull(configValue);
         try {
             return new JSONObject(parseString(configValue));
         }catch (JSONException ex) {
@@ -119,7 +124,6 @@ public class ConfigValueUtils {
     }
 
     public static JSONArray parseJSONArray(ConfigValue configValue) {
-        checkNull(configValue);
         try {
             return new JSONArray(parseString(configValue));
         }catch (JSONException ex) {
