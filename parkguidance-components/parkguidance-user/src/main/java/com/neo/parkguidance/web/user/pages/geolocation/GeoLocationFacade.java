@@ -4,7 +4,7 @@ import com.neo.parkguidance.core.api.dao.EntityDao;
 import com.neo.parkguidance.core.api.geomap.DistanceMatrixService;
 import com.neo.parkguidance.core.api.geomap.GeoCodingService;
 import com.neo.parkguidance.core.api.geomap.GeoMapURL;
-import com.neo.parkguidance.core.api.storedvalue.StoredValueService;
+import com.neo.parkguidance.core.api.config.ConfigService;
 import com.neo.parkguidance.core.impl.geomap.DistanceDataObject;
 import com.neo.parkguidance.core.entity.Address;
 import com.neo.parkguidance.core.entity.ParkingGarage;
@@ -43,8 +43,7 @@ public class GeoLocationFacade {
     @Inject
     EntityDao<ParkingGarage> parkingGarageDao;
 
-    @Inject
-    StoredValueService storedValueService;
+    @Inject ConfigService configService;
 
     public List<DistanceDataObject> callDistance(double latitude, double longitude) {
         List<ParkingGarage> parkingGarageList = findNearest(parkingGarageDao.findAll(), latitude, longitude);
@@ -81,7 +80,7 @@ public class GeoLocationFacade {
     protected List<ParkingGarage> findNearest(List<ParkingGarage> parkingGarageList, double latitude, double longitude) {
         LOGGER.info("Looking for nearest ParkingGarage");
         Map<String,Double> map = new HashMap<>();
-        int wantedGarages = storedValueService.getInteger(WANTED_GARAGES, DEFAULT_GARAGES);
+        int wantedGarages = configService.getInteger(WANTED_GARAGES, DEFAULT_GARAGES);
         if(parkingGarageList.size() < wantedGarages) {
             LOGGER.debug("There aren't enough ParkingGarages using all");
             return parkingGarageList;

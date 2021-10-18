@@ -1,26 +1,26 @@
 package com.neo.parkguidance.core.impl.validation;
 
 import com.neo.parkguidance.core.api.dao.EntityDao;
-import com.neo.parkguidance.core.entity.StoredValue;
+import com.neo.parkguidance.core.entity.ConfigValue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-import static com.neo.parkguidance.core.entity.DefaultTestEntity.createDefaultStoredValue;
+import static com.neo.parkguidance.core.entity.DefaultTestEntity.createDefaultConfigValue;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 
-class StoredValueValidatorTest {
+class ConfigValueValidatorTest {
 
-    StoredValueValidator subject;
+    ConfigValueValidator subject;
 
     EntityDao entityDao;
 
 
     @BeforeEach
     public void setUp() {
-        subject = Mockito.spy(StoredValueValidator.class);
+        subject = Mockito.spy(ConfigValueValidator.class);
 
         entityDao = Mockito.mock(EntityDao.class);
         subject.dao = entityDao;
@@ -30,9 +30,9 @@ class StoredValueValidatorTest {
     void validationSuccessTest() {
         //Arrange
         Mockito.doReturn(null).when(entityDao).find(any());
-        String primaryKey = "Test02-_";
+        String primaryKey = "Test02-_.";
 
-        assertDoesNotThrow(() -> subject.validatePrimaryKey(primaryKey));
+        assertDoesNotThrow(() -> subject.checkInvalidCharsInKey(primaryKey));
     }
 
     @Test
@@ -44,7 +44,7 @@ class StoredValueValidatorTest {
         String expectedMessage = "Unsupported Character";
 
         //Act
-        Exception exception = assertThrows(EntityValidationException.class, () -> subject.validatePrimaryKey(primaryKey));
+        Exception exception = assertThrows(EntityValidationException.class, () -> subject.checkInvalidCharsInKey(primaryKey));
         //Assert
 
         assertTrue(exception.getMessage().contains(expectedMessage));
@@ -59,7 +59,7 @@ class StoredValueValidatorTest {
         String expectedMessage = "Unsupported Character";
 
         //Act
-        Exception exception = assertThrows(EntityValidationException.class, () -> subject.validatePrimaryKey(primaryKey));
+        Exception exception = assertThrows(EntityValidationException.class, () -> subject.checkInvalidCharsInKey(primaryKey));
         //Assert
 
         assertTrue(exception.getMessage().contains(expectedMessage));
@@ -68,12 +68,12 @@ class StoredValueValidatorTest {
     @Test
     void nothingHasChanged() {
         //Arrange
-        StoredValue entity = createDefaultStoredValue();
+        ConfigValue entity = createDefaultConfigValue();
         Mockito.doReturn(entity).when(entityDao).find(entity.getPrimaryKey());
 
         boolean result;
         //Act
-        result = subject.hasNothingChanged(createDefaultStoredValue());
+        result = subject.hasNothingChanged(createDefaultConfigValue());
 
         //assert
         assertEquals(true, result);
@@ -82,13 +82,13 @@ class StoredValueValidatorTest {
     @Test
     void valueHasChanged() {
         //Arrange
-        StoredValue entity = createDefaultStoredValue();
+        ConfigValue entity = createDefaultConfigValue();
         entity.setValue("newValue");
         Mockito.doReturn(entity).when(entityDao).find(entity.getPrimaryKey());
 
         boolean result;
         //Act
-        result = subject.hasNothingChanged(createDefaultStoredValue());
+        result = subject.hasNothingChanged(createDefaultConfigValue());
 
         //assert
         assertEquals(false, result);
@@ -97,28 +97,13 @@ class StoredValueValidatorTest {
     @Test
     void hiddenHasChanged() {
         //Arrange
-        StoredValue entity = createDefaultStoredValue();
+        ConfigValue entity = createDefaultConfigValue();
         entity.setHidden(true);
         Mockito.doReturn(entity).when(entityDao).find(entity.getPrimaryKey());
 
         boolean result;
         //Act
-        result = subject.hasNothingChanged(createDefaultStoredValue());
-
-        //assert
-        assertEquals(false, result);
-    }
-
-    @Test
-    void componentHasChanged() {
-        //Arrange
-        StoredValue entity = createDefaultStoredValue();
-        entity.setComponent("newValue");
-        Mockito.doReturn(entity).when(entityDao).find(entity.getPrimaryKey());
-
-        boolean result;
-        //Act
-        result = subject.hasNothingChanged(createDefaultStoredValue());
+        result = subject.hasNothingChanged(createDefaultConfigValue());
 
         //assert
         assertEquals(false, result);
@@ -127,13 +112,13 @@ class StoredValueValidatorTest {
     @Test
     void descriptionHasChanged() {
         //Arrange
-        StoredValue entity = createDefaultStoredValue();
-        entity.setComponent("newValue");
+        ConfigValue entity = createDefaultConfigValue();
+        entity.setDescription("newValue");
         Mockito.doReturn(entity).when(entityDao).find(entity.getPrimaryKey());
 
         boolean result;
         //Act
-        result = subject.hasNothingChanged(createDefaultStoredValue());
+        result = subject.hasNothingChanged(createDefaultConfigValue());
 
         //assert
         assertEquals(false, result);

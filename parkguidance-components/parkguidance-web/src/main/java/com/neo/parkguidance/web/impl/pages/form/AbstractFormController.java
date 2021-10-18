@@ -10,14 +10,13 @@ import static com.neo.parkguidance.web.impl.utils.Utils.addDetailMessage;
 public abstract class AbstractFormController<T extends DataBaseEntity> {
     
     public void init() {
-        if(Faces.isAjaxRequest()){
-            return;
-        }
-
-        if (has(getModel().getPrimaryKey())) {
-            getModel().setEntity(getFacade().findEntityById(getModel().getPrimaryKey()));
-        } else {
-            getModel().setEntity(getFacade().newEntity());
+        if (!getModel().isInitialized()) {
+            if (has(getModel().getPrimaryKey())) {
+                getModel().setEntity(getFacade().findEntityById(getModel().getPrimaryKey()));
+            } else {
+                getModel().setEntity(getFacade().newEntity());
+            }
+            getModel().setInitialized(true);
         }
     }
 

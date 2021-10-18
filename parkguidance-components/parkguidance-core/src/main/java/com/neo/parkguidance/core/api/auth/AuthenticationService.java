@@ -1,9 +1,6 @@
 package com.neo.parkguidance.core.api.auth;
 
-import com.neo.parkguidance.core.entity.ParkingGarage;
-import com.neo.parkguidance.core.entity.Permission;
-import com.neo.parkguidance.core.entity.RegisteredUser;
-import com.neo.parkguidance.core.entity.UserToken;
+import com.neo.parkguidance.core.entity.*;
 
 import java.util.Collection;
 import java.util.Set;
@@ -58,10 +55,10 @@ public interface AuthenticationService {
     ParkingGarage authenticateGarage(String accessKey);
 
     /**
-     * Gets {@link Permission} list which are defined from a {@link com.neo.parkguidance.core.entity.StoredValue} <br>
+     * Gets {@link Permission} list which are defined from a {@link ConfigValue} <br>
      * throws an {@link IllegalStateException} if no valid permissions are found
      *
-     * @param storedValueKey the key of a {@link com.neo.parkguidance.core.entity.StoredValue}
+     * @param storedValueKey the key of a {@link ConfigValue}
      * @retur a {@link Set<Permission>} if a stored Value exists
      */
     Set<Permission> getRequiredPermissions(String storedValueKey);

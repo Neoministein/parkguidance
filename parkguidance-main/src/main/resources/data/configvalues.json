@@ -1,0 +1,122 @@
+{
+  "list": [
+    {
+      "table": "configuration",
+      "column": [
+        { "v" : "id", "t" : "number"},
+        { "v" : "key", "t": "string" },
+        { "v" : "type", "t" : "string"},
+        { "v" : "component", "t": "string" },
+        { "v" : "description", "t": "boolean"}
+      ],
+      "data": [
+        [
+          { "v" : "0"},
+          { "v" : "com.neo.parkguidance.elastic"},
+          { "v" : "MAP"},
+          { "v" : "parkguidance-elastic"},
+          { "v" : "Configuration values for the Elasticsearch Component"}
+        ],
+        [
+          { "v" : "1"},
+          { "v" : "com.neo.parkguidance.gcs"},
+          { "v" : "MAP"},
+          { "v" : "parkguidance-gcs"},
+          { "v" : "Configuration values for the Google Cloud Service Component"}
+        ],
+        [
+          { "v" : "2"},
+          { "v" : "web.auth.cookie.timeout"},
+          { "v" : "SINGLE"},
+          { "v" : "parkguidance-web"},
+          { "v" : "A authentication cookies lifecycle in seconds"}
+        ],
+        [
+          { "v" : "3"},
+          { "v" : "user.wanted-garages"},
+          { "v" : "SINGLE"},
+          { "v" : "parkguidance-user"},
+          { "v" : "How many parking garages which need to be used to find the nearest"}
+        ]
+      ]
+    },
+    {
+      "table": "configValue",
+      "column": [
+        { "v" : "id", "t" : "number"},
+        { "v" : "key", "t": "string" },
+        { "v" : "value", "t" : "string"},
+        { "v" : "hidden", "t" : "boolean"},
+        { "v" : "description", "t" : "string"},
+        { "v" : "configuration_id", "t": "number" }
+      ],
+      "data": [
+        [
+          { "v" : "0"},
+          { "v" : "com.neo.parkguidance.elastic.username"},
+          { "v" : "username"},
+          { "v" : "false"},
+          { "v" : "The elasticsearch authentication username"},
+          { "v" : "0"}
+        ],
+        [
+          { "v" : "1"},
+          { "v" : "com.neo.parkguidance.elastic.password"},
+          { "v" : "password"},
+          { "v" : "true"},
+          { "v" : "The elasticsearch authentication password"},
+          { "v" : "0"}
+        ],
+        [
+          { "v" : "2"},
+          { "v" : "com.neo.parkguidance.elastic.nodes"},
+          { "v" : "http://localhost:9200"},
+          { "v" : "false"},
+          { "v" : "The elasticsearch authentication username"},
+          { "v" : "0"}
+        ],
+        [
+          { "v" : "3"},
+          { "v" : "com.neo.parkguidance.gcs.maps.distance-matrix.cache-lifespan"},
+          { "v" : "2073600000"},
+          { "v" : "false"},
+          { "v" : "The time how long a gcs distance matrix result shall be stored"},
+          { "v" : "1"}
+        ],
+        [
+          { "v" : "4"},
+          { "v" : "cloud.google.maps.api.key"},
+          { "v" : ""},
+          { "v" : "true"},
+          { "v" : "The gcs api key which has no restrictions"},
+          { "v" : "1"}
+        ],
+        [
+          { "v" : "5"},
+          { "v" : "cloud.google.maps.api.key.external"},
+          { "v" : ""},
+          { "v" : "true"},
+          { "v" : "The gcs api key which will be sent to the user for client side embedded and normal map rendering"},
+          { "v" : "1"}
+        ],
+        [
+          { "v" : "6"},
+          { "v" : "web.auth.cookie.timeout"},
+          { "v" : "1800"},
+          { "v" : "false"},
+          { "v" : ""},
+          { "v" : "2"}
+        ],
+        [
+          { "v" : "7"},
+          { "v" : "user.wanted-garages"},
+          { "v" : "5"},
+          { "v" : "false"},
+          { "v" : ""},
+          { "v" : "3"}
+        ]
+
+      ]
+    }
+  ]
+}

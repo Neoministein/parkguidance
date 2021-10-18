@@ -2,7 +2,7 @@ package com.neo.parkguidance.core.impl.auth;
 
 import com.neo.parkguidance.core.api.auth.AuthenticationService;
 import com.neo.parkguidance.core.api.dao.EntityDao;
-import com.neo.parkguidance.core.api.storedvalue.StoredValueService;
+import com.neo.parkguidance.core.api.config.ConfigService;
 import com.neo.parkguidance.core.entity.ParkingGarage;
 import com.neo.parkguidance.core.entity.Permission;
 import com.neo.parkguidance.core.entity.RegisteredUser;
@@ -27,7 +27,7 @@ public class DatabaseAuthenticationServiceImpl implements AuthenticationService 
     private static final Logger LOGGER = LoggerFactory.getLogger(DatabaseAuthenticationServiceImpl.class);
 
     @Inject
-    StoredValueService storedValueService;
+    ConfigService configService;
 
     @Inject
     EntityDao<RegisteredUser> userDao;
@@ -126,7 +126,7 @@ public class DatabaseAuthenticationServiceImpl implements AuthenticationService 
         Set<Permission> permissions = new HashSet<>();
 
         try {
-            for (String permissionName: this.storedValueService.getString(storedValueKey).replaceAll("\\s", "").split(",")) {
+            for (String permissionName: this.configService.getString(storedValueKey).replaceAll("\\s", "").split(",")) {
                 Permission permission = permissionDao.findOneByColumn(Permission.C_NAME, permissionName);
                 if (permission != null) {
                     permissions.add(permission);

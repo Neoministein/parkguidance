@@ -1,29 +1,28 @@
 package com.neo.parkguidance.google.api.maps;
 
 import com.neo.parkguidance.core.api.geomap.DistanceMatrixService;
-import com.neo.parkguidance.core.api.storedvalue.StoredValueService;
+import com.neo.parkguidance.core.api.config.ConfigService;
 import com.neo.parkguidance.core.impl.geomap.DistanceDataObject;
 import com.neo.parkguidance.core.impl.http.HTTPRequestSender;
 import com.neo.parkguidance.core.impl.http.HTTPResponse;
+import com.neo.parkguidance.core.impl.utils.ConfigValueUtils;
 import com.neo.parkguidance.elastic.impl.ElasticSearchProvider;
 import com.neo.parkguidance.google.api.constants.GoogleConstants;
 import com.neo.parkguidance.core.entity.Address;
 import com.neo.parkguidance.core.impl.http.HTTPRequest;
 import com.neo.parkguidance.core.entity.ParkingGarage;
-import com.neo.parkguidance.core.entity.StoredValue;
+import com.neo.parkguidance.core.entity.ConfigValue;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.annotation.PostConstruct;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * This class is used for calling the Google Cloud Platform Distance Matrix service
@@ -43,12 +42,19 @@ public class GcsDistanceMatrixService implements DistanceMatrixService {
     private static final Logger LOGGER = LoggerFactory.getLogger(GcsDistanceMatrixService.class);
 
     @Inject
-    StoredValueService storedValueService;
+    ConfigService configService;
 
     @Inject
     ElasticSearchProvider elasticSearchProvider;
 
-    HTTPRequestSender httpRequestSender = new HTTPRequestSender();
+    protected Map<String, ConfigValue> configValueMap = null;
+
+    @PostConstruct
+    public void init() {
+        configValueMap = configService.getConfigMap("com.neo.parkguidance.gcs");
+    }
+
+    protected HTTPRequestSender httpRequestSender = new HTTPRequestSender();
 
     public List<DistanceDataObject> findDistance(List<ParkingGarage> parkingGarageList, double latitude, double longitude) {
         List<DistanceDataObject> distanceDataObjectList = checkInCache(latitude, longitude, parkingGarageList);
@@ -81,7 +87,7 @@ public class GcsDistanceMatrixService implements DistanceMatrixService {
         url += finalQuery;
 
         HTTPRequest apiRequest = new HTTPRequest();
-        apiRequest.setUrl(url + GoogleConstants.KEY + storedValueService.getString(StoredValue.V_GOOGLE_MAPS_API));
+        apiRequest.setUrl(url + GoogleConstants.KEY + ConfigValueUtils.parseString(configValueMap.get(ConfigValue.V_GOOGLE_MAPS_API)));
         apiRequest.setRequestMethod("GET");
         HTTPResponse httpResponse = httpRequestSender.call(apiRequest);
 
@@ -252,8 +258,8 @@ public class GcsDistanceMatrixService implements DistanceMatrixService {
     }
 
     protected boolean isStillValid(JSONObject source) {
-        return new Date().getTime() <= source.getLong("timestamp") + storedValueService
-                .getLong(DISTANCE_MATRIX_CACHE_LIFESPAN, DEFAULT_CACHE_LIFESPAN);
+        return new Date().getTime() <= source.getLong("timestamp") +
+                ConfigValueUtils.parseLong(configValueMap.get(DISTANCE_MATRIX_CACHE_LIFESPAN), DEFAULT_CACHE_LIFESPAN);
     }
 
     protected void invalidateCacheDocument(String id) {

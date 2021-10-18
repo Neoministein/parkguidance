@@ -6,6 +6,7 @@ import com.neo.parkguidance.core.impl.event.DataBaseEntityChangeEvent;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.*;
+import org.hibernate.transform.DistinctRootEntityResultTransformer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -137,6 +138,7 @@ public abstract class AbstractEntityDao<T extends DataBaseEntity> implements Ent
         Criteria criteria = session.createCriteria(entityClass);
         Example example = Example.create(object).ignoreCase().enableLike(MatchMode.ANYWHERE);
         criteria.add(example);
+        criteria.setResultTransformer(DistinctRootEntityResultTransformer.INSTANCE);
 
         addSubCriteria(criteria, object);
 

@@ -1,7 +1,7 @@
 package com.neo.parkguidance.web.impl.security;
 
 import com.github.adminfaces.template.config.AdminConfig;
-import com.neo.parkguidance.core.api.storedvalue.StoredValueService;
+import com.neo.parkguidance.core.api.config.ConfigService;
 import com.neo.parkguidance.core.impl.utils.StringUtils;
 import com.neo.parkguidance.web.api.security.UserBasedAuthentication;
 import com.neo.parkguidance.web.impl.utils.Utils;
@@ -24,7 +24,7 @@ public class UserBasedAuthenticationImpl implements UserBasedAuthentication {
 
     private static final String COOKIE_USER = "admin-user";
     private static final String COOKIE_PASSWORD = "admin-pass";
-    private static final String COOKIE_TIMEOUT = "web.cookie.timeout";
+    private static final String COOKIE_TIMEOUT = "web.auth.cookie.timeout";
 
     private static final int DEFAULT_COOKIE_TIMEOUT = 1800; //30 min
 
@@ -43,7 +43,7 @@ public class UserBasedAuthenticationImpl implements UserBasedAuthentication {
     SecurityContext securityContext;
 
     @Inject
-    StoredValueService storedValueService;
+    ConfigService configService;
 
 
     public String attemptCookieBasedLogin() {
@@ -116,7 +116,7 @@ public class UserBasedAuthenticationImpl implements UserBasedAuthentication {
     }
 
     private void storeCookieCredentials(final String email, final String password) {
-        int cookieTimeOut = storedValueService.getInteger(COOKIE_TIMEOUT, DEFAULT_COOKIE_TIMEOUT);
+        int cookieTimeOut = configService.getInteger(COOKIE_TIMEOUT, DEFAULT_COOKIE_TIMEOUT);
 
         Faces.addResponseCookie(COOKIE_USER, email, cookieTimeOut);
         Faces.addResponseCookie(COOKIE_PASSWORD, password, cookieTimeOut);
