@@ -1,6 +1,6 @@
-package com.neo.parkguidance.web.admin.pages.storedvaluelist;
+package com.neo.parkguidance.web.admin.pages.configlist;
 
-import com.neo.parkguidance.core.entity.StoredValue;
+import com.neo.parkguidance.core.entity.Configuration;
 import com.neo.parkguidance.web.impl.pages.lazy.AbstractLazyController;
 import com.neo.parkguidance.web.impl.utils.Utils;
 import org.primefaces.PrimeFaces;
@@ -11,19 +11,17 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 /**
- * The controller for the StoredValueList screen
+ * The controller for the ConfigList screen
  */
 @RequestScoped
-@Named(StoredValueListController.BEAN_NAME)
-public class StoredValueListController extends AbstractLazyController<StoredValue> {
+@Named(ConfigListController.BEAN_NAME)
+public class ConfigListController extends AbstractLazyController<Configuration> {
 
-    public static final String BEAN_NAME = "storedValueList";
+    public static final String BEAN_NAME = "configList";
 
-    @Inject
-    StoredValueListModel mode;
+    @Inject ConfigListModel mode;
 
-    @Inject
-    StoredValueListFacade facade;
+    @Inject ConfigListFacade facade;
 
     @Override
     @PostConstruct
@@ -38,12 +36,12 @@ public class StoredValueListController extends AbstractLazyController<StoredValu
     }
 
     @Override
-    public StoredValueListModel getModel() {
+    public ConfigListModel getModel() {
         return mode;
     }
 
     @Override
-    protected StoredValueListFacade getFacade() {
+    protected ConfigListFacade getFacade() {
         return facade;
     }
 }

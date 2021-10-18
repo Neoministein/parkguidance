@@ -5,6 +5,8 @@ package com.neo.parkguidance.elastic.api.constants;
  */
 public interface ElasticSearchConstants {
 
+    String ELASTIC_SEARCH_CONFIG_MAP = "com.neo.parkguidance.elastic";
+
     String ELASTIC_SEARCH_USERNAME = "com.neo.parkguidance.elastic.username";
     String ELASTIC_SEARCH_PASSWORD = "com.neo.parkguidance.elastic.password";
 

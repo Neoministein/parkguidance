@@ -1,5 +1,7 @@
 package com.neo.parkguidance.core.entity;
 
+import com.neo.parkguidance.core.impl.config.ConfigType;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -34,14 +36,25 @@ public class DefaultTestEntity {
         return parkingGarage;
     }
 
-    public static StoredValue createDefaultStoredValue() {
-        StoredValue storedValue = new StoredValue();
-        storedValue.setKey("key");
-        storedValue.setValue("value");
-        storedValue.setHidden(false);
-        storedValue.setComponent("component");
-        storedValue.setDescription("description");
-        return storedValue;
+    public static Configuration createDefaultConfiguration() {
+        Configuration configuration = new Configuration();
+        configuration.setId(0l);
+        configuration.setKey("key");
+        configuration.setType(ConfigType.SINGLE);
+        configuration.setComponent("component");
+        configuration.setDescription("description");
+        configuration.setConfigValues(new ArrayList<>(Arrays.asList(createDefaultConfigValue())));
+        return configuration;
+    }
+
+    public static ConfigValue createDefaultConfigValue() {
+        ConfigValue configValue = new ConfigValue();
+        configValue.setId(0l);
+        configValue.setKey("key");
+        configValue.setValue("value");
+        configValue.setHidden(false);
+        configValue.setDescription("description");
+        return configValue;
     }
 
     public static RegisteredUser createDefaultRegisteredUser() {
@@ -71,5 +84,16 @@ public class DefaultTestEntity {
         permission.setId(0l);
         permission.setName("name");
         return permission;
+    }
+
+    public static Configuration createSingleConfiguration(String key, String value) {
+        ConfigValue configValue = new ConfigValue();
+        configValue.setKey(key);
+        configValue.setValue(value);
+        Configuration configuration = new Configuration();
+        configuration.setKey(key);
+        configuration.setType(ConfigType.SINGLE);
+        configuration.setConfigValues(Arrays.asList(configValue));
+        return configuration;
     }
 }

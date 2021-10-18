@@ -1,7 +1,8 @@
 package com.neo.parkguidance.google.api.maps.components.heatmap;
 
-import com.neo.parkguidance.core.api.storedvalue.StoredValueService;
-import com.neo.parkguidance.core.entity.StoredValue;
+import com.neo.parkguidance.core.api.config.ConfigService;
+import com.neo.parkguidance.core.entity.ConfigValue;
+import com.neo.parkguidance.core.impl.utils.ConfigValueUtils;
 import com.neo.parkguidance.web.api.component.heatmap.HeatmapComponentLogic;
 import org.json.JSONObject;
 import org.primefaces.PrimeFaces;
@@ -12,8 +13,7 @@ import javax.inject.Inject;
 @Stateless
 public class GcsHeatMapComponentLogic implements HeatmapComponentLogic {
 
-    @Inject
-    StoredValueService storedValueService;
+    @Inject ConfigService configService;
 
     @Override
     public String generateHTML() {
@@ -40,6 +40,7 @@ public class GcsHeatMapComponentLogic implements HeatmapComponentLogic {
     }
 
     protected String generateMapUrl() {
-        return "https://maps.googleapis.com/maps/api/js?key=" + storedValueService.getString(StoredValue.V_GOOGLE_MAPS_API_EXTERNAL) + "&libraries=visualization";
+        return "https://maps.googleapis.com/maps/api/js?key=" + ConfigValueUtils
+                .parseString(configService.getConfigMap("com.neo.parkguidance.gcs").get(ConfigValue.V_GOOGLE_MAPS_API_EXTERNAL)) + "&libraries=visualization";
     }
 }
