@@ -4,7 +4,9 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:adm="http://github.com/adminfaces"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://java.sun.com/jsf/core">
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:pg="https://github.com/Neoministein/parkguidance">
 
     <h:head>
         <title>Admin Starter</title>
@@ -119,23 +121,19 @@
                         </div>
                     </div>
                 </h:form>
-                <!--
+
                 <div class="social-auth-links text-center">
                     <p>- OR -</p>
-                    <a href="#" class="btn btn-block btn-social btn-facebook btn-flat"><i
-                            class="fa fa-facebook"></i> Sign in using
-                        Facebook</a>
-                    <a href="#" class="btn btn-block btn-social btn-google btn-flat"><i
-                            class="fa fa-google-plus"></i> Sign in using
-                        Google+</a>
+                    <ui:repeat value="#{adminLogin.oAuth2Clients}" var="oauth2Client">
+                        <pg:oauth2 logic="#{oauth2Client}"/>
+                    </ui:repeat>
+
                 </div>
-                 /.social-auth-links -->
 
                 <a href="#">I forgot my password</a><br/>
                 <a href="#" class="text-center">Register a new membership</a>
 
             </div>
-            <!-- /.login-box-body -->
         </div>
         <adm:ripple />
         <h:outputScript library="js" name="admintemplate.js" target="head"/>

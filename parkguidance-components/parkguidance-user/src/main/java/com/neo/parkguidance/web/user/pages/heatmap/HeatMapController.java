@@ -1,6 +1,6 @@
 package com.neo.parkguidance.web.user.pages.heatmap;
 
-import com.neo.parkguidance.web.api.component.heatmap.HeatmapComponentLogic;
+import com.neo.parkguidance.web.api.component.HeatmapComponentLogic;
 import org.json.JSONObject;
 import org.primefaces.event.SlideEndEvent;
 

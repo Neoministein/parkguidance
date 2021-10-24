@@ -1,7 +1,7 @@
 package com.neo.parkguidance.web.user.pages.heatmap;
 
 import com.neo.parkguidance.core.api.config.ConfigService;
-import com.neo.parkguidance.web.api.component.heatmap.HeatmapComponentLogic;
+import com.neo.parkguidance.web.api.component.HeatmapComponentLogic;
 import com.neo.parkguidance.web.user.impl.heatmap.HeatMapDataService;
 import org.json.JSONObject;
 

@@ -1,4 +1,4 @@
-package com.neo.parkguidance.web.api.component.heatmap;
+package com.neo.parkguidance.web.api.component;
 
 import org.json.JSONObject;
 

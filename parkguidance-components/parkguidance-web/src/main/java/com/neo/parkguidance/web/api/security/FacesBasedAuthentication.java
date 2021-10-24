@@ -3,7 +3,7 @@ package com.neo.parkguidance.web.api.security;
 /**
  * This interfaces defines authentication interactions which a user can call
  */
-public interface UserBasedAuthentication {
+public interface FacesBasedAuthentication {
 
     /**
      * Attempts to login the user via the stored cookies in the browser

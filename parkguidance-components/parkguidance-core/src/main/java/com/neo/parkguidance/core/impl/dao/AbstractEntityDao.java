@@ -18,8 +18,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
 import javax.persistence.criteria.CriteriaQuery;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public abstract class AbstractEntityDao<T extends DataBaseEntity> implements EntityDaoAbstraction<T> {
 
@@ -110,6 +109,14 @@ public abstract class AbstractEntityDao<T extends DataBaseEntity> implements Ent
         }
     }
 
+    public T findOneByColumn(Map<String, Object> column) {
+        try {
+            return getTypedQueryByColumn(column).getSingleResult();
+        } catch (NoResultException ex) {
+            return null;
+        }
+    }
+
     protected TypedQuery<T> getTypedQueryByColumn(String columnName, Object columnData) {
         CriteriaBuilder cb= getEntityManager().getCriteriaBuilder();
 
@@ -118,6 +125,22 @@ public abstract class AbstractEntityDao<T extends DataBaseEntity> implements Ent
         Root<T> stud1=cq1.from(entityClass);
 
         cq1.where(cb.equal(stud1.get(columnName), columnData));
+
+        CriteriaQuery<T> select1 = ((CriteriaQuery<T>) cq1).select(stud1);
+        return getEntityManager().createQuery(select1);
+    }
+
+    protected TypedQuery<T> getTypedQueryByColumn(Map<String, Object> columns) {
+        CriteriaBuilder cb= getEntityManager().getCriteriaBuilder();
+
+        AbstractQuery<T> cq1=cb.createQuery(entityClass);
+
+        Root<T> stud1=cq1.from(entityClass);
+        Predicate predicate = cb.isTrue(cb.literal(true));
+        for (Map.Entry<String, Object> column: columns.entrySet()) {
+            predicate = cb.and(predicate ,cb.equal(stud1.get(column.getKey()), column.getValue()));
+        }
+        cq1.where(predicate);
 
         CriteriaQuery<T> select1 = ((CriteriaQuery<T>) cq1).select(stud1);
         return getEntityManager().createQuery(select1);

@@ -2,7 +2,7 @@ package com.neo.parkguidance.web.user.pages.data;
 
 import com.neo.parkguidance.core.api.dao.EntityDao;
 import com.neo.parkguidance.core.entity.ParkingGarage;
-import com.neo.parkguidance.web.api.component.embeddedmap.EmbeddedMapComponentLogic;
+import com.neo.parkguidance.web.api.component.EmbeddedMapComponentLogic;
 import com.neo.parkguidance.web.user.impl.data.DataChartModel;
 import org.primefaces.model.charts.ChartData;
 import org.primefaces.model.charts.axes.cartesian.CartesianScales;

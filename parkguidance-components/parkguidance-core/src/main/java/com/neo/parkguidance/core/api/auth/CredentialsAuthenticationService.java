@@ -1,6 +1,7 @@
 package com.neo.parkguidance.core.api.auth;
 
 import com.neo.parkguidance.core.entity.*;
+import com.neo.parkguidance.core.impl.auth.exception.UnverifiedEmailException;
 
 import java.util.Collection;
 import java.util.Set;
@@ -8,7 +9,7 @@ import java.util.Set;
 /**
  * AuthenticationService is a interface defining authentication
  */
-public interface AuthenticationService {
+public interface CredentialsAuthenticationService {
 
     /**
      * Checks if a username and password match an existing user
@@ -45,6 +46,17 @@ public interface AuthenticationService {
      * @return the {@link RegisteredUser} if found and has requiredPermissions else null
      */
     UserToken authenticateUser(String token, Collection<Permission> requiredPermissions);
+
+    /**
+     * Checks if the token is valid and returns a user if exist otherwise creates one
+     *
+     * @param token the token
+     * @param provider the oauth2 provider
+     * @return a {@link RegisteredUser} if the token is valid null if it isn't a valid user
+     *
+     * @exception UnverifiedEmailException if the email is not verified
+     */
+    RegisteredUser oauth2UserAuthentication(String token, String provider);
 
     /**
      * Checks if accessKey is valid and linked to a {@link ParkingGarage}

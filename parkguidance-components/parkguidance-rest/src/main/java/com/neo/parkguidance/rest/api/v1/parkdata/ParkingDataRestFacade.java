@@ -1,6 +1,6 @@
 package com.neo.parkguidance.rest.api.v1.parkdata;
 
-import com.neo.parkguidance.core.api.auth.AuthenticationService;
+import com.neo.parkguidance.core.api.auth.CredentialsAuthenticationService;
 import com.neo.parkguidance.core.api.dao.EntityDao;
 import com.neo.parkguidance.core.entity.ParkingGarage;
 import com.neo.parkguidance.elastic.impl.ElasticSearchProvider;
@@ -26,8 +26,7 @@ public class ParkingDataRestFacade {
     @Inject
     ParkDataService parkDataService;
 
-    @Inject
-    AuthenticationService authenticationService;
+    @Inject CredentialsAuthenticationService authenticationService;
 
     @Inject
     EntityDao<ParkingGarage> parkingGarageDao;

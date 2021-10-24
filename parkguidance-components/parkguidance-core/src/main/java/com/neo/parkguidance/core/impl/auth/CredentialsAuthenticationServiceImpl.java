@@ -1,30 +1,28 @@
 package com.neo.parkguidance.core.impl.auth;
 
-import com.neo.parkguidance.core.api.auth.AuthenticationService;
+import com.neo.parkguidance.core.api.auth.CredentialsAuthenticationService;
+import com.neo.parkguidance.core.api.auth.OAuth2Client;
 import com.neo.parkguidance.core.api.dao.EntityDao;
 import com.neo.parkguidance.core.api.config.ConfigService;
-import com.neo.parkguidance.core.entity.ParkingGarage;
-import com.neo.parkguidance.core.entity.Permission;
-import com.neo.parkguidance.core.entity.RegisteredUser;
-import com.neo.parkguidance.core.entity.UserToken;
+import com.neo.parkguidance.core.entity.*;
+import com.neo.parkguidance.core.impl.auth.exception.UnsupportedOAuth2Provider;
 import com.neo.parkguidance.core.impl.utils.StringUtils;
 import com.neo.parkguidance.core.impl.validation.RegisteredUserValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.ejb.Stateless;
+import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
- * Implementation of {@link AuthenticationService}
+ * Implementation of {@link CredentialsAuthenticationService}
  */
 @Stateless
-public class DatabaseAuthenticationServiceImpl implements AuthenticationService {
+public class CredentialsAuthenticationServiceImpl implements CredentialsAuthenticationService {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(DatabaseAuthenticationServiceImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CredentialsAuthenticationServiceImpl.class);
 
     @Inject
     ConfigService configService;
@@ -33,13 +31,19 @@ public class DatabaseAuthenticationServiceImpl implements AuthenticationService 
     EntityDao<RegisteredUser> userDao;
 
     @Inject
+    EntityDao<UserToken> tokenDao;
+
+    @Inject
+    EntityDao<UserCredentials> userCredentialsDao;
+
+    @Inject
     EntityDao<ParkingGarage> parkingGarageDao;
 
     @Inject
     EntityDao<Permission> permissionDao;
 
     @Inject
-    EntityDao<UserToken> tokenDao;
+    Instance<OAuth2Client> oAuth2Clients;
 
     @Inject
     RegisteredUserValidator registeredUserValidator;
@@ -99,6 +103,33 @@ public class DatabaseAuthenticationServiceImpl implements AuthenticationService 
         return null;
     }
 
+    @Override
+    public RegisteredUser oauth2UserAuthentication(String token, String provider) {
+        OAuth2ClientObject clientObject = findDedicatedOAuth2Client(provider).verifyToken(token);
+        if (clientObject == null) {
+            return null;
+        }
+
+        UserCredentials userCredentials = findCredentials(clientObject.getClientId(), provider);
+        if (userCredentials != null) {
+            return userCredentials.getRegisteredUser();
+        }
+
+        RegisteredUser existingUser = userDao.findOneByColumn(RegisteredUser.C_EMAIL, clientObject.getEmail());
+        if (existingUser != null) {
+            addNewCredentials(existingUser, clientObject, provider);
+            userDao.edit(existingUser);
+            return existingUser;
+        }
+
+        RegisteredUser newUser = new RegisteredUser();
+        newUser.setEmail(clientObject.getEmail());
+        newUser.setUsername(clientObject.getUsername());
+        addNewCredentials(newUser, clientObject, provider);
+        userDao.create(newUser);
+        return newUser;
+    }
+
     protected boolean checkPermissions(Collection<Permission> userPermissions, Collection<Permission> requiredPermissions) {
         if (userPermissions.containsAll(requiredPermissions)) {
             LOGGER.info("User authentication required permissions found");
@@ -140,6 +171,35 @@ public class DatabaseAuthenticationServiceImpl implements AuthenticationService 
             return permissions;
         } catch (IllegalArgumentException ex) {
             throw new IllegalStateException("No internal permission specified for using service");
+        }
+    }
+
+    protected OAuth2Client findDedicatedOAuth2Client(String provider) {
+        for (OAuth2Client oAuth2Client: oAuth2Clients) {
+            if (oAuth2Client.getProvider().equals(provider)) {
+                return oAuth2Client;
+            }
+        }
+        LOGGER.error("OAuth2 Provider [{}] is not implemented", provider);
+        throw new UnsupportedOAuth2Provider(provider);
+    }
+
+    public UserCredentials findCredentials(String clientId, String provider) {
+        Map<String, Object> columnData = new HashMap<>();
+        columnData.put(UserCredentials.C_CLIENT_ID, clientId);
+        columnData.put(UserCredentials.C_TYPE, provider);
+
+        return userCredentialsDao.findOneByColumn(columnData);
+    }
+
+    protected void addNewCredentials(RegisteredUser registeredUser, OAuth2ClientObject clientObject, String provider) {
+        UserCredentials newCredentials = new UserCredentials();
+        newCredentials.setClientId(clientObject.getClientId());
+        newCredentials.setType(provider);
+        newCredentials.setRegisteredUser(registeredUser);
+        registeredUser.getUserCredentials().add(newCredentials);
+        if (StringUtils.isEmpty(registeredUser.getPassword())) {
+            registeredUser.setPicture(clientObject.getPicture());
         }
     }
 }

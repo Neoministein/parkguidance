@@ -1,4 +1,4 @@
-package com.neo.parkguidance.web.api.component.embeddedmap;
+package com.neo.parkguidance.web.api.component;
 
 import com.neo.parkguidance.core.entity.Address;
 

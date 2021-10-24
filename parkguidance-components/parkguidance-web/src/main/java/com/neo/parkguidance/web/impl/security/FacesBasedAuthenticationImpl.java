@@ -2,8 +2,9 @@ package com.neo.parkguidance.web.impl.security;
 
 import com.github.adminfaces.template.config.AdminConfig;
 import com.neo.parkguidance.core.api.config.ConfigService;
+import com.neo.parkguidance.core.impl.auth.AbstractBasedAuthentication;
 import com.neo.parkguidance.core.impl.utils.StringUtils;
-import com.neo.parkguidance.web.api.security.UserBasedAuthentication;
+import com.neo.parkguidance.web.api.security.FacesBasedAuthentication;
 import com.neo.parkguidance.web.impl.utils.Utils;
 import org.omnifaces.util.Faces;
 import org.omnifaces.util.Messages;
@@ -13,22 +14,20 @@ import org.slf4j.LoggerFactory;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
-import javax.security.enterprise.AuthenticationStatus;
-import javax.security.enterprise.SecurityContext;
-import javax.security.enterprise.authentication.mechanism.http.AuthenticationParameters;
+import javax.security.enterprise.credential.Credential;
 import javax.security.enterprise.credential.UsernamePasswordCredential;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class UserBasedAuthenticationImpl implements UserBasedAuthentication {
+public class FacesBasedAuthenticationImpl extends AbstractBasedAuthentication implements FacesBasedAuthentication {
 
     private static final String COOKIE_USER = "admin-user";
     private static final String COOKIE_PASSWORD = "admin-pass";
     private static final String COOKIE_TIMEOUT = "web.auth.cookie.timeout";
 
-    private static final int DEFAULT_COOKIE_TIMEOUT = 1800; //30 min
+    private static final int DEFAULT_COOKIE_TIMEOUT = 30 * 60; //30 min
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(UserBasedAuthenticationImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(FacesBasedAuthenticationImpl.class);
 
     @Inject
     FacesContext facesContext;
@@ -38,9 +37,6 @@ public class UserBasedAuthenticationImpl implements UserBasedAuthentication {
 
     @Inject
     AdminConfig adminConfig;
-
-    @Inject
-    SecurityContext securityContext;
 
     @Inject
     ConfigService configService;
@@ -62,7 +58,14 @@ public class UserBasedAuthenticationImpl implements UserBasedAuthentication {
     }
 
     public void login(String username, String password, boolean remember) {
-        switch (continueAuthentication(username, password, remember)) {
+        login(new UsernamePasswordCredential(username, password), remember);
+    }
+
+
+    protected void login(Credential credential, boolean remember) {
+        switch (login(credential, remember,
+                (HttpServletRequest) externalContext.getRequest(),
+                (HttpServletResponse) externalContext.getResponse())) {
         case SEND_CONTINUE:
             facesContext.responseComplete();
             break;
@@ -72,9 +75,10 @@ public class UserBasedAuthenticationImpl implements UserBasedAuthentication {
             break;
         case SUCCESS:
             externalContext.getFlash().setKeepMessages(true);
-            Utils.addDetailMessage("Logged in successfully as " + username);
+            Utils.addDetailMessage("Logged in successfully");
             if (remember) {
-                storeCookieCredentials(username, password);
+                //TODO
+                //storeCookieCredentials(username, password);
             }
             Faces.redirect(adminConfig.getIndexPage());
             break;
@@ -84,6 +88,7 @@ public class UserBasedAuthenticationImpl implements UserBasedAuthentication {
     }
 
     public void logout(String user) {
+        super.logout(Faces.getSession());
         LOGGER.info("Login out [{}] user", user);
 
         LOGGER.debug("Invalidating authentication cookies");
@@ -100,8 +105,6 @@ public class UserBasedAuthenticationImpl implements UserBasedAuthentication {
         if (!loginPage.startsWith("/")) {
             loginPage = "/" + loginPage;
         }
-        LOGGER.debug("Invalidating session [{}]", Faces.getSession().getId());
-        Faces.getSession().invalidate();
 
         try {
             ExternalContext ec = Faces.getExternalContext();
@@ -111,10 +114,6 @@ public class UserBasedAuthenticationImpl implements UserBasedAuthentication {
         }
     }
 
-    public boolean isLoggedIn() {
-        return securityContext.getCallerPrincipal() != null;
-    }
-
     private void storeCookieCredentials(final String email, final String password) {
         int cookieTimeOut = configService.getInteger(COOKIE_TIMEOUT, DEFAULT_COOKIE_TIMEOUT);
 
@@ -122,11 +121,4 @@ public class UserBasedAuthenticationImpl implements UserBasedAuthentication {
         Faces.addResponseCookie(COOKIE_PASSWORD, password, cookieTimeOut);
     }
 
-    private AuthenticationStatus continueAuthentication(String username, String password, boolean remember) {
-        return securityContext.authenticate(
-                (HttpServletRequest) externalContext.getRequest(),
-                (HttpServletResponse) externalContext.getResponse(),
-                AuthenticationParameters.withParams().rememberMe(remember)
-                        .credential(new UsernamePasswordCredential(username, password)));
-    }
 }

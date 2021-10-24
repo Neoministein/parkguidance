@@ -3,6 +3,7 @@ package com.neo.parkguidance.core.api.dao;
 import com.neo.parkguidance.core.entity.DataBaseEntity;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * This interfaces defines the interactions capability for persistence relational data storage per database entity
@@ -86,6 +87,17 @@ public interface EntityDao<T extends DataBaseEntity> {
      * @return the first entries which matches the query
      */
     T findOneByColumn(String columnName, Object value);
+
+    /**
+     * Finds the first entries in which the column value matches the given value </b>
+     * Returns null if none are found
+     *
+     * @param columnName the column for the match
+     * @param value the value to be matched
+     *
+     * @return the first entries which matches the query
+     */
+    T findOneByColumn(Map<String, Object> column);
 
     /**
      * Finds all which are like the given object

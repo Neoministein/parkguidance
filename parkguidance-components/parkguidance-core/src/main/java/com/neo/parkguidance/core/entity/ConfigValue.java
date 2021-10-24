@@ -22,7 +22,7 @@ public class ConfigValue implements DataBaseEntity {
     public static final String V_GOOGLE_MAPS_API_EXTERNAL = "cloud.google.maps.api.key.external";
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Column(name = C_KEY, nullable = false, unique = true)

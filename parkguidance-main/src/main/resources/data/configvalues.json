@@ -114,8 +114,23 @@
           { "v" : "false"},
           { "v" : ""},
           { "v" : "3"}
+        ],
+        [
+          { "v" : "8"},
+          { "v" : "cloud.google.oauth.client.id"},
+          { "v" : ""},
+          { "v" : "true"},
+          { "v" : ""},
+          { "v" : "1"}
+        ],
+        [
+          { "v" : "9"},
+          { "v" : "cloud.google.oauth.client.secret"},
+          { "v" : ""},
+          { "v" : "true"},
+          { "v" : ""},
+          { "v" : "1"}
         ]
-
       ]
     }
   ]

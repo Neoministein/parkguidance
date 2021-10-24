@@ -1,6 +1,9 @@
 package com.neo.parkguidance.web.pages.login;
 
+import com.neo.parkguidance.core.api.auth.OAuth2Client;
+
 import javax.enterprise.context.RequestScoped;
+import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -13,9 +16,11 @@ public class LoginController {
 
     public static final String BEAN_NAME = "adminLogin";
 
-    @Inject LoginModel model;
+    @Inject
+    LoginModel model;
 
-    @Inject LoginFacade facade;
+    @Inject
+    LoginFacade facade;
 
 
     public void autoLogin() {
@@ -32,6 +37,10 @@ public class LoginController {
 
     public void logout() {
         facade.logout(model.getUsername());
+    }
+
+    public Instance<OAuth2Client> getoAuth2Clients() {
+        return facade.getoAuth2Clients();
     }
 
     public LoginModel getModel() {

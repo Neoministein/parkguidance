@@ -22,7 +22,7 @@ public class Configuration implements DataBaseEntity{
     public static final String C_DESCRIPTION = "description";
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Column(name = C_KEY, nullable = false, unique = true)
@@ -38,7 +38,7 @@ public class Configuration implements DataBaseEntity{
     @Column(name = C_DESCRIPTION)
     private String description;
 
-    @OneToMany(mappedBy = "configuration", orphanRemoval = true,fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = TABLE_NAME, orphanRemoval = true,fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<ConfigValue> configValues;
 
     public Configuration() {

@@ -1,10 +1,12 @@
 package com.neo.parkguidance.web.pages.login;
 
 import com.github.adminfaces.template.config.AdminConfig;
-import com.neo.parkguidance.web.api.security.UserBasedAuthentication;
+import com.neo.parkguidance.core.api.auth.OAuth2Client;
+import com.neo.parkguidance.web.api.security.FacesBasedAuthentication;
 import org.omnifaces.util.Faces;
 
 import javax.ejb.Stateless;
+import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 
 /**
@@ -14,7 +16,9 @@ import javax.inject.Inject;
 public class LoginFacade {
 
     @Inject
-    UserBasedAuthentication userAuthentication;
+    Instance<OAuth2Client> oAuth2Clients;
+
+    @Inject FacesBasedAuthentication userAuthentication;
 
     @Inject
     AdminConfig adminConfig;
@@ -38,5 +42,9 @@ public class LoginFacade {
 
     public void logout(String user) {
         userAuthentication.logout(user);
+    }
+
+    public Instance<OAuth2Client> getoAuth2Clients() {
+        return oAuth2Clients;
     }
 }

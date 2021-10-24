@@ -1,7 +1,6 @@
-package com.neo.parkguidance.web.impl.component.heatmap;
+package com.neo.parkguidance.web.impl.component;
 
-import com.neo.parkguidance.web.api.component.heatmap.HeatmapComponentLogic;
-import com.neo.parkguidance.web.impl.component.ParkGuidanceUIComponent;
+import com.neo.parkguidance.web.api.component.HeatmapComponentLogic;
 
 import javax.faces.component.FacesComponent;
 import javax.faces.context.FacesContext;

@@ -1,6 +1,6 @@
 package com.neo.parkguidance.rest.api.v1.parkgrage;
 
-import com.neo.parkguidance.core.api.auth.AuthenticationService;
+import com.neo.parkguidance.core.api.auth.CredentialsAuthenticationService;
 import com.neo.parkguidance.core.api.dao.EntityDao;
 import com.neo.parkguidance.core.entity.Address;
 import com.neo.parkguidance.core.entity.ParkingGarage;
@@ -26,8 +26,7 @@ public class ParkingGarageRestFacade {
     public static final String STORED_VALUE_PERMISSION = "rest.parkingGarage.requiredPermissionForAuth";
     private static final String INVALID_KEY = "Invalid key";
 
-    @Inject
-    AuthenticationService authenticationService;
+    @Inject CredentialsAuthenticationService authenticationService;
 
     @Inject
     EntityDao<ParkingGarage> parkingGarageDao;

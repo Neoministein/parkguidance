@@ -12,6 +12,8 @@ import java.nio.charset.StandardCharsets;
  */
 public class GoogleConstants {
 
+    public static final String CONFIG_MAP = "com.neo.parkguidance.gcs";
+
     public static final String JSON = "json?";
     public static final String XML = "xml?";
     public static final String KEY = "&key=";

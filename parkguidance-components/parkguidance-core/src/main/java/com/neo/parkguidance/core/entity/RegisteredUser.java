@@ -1,8 +1,11 @@
 package com.neo.parkguidance.core.entity;
 
 import javax.persistence.*;
+import javax.security.auth.Subject;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Size;
+import java.security.Principal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -12,7 +15,7 @@ import java.util.Objects;
  */
 @Entity
 @Table(name = RegisteredUser.TABLE_NAME)
-public class RegisteredUser implements DataBaseEntity {
+public class RegisteredUser implements DataBaseEntity, Principal {
 
     public static final String TABLE_NAME = "registeredUser";
     public static final String C_USERNAME = "username";
@@ -21,9 +24,10 @@ public class RegisteredUser implements DataBaseEntity {
     public static final String C_DEACTIVATED = "deactivated";
     public static final String C_CREATE_ON = "createdOn";
     public static final String C_DEACTIVATED_ON = "deactivatedOn";
+    public static final String C_PICTURE = "picture";
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Size(max = 50)
@@ -34,7 +38,7 @@ public class RegisteredUser implements DataBaseEntity {
     @Column(name = C_EMAIL, unique = true, nullable = false)
     private String email;
 
-    @Column(name = C_PASSWORD, nullable = false)
+    @Column(name = C_PASSWORD, nullable = true)
     private String password;
 
     @Column(name = C_DEACTIVATED, nullable = false)
@@ -46,6 +50,9 @@ public class RegisteredUser implements DataBaseEntity {
     @Column(name = C_DEACTIVATED_ON)
     private Date deactivatedOn;
 
+    @Column(name = C_PICTURE)
+    private String picture;
+
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Permission> permissions;
 
@@ -53,13 +60,20 @@ public class RegisteredUser implements DataBaseEntity {
     @JoinColumn(name = UserToken.T_USER)
     private List<UserToken> tokens;
 
+    @OneToMany(mappedBy = TABLE_NAME, orphanRemoval = true, cascade = CascadeType.ALL)
+    private List<UserCredentials> userCredentials;
+
     public RegisteredUser(@Size(max = 50) String username, String password) {
+        this();
         this.username = username;
         this.password = password;
     }
 
     public RegisteredUser() {
-
+        permissions = new ArrayList<>();
+        tokens = new ArrayList<>();
+        userCredentials = new ArrayList<>();
+        deactivated = false;
     }
 
     public Long getId() {
@@ -118,6 +132,14 @@ public class RegisteredUser implements DataBaseEntity {
         this.deactivatedOn = deactivatedOn;
     }
 
+    public String getPicture() {
+        return picture;
+    }
+
+    public void setPicture(String picture) {
+        this.picture = picture;
+    }
+
     public List<Permission> getPermissions() {
         return permissions;
     }
@@ -132,6 +154,14 @@ public class RegisteredUser implements DataBaseEntity {
 
     public void setTokens(List<UserToken> tokens) {
         this.tokens = tokens;
+    }
+
+    public List<UserCredentials> getUserCredentials() {
+        return userCredentials;
+    }
+
+    public void setUserCredentials(List<UserCredentials> userCredentials) {
+        this.userCredentials = userCredentials;
     }
 
     @Override
@@ -152,5 +182,13 @@ public class RegisteredUser implements DataBaseEntity {
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+    @Override public String getName() {
+        return null;
+    }
+
+    @Override public boolean implies(Subject subject) {
+        return false;
     }
 }
