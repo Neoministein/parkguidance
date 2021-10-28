@@ -15,12 +15,16 @@ import javax.security.enterprise.identitystore.CredentialValidationResult;
 import javax.security.enterprise.identitystore.IdentityStore;
 import java.util.HashSet;
 
+/**
+ * The default implementation for authentication a user
+ */
 @Stateless
 public class CustomInMemoryIdentityStore implements IdentityStore {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CustomInMemoryIdentityStore.class);
 
-    @Inject CredentialsAuthenticationService authenticationService;
+    @Inject
+    CredentialsAuthenticationService authenticationService;
 
     @Override
     public CredentialValidationResult validate(Credential credential) {

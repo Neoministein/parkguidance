@@ -26,7 +26,8 @@ public class ParkingDataRestFacade {
     @Inject
     ParkDataService parkDataService;
 
-    @Inject CredentialsAuthenticationService authenticationService;
+    @Inject
+    CredentialsAuthenticationService authenticationService;
 
     @Inject
     EntityDao<ParkingGarage> parkingGarageDao;

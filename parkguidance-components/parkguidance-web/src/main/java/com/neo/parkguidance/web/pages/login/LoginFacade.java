@@ -18,7 +18,8 @@ public class LoginFacade {
     @Inject
     Instance<OAuth2Client> oAuth2Clients;
 
-    @Inject FacesBasedAuthentication userAuthentication;
+    @Inject
+    FacesBasedAuthentication userAuthentication;
 
     @Inject
     AdminConfig adminConfig;

@@ -89,11 +89,10 @@ public interface EntityDao<T extends DataBaseEntity> {
     T findOneByColumn(String columnName, Object value);
 
     /**
-     * Finds the first entries in which the column value matches the given value </b>
+     * Finds the first entries in which the value matches the column </b>
      * Returns null if none are found
      *
-     * @param columnName the column for the match
-     * @param value the value to be matched
+     * @param column the column and data associated with the desired entity
      *
      * @return the first entries which matches the query
      */

@@ -13,7 +13,8 @@ import javax.inject.Inject;
 @Stateless
 public class GcsHeatMapComponentLogic implements HeatmapComponentLogic {
 
-    @Inject ConfigService configService;
+    @Inject
+    ConfigService configService;
 
     @Override
     public String generateHTML() {

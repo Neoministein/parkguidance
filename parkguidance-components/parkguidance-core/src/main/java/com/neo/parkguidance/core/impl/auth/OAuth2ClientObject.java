@@ -1,5 +1,8 @@
 package com.neo.parkguidance.core.impl.auth;
 
+/**
+ * The Object that an {@link com.neo.parkguidance.core.api.auth.OAuth2Client} returns on successful authentication
+ */
 public class OAuth2ClientObject {
 
     private final String clientId;

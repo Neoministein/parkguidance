@@ -2,6 +2,9 @@ package com.neo.parkguidance.core.impl.auth.credential;
 
 import javax.security.enterprise.credential.AbstractClearableCredential;
 
+/**
+ * This class holds credentials for using the {@link javax.security.enterprise.SecurityContext} for authentifaction
+ */
 public class OAuthCredential extends AbstractClearableCredential {
 
     private String token;
