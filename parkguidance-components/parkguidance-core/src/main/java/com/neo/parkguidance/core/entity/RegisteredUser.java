@@ -1,10 +1,8 @@
 package com.neo.parkguidance.core.entity;
 
 import javax.persistence.*;
-import javax.security.auth.Subject;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Size;
-import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -15,7 +13,7 @@ import java.util.Objects;
  */
 @Entity
 @Table(name = RegisteredUser.TABLE_NAME)
-public class RegisteredUser implements DataBaseEntity, Principal {
+public class RegisteredUser implements DataBaseEntity {
 
     public static final String TABLE_NAME = "registeredUser";
     public static final String C_USERNAME = "username";
@@ -38,7 +36,7 @@ public class RegisteredUser implements DataBaseEntity, Principal {
     @Column(name = C_EMAIL, unique = true, nullable = false)
     private String email;
 
-    @Column(name = C_PASSWORD, nullable = true)
+    @Column(name = C_PASSWORD)
     private String password;
 
     @Column(name = C_DEACTIVATED, nullable = false)
@@ -56,8 +54,7 @@ public class RegisteredUser implements DataBaseEntity, Principal {
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Permission> permissions;
 
-    @OneToMany
-    @JoinColumn(name = UserToken.T_USER)
+    @OneToMany(mappedBy = TABLE_NAME, orphanRemoval = true, cascade = CascadeType.ALL)
     private List<UserToken> tokens;
 
     @OneToMany(mappedBy = TABLE_NAME, orphanRemoval = true, cascade = CascadeType.ALL)
@@ -182,13 +179,5 @@ public class RegisteredUser implements DataBaseEntity, Principal {
     @Override
     public int hashCode() {
         return Objects.hash(id);
-    }
-
-    @Override public String getName() {
-        return null;
-    }
-
-    @Override public boolean implies(Subject subject) {
-        return false;
     }
 }

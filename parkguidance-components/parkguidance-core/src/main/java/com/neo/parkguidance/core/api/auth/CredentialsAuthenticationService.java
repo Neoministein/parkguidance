@@ -31,12 +31,12 @@ public interface CredentialsAuthenticationService {
     RegisteredUser authenticateUser(String username, String password, Collection<Permission> requiredPermissions);
 
     /**
-     * Checks if the token is attached to valid user
+     * Checks if the token is valid and attached to valid user
      *
      * @param token the token
      * @return the {@link RegisteredUser} if the token is valid else null
      */
-    UserToken authenticateUser(String token);
+    RegisteredUser authenticateUser(String token);
 
     /**
      * Checks if the token is attached to valid user and the user has the required permissions
@@ -45,7 +45,7 @@ public interface CredentialsAuthenticationService {
      * @param requiredPermissions the permissions required to authenticate
      * @return the {@link RegisteredUser} if found and has requiredPermissions else null
      */
-    UserToken authenticateUser(String token, Collection<Permission> requiredPermissions);
+    RegisteredUser authenticateUser(String token, Collection<Permission> requiredPermissions);
 
     /**
      * Checks if the token is valid and returns a user if exist otherwise creates one

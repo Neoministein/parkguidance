@@ -64,16 +64,11 @@
       "column": [
         { "v" : "id", "t" : "number"},
         { "v" : "key", "t": "String" },
-        { "v" : "userid", "t": "number"},
+        { "v" : "registereduser_id", "t": "number"},
         { "v" : "name", "t": "string"}
       ],
       "data": [
-        [
-          { "v" : "0"},
-          { "v" : "0"},
-          { "v" : "0"},
-          { "v" : "Default"}
-        ]
+
       ]
     },
     {
@@ -83,10 +78,7 @@
         { "v" : "permissions_id", "t": "number" }
       ],
       "data": [
-        [
-          { "v" : "0"},
-          { "v" : "0"}
-        ]
+
       ]
     }
   ]

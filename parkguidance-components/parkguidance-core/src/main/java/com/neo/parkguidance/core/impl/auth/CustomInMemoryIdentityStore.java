@@ -4,6 +4,7 @@ import com.neo.parkguidance.core.api.auth.CredentialsAuthenticationService;
 import com.neo.parkguidance.core.entity.Permission;
 import com.neo.parkguidance.core.entity.RegisteredUser;
 import com.neo.parkguidance.core.impl.auth.credential.OAuthCredential;
+import com.neo.parkguidance.core.impl.auth.credential.TokenCredentials;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,7 +31,7 @@ public class CustomInMemoryIdentityStore implements IdentityStore {
     public CredentialValidationResult validate(Credential credential) {
         RegisteredUser user = retrieveUser(credential);
         if (user != null) {
-            return new CredentialValidationResult(user.getUsername(), getUserPermissions(user));
+            return new CredentialValidationResult(new RegisteredUserPrincipal(user.getId(), user.getUsername()), getUserPermissions(user));
         }
 
         return CredentialValidationResult.INVALID_RESULT;
@@ -44,6 +45,10 @@ public class CustomInMemoryIdentityStore implements IdentityStore {
         if (credential instanceof OAuthCredential) {
             OAuthCredential login = (OAuthCredential) credential;
             return authenticationService.oauth2UserAuthentication(login.getToken(), login.getType());
+        }
+        if (credential instanceof TokenCredentials) {
+            TokenCredentials login = (TokenCredentials) credential;
+            return authenticationService.authenticateUser(login.getToken());
         }
         LOGGER.error("Unsupported credential type [{}]", credential.getClass().getName());
         return null;

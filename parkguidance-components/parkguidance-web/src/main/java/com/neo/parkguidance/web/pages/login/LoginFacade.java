@@ -24,13 +24,11 @@ public class LoginFacade {
     @Inject
     AdminConfig adminConfig;
 
-    public void autoLogin(LoginModel model) {
+    public void autoLogin() {
         if (isLoggedIn()) {
             Faces.redirect(adminConfig.getIndexPage());
             return;
         }
-
-        model.setUsername(userAuthentication.attemptCookieBasedLogin());
     }
 
     public void login(String username, String password, boolean remember) {
@@ -41,8 +39,8 @@ public class LoginFacade {
         return userAuthentication.isLoggedIn();
     }
 
-    public void logout(String user) {
-        userAuthentication.logout(user);
+    public void logout() {
+        userAuthentication.logout();
     }
 
     public Instance<OAuth2Client> getoAuth2Clients() {

@@ -15,12 +15,12 @@
 
     </style>
     <ul class="nav navbar-nav">
-        <h:panelGroup rendered="#{externalContext.isUserInRole('ADMIN')}">
+        <h:panelGroup rendered="#{externalContext.userPrincipal != null}">
             <li class="dropdown user user-menu">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                     <pe:gravatar id="userImage"
                                  value="nonexisting"/>
-                    <span class="hidden-xs">#{adminLogin.model.username}</span>
+                    <span class="hidden-xs">#{externalContext.userPrincipal.name}</span>
                 </a>
                 <ul class="dropdown-menu">
                     <li class="user-header">
@@ -29,7 +29,7 @@
                                          value="nonexisting"/>
                         </div>
                         <p>
-                            #{adminLogin.model.username}
+                            #{externalContext.userPrincipal.name}
                         </p>
                     </li>
                     <li class="user-footer">

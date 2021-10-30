@@ -8,6 +8,7 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.Date;
 
 @Stateless
 public class UserTokenRepository extends AbstractEntityDao<UserToken> implements
@@ -30,6 +31,7 @@ public class UserTokenRepository extends AbstractEntityDao<UserToken> implements
 
     @Override
     public void create(UserToken userToken) {
+        userToken.setCreationDate(new Date());
         userTokenValidator.newUniqueKey(userToken);
         super.create(userToken);
     }

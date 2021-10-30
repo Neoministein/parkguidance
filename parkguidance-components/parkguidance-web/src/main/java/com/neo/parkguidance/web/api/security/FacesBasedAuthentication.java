@@ -10,7 +10,7 @@ public interface FacesBasedAuthentication {
      *
      * @return the username if successful otherwise null
      */
-    String attemptCookieBasedLogin();
+    void attemptCookieBasedLogin();
 
     /**
      * Attempts to login the user based on the given credentials <br>
@@ -24,10 +24,8 @@ public interface FacesBasedAuthentication {
 
     /**
      * Logs out the user and deletes the stored cookie values
-     *
-     * @param user the name of the user
      */
-    void logout(String user);
+    void logout();
 
     /**
      * Checks if the current sessions is logged in

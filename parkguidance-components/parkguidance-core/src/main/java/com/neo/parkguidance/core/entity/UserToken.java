@@ -1,7 +1,10 @@
 package com.neo.parkguidance.core.entity;
 
+import com.neo.parkguidance.core.impl.auth.TokenType;
+
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -13,7 +16,9 @@ public class UserToken implements DataBaseEntity{
 
     public static final String C_KEY = "key";
     public static final String C_NAME = "name";
-    public static final String T_USER = "userid";
+    public static final String C_TYPE = "type";
+    public static final String C_CREATED_ON = "createdOn";
+    public static final String C_EXPIRATION_DATE = "expirationDate";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,8 +30,21 @@ public class UserToken implements DataBaseEntity{
     @Column(name = C_NAME, nullable = false)
     private String name;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @Enumerated(EnumType.STRING)
+    @Column(name = C_TYPE, nullable = false)
+    private TokenType type;
+
+    @Column(name = C_CREATED_ON, updatable = false)
+    private Date creationDate;
+
+    @Column(name = C_EXPIRATION_DATE)
+    private Date expirationDate;
+
+    @ManyToMany()
     private List<Permission> permissions;
+
+    @ManyToOne
+    private RegisteredUser registeredUser;
 
     public UserToken() {
         this.permissions = new ArrayList<>();
@@ -44,6 +62,10 @@ public class UserToken implements DataBaseEntity{
         return key;
     }
 
+    public void setKey(String key) {
+        this.key = key;
+    }
+
     public String getName() {
         return name;
     }
@@ -52,8 +74,28 @@ public class UserToken implements DataBaseEntity{
         this.name = name;
     }
 
-    public void setKey(String key) {
-        this.key = key;
+    public TokenType getType() {
+        return type;
+    }
+
+    public void setType(TokenType type) {
+        this.type = type;
+    }
+
+    public Date getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
+    }
+
+    public Date getExpirationDate() {
+        return expirationDate;
+    }
+
+    public void setExpirationDate(Date experationDate) {
+        this.expirationDate = experationDate;
     }
 
     public List<Permission> getPermissions() {
@@ -62,6 +104,14 @@ public class UserToken implements DataBaseEntity{
 
     public void setPermissions(List<Permission> permissions) {
         this.permissions = permissions;
+    }
+
+    public RegisteredUser getRegisteredUser() {
+        return registeredUser;
+    }
+
+    public void setRegisteredUser(RegisteredUser registeredUser) {
+        this.registeredUser = registeredUser;
     }
 
     @Override

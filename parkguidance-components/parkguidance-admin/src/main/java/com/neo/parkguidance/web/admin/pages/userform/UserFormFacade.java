@@ -53,6 +53,9 @@ public class UserFormFacade extends AbstractFormFacade<RegisteredUser> {
 
     private RegisteredUser lazyLoadData(RegisteredUser user) {
         user.getTokens().size();
+        for (UserToken userToken: user.getTokens()) {
+            userToken.getPermissions().size();
+        }
         return user;
     }
 

@@ -24,7 +24,7 @@ public class LoginController {
 
 
     public void autoLogin() {
-        facade.autoLogin(model);
+        facade.autoLogin();
     }
 
     public void login() {
@@ -36,7 +36,7 @@ public class LoginController {
     }
 
     public void logout() {
-        facade.logout(model.getUsername());
+        facade.logout();
     }
 
     public Instance<OAuth2Client> getoAuth2Clients() {

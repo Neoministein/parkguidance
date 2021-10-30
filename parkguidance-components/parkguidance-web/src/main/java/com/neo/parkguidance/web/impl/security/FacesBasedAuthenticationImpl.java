@@ -1,8 +1,8 @@
 package com.neo.parkguidance.web.impl.security;
 
 import com.github.adminfaces.template.config.AdminConfig;
-import com.neo.parkguidance.core.api.config.ConfigService;
 import com.neo.parkguidance.core.impl.auth.AbstractBasedAuthentication;
+import com.neo.parkguidance.core.impl.auth.credential.TokenCredentials;
 import com.neo.parkguidance.core.impl.utils.StringUtils;
 import com.neo.parkguidance.web.api.security.FacesBasedAuthentication;
 import com.neo.parkguidance.web.impl.utils.Utils;
@@ -11,6 +11,7 @@ import org.omnifaces.util.Messages;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.ejb.Stateless;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -18,7 +19,9 @@ import javax.security.enterprise.credential.Credential;
 import javax.security.enterprise.credential.UsernamePasswordCredential;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
+@Stateless
 public class FacesBasedAuthenticationImpl extends AbstractBasedAuthentication implements FacesBasedAuthentication {
 
     private static final String COOKIE_USER = "admin-user";
@@ -38,23 +41,16 @@ public class FacesBasedAuthenticationImpl extends AbstractBasedAuthentication im
     @Inject
     AdminConfig adminConfig;
 
-    @Inject
-    ConfigService configService;
-
-
-    public String attemptCookieBasedLogin() {
+    public void attemptCookieBasedLogin() {
         LOGGER.debug("Cookie based login attempted");
-        String emailCookie = Faces.getRequestCookie(COOKIE_USER);
-        String passCookie = Faces.getRequestCookie(COOKIE_PASSWORD);
-        if (!StringUtils.isEmpty(emailCookie) && !StringUtils.isEmpty(passCookie)) {
-            login(emailCookie, passCookie, false);
+
+        String authToken = Faces.getRequestCookie(AUTH_TOKEN);
+        if (!StringUtils.isEmpty(authToken)) {
+            login(new TokenCredentials(authToken), false);
             if (!isLoggedIn()) {
-                return emailCookie;
+                Faces.removeResponseCookie(AUTH_TOKEN,"");
             }
-            Faces.removeResponseCookie(COOKIE_USER,"");
-            Faces.removeResponseCookie(COOKIE_PASSWORD,"");
         }
-        return null;
     }
 
     public void login(String username, String password, boolean remember) {
@@ -76,49 +72,37 @@ public class FacesBasedAuthenticationImpl extends AbstractBasedAuthentication im
         case SUCCESS:
             externalContext.getFlash().setKeepMessages(true);
             Utils.addDetailMessage("Logged in successfully");
-            if (remember) {
-                //TODO
-                //storeCookieCredentials(username, password);
-            }
-            Faces.redirect(adminConfig.getIndexPage());
+            redirect(adminConfig.getIndexPage());
             break;
         case NOT_DONE:
             Messages.addError(null, "Login failed");
         }
     }
 
-    public void logout(String user) {
-        super.logout(Faces.getSession());
-        LOGGER.info("Login out [{}] user", user);
-
-        LOGGER.debug("Invalidating authentication cookies");
-        if(!StringUtils.isEmpty(Faces.getRequestCookie(COOKIE_USER))) {
-            Faces.removeResponseCookie(COOKIE_USER,null);
-            Faces.removeResponseCookie(COOKIE_PASSWORD,null);
-        }
-
+    public void logout() {
         String loginPage = adminConfig.getLoginPage();
         if (loginPage == null || "".equals(loginPage)) {
             loginPage = "login.xhtml";
         }
 
-        if (!loginPage.startsWith("/")) {
-            loginPage = "/" + loginPage;
-        }
+        super.logout(Faces.getSession(),
+                (HttpServletRequest) externalContext.getRequest(),
+                (HttpServletResponse) externalContext.getResponse());
+        redirect(loginPage);
+    }
 
-        try {
+    protected void redirect(String location) {
+        if (!StringUtils.isEmpty(location)) {
+            if (!location.startsWith("/")) {
+                location = "/" + location;
+            }
+            LOGGER.debug("Redirecting user to {}", location);
             ExternalContext ec = Faces.getExternalContext();
-            ec.redirect(ec.getRequestContextPath() + loginPage);
-        } catch (Exception e) {
-            LOGGER.warn("Unable to redirect back to login screen");
+            try {
+                ec.redirect(ec.getRequestContextPath() + location);
+            } catch (IOException e) {
+                LOGGER.warn("Unable to redirect user to {}", location);
+            }
         }
     }
-
-    private void storeCookieCredentials(final String email, final String password) {
-        int cookieTimeOut = configService.getInteger(COOKIE_TIMEOUT, DEFAULT_COOKIE_TIMEOUT);
-
-        Faces.addResponseCookie(COOKIE_USER, email, cookieTimeOut);
-        Faces.addResponseCookie(COOKIE_PASSWORD, password, cookieTimeOut);
-    }
-
 }

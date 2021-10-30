@@ -2,6 +2,7 @@ package com.neo.parkguidance.core.impl.auth;
 
 import com.neo.parkguidance.core.api.auth.CredentialsAuthenticationService;
 import com.neo.parkguidance.core.api.auth.OAuth2Client;
+import com.neo.parkguidance.core.api.auth.TokenService;
 import com.neo.parkguidance.core.api.dao.EntityDao;
 import com.neo.parkguidance.core.api.config.ConfigService;
 import com.neo.parkguidance.core.entity.*;
@@ -31,9 +32,6 @@ public class CredentialsAuthenticationServiceImpl implements CredentialsAuthenti
     EntityDao<RegisteredUser> userDao;
 
     @Inject
-    EntityDao<UserToken> tokenDao;
-
-    @Inject
     EntityDao<UserCredentials> userCredentialsDao;
 
     @Inject
@@ -41,6 +39,9 @@ public class CredentialsAuthenticationServiceImpl implements CredentialsAuthenti
 
     @Inject
     EntityDao<Permission> permissionDao;
+
+    @Inject
+    TokenService tokenService;
 
     @Inject
     Instance<OAuth2Client> oAuth2Clients;
@@ -78,25 +79,12 @@ public class CredentialsAuthenticationServiceImpl implements CredentialsAuthenti
         return null;
     }
 
-    public UserToken authenticateUser(String token) {
-        LOGGER.info("User token authentication attempt");
-
-        if (StringUtils.isEmpty(token)) {
-            LOGGER.info("User token authentication failed");
-            return null;
-        }
-
-        UserToken userToken = tokenDao.findOneByColumn(UserToken.C_KEY, token);
-        if (userToken != null) {
-            LOGGER.info("User token authentication found token [{}]", token);
-            return userToken;
-        }
-        LOGGER.info("User authentication failed");
-        return null;
+    public RegisteredUser authenticateUser(String token) {
+        return tokenService.validateToken(token).getRegisteredUser();
     }
 
-    public UserToken authenticateUser(String token, Collection<Permission> requiredPermissions) {
-        UserToken userToken = authenticateUser(token);
+    public RegisteredUser authenticateUser(String token, Collection<Permission> requiredPermissions) {
+        RegisteredUser userToken = authenticateUser(token);
         if (userToken != null && checkPermissions(userToken.getPermissions(), requiredPermissions)) {
             return userToken;
         }
