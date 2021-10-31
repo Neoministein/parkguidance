@@ -1,39 +1,32 @@
-package com.neo.parkguidance.mail.impl.exception;
-
-import java.util.List;
+package com.neo.parkguidance.core.impl.mail.exception;
 
 /**
- * This exception is thrown if the Mail recipient cannot be reached or parsed
+ * This exception shall be thrown when the cause is unknown
  */
-public class MailRecipientException extends MailException {
-
-    private final List<String> recipients;
-
+public class UnknownMailException extends MailException {
     /**
-     * Constructs a MailRecipientException  with {@code null} as its
+     * Constructs a UnkownMailException  with {@code null} as its
      * detail message. The cause is not initialized, and may subsequently be
      * initialized by a call to {@link #initCause}.
      */
-    public MailRecipientException(List<String> recipients) {
+    public UnknownMailException() {
         super();
-        this.recipients = recipients;
     }
 
     /**
-     * Constructs a MailRecipientException with the specified detail message.
+     * Constructs a UnkownMailException with the specified detail message.
      * The cause is not initialized, and may subsequently be initialized by a
      * call to {@link #initCause}.
      *
      * @param   message   the detail message. The detail message is saved for
      *          later retrieval by the {@link #getMessage()} method.
      */
-    public MailRecipientException(String message, List<String> recipients) {
+    public UnknownMailException(String message) {
         super(message);
-        this.recipients = recipients;
     }
 
     /**
-     * Constructs a MailRecipientException with the specified detail message and
+     * Constructs a UnkownMailException with the specified detail message and
      * cause.<p> Note that the detail message associated with
      * {@code cause} is <i>not</i> automatically incorporated in
      * this runtime exception's detail message.
@@ -45,12 +38,11 @@ public class MailRecipientException extends MailException {
      *         permitted, and indicates that the cause is nonexistent or
      *         unknown.)
      */
-    public MailRecipientException(String message, List<String> recipients , Throwable cause) {
+    public UnknownMailException(String message, Throwable cause) {
         super(message, cause);
-        this.recipients = recipients;
     }
 
-    /** Constructs a MailRecipientException with the specified cause and a
+    /** Constructs a UnkownMailException with the specified cause and a
      * detail message of <tt>(cause==null ? null : cause.toString())</tt>
      * (which typically contains the class and detail message of
      * <tt>cause</tt>).  This constructor is useful for runtime exceptions
@@ -61,12 +53,7 @@ public class MailRecipientException extends MailException {
      *         permitted, and indicates that the cause is nonexistent or
      *         unknown.)
      */
-    public MailRecipientException(Throwable cause, List<String> recipients) {
+    public UnknownMailException(Throwable cause) {
         super(cause);
-        this.recipients = recipients;
-    }
-
-    public List<String> getRecipients() {
-        return recipients;
     }
 }

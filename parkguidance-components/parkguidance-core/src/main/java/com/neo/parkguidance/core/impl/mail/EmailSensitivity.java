@@ -1,4 +1,4 @@
-package com.neo.parkguidance.mail.impl;
+package com.neo.parkguidance.core.impl.mail;
 
 public enum EmailSensitivity {
     NORMAL(""),

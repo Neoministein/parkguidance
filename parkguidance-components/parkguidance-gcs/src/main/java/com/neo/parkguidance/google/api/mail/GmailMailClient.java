@@ -1,13 +1,13 @@
-package com.neo.parkguidance.mail.impl.gmail;
+package com.neo.parkguidance.google.api.mail;
 
 import com.neo.parkguidance.core.api.config.ConfigService;
 import com.neo.parkguidance.core.entity.ConfigValue;
-import com.neo.parkguidance.mail.api.MailClient;
-import com.neo.parkguidance.mail.impl.EmailPriority;
-import com.neo.parkguidance.mail.impl.EmailSensitivity;
-import com.neo.parkguidance.mail.impl.exception.MailHostException;
-import com.neo.parkguidance.mail.impl.exception.MailRecipientException;
-import com.neo.parkguidance.mail.impl.exception.UnknownMailException;
+import com.neo.parkguidance.core.api.mail.MailClient;
+import com.neo.parkguidance.core.impl.mail.EmailPriority;
+import com.neo.parkguidance.core.impl.mail.EmailSensitivity;
+import com.neo.parkguidance.core.impl.mail.exception.MailHostException;
+import com.neo.parkguidance.core.impl.mail.exception.MailRecipientException;
+import com.neo.parkguidance.core.impl.mail.exception.UnknownMailException;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;

@@ -1,8 +1,8 @@
-package com.neo.parkguidance.mail.api;
+package com.neo.parkguidance.core.api.mail;
 
 import com.neo.parkguidance.core.entity.RegisteredUser;
-import com.neo.parkguidance.mail.impl.EmailPriority;
-import com.neo.parkguidance.mail.impl.EmailSensitivity;
+import com.neo.parkguidance.core.impl.mail.EmailPriority;
+import com.neo.parkguidance.core.impl.mail.EmailSensitivity;
 
 import javax.mail.Message;
 import java.util.Map;

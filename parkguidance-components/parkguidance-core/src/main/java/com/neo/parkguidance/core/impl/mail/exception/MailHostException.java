@@ -1,4 +1,4 @@
-package com.neo.parkguidance.mail.impl.exception;
+package com.neo.parkguidance.core.impl.mail.exception;
 
 /**
  * This exception is thrown if the Mail Server cannot be reached

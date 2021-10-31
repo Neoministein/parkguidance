@@ -1,9 +1,9 @@
-package com.neo.parkguidance.mail.impl;
+package com.neo.parkguidance.core.impl.mail;
 
+import com.neo.parkguidance.core.api.mail.MailClient;
+import com.neo.parkguidance.core.api.mail.MailService;
 import com.neo.parkguidance.core.entity.RegisteredUser;
-import com.neo.parkguidance.mail.api.MailClient;
-import com.neo.parkguidance.mail.api.MailService;
-import com.neo.parkguidance.mail.impl.exception.MailException;
+import com.neo.parkguidance.core.impl.mail.exception.MailException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

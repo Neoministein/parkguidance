@@ -64,7 +64,6 @@
         <module>parkguidance-web</module>
         <module>parkguidance-user</module>
         <module>parkguidance-admin</module>
-        <module>parkguidance-mail</module>
     </modules>
 
 </project>
