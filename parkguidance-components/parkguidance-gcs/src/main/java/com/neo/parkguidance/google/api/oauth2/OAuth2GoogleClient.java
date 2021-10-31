@@ -101,7 +101,7 @@ public class OAuth2GoogleClient implements OAuth2Client {
     @Override
     public String renderXhtml() {
         return ""
-                + "<script src=\"https://accounts.google.com/gsi/client\" async=\"async\" defer=\"defer\"></script>\n"
+                + "<script src=\"https://accounts.google.com/gsi/client\" async defer></script>\n"
                 + "<div id=\"g_id_onload\"\n"
                 + "    data-client_id=\"" + clientId +"\"\n"
                 + "    data-login_uri=\"" + authEndpoint + "\"\n"
@@ -114,7 +114,8 @@ public class OAuth2GoogleClient implements OAuth2Client {
                 + "    data-theme=\"outline\"\n"
                 + "    data-text=\"sign_in_with\"\n"
                 + "    data-shape=\"rectangular\"\n"
-                + "    data-logo_alignment=\"left\">\n"
+                + "    data-logo_alignment=\"left\""
+                + "    data-width=\"320\">\n"
                 + "</div>";
     }
 }

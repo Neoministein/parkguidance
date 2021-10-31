@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:adm="http://github.com/adminfaces"
       xmlns:p="http://primefaces.org/ui"
@@ -88,9 +89,9 @@
             <p:graphicImage library="images" name="#{adminConfig.loadingImage}"/>
         </p:dialog>
 
-        <div class="login-box">
+        <div style="margin-top: 20px; margin: 7% auto; width: 360px;">
             <div class="login-logo">
-                <p:link href="index.xhtml"><b>Admin</b>Panel</p:link>
+                <p:link href="index.xhtml"><strong>Admin</strong>Panel</p:link>
             </div>
             <!-- /.login-logo -->
             <div class="box login-box-body">
@@ -102,13 +103,13 @@
                         <p:inputText value="#{adminLogin.model.username}" styleClass="form-control" placeholder="Username"
                                      required="true"
                                      requiredMessage="Email is required."/>
-                        <i class="fa fa-envelope form-control-feedback" ></i>
+                        <em class="fa fa-envelope form-control-feedback" ></em>
                     </div>
                     <div class="form-group has-feedback">
                         <p:inputText value="#{adminLogin.model.password}" type="password" styleClass="form-control"
                                      placeholder="Password" required="true"
                                      requiredMessage="Password is required."/>
-                        <i class="fa fa-lock form-control-feedback" style="font-size: 18px"></i>
+                        <em class="fa fa-lock form-control-feedback" style="font-size: 18px"></em>
                     </div>
                     <div class="row">
                         <div class="col-xs-12">
