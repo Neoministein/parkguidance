@@ -1,8 +1,8 @@
 package com.neo.parkguidance.web.impl.security;
 
 import com.github.adminfaces.template.config.AdminConfig;
-import com.neo.parkguidance.core.impl.auth.AbstractBasedAuthentication;
-import com.neo.parkguidance.core.impl.auth.credential.TokenCredentials;
+import com.neo.parkguidance.core.impl.security.AbstractBasedAuthentication;
+import com.neo.parkguidance.core.impl.security.token.TokenCredentials;
 import com.neo.parkguidance.core.impl.utils.StringUtils;
 import com.neo.parkguidance.web.api.security.FacesBasedAuthentication;
 import com.neo.parkguidance.web.impl.utils.Utils;

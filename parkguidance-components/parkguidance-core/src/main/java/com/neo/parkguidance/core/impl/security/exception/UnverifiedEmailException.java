@@ -1,28 +1,28 @@
-package com.neo.parkguidance.core.impl.auth.exception;
+package com.neo.parkguidance.core.impl.security.exception;
 
-public class UnsupportedOAuth2Provider extends RuntimeException {
+public class UnverifiedEmailException extends RuntimeException {
 
-    /** Constructs a UnsupportedOAuth2Provider  with {@code null} as its
+    /** Constructs a UnverifiedEmailException  with {@code null} as its
      * detail message.  The cause is not initialized, and may subsequently be
      * initialized by a call to {@link #initCause}.
      */
-    public UnsupportedOAuth2Provider() {
+    public UnverifiedEmailException() {
         super();
     }
 
-    /** Constructs a UnsupportedOAuth2Provider with the specified detail message.
+    /** Constructs a UnverifiedEmailException with the specified detail message.
      * The cause is not initialized, and may subsequently be initialized by a
      * call to {@link #initCause}.
      *
      * @param   message   the detail message. The detail message is saved for
      *          later retrieval by the {@link #getMessage()} method.
      */
-    public UnsupportedOAuth2Provider(String message) {
+    public UnverifiedEmailException(String message) {
         super(message);
     }
 
     /**
-     * Constructs a UnsupportedOAuth2Provider with the specified detail message and
+     * Constructs a UnverifiedEmailException with the specified detail message and
      * cause.  <p>Note that the detail message associated with
      * {@code cause} is <i>not</i> automatically incorporated in
      * this runtime exception's detail message.
@@ -34,11 +34,11 @@ public class UnsupportedOAuth2Provider extends RuntimeException {
      *         permitted, and indicates that the cause is nonexistent or
      *         unknown.)
      */
-    public UnsupportedOAuth2Provider(String message, Throwable cause) {
+    public UnverifiedEmailException(String message, Throwable cause) {
         super(message, cause);
     }
 
-    /** Constructs a UnsupportedOAuth2Provider with the specified cause and a
+    /** Constructs a UnverifiedEmailException with the specified cause and a
      * detail message of <tt>(cause==null ? null : cause.toString())</tt>
      * (which typically contains the class and detail message of
      * <tt>cause</tt>).  This constructor is useful for runtime exceptions
@@ -49,7 +49,7 @@ public class UnsupportedOAuth2Provider extends RuntimeException {
      *         permitted, and indicates that the cause is nonexistent or
      *         unknown.)
      */
-    public UnsupportedOAuth2Provider(Throwable cause) {
+    public UnverifiedEmailException(Throwable cause) {
         super(cause);
     }
 }

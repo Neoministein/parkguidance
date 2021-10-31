@@ -1,4 +1,4 @@
-package com.neo.parkguidance.core.impl.auth;
+package com.neo.parkguidance.core.impl.security.token;
 
 /**
  * This class defines the type of {@link com.neo.parkguidance.core.entity.UserToken}

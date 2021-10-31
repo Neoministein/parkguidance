@@ -1,6 +1,6 @@
 package com.neo.parkguidance.web.impl.component;
 
-import com.neo.parkguidance.core.api.auth.OAuth2Client;
+import com.neo.parkguidance.core.api.security.oauth2.OAuth2Client;
 
 import javax.faces.component.FacesComponent;
 import javax.faces.context.FacesContext;

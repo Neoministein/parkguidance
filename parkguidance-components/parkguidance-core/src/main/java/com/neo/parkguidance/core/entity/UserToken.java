@@ -1,6 +1,6 @@
 package com.neo.parkguidance.core.entity;
 
-import com.neo.parkguidance.core.impl.auth.TokenType;
+import com.neo.parkguidance.core.impl.security.token.TokenType;
 
 import javax.persistence.*;
 import java.util.ArrayList;

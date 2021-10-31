@@ -1,8 +1,8 @@
-package com.neo.parkguidance.core.api.auth;
+package com.neo.parkguidance.core.api.security.token;
 
 import com.neo.parkguidance.core.entity.RegisteredUser;
 import com.neo.parkguidance.core.entity.UserToken;
-import com.neo.parkguidance.core.impl.auth.TokenType;
+import com.neo.parkguidance.core.impl.security.token.TokenType;
 
 import java.util.Date;
 

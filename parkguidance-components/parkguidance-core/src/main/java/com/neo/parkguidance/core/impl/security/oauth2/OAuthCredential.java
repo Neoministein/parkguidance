@@ -1,4 +1,4 @@
-package com.neo.parkguidance.core.impl.auth.credential;
+package com.neo.parkguidance.core.impl.security.oauth2;
 
 import javax.security.enterprise.credential.AbstractClearableCredential;
 

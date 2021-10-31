@@ -1,10 +1,10 @@
-package com.neo.parkguidance.core.impl.auth;
+package com.neo.parkguidance.core.impl.security;
 
-import com.neo.parkguidance.core.api.auth.CredentialsAuthenticationService;
+import com.neo.parkguidance.core.api.security.CredentialsAuthenticationService;
 import com.neo.parkguidance.core.entity.Permission;
 import com.neo.parkguidance.core.entity.RegisteredUser;
-import com.neo.parkguidance.core.impl.auth.credential.OAuthCredential;
-import com.neo.parkguidance.core.impl.auth.credential.TokenCredentials;
+import com.neo.parkguidance.core.impl.security.oauth2.OAuthCredential;
+import com.neo.parkguidance.core.impl.security.token.TokenCredentials;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

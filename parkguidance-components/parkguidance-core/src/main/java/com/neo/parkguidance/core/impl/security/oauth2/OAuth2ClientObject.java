@@ -1,7 +1,9 @@
-package com.neo.parkguidance.core.impl.auth;
+package com.neo.parkguidance.core.impl.security.oauth2;
+
+import com.neo.parkguidance.core.api.security.oauth2.OAuth2Client;
 
 /**
- * The Object that an {@link com.neo.parkguidance.core.api.auth.OAuth2Client} returns on successful authentication
+ * The Object that an {@link OAuth2Client} returns on successful authentication
  */
 public class OAuth2ClientObject {
 

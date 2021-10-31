@@ -1,4 +1,4 @@
-package com.neo.parkguidance.core.impl.auth;
+package com.neo.parkguidance.core.impl.security;
 
 import javax.security.enterprise.CallerPrincipal;
 

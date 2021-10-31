@@ -1,7 +1,7 @@
-package com.neo.parkguidance.core.api.auth;
+package com.neo.parkguidance.core.api.security;
 
 import com.neo.parkguidance.core.entity.*;
-import com.neo.parkguidance.core.impl.auth.exception.UnverifiedEmailException;
+import com.neo.parkguidance.core.impl.security.exception.UnverifiedEmailException;
 
 import java.util.Collection;
 import java.util.Set;

@@ -1,7 +1,7 @@
 package com.neo.parkguidance.google.api.oauth2;
 
-import com.neo.parkguidance.core.api.auth.ServletBasedAuthentication;
-import com.neo.parkguidance.core.impl.auth.credential.OAuthCredential;
+import com.neo.parkguidance.core.api.security.ServletBasedAuthentication;
+import com.neo.parkguidance.core.impl.security.oauth2.OAuthCredential;
 
 import javax.inject.Inject;
 import javax.security.enterprise.credential.Credential;

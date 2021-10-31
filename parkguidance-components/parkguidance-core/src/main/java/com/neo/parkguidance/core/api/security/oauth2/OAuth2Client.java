@@ -1,7 +1,7 @@
-package com.neo.parkguidance.core.api.auth;
+package com.neo.parkguidance.core.api.security.oauth2;
 
-import com.neo.parkguidance.core.impl.auth.OAuth2ClientObject;
-import com.neo.parkguidance.core.impl.auth.exception.UnverifiedEmailException;
+import com.neo.parkguidance.core.impl.security.oauth2.OAuth2ClientObject;
+import com.neo.parkguidance.core.impl.security.exception.UnverifiedEmailException;
 
 /**
  * This interfaces defines functionality a oAuth2 provider needs

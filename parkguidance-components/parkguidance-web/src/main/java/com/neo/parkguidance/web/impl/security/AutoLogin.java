@@ -12,12 +12,12 @@ public class AutoLogin {
 
     public static final String BEAN_NAME = "autologin";
 
-    @Inject FacesBasedAuthentication userAuthentication;
+    @Inject
+    FacesBasedAuthentication userAuthentication;
 
     public void login() {
         if (!userAuthentication.isLoggedIn()) {
             userAuthentication.attemptCookieBasedLogin();
         }
     }
-
 }

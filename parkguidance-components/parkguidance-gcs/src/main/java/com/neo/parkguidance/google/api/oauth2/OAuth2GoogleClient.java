@@ -4,11 +4,11 @@ import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.gson.GsonFactory;
-import com.neo.parkguidance.core.api.auth.OAuth2Client;
+import com.neo.parkguidance.core.api.security.oauth2.OAuth2Client;
 import com.neo.parkguidance.core.api.config.ConfigService;
 import com.neo.parkguidance.core.entity.ConfigValue;
-import com.neo.parkguidance.core.impl.auth.OAuth2ClientObject;
-import com.neo.parkguidance.core.impl.auth.exception.UnverifiedEmailException;
+import com.neo.parkguidance.core.impl.security.oauth2.OAuth2ClientObject;
+import com.neo.parkguidance.core.impl.security.exception.UnverifiedEmailException;
 import com.neo.parkguidance.core.impl.utils.ConfigValueUtils;
 import com.neo.parkguidance.google.api.constants.GoogleConstants;
 import org.slf4j.Logger;
@@ -100,7 +100,7 @@ public class OAuth2GoogleClient implements OAuth2Client {
 
     @Override
     public String renderXhtml() {
-        String html = ""
+        return ""
                 + "<script src=\"https://accounts.google.com/gsi/client\" async=\"async\" defer=\"defer\"></script>\n"
                 + "<div id=\"g_id_onload\"\n"
                 + "    data-client_id=\"" + clientId +"\"\n"
@@ -116,6 +116,5 @@ public class OAuth2GoogleClient implements OAuth2Client {
                 + "    data-shape=\"rectangular\"\n"
                 + "    data-logo_alignment=\"left\">\n"
                 + "</div>";
-        return html;
     }
 }

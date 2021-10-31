@@ -1,28 +1,28 @@
-package com.neo.parkguidance.core.impl.auth.exception;
+package com.neo.parkguidance.core.impl.security.exception;
 
-public class UnverifiedEmailException extends RuntimeException {
+public abstract class AuthenticationException extends RuntimeException {
 
-    /** Constructs a UnverifiedEmailException  with {@code null} as its
+    /** Constructs a AuthenticationException  with {@code null} as its
      * detail message.  The cause is not initialized, and may subsequently be
      * initialized by a call to {@link #initCause}.
      */
-    public UnverifiedEmailException() {
+    protected AuthenticationException() {
         super();
     }
 
-    /** Constructs a UnverifiedEmailException with the specified detail message.
+    /** Constructs a AuthenticationException with the specified detail message.
      * The cause is not initialized, and may subsequently be initialized by a
      * call to {@link #initCause}.
      *
      * @param   message   the detail message. The detail message is saved for
      *          later retrieval by the {@link #getMessage()} method.
      */
-    public UnverifiedEmailException(String message) {
+    protected AuthenticationException(String message) {
         super(message);
     }
 
     /**
-     * Constructs a UnverifiedEmailException with the specified detail message and
+     * Constructs a AuthenticationException with the specified detail message and
      * cause.  <p>Note that the detail message associated with
      * {@code cause} is <i>not</i> automatically incorporated in
      * this runtime exception's detail message.
@@ -34,11 +34,11 @@ public class UnverifiedEmailException extends RuntimeException {
      *         permitted, and indicates that the cause is nonexistent or
      *         unknown.)
      */
-    public UnverifiedEmailException(String message, Throwable cause) {
+    protected AuthenticationException(String message, Throwable cause) {
         super(message, cause);
     }
 
-    /** Constructs a UnverifiedEmailException with the specified cause and a
+    /** Constructs a AuthenticationException with the specified cause and a
      * detail message of <tt>(cause==null ? null : cause.toString())</tt>
      * (which typically contains the class and detail message of
      * <tt>cause</tt>).  This constructor is useful for runtime exceptions
@@ -49,7 +49,7 @@ public class UnverifiedEmailException extends RuntimeException {
      *         permitted, and indicates that the cause is nonexistent or
      *         unknown.)
      */
-    public UnverifiedEmailException(Throwable cause) {
+    protected AuthenticationException(Throwable cause) {
         super(cause);
     }
 }

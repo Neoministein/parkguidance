@@ -1,6 +1,6 @@
 package com.neo.parkguidance.rest.api.v1.parkdata;
 
-import com.neo.parkguidance.core.api.auth.CredentialsAuthenticationService;
+import com.neo.parkguidance.core.api.security.CredentialsAuthenticationService;
 import com.neo.parkguidance.core.api.dao.EntityDao;
 import com.neo.parkguidance.core.entity.ParkingGarage;
 import com.neo.parkguidance.elastic.impl.ElasticSearchProvider;

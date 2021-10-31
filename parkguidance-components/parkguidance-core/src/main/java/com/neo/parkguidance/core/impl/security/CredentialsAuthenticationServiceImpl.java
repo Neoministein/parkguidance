@@ -1,12 +1,13 @@
-package com.neo.parkguidance.core.impl.auth;
+package com.neo.parkguidance.core.impl.security;
 
-import com.neo.parkguidance.core.api.auth.CredentialsAuthenticationService;
-import com.neo.parkguidance.core.api.auth.OAuth2Client;
-import com.neo.parkguidance.core.api.auth.TokenService;
+import com.neo.parkguidance.core.api.security.CredentialsAuthenticationService;
+import com.neo.parkguidance.core.api.security.oauth2.OAuth2Client;
+import com.neo.parkguidance.core.api.security.token.TokenService;
 import com.neo.parkguidance.core.api.dao.EntityDao;
 import com.neo.parkguidance.core.api.config.ConfigService;
 import com.neo.parkguidance.core.entity.*;
-import com.neo.parkguidance.core.impl.auth.exception.UnsupportedOAuth2Provider;
+import com.neo.parkguidance.core.impl.security.exception.UnsupportedOAuth2Provider;
+import com.neo.parkguidance.core.impl.security.oauth2.OAuth2ClientObject;
 import com.neo.parkguidance.core.impl.utils.StringUtils;
 import com.neo.parkguidance.core.impl.validation.RegisteredUserValidator;
 import org.slf4j.Logger;

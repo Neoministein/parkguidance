@@ -1,4 +1,4 @@
-package com.neo.parkguidance.core.api.auth;
+package com.neo.parkguidance.core.api.security;
 
 import javax.security.enterprise.credential.Credential;
 import javax.servlet.http.HttpServletRequest;

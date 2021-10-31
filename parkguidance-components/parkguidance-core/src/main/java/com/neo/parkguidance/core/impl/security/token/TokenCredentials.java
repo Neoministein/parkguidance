@@ -1,4 +1,4 @@
-package com.neo.parkguidance.core.impl.auth.credential;
+package com.neo.parkguidance.core.impl.security.token;
 
 import javax.security.enterprise.credential.AbstractClearableCredential;
 

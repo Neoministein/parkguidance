@@ -1,7 +1,8 @@
-package com.neo.parkguidance.core.impl.auth;
+package com.neo.parkguidance.core.impl.security;
 
-import com.neo.parkguidance.core.api.auth.TokenService;
+import com.neo.parkguidance.core.api.security.token.TokenService;
 import com.neo.parkguidance.core.entity.UserToken;
+import com.neo.parkguidance.core.impl.security.token.TokenType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -1,6 +1,6 @@
-package com.neo.parkguidance.core.impl.auth;
+package com.neo.parkguidance.core.impl.security.token;
 
-import com.neo.parkguidance.core.api.auth.TokenService;
+import com.neo.parkguidance.core.api.security.token.TokenService;
 import com.neo.parkguidance.core.api.dao.EntityDao;
 import com.neo.parkguidance.core.entity.RegisteredUser;
 import com.neo.parkguidance.core.entity.UserToken;
