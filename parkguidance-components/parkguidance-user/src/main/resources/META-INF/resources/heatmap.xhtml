@@ -34,13 +34,13 @@
             <script src="resources/heatmap.js"></script>
             <script type="text/javascript" src="#{heatmap.model.gMapUrl}"></script>
             <div class="card">
-                <div id="map" style="width:100%; height:80vh"></div>
+                <div id="map" style="width:100%;"></div>
             </div>
             <h:form>
                 <p:outputLabel value="Colorblind: " for="inputColor"/>
                 <br/>
                 <p:toggleSwitch id="inputColor"
-                                value="#{heatmap.model.colorBlind}"
+                                value="#{userConfig.colorBlind}"
                                 required="true"
                                 valueChangeListener="#{heatmap.updateGMap}">
                     <p:ajax/>

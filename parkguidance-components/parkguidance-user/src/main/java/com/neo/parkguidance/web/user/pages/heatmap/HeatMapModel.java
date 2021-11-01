@@ -14,7 +14,6 @@ public class HeatMapModel implements Serializable {
 
     private boolean initialized;
 
-    private boolean colorBlind = false;
     private Integer timeOfDay = 12;
     private String gMapUrl;
     private List<JSONObject> heatMapGradiantNormal;
@@ -26,14 +25,6 @@ public class HeatMapModel implements Serializable {
 
     public void setInitialized(boolean initialized) {
         this.initialized = initialized;
-    }
-
-    public boolean isColorBlind() {
-        return colorBlind;
-    }
-
-    public void setColorBlind(boolean colorBlind) {
-        this.colorBlind = colorBlind;
     }
 
     public Integer getTimeOfDay() {

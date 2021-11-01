@@ -1,6 +1,8 @@
 package com.neo.parkguidance.web.user.pages.parklist;
 
 import com.neo.parkguidance.core.entity.ParkingGarage;
+import com.neo.parkguidance.web.infra.ColorGenerator;
+import com.neo.parkguidance.web.user.impl.UserConfig;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
@@ -22,6 +24,9 @@ public class ParkListController {
     @Inject
     ParkListFacade  facade;
 
+    @Inject
+    UserConfig config;
+
     @PostConstruct
     public void init() {
         facade.initDataModel(model);
@@ -32,6 +37,9 @@ public class ParkListController {
     }
 
     public String getStyleColorOfOccupied(ParkingGarage parkingGarage) {
-        return facade.getStyleColorOfOccupied(parkingGarage.getOccupied(), parkingGarage.getSpaces());
+        return ColorGenerator.getStyleColor(
+                parkingGarage.getOccupied(),
+                parkingGarage.getSpaces(),
+                config.isColorBlind());
     }
 }

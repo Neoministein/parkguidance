@@ -1,6 +1,7 @@
 package com.neo.parkguidance.web.user.pages.heatmap;
 
 import com.neo.parkguidance.web.api.component.HeatmapComponentLogic;
+import com.neo.parkguidance.web.user.impl.UserConfig;
 import org.json.JSONObject;
 import org.primefaces.event.SlideEndEvent;
 
@@ -26,16 +27,18 @@ public class HeatMapController {
     @Inject
     HeatMapFacade facade;
 
+    @Inject
+    UserConfig config;
+
     @PostConstruct
     public void init() {
-
         if (!model.isInitialized()) {
             model.setHeatMapGradiantNormal(facade.getHeatMapGradiantNormal());
             model.setHeatMapGradiantColorBlind(facade.getHeatMapGradiantColorBlind());
             model.setInitialized(true);
             JSONObject data;
 
-            if (model.isColorBlind()) {
+            if (config.isColorBlind()) {
                 data = model.getHeatMapGradiantColorBlind().get(model.getTimeOfDay());
             } else {
                 data = model.getHeatMapGradiantNormal().get(model.getTimeOfDay());
@@ -59,7 +62,7 @@ public class HeatMapController {
 
     public void sendUpdate(int timeOfDay) {
         JSONObject data;
-        if (model.isColorBlind()) {
+        if (config.isColorBlind()) {
             data = model.getHeatMapGradiantColorBlind().get(timeOfDay);
         } else {
             data = model.getHeatMapGradiantNormal().get(timeOfDay);
