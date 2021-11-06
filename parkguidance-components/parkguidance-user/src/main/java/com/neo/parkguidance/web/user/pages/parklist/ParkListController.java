@@ -38,8 +38,8 @@ public class ParkListController {
 
     public String getStyleColorOfOccupied(ParkingGarage parkingGarage) {
         return ColorGenerator.getStyleColor(
-                parkingGarage.getOccupied(),
                 parkingGarage.getSpaces(),
+                parkingGarage.getOccupied(),
                 config.isColorBlind());
     }
 }
