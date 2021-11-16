@@ -1,6 +1,5 @@
 package com.neo.parkguidance.core.impl.dataloader;
 
-import com.neo.parkguidance.core.impl.LoadProperties;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
@@ -133,7 +132,7 @@ public class DataloaderTool {
     }
 
     protected Properties loadEnvironmentProperties(String environment) {
-        try (InputStream input = LoadProperties.class.getClassLoader().getResourceAsStream("environment\\" + environment + ".properties")) {
+        try (InputStream input = DataloaderTool.class.getClassLoader().getResourceAsStream("environment\\" + environment + ".properties")) {
             Properties properties = new Properties();
             properties.load(input);
             return properties;
