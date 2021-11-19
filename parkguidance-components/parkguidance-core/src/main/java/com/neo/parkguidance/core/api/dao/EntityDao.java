@@ -1,6 +1,7 @@
 package com.neo.parkguidance.core.api.dao;
 
 import com.neo.parkguidance.core.entity.DataBaseEntity;
+import com.neo.parkguidance.core.impl.validation.EntityValidationException;
 
 import java.util.List;
 import java.util.Map;
@@ -113,11 +114,12 @@ public interface EntityDao<T extends DataBaseEntity> {
      * @param object the object to match
      * @param first the first object to return
      * @param pageSize the number of entries to return
-     * @param order the order in which the entries shall be searched
+     * @param columnToSortBy the column the data shall be sorted by
+     * @param ascending the sort order
      *
      * @return all entries which match the given query
      */
-    List<T> findLikeExample(T object, int first, int pageSize ,org.hibernate.criterion.Order order);
+    List<T> findLikeExample(T object, int first, int pageSize , String columnToSortBy, boolean ascending);
 
     /**
      * Counts all object which are like the given query

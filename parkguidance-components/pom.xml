@@ -55,15 +55,12 @@
 
     <modules>
         <module>parkguidance-core</module>
+        <module>parkguidance-framework</module>
 
         <module>parkguidance-parkdata</module>
         <module>parkguidance-gcs</module>
         <module>parkguidance-elastic</module>
-
         <module>parkguidance-rest</module>
-        <module>parkguidance-web</module>
-        <module>parkguidance-user</module>
-        <module>parkguidance-admin</module>
     </modules>
 
 </project>

@@ -1,11 +1,10 @@
 package com.neo.parkguidance.google.api.maps.components;
 
 import com.neo.parkguidance.core.api.config.ConfigService;
+import com.neo.parkguidance.core.api.geomap.component.HeatmapComponentLogic;
 import com.neo.parkguidance.core.entity.ConfigValue;
 import com.neo.parkguidance.core.impl.utils.ConfigValueUtils;
-import com.neo.parkguidance.web.api.component.HeatmapComponentLogic;
 import org.json.JSONObject;
-import org.primefaces.PrimeFaces;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -27,17 +26,13 @@ public class GcsHeatMapComponentLogic implements HeatmapComponentLogic {
     }
 
     @Override
-    public void initMap(JSONObject data) {
-        callLocalJavascript("initMap('" + data.toString().replace("\\\"", "$-$-$") + "');");
+    public String initMap(JSONObject data) {
+        return "initMap('" + data.toString().replace("\\\"", "$-$-$") + "');";
     }
 
     @Override
-    public void updateMap(JSONObject data) {
-        callLocalJavascript("updateHeatMapPoints('" + data.toString().replace("\\\"", "$-$-$") + "')");
-    }
-
-    private void callLocalJavascript(String command) {
-        PrimeFaces.current().executeScript(command);
+    public String updateMap(JSONObject data) {
+        return  "updateHeatMapPoints('" + data.toString().replace("\\\"", "$-$-$") + "')";
     }
 
     protected String generateMapUrl() {
