@@ -1,7 +1,6 @@
 package com.neo.parkguidance.elastic.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.neo.parkguidance.core.entity.DataBaseEntity;
 import com.neo.parkguidance.elastic.api.ElasticSearchConnectionStatusEvent;
 import org.apache.commons.io.IOUtils;
@@ -104,25 +103,6 @@ public class ElasticSearchProvider {
 
     protected RestHighLevelClient getClient() {
         return connection.getClient();
-    }
-
-    /**
-     * Saves a {@link DataBaseEntity} to a elastic search index
-     *
-     * @param index the index the content is saved to
-     * @param content the DataBaseEntity object needed to be saved
-     */
-    public void save(String index, DataBaseEntity content) {
-
-        ObjectMapper mapper = new ObjectMapper();
-
-        try {
-            save(index, mapper.writeValueAsString(content));
-        } catch (JsonProcessingException e) {
-            LOGGER.error("Couldn't parse the database entity {} {}",
-                    content.getClass().getName(),
-                    content.getPrimaryKey());
-        }
     }
 
     /**

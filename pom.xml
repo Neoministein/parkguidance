@@ -21,9 +21,7 @@
 	</build>
 
 	<modules>
-		<module>parkguidance-components</module>
-
-		<module>parkguidance-main</module>
-		<module>parkguidance-war</module>
+		<module>parkguidance-frontend</module>
+		<module>parkguidance-microservices</module>
 	</modules>
 </project>

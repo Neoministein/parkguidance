@@ -13,17 +13,12 @@
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>parkguidance-core</artifactId>
+            <artifactId>parkguidance-framework</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>parkguidance-elastic</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>parkguidance-web</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>

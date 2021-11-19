@@ -1,11 +1,11 @@
 package com.neo.parkguidance.google.api.maps.components;
 
 import com.neo.parkguidance.core.api.config.ConfigService;
+import com.neo.parkguidance.core.api.geomap.component.EmbeddedMapComponentLogic;
 import com.neo.parkguidance.core.entity.Address;
 import com.neo.parkguidance.core.entity.ConfigValue;
 import com.neo.parkguidance.core.impl.utils.ConfigValueUtils;
 import com.neo.parkguidance.google.api.maps.embed.EmbeddedMap;
-import com.neo.parkguidance.web.api.component.EmbeddedMapComponentLogic;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
