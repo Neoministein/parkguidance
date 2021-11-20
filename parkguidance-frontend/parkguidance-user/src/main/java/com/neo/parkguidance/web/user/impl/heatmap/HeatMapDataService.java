@@ -1,6 +1,6 @@
 package com.neo.parkguidance.web.user.impl.heatmap;
 
-import com.neo.parkguidance.core.impl.event.ParkDataChangeEvent;
+import com.neo.parkguidance.framework.impl.event.ParkDataChangeEvent;
 import org.json.JSONObject;
 
 import javax.annotation.PostConstruct;

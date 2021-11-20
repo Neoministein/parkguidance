@@ -1,7 +1,7 @@
 package com.neo.parkguidance.web.user.pages.parklist;
 
-import com.neo.parkguidance.core.api.dao.EntityDao;
-import com.neo.parkguidance.core.entity.ParkingGarage;
+import com.neo.parkguidance.framework.api.dao.EntityDao;
+import com.neo.parkguidance.framework.entity.ParkingGarage;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;

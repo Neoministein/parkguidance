@@ -1,6 +1,6 @@
 package com.neo.parkguidance.web.admin.pages.userform;
 
-import com.neo.parkguidance.core.entity.RegisteredUser;
+import com.neo.parkguidance.framework.entity.RegisteredUser;
 import com.neo.parkguidance.web.impl.pages.form.AbstractFormController;
 
 import javax.enterprise.context.RequestScoped;

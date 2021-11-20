@@ -1,8 +1,8 @@
 package com.neo.parkguidance.parkdata.impl.service;
 
-import com.neo.parkguidance.core.entity.ParkingGarage;
-import com.neo.parkguidance.core.impl.event.DataBaseEntityChangeEvent;
-import com.neo.parkguidance.core.impl.event.ParkDataChangeEvent;
+import com.neo.parkguidance.framework.entity.ParkingGarage;
+import com.neo.parkguidance.framework.impl.event.DataBaseEntityChangeEvent;
+import com.neo.parkguidance.framework.impl.event.ParkDataChangeEvent;
 import com.neo.parkguidance.parkdata.api.service.ParkDataService;
 
 import javax.annotation.PostConstruct;

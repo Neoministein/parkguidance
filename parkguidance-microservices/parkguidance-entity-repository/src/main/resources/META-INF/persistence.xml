@@ -7,8 +7,8 @@
     <persistence-unit name="parkguidancePersistence" transaction-type="JTA">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <jta-data-source>parkguidanceDataSource</jta-data-source>
-        <class>com.neo.parkguidance.core.entity.ParkingGarage</class>
-        <class>com.neo.parkguidance.core.entity.Address</class>
+        <class>com.neo.parkguidance.framework.entity.ParkingGarage</class>
+        <class>com.neo.parkguidance.framework.entity.Address</class>
 
         
 

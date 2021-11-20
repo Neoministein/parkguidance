@@ -19,7 +19,7 @@
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>parkguidance-framework</artifactId>
+            <artifactId>parkguidance-framework-impl</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>

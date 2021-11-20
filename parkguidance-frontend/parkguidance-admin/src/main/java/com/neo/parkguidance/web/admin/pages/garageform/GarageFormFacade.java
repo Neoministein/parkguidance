@@ -1,10 +1,10 @@
 package com.neo.parkguidance.web.admin.pages.garageform;
 
-import com.neo.parkguidance.core.api.dao.EntityDao;
-import com.neo.parkguidance.core.impl.validation.AddressValidator;
-import com.neo.parkguidance.core.impl.validation.ParkingGarageValidator;
-import com.neo.parkguidance.core.entity.Address;
-import com.neo.parkguidance.core.entity.ParkingGarage;
+import com.neo.parkguidance.framework.api.dao.EntityDao;
+import com.neo.parkguidance.framework.impl.validation.AddressValidator;
+import com.neo.parkguidance.framework.impl.validation.ParkingGarageValidator;
+import com.neo.parkguidance.framework.entity.Address;
+import com.neo.parkguidance.framework.entity.ParkingGarage;
 import com.neo.parkguidance.web.impl.pages.form.AbstractFormFacade;
 
 import javax.ejb.Stateless;

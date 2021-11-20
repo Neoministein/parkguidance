@@ -1,6 +1,6 @@
 package com.neo.parkguidance.web.pages.login;
 
-import com.neo.parkguidance.core.api.security.oauth2.OAuth2Client;
+import com.neo.parkguidance.framework.api.security.oauth2.OAuth2Client;
 
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.inject.Instance;

@@ -1,6 +1,6 @@
 package com.neo.parkguidance.rest.api.v1.parkgrage;
 
-import com.neo.parkguidance.core.entity.ParkingGarage;
+import com.neo.parkguidance.framework.entity.ParkingGarage;
 import com.neo.parkguidance.rest.api.InternalRestException;
 
 import javax.ejb.Stateless;

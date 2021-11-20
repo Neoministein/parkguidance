@@ -1,6 +1,6 @@
 package com.neo.parkguidance.main.api.dataloader;
 
-import com.neo.parkguidance.core.impl.dataloader.DataloaderTool;
+import com.neo.parkguidance.framework.impl.dataloader.DataloaderTool;
 
 public class Dataloader {
 

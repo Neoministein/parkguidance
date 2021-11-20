@@ -1,6 +1,6 @@
 package com.neo.parkguidance.web.impl.entity.converter;
 
-import com.neo.parkguidance.core.entity.ParkingGarage;
+import com.neo.parkguidance.framework.entity.ParkingGarage;
 import javax.inject.Named;
 
 /**

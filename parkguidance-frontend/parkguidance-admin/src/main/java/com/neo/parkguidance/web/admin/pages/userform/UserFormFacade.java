@@ -1,10 +1,10 @@
 package com.neo.parkguidance.web.admin.pages.userform;
 
-import com.neo.parkguidance.core.api.dao.EntityDao;
-import com.neo.parkguidance.core.entity.Permission;
-import com.neo.parkguidance.core.entity.RegisteredUser;
-import com.neo.parkguidance.core.entity.UserToken;
-import com.neo.parkguidance.core.impl.validation.UserTokenValidator;
+import com.neo.parkguidance.framework.api.dao.EntityDao;
+import com.neo.parkguidance.framework.entity.Permission;
+import com.neo.parkguidance.framework.entity.RegisteredUser;
+import com.neo.parkguidance.framework.entity.UserToken;
+import com.neo.parkguidance.framework.impl.validation.UserTokenValidator;
 import com.neo.parkguidance.web.impl.pages.form.AbstractFormFacade;
 import com.neo.parkguidance.web.impl.utils.Utils;
 import org.primefaces.PrimeFaces;

@@ -1,7 +1,7 @@
 package com.neo.parkguidance.web.user.pages.search;
 
-import com.neo.parkguidance.core.api.dao.EntityDao;
-import com.neo.parkguidance.core.entity.ParkingGarage;
+import com.neo.parkguidance.framework.api.dao.EntityDao;
+import com.neo.parkguidance.framework.entity.ParkingGarage;
 import com.neo.parkguidance.web.impl.entity.LazyEntityService;
 import com.neo.parkguidance.web.impl.table.Filter;
 import org.primefaces.model.LazyDataModel;

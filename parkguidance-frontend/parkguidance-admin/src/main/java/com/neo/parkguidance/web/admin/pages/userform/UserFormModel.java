@@ -1,8 +1,8 @@
 package com.neo.parkguidance.web.admin.pages.userform;
 
-import com.neo.parkguidance.core.entity.Permission;
-import com.neo.parkguidance.core.entity.RegisteredUser;
-import com.neo.parkguidance.core.entity.UserToken;
+import com.neo.parkguidance.framework.entity.Permission;
+import com.neo.parkguidance.framework.entity.RegisteredUser;
+import com.neo.parkguidance.framework.entity.UserToken;
 import com.neo.parkguidance.web.impl.pages.form.AbstractFormModel;
 import org.omnifaces.cdi.ViewScoped;
 

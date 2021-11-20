@@ -1,8 +1,8 @@
 package com.neo.parkguidance.web.admin.pages.parkdata;
 
-import com.neo.parkguidance.core.api.dao.EntityDao;
-import com.neo.parkguidance.core.entity.ParkingGarage;
-import com.neo.parkguidance.core.impl.event.ParkDataChangeEvent;
+import com.neo.parkguidance.framework.api.dao.EntityDao;
+import com.neo.parkguidance.framework.entity.ParkingGarage;
+import com.neo.parkguidance.framework.impl.event.ParkDataChangeEvent;
 import com.neo.parkguidance.elastic.impl.ElasticSearchProvider;
 import com.neo.parkguidance.elastic.impl.query.ElasticSearchLowLevelQuery;
 import com.neo.parkguidance.web.impl.utils.Utils;

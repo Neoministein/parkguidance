@@ -1,6 +1,6 @@
 package com.neo.parkguidance.web.impl.pages.form;
 
-import com.neo.parkguidance.core.entity.ParkingGarage;
+import com.neo.parkguidance.framework.entity.ParkingGarage;
 import com.neo.parkguidance.web.impl.utils.Utils;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;

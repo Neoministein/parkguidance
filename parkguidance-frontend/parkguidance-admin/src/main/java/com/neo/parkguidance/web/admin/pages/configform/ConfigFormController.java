@@ -1,9 +1,9 @@
 package com.neo.parkguidance.web.admin.pages.configform;
 
-import com.neo.parkguidance.core.entity.ConfigValue;
-import com.neo.parkguidance.core.entity.Configuration;
-import com.neo.parkguidance.core.impl.config.ConfigType;
-import com.neo.parkguidance.core.impl.utils.StringUtils;
+import com.neo.parkguidance.framework.entity.ConfigValue;
+import com.neo.parkguidance.framework.entity.Configuration;
+import com.neo.parkguidance.framework.impl.config.ConfigType;
+import com.neo.parkguidance.framework.impl.utils.StringUtils;
 import com.neo.parkguidance.web.impl.pages.form.AbstractFormController;
 import org.omnifaces.util.Messages;
 import org.primefaces.event.RowEditEvent;

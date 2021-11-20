@@ -1,6 +1,6 @@
 package com.neo.parkguidance.web.impl.entity.converter;
 
-import com.neo.parkguidance.core.entity.Permission;
+import com.neo.parkguidance.framework.entity.Permission;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;

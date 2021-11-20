@@ -1,6 +1,6 @@
 package com.neo.parkguidance.web.user.pages.parklist;
 
-import com.neo.parkguidance.core.entity.ParkingGarage;
+import com.neo.parkguidance.framework.entity.ParkingGarage;
 import com.neo.parkguidance.web.infra.ColorGenerator;
 import com.neo.parkguidance.web.user.impl.UserConfig;
 

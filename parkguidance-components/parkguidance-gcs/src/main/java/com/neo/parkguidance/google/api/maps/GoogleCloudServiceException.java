@@ -1,6 +1,6 @@
 package com.neo.parkguidance.google.api.maps;
 
-import com.neo.parkguidance.core.impl.geomap.GeoMapException;
+import com.neo.parkguidance.framework.impl.geomap.GeoMapException;
 
 /**
  * This class handles Google Cloud Service Exceptions which aren't from invalid user input

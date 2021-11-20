@@ -1,7 +1,7 @@
 package com.neo.parkguidance.web.user.pages.geolocation;
 
-import com.neo.parkguidance.core.entity.Address;
-import com.neo.parkguidance.core.entity.ParkingGarage;
+import com.neo.parkguidance.framework.entity.Address;
+import com.neo.parkguidance.framework.entity.ParkingGarage;
 import com.neo.parkguidance.web.user.impl.address.AddressDataService;
 import org.primefaces.PrimeFaces;
 

@@ -1,6 +1,6 @@
 package com.neo.parkguidance.web.user.impl.data;
 
-import com.neo.parkguidance.core.impl.event.ParkDataChangeEvent;
+import com.neo.parkguidance.framework.impl.event.ParkDataChangeEvent;
 import org.primefaces.model.charts.line.LineChartDataSet;
 
 import javax.annotation.PostConstruct;

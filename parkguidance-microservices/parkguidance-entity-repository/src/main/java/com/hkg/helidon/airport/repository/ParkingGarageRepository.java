@@ -1,6 +1,6 @@
 package com.hkg.helidon.airport.repository;
 
-import com.neo.parkguidance.core.entity.ParkingGarage;
+import com.neo.parkguidance.framework.entity.ParkingGarage;
 
 import javax.enterprise.context.RequestScoped;
 import javax.persistence.EntityManager;

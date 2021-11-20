@@ -1,6 +1,6 @@
 package com.neo.parkguidance.web.impl.pages.form;
 
-import com.neo.parkguidance.core.entity.DataBaseEntity;
+import com.neo.parkguidance.framework.entity.DataBaseEntity;
 
 import java.io.Serializable;
 

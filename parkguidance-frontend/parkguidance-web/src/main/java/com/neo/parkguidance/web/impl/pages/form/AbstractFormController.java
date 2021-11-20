@@ -1,6 +1,6 @@
 package com.neo.parkguidance.web.impl.pages.form;
 
-import com.neo.parkguidance.core.entity.DataBaseEntity;
+import com.neo.parkguidance.framework.entity.DataBaseEntity;
 import org.omnifaces.util.Faces;
 import org.omnifaces.util.Messages;
 

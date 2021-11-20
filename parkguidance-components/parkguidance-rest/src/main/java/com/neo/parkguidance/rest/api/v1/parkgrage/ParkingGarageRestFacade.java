@@ -1,9 +1,9 @@
 package com.neo.parkguidance.rest.api.v1.parkgrage;
 
-import com.neo.parkguidance.core.api.security.CredentialsAuthenticationService;
-import com.neo.parkguidance.core.api.dao.EntityDao;
-import com.neo.parkguidance.core.entity.Address;
-import com.neo.parkguidance.core.entity.ParkingGarage;
+import com.neo.parkguidance.framework.api.security.CredentialsAuthenticationService;
+import com.neo.parkguidance.framework.api.dao.EntityDao;
+import com.neo.parkguidance.framework.entity.Address;
+import com.neo.parkguidance.framework.entity.ParkingGarage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,11 +11,11 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletResponse;
 
-import com.neo.parkguidance.core.impl.utils.MathUtils;
-import com.neo.parkguidance.core.impl.utils.StringUtils;
-import com.neo.parkguidance.core.impl.validation.AddressValidator;
-import com.neo.parkguidance.core.impl.validation.EntityValidationException;
-import com.neo.parkguidance.core.impl.validation.ParkingGarageValidator;
+import com.neo.parkguidance.framework.impl.utils.MathUtils;
+import com.neo.parkguidance.framework.impl.utils.StringUtils;
+import com.neo.parkguidance.framework.impl.validation.AddressValidator;
+import com.neo.parkguidance.framework.impl.validation.EntityValidationException;
+import com.neo.parkguidance.framework.impl.validation.ParkingGarageValidator;
 import com.neo.parkguidance.rest.api.InternalRestException;
 import org.json.JSONArray;
 import org.json.JSONObject;

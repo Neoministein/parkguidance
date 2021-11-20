@@ -1,8 +1,8 @@
 package com.neo.parkguidance.elastic.impl.launcher;
 
-import com.neo.parkguidance.core.impl.http.HTTPRequest;
-import com.neo.parkguidance.core.impl.http.HTTPRequestSender;
-import com.neo.parkguidance.core.impl.http.HTTPResponse;
+import com.neo.parkguidance.framework.impl.http.HTTPRequest;
+import com.neo.parkguidance.framework.impl.http.HTTPRequestSender;
+import com.neo.parkguidance.framework.impl.http.HTTPResponse;
 import com.neo.parkguidance.elastic.api.constants.ElasticSearchConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

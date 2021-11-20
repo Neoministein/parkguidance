@@ -1,7 +1,7 @@
 package com.neo.parkguidance.web.admin.pages.configlist;
 
-import com.neo.parkguidance.core.api.config.ConfigService;
-import com.neo.parkguidance.core.entity.Configuration;
+import com.neo.parkguidance.framework.api.config.ConfigService;
+import com.neo.parkguidance.framework.entity.Configuration;
 import com.neo.parkguidance.web.impl.pages.lazy.AbstractLazyFacade;
 import com.neo.parkguidance.web.impl.table.Filter;
 

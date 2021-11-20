@@ -1,17 +1,17 @@
 package com.neo.parkguidance.google.api.maps;
 
-import com.neo.parkguidance.core.api.geomap.DistanceMatrixService;
-import com.neo.parkguidance.core.api.config.ConfigService;
-import com.neo.parkguidance.core.impl.geomap.DistanceDataObject;
-import com.neo.parkguidance.core.impl.http.HTTPRequestSender;
-import com.neo.parkguidance.core.impl.http.HTTPResponse;
-import com.neo.parkguidance.core.impl.utils.ConfigValueUtils;
+import com.neo.parkguidance.framework.api.geomap.DistanceMatrixService;
+import com.neo.parkguidance.framework.api.config.ConfigService;
+import com.neo.parkguidance.framework.impl.geomap.DistanceDataObject;
+import com.neo.parkguidance.framework.impl.http.HTTPRequestSender;
+import com.neo.parkguidance.framework.impl.http.HTTPResponse;
+import com.neo.parkguidance.framework.impl.utils.ConfigValueUtils;
 import com.neo.parkguidance.elastic.impl.ElasticSearchProvider;
 import com.neo.parkguidance.google.api.constants.GoogleConstants;
-import com.neo.parkguidance.core.entity.Address;
-import com.neo.parkguidance.core.impl.http.HTTPRequest;
-import com.neo.parkguidance.core.entity.ParkingGarage;
-import com.neo.parkguidance.core.entity.ConfigValue;
+import com.neo.parkguidance.framework.entity.Address;
+import com.neo.parkguidance.framework.impl.http.HTTPRequest;
+import com.neo.parkguidance.framework.entity.ParkingGarage;
+import com.neo.parkguidance.framework.entity.ConfigValue;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;

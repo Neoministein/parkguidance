@@ -1,7 +1,7 @@
 package com.neo.parkguidance.web.user.impl.address;
 
-import com.neo.parkguidance.core.entity.Address;
-import com.neo.parkguidance.core.impl.event.DataBaseEntityChangeEvent;
+import com.neo.parkguidance.framework.entity.Address;
+import com.neo.parkguidance.framework.impl.event.DataBaseEntityChangeEvent;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;

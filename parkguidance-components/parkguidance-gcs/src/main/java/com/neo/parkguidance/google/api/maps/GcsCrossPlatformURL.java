@@ -1,8 +1,8 @@
 package com.neo.parkguidance.google.api.maps;
 
-import com.neo.parkguidance.core.api.geomap.GeoMapURL;
+import com.neo.parkguidance.framework.api.geomap.GeoMapURL;
 import com.neo.parkguidance.google.api.constants.GoogleConstants;
-import com.neo.parkguidance.core.entity.ParkingGarage;
+import com.neo.parkguidance.framework.entity.ParkingGarage;
 
 import javax.ejb.Stateless;
 

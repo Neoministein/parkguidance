@@ -54,8 +54,8 @@
     </build>
 
     <modules>
-        <module>parkguidance-core</module>
         <module>parkguidance-framework</module>
+        <module>parkguidance-framework-impl</module>
 
         <module>parkguidance-parkdata</module>
         <module>parkguidance-gcs</module>

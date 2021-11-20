@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+    <persistence-unit name="data_persistence_unit" transaction-type="JTA">
+        <jta-data-source>java:/parkguidance</jta-data-source>
+        <class>com.neo.parkguidance.framework.entity.ParkingGarage</class>
+        <class>com.neo.parkguidance.framework.entity.Address</class>
+        <class>com.neo.parkguidance.framework.entity.Configuration</class>
+        <class>com.neo.parkguidance.framework.entity.ConfigValue</class>
+        <class>com.neo.parkguidance.framework.entity.RegisteredUser</class>
+        <class>com.neo.parkguidance.framework.entity.Permission</class>
+        <class>com.neo.parkguidance.framework.entity.UserCredentials</class>
+        <class>com.neo.parkguidance.framework.entity.UserToken</class>
+        <properties>
+            <!-- Set value to update if I don't want to recreate database on Application startup -->
+<!--
+            <property name="hibernate.hbm2ddl.auto" value="create" />
+            <property name="hibernate.hbm2ddl.auto" value="validate" />
+
+            <property name="hibernate.hbm2ddl.auto" value="create-drop" />
+            -->
+            <property name="hibernate.hbm2ddl.auto" value="update" />
+        </properties>
+    </persistence-unit>
+</persistence>

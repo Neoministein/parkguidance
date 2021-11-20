@@ -1,13 +1,13 @@
 package com.neo.parkguidance.web.user.pages.geolocation;
 
-import com.neo.parkguidance.core.api.dao.EntityDao;
-import com.neo.parkguidance.core.api.geomap.DistanceMatrixService;
-import com.neo.parkguidance.core.api.geomap.GeoCodingService;
-import com.neo.parkguidance.core.api.geomap.GeoMapURL;
-import com.neo.parkguidance.core.api.config.ConfigService;
-import com.neo.parkguidance.core.impl.geomap.DistanceDataObject;
-import com.neo.parkguidance.core.entity.Address;
-import com.neo.parkguidance.core.entity.ParkingGarage;
+import com.neo.parkguidance.framework.api.dao.EntityDao;
+import com.neo.parkguidance.framework.api.geomap.DistanceMatrixService;
+import com.neo.parkguidance.framework.api.geomap.GeoCodingService;
+import com.neo.parkguidance.framework.api.geomap.GeoMapURL;
+import com.neo.parkguidance.framework.api.config.ConfigService;
+import com.neo.parkguidance.framework.impl.geomap.DistanceDataObject;
+import com.neo.parkguidance.framework.entity.Address;
+import com.neo.parkguidance.framework.entity.ParkingGarage;
 import com.neo.parkguidance.web.impl.utils.Utils;
 import org.primefaces.PrimeFaces;
 import org.slf4j.Logger;

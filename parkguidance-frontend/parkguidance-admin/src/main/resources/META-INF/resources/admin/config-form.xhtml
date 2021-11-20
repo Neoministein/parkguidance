@@ -91,7 +91,7 @@
                             <p:outputLabel for="#{configForm.new ? 'typeInput' : 'typeShowCase'}" value="Type"/>
                         </div>
                         <div class="ui-sm-12 ui-g-11">
-                            <o:importConstants type="com.neo.parkguidance.core.impl.config.ConfigType" />
+                            <o:importConstants type="com.neo.parkguidance.framework.impl.config.ConfigType" />
                             <p:selectOneMenu id="typeInput" value="#{configForm.model.entity.type}" rendered="#{configForm.new}" required="#{configForm.new}" style="width: 100%;">
                                 <f:selectItem itemValue="#{null}" itemLabel="--select--" />
                                 <f:selectItems value="#{ConfigType}" />

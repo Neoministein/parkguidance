@@ -1,8 +1,8 @@
 package com.neo.parkguidance.web.admin.validation;
 
-import com.neo.parkguidance.core.entity.ConfigValue;
-import com.neo.parkguidance.core.impl.validation.ConfigurationValidator;
-import com.neo.parkguidance.core.impl.validation.EntityValidationException;
+import com.neo.parkguidance.framework.entity.ConfigValue;
+import com.neo.parkguidance.framework.impl.validation.ConfigurationValidator;
+import com.neo.parkguidance.framework.impl.validation.EntityValidationException;
 import org.omnifaces.util.Messages;
 
 import javax.ejb.Stateless;

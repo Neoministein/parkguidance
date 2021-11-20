@@ -1,7 +1,7 @@
 package com.neo.parkguidance.web.impl.component;
 
-import com.neo.parkguidance.core.api.geomap.component.EmbeddedMapComponentLogic;
-import com.neo.parkguidance.core.entity.Address;
+import com.neo.parkguidance.framework.api.geomap.component.EmbeddedMapComponentLogic;
+import com.neo.parkguidance.framework.entity.Address;
 
 import javax.faces.component.FacesComponent;
 import javax.faces.context.FacesContext;

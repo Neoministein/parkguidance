@@ -1,6 +1,6 @@
 package com.neo.parkguidance.web.admin.pages.garagelist;
 
-import com.neo.parkguidance.core.entity.ParkingGarage;
+import com.neo.parkguidance.framework.entity.ParkingGarage;
 import com.neo.parkguidance.web.impl.pages.lazy.AbstractLazyController;
 
 import javax.annotation.PostConstruct;

@@ -1,7 +1,7 @@
 package com.neo.parkguidance.web.pages.login;
 
 import com.github.adminfaces.template.config.AdminConfig;
-import com.neo.parkguidance.core.api.security.oauth2.OAuth2Client;
+import com.neo.parkguidance.framework.api.security.oauth2.OAuth2Client;
 import com.neo.parkguidance.web.api.security.FacesBasedAuthentication;
 import org.omnifaces.util.Faces;
 

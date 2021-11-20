@@ -1,6 +1,6 @@
 package com.neo.parkguidance.web.admin.pages.userlist;
 
-import com.neo.parkguidance.core.entity.RegisteredUser;
+import com.neo.parkguidance.framework.entity.RegisteredUser;
 import com.neo.parkguidance.web.impl.pages.lazy.AbstractLazyFacade;
 import com.neo.parkguidance.web.impl.table.Filter;
 

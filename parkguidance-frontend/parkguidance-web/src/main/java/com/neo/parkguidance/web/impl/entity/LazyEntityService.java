@@ -1,8 +1,8 @@
 package com.neo.parkguidance.web.impl.entity;
 
-import com.neo.parkguidance.core.api.dao.EntityDao;
-import com.neo.parkguidance.core.entity.DataBaseEntity;
-import com.neo.parkguidance.core.impl.utils.MathUtils;
+import com.neo.parkguidance.framework.api.dao.EntityDao;
+import com.neo.parkguidance.framework.entity.DataBaseEntity;
+import com.neo.parkguidance.framework.impl.utils.MathUtils;
 import com.neo.parkguidance.web.impl.table.Filter;
 import org.hibernate.criterion.Order;
 import org.primefaces.model.FilterMeta;

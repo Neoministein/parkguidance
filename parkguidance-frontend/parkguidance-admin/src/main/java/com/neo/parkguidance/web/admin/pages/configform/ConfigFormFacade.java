@@ -1,7 +1,7 @@
 package com.neo.parkguidance.web.admin.pages.configform;
 
-import com.neo.parkguidance.core.entity.ConfigValue;
-import com.neo.parkguidance.core.entity.Configuration;
+import com.neo.parkguidance.framework.entity.ConfigValue;
+import com.neo.parkguidance.framework.entity.Configuration;
 import com.neo.parkguidance.web.impl.pages.form.AbstractFormFacade;
 import com.neo.parkguidance.web.impl.utils.Utils;
 import org.primefaces.PrimeFaces;

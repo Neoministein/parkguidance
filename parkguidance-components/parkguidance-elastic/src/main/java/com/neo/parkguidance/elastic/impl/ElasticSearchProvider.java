@@ -1,7 +1,5 @@
 package com.neo.parkguidance.elastic.impl;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.neo.parkguidance.core.entity.DataBaseEntity;
 import com.neo.parkguidance.elastic.api.ElasticSearchConnectionStatusEvent;
 import org.apache.commons.io.IOUtils;
 import org.elasticsearch.action.bulk.BulkProcessor;

@@ -1,6 +1,6 @@
 package com.neo.parkguidance.web.user.pages.parklist;
 
-import com.neo.parkguidance.core.entity.ParkingGarage;
+import com.neo.parkguidance.framework.entity.ParkingGarage;
 
 import javax.enterprise.context.ApplicationScoped;
 import java.io.Serializable;

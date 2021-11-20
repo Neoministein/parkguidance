@@ -1,6 +1,6 @@
 package com.neo.parkguidance.web.impl.pages.lazy;
 
-import com.neo.parkguidance.core.entity.DataBaseEntity;
+import com.neo.parkguidance.framework.entity.DataBaseEntity;
 import com.neo.parkguidance.web.impl.table.Filter;
 import org.primefaces.model.LazyDataModel;
 

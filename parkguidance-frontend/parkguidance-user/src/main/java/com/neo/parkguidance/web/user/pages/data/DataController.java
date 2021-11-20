@@ -1,6 +1,6 @@
 package com.neo.parkguidance.web.user.pages.data;
 
-import com.neo.parkguidance.core.api.geomap.component.EmbeddedMapComponentLogic;
+import com.neo.parkguidance.framework.api.geomap.component.EmbeddedMapComponentLogic;
 import com.neo.parkguidance.web.impl.utils.Utils;
 import org.omnifaces.util.Faces;
 

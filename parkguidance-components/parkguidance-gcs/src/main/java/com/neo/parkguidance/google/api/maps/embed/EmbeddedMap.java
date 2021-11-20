@@ -1,6 +1,6 @@
 package com.neo.parkguidance.google.api.maps.embed;
 
-import com.neo.parkguidance.core.entity.Address;
+import com.neo.parkguidance.framework.entity.Address;
 import com.neo.parkguidance.google.api.constants.GoogleConstants;
 
 import java.util.List;
