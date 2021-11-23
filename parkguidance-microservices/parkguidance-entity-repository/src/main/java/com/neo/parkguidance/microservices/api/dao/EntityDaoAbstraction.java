@@ -2,7 +2,7 @@ package com.neo.parkguidance.microservices.api.dao;
 
 import com.neo.parkguidance.framework.api.dao.EntityDao;
 import com.neo.parkguidance.framework.entity.DataBaseEntity;
-//import org.hibernate.Criteria;
+import org.hibernate.Criteria;
 
 /**
  * This interface defines the abstract implementation of the {@link EntityDao}
@@ -15,5 +15,5 @@ public interface EntityDaoAbstraction<T extends DataBaseEntity> extends EntityDa
      * @param criteria the criteria that should be added too
      * @param object the example object
      */
-    //void addSubCriteria(Criteria criteria, T object);
+    void addSubCriteria(Criteria criteria, T object);
 }
