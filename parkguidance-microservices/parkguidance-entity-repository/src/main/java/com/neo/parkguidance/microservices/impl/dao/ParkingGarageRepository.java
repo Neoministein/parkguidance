@@ -1,28 +1,28 @@
-package com.neo.parkguidance.framework.impl.dao;
+package com.neo.parkguidance.microservices.impl.dao;
 
-import com.neo.parkguidance.microservices.dao.EntityDaoAbstraction;
+import com.neo.parkguidance.microservices.api.dao.EntityDaoAbstraction;
 import com.neo.parkguidance.framework.entity.Address;
 import com.neo.parkguidance.framework.entity.ParkingGarage;
-import com.neo.parkguidance.framework.impl.validation.ParkingGarageValidator;
-import org.hibernate.Criteria;
-import org.hibernate.criterion.Example;
-import org.hibernate.criterion.MatchMode;
+import com.neo.parkguidance.microservices.impl.validation.ParkingGarageValidator;
+//import org.hibernate.Criteria;
+//import org.hibernate.criterion.Example;
+//import org.hibernate.criterion.MatchMode;
 
-import javax.ejb.Stateless;
-import javax.enterprise.inject.Default;
+import javax.annotation.Priority;
+import javax.enterprise.context.RequestScoped;
+import javax.enterprise.inject.Specializes;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-@Default
-@Stateless
+@RequestScoped
 public class ParkingGarageRepository extends AbstractEntityDao<ParkingGarage> implements
         EntityDaoAbstraction<ParkingGarage> {
 
     @Inject
     ParkingGarageValidator parkingGarageValidator;
 
-    @PersistenceContext(unitName = "data_persistence_unit")
+    @PersistenceContext(unitName = "parkguidancePersistence")
     private EntityManager em;
 
     @Inject
@@ -32,7 +32,7 @@ public class ParkingGarageRepository extends AbstractEntityDao<ParkingGarage> im
     protected EntityManager getEntityManager() {
         return em;
     }
-
+/*
     @Override
     public void addSubCriteria(Criteria criteria, ParkingGarage object) {
         Criteria subCriteria = criteria.createCriteria(Address.TABLE_NAME, Address.TABLE_NAME);
@@ -40,6 +40,8 @@ public class ParkingGarageRepository extends AbstractEntityDao<ParkingGarage> im
         subCriteria.add(example);
         abstractAddressDao.addSubCriteria(subCriteria, object.getAddress());
     }
+
+ */
 
     public ParkingGarageRepository() {
         super(ParkingGarage.class);

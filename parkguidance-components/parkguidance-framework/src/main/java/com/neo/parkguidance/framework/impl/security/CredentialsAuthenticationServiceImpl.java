@@ -1,19 +1,22 @@
 package com.neo.parkguidance.framework.impl.security;
 
+import com.neo.parkguidance.framework.api.config.ConfigService;
+import com.neo.parkguidance.framework.api.dao.EntityDao;
 import com.neo.parkguidance.framework.api.security.CredentialsAuthenticationService;
 import com.neo.parkguidance.framework.api.security.oauth2.OAuth2Client;
 import com.neo.parkguidance.framework.api.security.token.TokenService;
-import com.neo.parkguidance.framework.api.dao.EntityDao;
-import com.neo.parkguidance.framework.api.config.ConfigService;
-import com.neo.parkguidance.framework.entity.*;
+import com.neo.parkguidance.framework.entity.ParkingGarage;
+import com.neo.parkguidance.framework.entity.Permission;
+import com.neo.parkguidance.framework.entity.RegisteredUser;
+import com.neo.parkguidance.framework.entity.UserCredentials;
 import com.neo.parkguidance.framework.impl.security.exception.UnsupportedOAuth2Provider;
 import com.neo.parkguidance.framework.impl.security.oauth2.OAuth2ClientObject;
 import com.neo.parkguidance.framework.impl.utils.StringUtils;
-import com.neo.parkguidance.framework.impl.validation.RegisteredUserValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.ejb.Stateless;
+import javax.enterprise.context.RequestScoped;
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 import java.util.*;
@@ -21,7 +24,7 @@ import java.util.*;
 /**
  * Implementation of {@link CredentialsAuthenticationService}
  */
-@Stateless
+@RequestScoped
 public class CredentialsAuthenticationServiceImpl implements CredentialsAuthenticationService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CredentialsAuthenticationServiceImpl.class);
@@ -47,13 +50,10 @@ public class CredentialsAuthenticationServiceImpl implements CredentialsAuthenti
     @Inject
     Instance<OAuth2Client> oAuth2Clients;
 
-    @Inject
-    RegisteredUserValidator registeredUserValidator;
-
     public RegisteredUser authenticateUser(String username, String password) {
         LOGGER.info("User credentials authentication attempt");
 
-        String userPassword = registeredUserValidator.hashPassword(password);
+        String userPassword = StringUtils.hashString(password);
         RegisteredUser user = userDao.findOneByColumn(RegisteredUser.C_USERNAME, username);
 
         if(user != null) {

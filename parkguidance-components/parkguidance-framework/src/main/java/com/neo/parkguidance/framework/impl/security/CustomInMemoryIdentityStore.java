@@ -8,7 +8,7 @@ import com.neo.parkguidance.framework.impl.security.token.TokenCredentials;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.ejb.Stateless;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.security.enterprise.credential.Credential;
 import javax.security.enterprise.credential.UsernamePasswordCredential;
@@ -19,7 +19,7 @@ import java.util.HashSet;
 /**
  * The default implementation for authentication a user
  */
-@Stateless
+@RequestScoped
 public class CustomInMemoryIdentityStore implements IdentityStore {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CustomInMemoryIdentityStore.class);

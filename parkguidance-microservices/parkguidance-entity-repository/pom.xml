@@ -21,8 +21,22 @@
         <!-- Parkguidance -->
         <dependency>
             <groupId>com.neo.parkguidance</groupId>
-            <artifactId>parkguidance-core</artifactId>
+            <artifactId>parkguidance-framework</artifactId>
             <version>${parkguidance.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>jakarta.platform</groupId>
+                    <artifactId>jakarta.jakartaee-api</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <!-- Bean Discovery -->
+        <dependency>
+            <groupId>org.jboss</groupId>
+            <artifactId>jandex</artifactId>
+            <version>2.1.1.Final</version>
+            <scope>runtime</scope>
+            <optional>true</optional>
         </dependency>
 
         <!-- Helidon -->
@@ -70,13 +84,10 @@
             <version>1.2</version>
         </dependency>
         <dependency>
-            <groupId>org.jboss</groupId>
-            <artifactId>jandex</artifactId>
-            <version>2.1.1.Final</version>
-            <scope>runtime</scope>
-            <optional>true</optional>
+            <groupId>javax.security.enterprise</groupId>
+            <artifactId>javax.security.enterprise-api</artifactId>
+            <version>1.0</version>
         </dependency>
-
 
         <!-- Testing -->
         <dependency>

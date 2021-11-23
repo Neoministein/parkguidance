@@ -1,14 +1,20 @@
-package com.hkg.helidon.airport.repository;
+package com.neo.parkguidance.microservices.impl.dao;
 
+import com.neo.parkguidance.microservices.api.dao.EntityDaoAbstraction;
+import com.neo.parkguidance.framework.entity.DataBaseEntity;
+import com.neo.parkguidance.framework.impl.event.DataBaseEntityChangeEvent;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Example;
 import org.hibernate.criterion.MatchMode;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.transform.DistinctRootEntityResultTransformer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.enterprise.event.Event;
+import javax.enterprise.event.ObserverException;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -18,9 +24,12 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-public abstract class AbstractEntityDao<T> {
+public abstract class AbstractEntityDao<T extends DataBaseEntity> implements EntityDaoAbstraction<T> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractEntityDao.class);
+
+    @Inject
+    Event<DataBaseEntityChangeEvent<T>> event;
 
     protected final Class<T> entityClass;
 
@@ -35,14 +44,17 @@ public abstract class AbstractEntityDao<T> {
 
     public void create(T entity) {
         getEntityManager().persist(entity);
+        fireEvent(new DataBaseEntityChangeEvent<>(DataBaseEntityChangeEvent.CREATE, entity));
     }
 
     public void edit(T entity) {
         getEntityManager().merge(entity);
+        fireEvent(new DataBaseEntityChangeEvent<>(DataBaseEntityChangeEvent.EDIT, entity));
     }
 
     public void remove(T entity) {
         getEntityManager().remove(getEntityManager().merge(entity));
+        fireEvent(new DataBaseEntityChangeEvent<>(DataBaseEntityChangeEvent.REMOVE, entity));
     }
 
     public T find(Object primaryKey) {
@@ -148,7 +160,14 @@ public abstract class AbstractEntityDao<T> {
         return criteria.list();
     }
 
-    public List<T> findLikeExample(T object, int first, int pageSize ,org.hibernate.criterion.Order order) {
+    public List<T> findLikeExample(T object, int first, int pageSize , String columnToSortBy, boolean ascending) {
+        Order order;
+        if (ascending) {
+            order = Order.asc(columnToSortBy);
+        } else {
+            order = Order.desc(columnToSortBy);
+        }
+
         Session session = (Session) getEntityManager().getDelegate();
         Criteria criteria = session.createCriteria(entityClass);
         Example example = Example.create(object).ignoreCase().enableLike(MatchMode.ANYWHERE);
@@ -170,5 +189,17 @@ public abstract class AbstractEntityDao<T> {
         criteria.add(example);
         criteria.setProjection(Projections.rowCount());
         return (Long) criteria.uniqueResult();
+    }
+
+    private void fireEvent(DataBaseEntityChangeEvent<T> changeEvent) {
+        try {
+            event.fire(changeEvent);
+        } catch (ObserverException | IllegalArgumentException ex) {
+            LOGGER.warn("An exception occurred while firing event [{}] [{}] [{}] {}",
+                    changeEvent.getStatus(),
+                    entityClass.getName(),
+                    changeEvent.getChangedObject().getPrimaryKey(),
+                    ex.getMessage());
+        }
     }
 }

@@ -1,6 +1,6 @@
 package com.neo.parkguidance.framework.impl.dao;
 
-import com.neo.parkguidance.framework.api.dao.EntityDaoAbstraction;
+import com.neo.parkguidance.microservices.dao.EntityDaoAbstraction;
 import com.neo.parkguidance.framework.entity.DataBaseEntity;
 import com.neo.parkguidance.framework.impl.event.DataBaseEntityChangeEvent;
 import org.hibernate.Criteria;

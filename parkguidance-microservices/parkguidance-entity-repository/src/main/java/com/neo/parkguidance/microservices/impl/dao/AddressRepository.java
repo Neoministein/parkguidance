@@ -1,17 +1,19 @@
-package com.neo.parkguidance.framework.impl.dao;
+package com.neo.parkguidance.microservices.impl.dao;
 
-import com.neo.parkguidance.microservices.dao.EntityDaoAbstraction;
+import com.neo.parkguidance.microservices.api.dao.EntityDaoAbstraction;
 import com.neo.parkguidance.framework.api.geomap.GeoCodingService;
 import com.neo.parkguidance.framework.entity.Address;
-import com.neo.parkguidance.framework.impl.validation.AddressValidator;
-import com.neo.parkguidance.framework.impl.validation.EntityValidationException;
+import com.neo.parkguidance.microservices.impl.validation.AddressValidator;
+import com.neo.parkguidance.microservices.impl.validation.EntityValidationException;
 
-import javax.ejb.Stateless;
+import javax.annotation.Priority;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-@Stateless
+@Priority(100)
+@RequestScoped
 public class AddressRepository extends AbstractEntityDao<Address> implements EntityDaoAbstraction<Address> {
 
     @Inject
@@ -20,7 +22,7 @@ public class AddressRepository extends AbstractEntityDao<Address> implements Ent
     @Inject
     GeoCodingService geoCodingService;
 
-    @PersistenceContext(unitName = "data_persistence_unit")
+    @PersistenceContext(unitName = "parkguidancePersistence")
     private EntityManager em;
 
     @Override

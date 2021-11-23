@@ -1,23 +1,24 @@
-package com.neo.parkguidance.framework.impl.dao;
+package com.neo.parkguidance.microservices.impl.dao;
 
-import com.neo.parkguidance.microservices.dao.EntityDaoAbstraction;
+import com.neo.parkguidance.microservices.api.dao.EntityDaoAbstraction;
 import com.neo.parkguidance.framework.entity.RegisteredUser;
-import com.neo.parkguidance.framework.impl.validation.RegisteredUserValidator;
+import com.neo.parkguidance.microservices.impl.validation.RegisteredUserValidator;
 
-import javax.ejb.Stateless;
+import javax.annotation.Priority;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.Date;
 
-@Stateless
+@Priority(100)
+@RequestScoped
 public class RegisteredUserRepository extends AbstractEntityDao<RegisteredUser> implements
         EntityDaoAbstraction<RegisteredUser> {
 
-    @Inject
-    RegisteredUserValidator registeredUserValidator;
+    @Inject RegisteredUserValidator registeredUserValidator;
 
-    @PersistenceContext(unitName = "data_persistence_unit")
+    @PersistenceContext(unitName = "parkguidancePersistence")
     private EntityManager em;
 
     @Override

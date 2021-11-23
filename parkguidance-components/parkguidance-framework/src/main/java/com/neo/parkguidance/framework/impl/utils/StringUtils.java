@@ -1,5 +1,8 @@
 package com.neo.parkguidance.framework.impl.utils;
 
+import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.codec.digest.MessageDigestAlgorithms;
+
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -8,6 +11,9 @@ import java.util.List;
  * Utilities for {@link String}
  */
 public class StringUtils {
+
+    public static final int HASH_LENGTH = 128;
+    public static final String HASH_TYPE = MessageDigestAlgorithms.SHA3_512;
 
     private StringUtils() {}
 
@@ -19,6 +25,19 @@ public class StringUtils {
      */
     public static boolean isEmpty(String s) {
         return s == null || s.trim().isEmpty();
+    }
+
+    /**
+     * Hashes the string and returns it, if it's isn't the of a hash.
+     *
+     * @param s the string to hash
+     * @return the hashed string
+     */
+    public static String hashString(String s) {
+        if (s.length() != HASH_LENGTH) {
+            return new DigestUtils(HASH_TYPE).digestAsHex(s.getBytes());
+        }
+        return s;
     }
 
     /**

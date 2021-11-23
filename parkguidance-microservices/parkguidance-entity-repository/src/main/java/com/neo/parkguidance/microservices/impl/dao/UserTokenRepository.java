@@ -1,23 +1,23 @@
-package com.neo.parkguidance.framework.impl.dao;
+package com.neo.parkguidance.microservices.impl.dao;
 
-import com.neo.parkguidance.microservices.dao.EntityDaoAbstraction;
 import com.neo.parkguidance.framework.entity.UserToken;
-import com.neo.parkguidance.framework.impl.validation.UserTokenValidator;
+import com.neo.parkguidance.microservices.api.dao.EntityDaoAbstraction;
+import com.neo.parkguidance.microservices.impl.validation.UserTokenValidator;
 
-import javax.ejb.Stateless;
+import javax.annotation.Priority;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.Date;
 
-@Stateless
-public class UserTokenRepository extends AbstractEntityDao<UserToken> implements
-        EntityDaoAbstraction<UserToken> {
+@Priority(100)
+@RequestScoped
+public class UserTokenRepository extends AbstractEntityDao<UserToken> implements EntityDaoAbstraction<UserToken> {
 
-    @Inject
-    UserTokenValidator userTokenValidator;
+    @Inject UserTokenValidator userTokenValidator;
 
-    @PersistenceContext(unitName = "data_persistence_unit")
+    @PersistenceContext(unitName = "parkguidancePersistence")
     private EntityManager em;
 
     @Override

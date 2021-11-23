@@ -1,5 +1,6 @@
-package com.neo.parkguidance.framework.api.dao;
+package com.neo.parkguidance.microservices.dao;
 
+import com.neo.parkguidance.framework.api.dao.EntityDao;
 import com.neo.parkguidance.framework.entity.DataBaseEntity;
 import org.hibernate.Criteria;
 
