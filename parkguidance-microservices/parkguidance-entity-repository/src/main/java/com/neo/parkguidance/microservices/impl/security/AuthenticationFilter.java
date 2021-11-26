@@ -16,6 +16,7 @@ import javax.ws.rs.Priorities;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
 import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.ext.Provider;
 import java.util.Collections;
 
@@ -33,14 +34,21 @@ public class AuthenticationFilter implements ContainerRequestFilter {
 
         CredentialValidationResult result = identityStore.validate(credential);
 
+        SecurityContext securityContext;
+
         if (result.getStatus() == CredentialValidationResult.Status.VALID) {
-            requestContext.setSecurityContext(new CustomSecurityContent(result.getCallerPrincipal(), result.getCallerGroups()));
+            securityContext = new CustomSecurityContent(result.getCallerPrincipal(), result.getCallerGroups());
         } else {
-            requestContext.setSecurityContext(new CustomSecurityContent(null, Collections.emptyList()));
+            securityContext = new CustomSecurityContent(null, Collections.emptyList());
         }
+
+        requestContext.setSecurityContext(securityContext);
     }
 
     private Credential getCredentialsFromHeader(String header) {
+        if (header == null) {
+            return null;
+        }
         try {
             JSONObject headerObject = new JSONObject(new JSONTokener(header));
 

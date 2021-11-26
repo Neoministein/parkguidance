@@ -50,7 +50,11 @@ public class CustomInMemoryIdentityStore implements IdentityStore {
             TokenCredentials login = (TokenCredentials) credential;
             return authenticationService.authenticateUser(login.getToken());
         }
-        LOGGER.error("Unsupported credential type [{}]", credential.getClass().getName());
+        if (credential == null) {
+            LOGGER.error("No credentials supplied");
+        } else {
+            LOGGER.error("Unsupported credential type [{}]", credential.getClass().getName());
+        }
         return null;
     }
 
