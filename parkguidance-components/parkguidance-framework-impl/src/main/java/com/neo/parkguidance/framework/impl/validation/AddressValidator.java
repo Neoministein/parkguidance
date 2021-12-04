@@ -21,13 +21,13 @@ public class AddressValidator extends AbstractDatabaseEntityValidation<Address> 
         if (!Objects.equals(originalObject.getCityName(),entity.getCityName())) {
             return false;
         }
-        if (!Objects.equals(originalObject.getPlz(),entity.getPlz())) {
+        if (!Objects.equals(originalObject.getZipCode(),entity.getZipCode())) {
             return false;
         }
         if (!Objects.equals(originalObject.getStreet(), entity.getStreet())) {
             return false;
         }
-        if (!Objects.equals(originalObject.getNumber(), entity.getNumber())) {
+        if (!Objects.equals(originalObject.getHouseNumber(), entity.getHouseNumber())) {
             return false;
         }
         if (!Objects.equals(originalObject.getLongitude(),entity.getLongitude())) {

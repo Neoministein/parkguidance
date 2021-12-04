@@ -13,34 +13,39 @@ import java.util.Objects;
 public class Address implements DataBaseEntity {
 
     public static final String TABLE_NAME = "address";
-    public static final String C_ID = "id_address";
+    public static final String C_ID = "id";
+    public static final String C_COUNTRY = "country";
     public static final String C_CITY_NAME = "city_name";
-    public static final String C_PLZ = "plz";
+    public static final String C_ZIP_CODE = "zip_code";
     public static final String C_STREET = "street";
-    public static final String C_NUMBER = "number";
+    public static final String C_HOUSE_NUMBER = "number_house";
     public static final String C_LONGITUDE = "longitude";
     public static final String C_LATITUDE = "latitude";
 
     @Id
-    @Column(name = C_ID)
+    @Column(name = C_ID, columnDefinition = "serial")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Size(max = 50)
+    @Column(name = C_COUNTRY, nullable = false)
+    private String country;
 
     @Size(max = 50)
     @Column(name = C_CITY_NAME, nullable = false)
     private String cityName;
 
     @Min(0)
-    @Column(name = C_PLZ, nullable = false)
-    private Integer plz;
+    @Column(name = C_ZIP_CODE, nullable = false)
+    private Integer zipCode;
 
     @Size(max = 50)
     @Column(name = C_STREET, nullable = false)
     private String street;
 
     @Min(0)
-    @Column(name = C_NUMBER)
-    private Integer number;
+    @Column(name = C_HOUSE_NUMBER)
+    private Integer houseNumber;
 
     @Column(name = C_LATITUDE)
     private Double latitude;
@@ -48,19 +53,20 @@ public class Address implements DataBaseEntity {
     @Column(name = C_LONGITUDE)
     private Double longitude;
 
-    public Address(@Size(max = 50) String cityName, @Min(0) int plz,
-            @Size(max = 50) String street, @Min(0) int number) {
+    public Address(@Size(max = 50) String cityName, @Min(0) int zipCode,
+            @Size(max = 50) String street, @Min(0) int houseNumber) {
         this.cityName = cityName;
-        this.plz = plz;
+        this.zipCode = zipCode;
         this.street = street;
-        this.number = number;
+        this.houseNumber = houseNumber;
     }
 
-    public Address(String cityName, Integer plz, String street, Integer number, Double latitude, Double longitude) {
+    public Address(String country, String cityName, Integer zipCode, String street, Integer houseNumber, Double latitude, Double longitude) {
+        this.country = country;
         this.cityName = cityName;
-        this.plz = plz;
+        this.zipCode = zipCode;
         this.street = street;
-        this.number = number;
+        this.houseNumber = houseNumber;
         this.latitude = latitude;
         this.longitude = longitude;
     }
@@ -77,6 +83,14 @@ public class Address implements DataBaseEntity {
         this.id = id;
     }
 
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
     public String getCityName() {
         return cityName;
     }
@@ -85,12 +99,12 @@ public class Address implements DataBaseEntity {
         this.cityName = cityName;
     }
 
-    public Integer getPlz() {
-        return plz;
+    public Integer getZipCode() {
+        return zipCode;
     }
 
-    public void setPlz(Integer plz) {
-        this.plz = plz;
+    public void setZipCode(Integer plz) {
+        this.zipCode = plz;
     }
 
     public String getStreet() {
@@ -101,12 +115,12 @@ public class Address implements DataBaseEntity {
         this.street = street;
     }
 
-    public Integer getNumber() {
-        return number;
+    public Integer getHouseNumber() {
+        return houseNumber;
     }
 
-    public void setNumber(Integer number) {
-        this.number = number;
+    public void setHouseNumber(Integer number) {
+        this.houseNumber = number;
     }
 
     public Double getLatitude() {
@@ -142,11 +156,13 @@ public class Address implements DataBaseEntity {
 
     @Override
     public String toString() {
-        return street + " " + number + " " + plz + " " + cityName;
+        return street + " " + houseNumber + " " + zipCode + " " + cityName;
     }
 
     public String getToAddressString() {
-        return street + " " + ((number == null) ? "" : number) + "\n" + plz + " " + cityName + " ";
+        return street + " " + ((houseNumber == null) ? "" : houseNumber) +
+                "\n" + zipCode + " " + cityName +
+                "\n" + country;
     }
 
     @Override

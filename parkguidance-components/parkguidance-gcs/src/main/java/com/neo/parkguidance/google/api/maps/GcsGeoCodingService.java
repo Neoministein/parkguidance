@@ -123,23 +123,23 @@ public class GcsGeoCodingService implements GeoCodingService {
     }
 
     protected JSONObject createElasticDocument(Address address) {
-        if (address.getNumber() == null) {
-            address.setNumber(-1);
+        if (address.getHouseNumber() == null) {
+            address.setHouseNumber(-1);
         }
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("type", TYPE);
         jsonObject.put("timestamp",new Date().getTime());
         jsonObject.put(Address.C_CITY_NAME, address.getCityName());
         jsonObject.put(Address.C_STREET, address.getStreet());
-        jsonObject.put(Address.C_NUMBER, address.getNumber());
+        jsonObject.put(Address.C_HOUSE_NUMBER, address.getHouseNumber());
         jsonObject.put(Address.C_LONGITUDE, address.getLongitude());
         jsonObject.put(Address.C_LATITUDE, address.getLatitude());
         return jsonObject;
     }
 
     protected boolean checkInCache(Address address) {
-        if (address.getNumber() == null) {
-            address.setNumber(-1);
+        if (address.getHouseNumber() == null) {
+            address.setHouseNumber(-1);
         }
         String jsonBody = "{"
                 + "\"query\":{"
@@ -148,7 +148,7 @@ public class GcsGeoCodingService implements GeoCodingService {
                 + "{\"match\":{\"type\":\"geocoding\"}},"
                 + "{\"match\":{\"city_name\":\"" + address.getCityName() +"\"}},"
                 + "{\"match\":{\"street\":\"" + address.getStreet() + "\"}},"
-                + "{\"match\":{\"number\":" + address.getNumber() + "}}"
+                + "{\"match\":{\"number\":" + address.getHouseNumber() + "}}"
                 + "]"
                 + "}"
                 + "}"

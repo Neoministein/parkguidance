@@ -45,9 +45,9 @@ public class GoogleConstants {
             query.append(address.getStreet());
         }
 
-        if (address.getNumber() != null) {
+        if (address.getHouseNumber() != null) {
             query.append('+');
-            query.append(address.getNumber());
+            query.append(address.getHouseNumber());
         }
 
         if (!StringUtils.isEmpty(address.getCityName())) {
@@ -55,9 +55,9 @@ public class GoogleConstants {
             query.append(address.getCityName());
         }
 
-        if (address.getPlz() != null) {
+        if (address.getZipCode() != null) {
             query.append('+');
-            query.append(address.getPlz());
+            query.append(address.getZipCode());
         }
         try {
             return URLEncoder.encode(query.toString(), StandardCharsets.UTF_8.toString());

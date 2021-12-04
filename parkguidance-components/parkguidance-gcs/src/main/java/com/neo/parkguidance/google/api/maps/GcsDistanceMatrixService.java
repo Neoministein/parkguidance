@@ -177,12 +177,12 @@ public class GcsDistanceMatrixService implements DistanceMatrixService {
     protected JSONObject createElasticDocument(Address address, List<DistanceDataObject> distanceDataObjectList) {
         JSONObject root = createRootDocument(distanceDataObjectList, "-address");
 
-        if (address.getNumber() == null) {
-            address.setNumber(-1);
+        if (address.getHouseNumber() == null) {
+            address.setHouseNumber(-1);
         }
         root.put(Address.C_CITY_NAME, address.getCityName());
         root.put(Address.C_STREET, address.getStreet());
-        root.put(Address.C_NUMBER, address.getNumber());
+        root.put(Address.C_HOUSE_NUMBER, address.getHouseNumber());
         root.put(Address.C_LONGITUDE, address.getLongitude());
         root.put(Address.C_LATITUDE, address.getLatitude());
         return root;
@@ -212,8 +212,8 @@ public class GcsDistanceMatrixService implements DistanceMatrixService {
     }
 
     protected List<DistanceDataObject> checkInCache(Address address, List<ParkingGarage> parkingGarageList) {
-        if (address.getNumber() == null) {
-            address.setNumber(-1);
+        if (address.getHouseNumber() == null) {
+            address.setHouseNumber(-1);
         }
         String jsonBody = "{"
                 + "\"query\":{"
@@ -222,7 +222,7 @@ public class GcsDistanceMatrixService implements DistanceMatrixService {
                 + "{\"match\":{\"type\":\"" + TYPE + "\"}},"
                 + "{\"match\":{\"city_name\":\"" + address.getCityName() + "\"}},"
                 + "{\"match\":{\"street\":\"" + address.getStreet() + "\"}},"
-                + "{\"match\":{\"number\":" + address.getNumber() + "}}"
+                + "{\"match\":{\"number\":" + address.getHouseNumber() + "}}"
                 + "]"
                 + "}"
                 + "}"

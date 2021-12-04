@@ -15,8 +15,8 @@ public class DefaultTestEntity {
         address.setId(0l);
         address.setCityName("CityName");
         address.setStreet("Street");
-        address.setPlz(5000);
-        address.setNumber(5001);
+        address.setZipCode(5000);
+        address.setHouseNumber(5001);
         address.setLatitude(5002d);
         address.setLongitude(5003d);
         return address;

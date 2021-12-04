@@ -75,7 +75,7 @@ class AddressValidatorTest {
     void plzHasChangedTest() {
         //Arrange
         Address newAddress = createDefaultAddress();
-        newAddress.setPlz(0);
+        newAddress.setZipCode(0);
 
         Mockito.doReturn(createDefaultAddress()).when(entityDao).find(newAddress.getId());
 
@@ -91,7 +91,7 @@ class AddressValidatorTest {
     void numberHasChangedTest() {
         //Arrange
         Address newAddress = createDefaultAddress();
-        newAddress.setNumber(0);
+        newAddress.setHouseNumber(0);
 
         Mockito.doReturn(createDefaultAddress()).when(entityDao).find(newAddress.getId());
 

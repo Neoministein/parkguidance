@@ -20,10 +20,12 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
+import javax.transaction.Transactional;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+@Transactional
 public abstract class AbstractEntityDao<T extends DataBaseEntity> implements EntityDaoAbstraction<T> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractEntityDao.class);

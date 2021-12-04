@@ -17,6 +17,10 @@ public class DefaultV1Response {
         return responseMessage;
     }
 
+    public static Response success(String context) {
+        return Response.ok().entity(defaultResponse(context).toString()).build();
+    }
+
     public static Response success(JSONArray data, String context) {
         JSONObject responseMessage = defaultResponse(context);
         responseMessage.put("data", data);
@@ -24,9 +28,9 @@ public class DefaultV1Response {
         return Response.ok().entity(responseMessage.toString()).build();
     }
 
-    public static Response error(Exception ex, String context) {
+    public static Response error(String message, String context) {
         JSONObject response = defaultResponse(context);
-        response.put("error", errorObject(500, ex));
+        response.put("error", errorObject(500, message));
 
         return Response.ok().entity(response.toString()).build();
     }

@@ -9,12 +9,14 @@
         <jta-data-source>parkguidanceDataSource</jta-data-source>
         <class>com.neo.parkguidance.framework.entity.ParkingGarage</class>
         <class>com.neo.parkguidance.framework.entity.Address</class>
+        <class>com.neo.parkguidance.framework.entity.GarageInfo</class>
 
         
 
      <properties>
             <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
             <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL82Dialect" />
+        <!--<property name="hibernate.hbm2ddl.auto" value="update" />-->
             <property name="hibernate.hbm2ddl.auto" value="update" />
         </properties>
         

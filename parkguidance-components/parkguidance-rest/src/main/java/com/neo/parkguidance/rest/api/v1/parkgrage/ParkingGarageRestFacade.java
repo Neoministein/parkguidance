@@ -115,7 +115,7 @@ public class ParkingGarageRestFacade {
         if (StringUtils.isEmpty(parkingGarage.getAddress().getCityName())) {
             missingParameters.add("cityName");
         }
-        if (MathUtils.isZero(parkingGarage.getAddress().getPlz())) {
+        if (MathUtils.isZero(parkingGarage.getAddress().getZipCode())) {
             missingParameters.add("plz");
         }
         if (StringUtils.isEmpty(parkingGarage.getAddress().getStreet())) {
@@ -146,9 +146,9 @@ public class ParkingGarageRestFacade {
         jsonGarage.put("price", StringUtils.parseToEmptyString(parkingGarage.getPrice()));
         jsonGarage.put("operator", StringUtils.parseToEmptyString(parkingGarage.getOperator()));
         jsonAddress.put("city_name", parkingGarage.getAddress().getCityName());
-        jsonAddress.put("plz", parkingGarage.getAddress().getPlz());
+        jsonAddress.put("plz", parkingGarage.getAddress().getZipCode());
         jsonAddress.put("street", parkingGarage.getAddress().getStreet());
-        jsonAddress.put("number", StringUtils.parseToEmptyString(parkingGarage.getAddress().getNumber()));
+        jsonAddress.put("number", StringUtils.parseToEmptyString(parkingGarage.getAddress().getHouseNumber()));
         if (authRequest) {
             jsonGarage.put("accessKey", parkingGarage.getAccessKey());
             jsonAddress.put("longitude", parkingGarage.getAddress().getLongitude());

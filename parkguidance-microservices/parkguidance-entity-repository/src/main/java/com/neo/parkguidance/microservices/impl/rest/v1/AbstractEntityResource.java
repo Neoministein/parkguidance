@@ -4,25 +4,31 @@ import com.neo.parkguidance.framework.api.dao.EntityDao;
 import com.neo.parkguidance.framework.api.wrapper.entity.JSONEntityWrapper;
 import com.neo.parkguidance.framework.entity.DataBaseEntity;
 import com.neo.parkguidance.framework.impl.utils.StringUtils;
+import com.neo.parkguidance.framework.impl.validation.EntityValueValidationException;
 import com.neo.parkguidance.microservices.api.v1.RestAction;
+import com.neo.parkguidance.microservices.impl.validation.EntityValidationException;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
+//TODO CHECK FOR JS INJECTION OR SQL INJECTION
 @Produces(MediaType.APPLICATION_JSON + "; charset=UTF-8")
 public abstract class AbstractEntityResource<T extends DataBaseEntity> {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractEntityResource.class);
+
+    private static final String CREATE = "/create";
+    private static final String EDIT = "/edit";
+    private static final String REMOVE = "/remove";
+    private static final String COUNT = "/count";
     private static final String FIND = "/find";
     private static final String FIND_ALL = "/findAll";
     private static final String FIND_ALL_SORTED = "/findAllSorted";
@@ -32,6 +38,65 @@ public abstract class AbstractEntityResource<T extends DataBaseEntity> {
     private static final String FIND_LIKE_EXAMPLE = "/findLikeExample";
     private static final String FIND_LIKE_EXAMPLE_LAZY = "/findLikeExampleLazy";
     private static final String FIND_LIKE_EXAMPLE_COUNT = "/findLikeExampleCount";
+
+    @POST
+    @Path(CREATE)
+    public Response create(String s) {
+        RestAction restAction = () -> {
+            T entity = getJSONEntityWrapper().toValidEntity(new JSONObject(new JSONTokener(s)), getCallerPermissions());
+            if (entity == null) {
+                return DefaultV1Response.error(DefaultV1Response.errorObject(
+                        400,
+                        "Missing attributes to create an entity"),
+                        getContext(CREATE));
+            }
+            getEntityDao().create(entity);
+            return DefaultV1Response.success(
+                    createNullableJSONArray(getJSONEntityWrapper().toJSON(entity,getCallerPermissions())), getContext(CREATE));
+        };
+        return restCall(restAction, CREATE);
+    }
+
+    @POST
+    @Path(EDIT)
+    public Response edit(String s) {
+        RestAction restAction = () -> {
+            try {
+                T entity = getJSONEntityWrapper().toValidEntity(new JSONObject(new JSONTokener(s)), getCallerPermissions());
+                getEntityDao().edit(entity);
+            } catch (JSONException | EntityValidationException ex) {
+                return DefaultV1Response.error(DefaultV1Response.errorObject(
+                        400,
+                        "Invalid json format in the request body"),
+                        getContext(EDIT));
+            }
+            return DefaultV1Response.success(getContext(EDIT));
+        };
+        return restCall(restAction, EDIT);
+    }
+
+    @DELETE
+    @Path(REMOVE)
+    public Response remove(String s) {
+        RestAction restAction = () -> {
+            T entity = getJSONEntityWrapper().toValidEntity(new JSONObject(new JSONTokener(s)), getCallerPermissions());
+            getEntityDao().remove(entity);
+            return DefaultV1Response.success(getContext(REMOVE));
+        };
+        return restCall(restAction, REMOVE);
+    }
+
+    @GET
+    @Path(COUNT)
+    public Response count() {
+        RestAction restAction = () -> {
+            JSONObject result = new JSONObject();
+            result.put("count", getEntityDao().count());
+            return DefaultV1Response.success(createNullableJSONArray(result), getContext(COUNT));
+        };
+
+        return restCall(restAction, FIND);
+    }
 
     @GET
     @Path(FIND)
@@ -44,7 +109,7 @@ public abstract class AbstractEntityResource<T extends DataBaseEntity> {
                         getContext(FIND));
             }
             return DefaultV1Response.success(createNullableJSONArray(getJSONEntityWrapper().toJSON(
-                    getEntityDao().find(primaryKey),true)), getContext(FIND));
+                    getEntityDao().find(primaryKey), getCallerPermissions())), getContext(FIND));
         };
 
         return restCall(restAction, FIND);
@@ -58,7 +123,7 @@ public abstract class AbstractEntityResource<T extends DataBaseEntity> {
 
             JSONArray data = new JSONArray();
             for (T entity: allEntities) {
-                addNullableValue(data, getJSONEntityWrapper().toJSON(entity, true));
+                addNullableValue(data, getJSONEntityWrapper().toJSON(entity, getCallerPermissions()));
             }
 
             return DefaultV1Response.success(data,getContext(FIND_ALL));
@@ -79,7 +144,8 @@ public abstract class AbstractEntityResource<T extends DataBaseEntity> {
             }
 
             List<T> allEntities = getEntityDao().findAll(key, asc);
-            return DefaultV1Response.success(arrayFromList(allEntities, true),getContext(FIND_ALL_SORTED));
+            return DefaultV1Response.success(arrayFromList(allEntities, getCallerPermissions()),
+                    getContext(FIND_ALL_SORTED));
         };
 
         return restCall(restAction, FIND_ALL_SORTED);
@@ -96,7 +162,7 @@ public abstract class AbstractEntityResource<T extends DataBaseEntity> {
                         getContext(FIND_ONE_BY_VALUE));
             }
             return DefaultV1Response.success(createNullableJSONArray(getJSONEntityWrapper().toJSON(
-                    getEntityDao().findOneByColumn(key, value), true)),getContext(FIND_ONE_BY_VALUE));
+                    getEntityDao().findOneByColumn(key, value), getCallerPermissions())),getContext(FIND_ONE_BY_VALUE));
         };
 
         return restCall(restAction, FIND_ONE_BY_VALUE);
@@ -114,7 +180,7 @@ public abstract class AbstractEntityResource<T extends DataBaseEntity> {
             }
 
             List<T> allEntities = getEntityDao().findByColumn(key, value);
-            return DefaultV1Response.success(arrayFromList(allEntities, true),getContext(FIND_BY_VALUE));
+            return DefaultV1Response.success(arrayFromList(allEntities, getCallerPermissions()),getContext(FIND_BY_VALUE));
         };
 
         return restCall(restAction, FIND_BY_VALUE);
@@ -125,21 +191,13 @@ public abstract class AbstractEntityResource<T extends DataBaseEntity> {
     @Path(FIND_ONE_BY_VALUES)
     public Response findByValues(String x) {
         RestAction restAction = () -> {
-            JSONObject jsonBody;
-            try {
-                jsonBody = new JSONObject(new JSONTokener(x));
-            } catch (JSONException ex) {
-                return DefaultV1Response.error(DefaultV1Response.errorObject(
-                        400,
-                        "Invalid json format in the request body"),
-                        getContext(FIND_BY_VALUE));
-            }
+            JSONObject jsonBody = new JSONObject(new JSONTokener(x));
             Map<String, Object> values = new HashMap<>();
             for (String key : jsonBody.keySet()) {
                 values.put(key, jsonBody.get(key));
             }
             return DefaultV1Response.success(createNullableJSONArray(getJSONEntityWrapper().toJSON(
-                    getEntityDao().findOneByColumn(values), true)),getContext(FIND_ONE_BY_VALUES));
+                    getEntityDao().findOneByColumn(values), getCallerPermissions())),getContext(FIND_ONE_BY_VALUES));
         };
 
         return restCall(restAction, FIND_ONE_BY_VALUES);
@@ -149,18 +207,9 @@ public abstract class AbstractEntityResource<T extends DataBaseEntity> {
     @Path(FIND_LIKE_EXAMPLE)
     public Response findLikeExample(String x) {
         RestAction restAction = () -> {
-            JSONObject jsonBody;
-            try {
-                jsonBody = new JSONObject(new JSONTokener(x));
-            } catch (JSONException ex) {
-                return DefaultV1Response.error(DefaultV1Response.errorObject(
-                        400,
-                        "Invalid json format in the request body"),
-                        getContext(FIND_BY_VALUE));
-            }
-            List<T> entity = getEntityDao().findLikeExample(getJSONEntityWrapper().toEntity(jsonBody.getJSONObject("entity")));
-
-            return DefaultV1Response.success(arrayFromList(entity,true),getContext(FIND_LIKE_EXAMPLE));
+            JSONObject jsonBody = new JSONObject(new JSONTokener(x));
+            List<T> entity = getEntityDao().findLikeExample(getJSONEntityWrapper().toOptEntity(jsonBody.getJSONObject("entity")));
+            return DefaultV1Response.success(arrayFromList(entity, getCallerPermissions()),getContext(FIND_LIKE_EXAMPLE));
         };
 
         return restCall(restAction, FIND_BY_VALUE);
@@ -170,22 +219,14 @@ public abstract class AbstractEntityResource<T extends DataBaseEntity> {
     @Path(FIND_LIKE_EXAMPLE_LAZY)
     public Response findLikeExampleLazy(String x) {
         RestAction restAction = () -> {
-            List<T> entityList;
-            try {
-                JSONObject jsonBody = new JSONObject(new JSONTokener(x));
-                entityList = getEntityDao().findLikeExample(
-                        getJSONEntityWrapper().toEntity(jsonBody.getJSONObject("entity")),
-                        jsonBody.getInt("first"),
-                        jsonBody.getInt("pageSize"),
-                        jsonBody.getString("key"),
-                        jsonBody.getBoolean("asc"));
-            } catch (JSONException ex) {
-                return DefaultV1Response.error(DefaultV1Response.errorObject(
-                        400,
-                        "Invalid json format in the request body"),
-                        getContext(FIND_BY_VALUE));
-            }
-            return DefaultV1Response.success(arrayFromList(entityList,true),getContext(FIND_LIKE_EXAMPLE));
+            JSONObject jsonBody = new JSONObject(new JSONTokener(x));
+            List<T> entityList = getEntityDao().findLikeExample(
+                    getJSONEntityWrapper().toOptEntity(jsonBody.getJSONObject("entity")),
+                    jsonBody.getInt("first"),
+                    jsonBody.getInt("pageSize"),
+                    jsonBody.getString("key"),
+                    jsonBody.getBoolean("asc"));
+            return DefaultV1Response.success(arrayFromList(entityList, getCallerPermissions()),getContext(FIND_LIKE_EXAMPLE));
         };
 
         return restCall(restAction, FIND_BY_VALUE);
@@ -195,26 +236,18 @@ public abstract class AbstractEntityResource<T extends DataBaseEntity> {
     @Path(FIND_LIKE_EXAMPLE_COUNT)
     public Response findLikeExampleCount(String x) {
         RestAction restAction = () -> {
-            JSONObject jsonBody;
-            try {
-                jsonBody = new JSONObject(new JSONTokener(x));
-            } catch (JSONException ex) {
-                return DefaultV1Response.error(DefaultV1Response.errorObject(
-                        400,
-                        "Invalid json format in the request body"),
-                        getContext(FIND_BY_VALUE));
-            }
-            Long count = getEntityDao().findCountLikeExample(getJSONEntityWrapper().toEntity(jsonBody.getJSONObject("entity")));
+            JSONObject jsonBody = new JSONObject(new JSONTokener(x));
+            Long count = getEntityDao().findCountLikeExample(getJSONEntityWrapper().toOptEntity(jsonBody.getJSONObject("entity")));
             return DefaultV1Response.success(createNullableJSONArray(count),getContext(FIND_LIKE_EXAMPLE));
         };
 
         return restCall(restAction, FIND_BY_VALUE);
     }
 
-    protected JSONArray arrayFromList(List<T> entityList, boolean hideValues) {
+    protected JSONArray arrayFromList(List<T> entityList, Collection<String> callerPermissions) {
         JSONArray data = new JSONArray();
         for (T entity: entityList) {
-            addNullableValue(data, getJSONEntityWrapper().toJSON(entity, hideValues));
+            addNullableValue(data, getJSONEntityWrapper().toJSON(entity, callerPermissions));
         }
         return data;
     }
@@ -222,10 +255,32 @@ public abstract class AbstractEntityResource<T extends DataBaseEntity> {
     public Response restCall(RestAction restAction, String method) {
         try {
             return restAction.run();
+        } catch (EntityValueValidationException ex) {
+            return DefaultV1Response.error(DefaultV1Response.errorObject(
+                    400,
+                    "Invalid value '"+ ex.getValue()+"' " + ex.getMessage()),
+                    getContext(method));
+        } catch (EntityValidationException ex) {
+            return DefaultV1Response.error(DefaultV1Response.errorObject(
+                    400,
+                    "Invalid entity: " + ex.getMessage()),
+                    getContext(method));
+        } catch (JSONException ex) {
+            return DefaultV1Response.error(DefaultV1Response.errorObject(
+                    400,
+                    "Invalid json format in the request body"),
+                    getContext(method));
         } catch (Exception ex) {
             ex.printStackTrace();
-            return DefaultV1Response.error(ex, getContext(method));
+            LOGGER.error("A unexpected exception occurred during a rest call", ex);
+            return DefaultV1Response.error(
+                    "Internal server error please try again later",
+                    getContext(method));
         }
+    }
+
+    protected Collection<String> getCallerPermissions() {
+        return Collections.emptySet();
     }
 
     protected void addNullableValue(JSONArray jsonArray, Object value) {

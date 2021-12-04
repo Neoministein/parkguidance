@@ -113,7 +113,7 @@ public class ParkingGarageRestController {
                 changed = true;
             }
             if (plz != null) {
-                parkingGarage.getAddress().setPlz(plz);
+                parkingGarage.getAddress().setZipCode(plz);
                 changed = true;
             }
             if (street != null) {
@@ -121,7 +121,7 @@ public class ParkingGarageRestController {
                 changed = true;
             }
             if (number != null) {
-                parkingGarage.getAddress().setNumber(number);
+                parkingGarage.getAddress().setHouseNumber(number);
                 changed = true;
             }
 
@@ -165,9 +165,9 @@ public class ParkingGarageRestController {
             parkingGarage.setOperator(operator);
             parkingGarage.setDescription(description);
             parkingGarage.getAddress().setCityName(cityName);
-            parkingGarage.getAddress().setPlz(plz);
+            parkingGarage.getAddress().setZipCode(plz);
             parkingGarage.getAddress().setStreet(street);
-            parkingGarage.getAddress().setNumber(number);
+            parkingGarage.getAddress().setHouseNumber(number);
 
             facade.checkForMissingValues(parkingGarage);
             facade.createGarage(parkingGarage);

@@ -3,6 +3,8 @@ package com.neo.parkguidance.framework.entity;
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -19,8 +21,6 @@ public class ParkingGarage implements DataBaseEntity {
     public static final String C_OCCUPIED = "occupied";
     public static final String C_ACCESS_KEY = "accessKey";
     public static final String C_PRICE = "price";
-    public static final String C_OPERATOR = "operator";
-    public static final String C_DESCRIPTION = "description";
 
     @Id
     @Column(name = C_KEY)
@@ -44,14 +44,8 @@ public class ParkingGarage implements DataBaseEntity {
     @JoinColumn(name = Address.TABLE_NAME, nullable = false)
     private Address address;
 
-    @Column(name = C_PRICE)
-    private String price;
-
-    @Column(name = C_OPERATOR)
-    private String operator;
-
-    @Column(name = C_DESCRIPTION)
-    private String description;
+    @OneToMany(mappedBy = TABLE_NAME)
+    private List<GarageInfo> garageInfo;
 
     public boolean isEmpty() {
         return occupied == -1;
@@ -59,6 +53,7 @@ public class ParkingGarage implements DataBaseEntity {
 
     public ParkingGarage() {
         this.address = new Address();
+        this.garageInfo = new ArrayList<>();
     }
 
     public String getKey() {
@@ -109,28 +104,12 @@ public class ParkingGarage implements DataBaseEntity {
         this.address = address;
     }
 
-    public String getDescription() {
-        return description;
+    public List<GarageInfo> getGarageInfo() {
+        return garageInfo;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getPrice() {
-        return price;
-    }
-
-    public void setPrice(String price) {
-        this.price = price;
-    }
-
-    public String getOperator() {
-        return operator;
-    }
-
-    public void setOperator(String operator) {
-        this.operator = operator;
+    public void setGarageInfo(List<GarageInfo> garageInfo) {
+        this.garageInfo = garageInfo;
     }
 
     @Override
