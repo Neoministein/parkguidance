@@ -15,7 +15,6 @@
     <maven.compiler.target>1.8</maven.compiler.target>
     <hibernate.version>4.3.1.Final</hibernate.version>
     <json.version>20190722</json.version>
-    <log4j2.version>2.15.0</log4j2.version>
   </properties>
 
   <dependencies>
@@ -60,16 +59,7 @@
       <version>2.7</version>
     </dependency>
     <!-- Logging -->
-    <dependency>
-      <groupId>org.apache.logging.log4j</groupId>
-      <artifactId>log4j-api</artifactId>
-      <version>${log4j2.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.logging.log4j</groupId>
-      <artifactId>log4j-core</artifactId>
-      <version>${log4j2.version}</version>
-    </dependency>
+
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-log4j12</artifactId>
