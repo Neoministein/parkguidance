@@ -3,8 +3,6 @@ package com.neo.parkguidance.core.api.timer;
 import javax.ejb.ScheduleExpression;
 
 /**
- * This inteface defines
- *
  * An implementation should not have a {@link javax.annotation.PostConstruct} and let initialize be handled by the
  * {@link ApplicationTimerService}
  */
