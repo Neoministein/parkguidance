@@ -1,5 +1,8 @@
 package com.neo.parkguidance.parkdata.api.service;
 
+import com.neo.parkguidance.core.entity.ParkingGarage;
+import com.neo.parkguidance.parkdata.impl.data.ParkDataObject;
+
 import java.util.List;
 import java.util.Map;
 
@@ -21,6 +24,25 @@ public interface ParkDataService {
      * @return average occupied state for every half hour from 0 - 47
      */
     List<Integer> getParkData(String key);
+
+    /**
+     * sorts the raw unsorted data
+     */
+    void sortParkData();
+
+    /**
+     * Deletes the old sorted ParkData
+     * @throws RuntimeException on fail
+     */
+    void deleteRawSortedData();
+
+    /**
+     * Gets the parkData associated with the {@link ParkingGarage}
+     *
+     * @param parkingGarage
+     * @return the time it has been last updated
+     */
+    ParkDataObject getMetaData(ParkingGarage parkingGarage);
 
     /**
      * Reloads the current parkData cache from elasticsearch

@@ -1,4 +1,4 @@
-package com.neo.parkguidance.parkdata.impl.sorter;
+package com.neo.parkguidance.parkdata.impl.sorting;
 
 import com.neo.parkguidance.core.api.dao.EntityDao;
 import com.neo.parkguidance.core.entity.ParkingGarage;
@@ -10,17 +10,16 @@ import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import javax.ejb.Stateless;
+import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Event;
 import javax.enterprise.event.ObserverException;
-import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-@Stateless
+@ApplicationScoped
 public class ParkDataSorter {
 
     public static final String ELASTIC_UNSORTED_INDEX = "raw-parking-data";
@@ -43,12 +42,6 @@ public class ParkDataSorter {
 
     @Inject
     ElasticSearchProvider elasticSearchProvider;
-
-    public void eventListener(@Observes ParkDataChangeEvent changeEvent) {
-        if (ParkDataChangeEvent.SORT_REQUEST.equals(changeEvent.getStatus())) {
-            sortParkingData();
-        }
-    }
 
     /**
      * Sorts all ParkingData in ElasticSearch
@@ -180,7 +173,7 @@ public class ParkDataSorter {
     }
 
 
-    public int halfHourOfDate(Date date) {
+    protected int halfHourOfDate(Date date) {
         int halfHour;
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);

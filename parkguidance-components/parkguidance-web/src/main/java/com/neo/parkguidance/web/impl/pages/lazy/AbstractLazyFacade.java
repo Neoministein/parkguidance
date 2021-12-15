@@ -4,16 +4,16 @@ import com.neo.parkguidance.core.api.dao.EntityDao;
 import com.neo.parkguidance.core.entity.DataBaseEntity;
 import com.neo.parkguidance.web.impl.entity.LazyEntityService;
 import com.neo.parkguidance.web.impl.table.Filter;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.primefaces.model.LazyDataModel;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 import java.util.List;
 
 public abstract class AbstractLazyFacade<T extends DataBaseEntity> {
 
-    private static final Logger LOGGER = LogManager.getLogger(AbstractLazyFacade.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractLazyFacade.class);
 
     @Inject
     EntityDao<T> entityDao;

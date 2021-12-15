@@ -4,6 +4,9 @@ import com.neo.parkguidance.core.entity.ParkingGarage;
 import com.neo.parkguidance.core.impl.event.DataBaseEntityChangeEvent;
 import com.neo.parkguidance.core.impl.event.ParkDataChangeEvent;
 import com.neo.parkguidance.parkdata.api.service.ParkDataService;
+import com.neo.parkguidance.parkdata.impl.data.ParkDataDao;
+import com.neo.parkguidance.parkdata.impl.data.ParkDataObject;
+import com.neo.parkguidance.parkdata.impl.sorting.ParkDataSorter;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
@@ -18,7 +21,10 @@ import java.util.Map;
 public class ParkDataServiceImpl implements ParkDataService, Serializable {
 
     @Inject
-    ParkDataServiceFacade facade;
+    ParkDataDao dao;
+
+    @Inject
+    ParkDataSorter sorter;
 
     @Inject
     Event<ParkDataChangeEvent> parkDataChangeEvent;
@@ -27,7 +33,7 @@ public class ParkDataServiceImpl implements ParkDataService, Serializable {
 
     @PostConstruct
     public void init() {
-        parkData = facade.requestParkData();
+        parkData = dao.requestParkData();
     }
 
     public Map<String, List<Integer>> getParkData() {
@@ -36,6 +42,21 @@ public class ParkDataServiceImpl implements ParkDataService, Serializable {
 
     public List<Integer> getParkData(String key) {
         return parkData.get(key);
+    }
+
+    @Override
+    public void sortParkData() {
+        sorter.sortParkingData();
+    }
+
+    @Override
+    public void deleteRawSortedData() {
+        dao.deleteRawSortedData();
+    }
+
+    @Override
+    public ParkDataObject getMetaData(ParkingGarage parkingGarage) {
+        return dao.retrieveMetadata(parkingGarage);
     }
 
     public void reload() {
@@ -52,7 +73,7 @@ public class ParkDataServiceImpl implements ParkDataService, Serializable {
     public void parkDataChangeListener(@Observes DataBaseEntityChangeEvent<ParkingGarage> changeEvent) {
         switch (changeEvent.getStatus()) {
         case DataBaseEntityChangeEvent.CREATE:
-            parkData.put(changeEvent.getChangedObject().getKey(), facade.getEmptyParkData());
+            parkData.put(changeEvent.getChangedObject().getKey(), dao.getEmptyParkData());
             break;
         case DataBaseEntityChangeEvent.REMOVE:
             parkData.remove(changeEvent.getChangedObject().getKey());

@@ -1,4 +1,4 @@
-package com.neo.parkguidance.web.admin.pages.parkdata;
+package com.neo.parkguidance.parkdata.impl.data;
 
 
 import java.io.Serializable;

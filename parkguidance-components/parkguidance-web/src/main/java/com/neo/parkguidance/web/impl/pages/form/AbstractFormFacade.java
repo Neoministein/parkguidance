@@ -2,8 +2,8 @@ package com.neo.parkguidance.web.impl.pages.form;
 
 import com.neo.parkguidance.core.api.dao.EntityDao;
 import com.neo.parkguidance.core.entity.DataBaseEntity;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -13,7 +13,7 @@ import static com.github.adminfaces.template.util.Assert.has;
 @Stateless
 public abstract class AbstractFormFacade<T extends DataBaseEntity> {
 
-    private static final Logger LOGGER = LogManager.getLogger(AbstractFormFacade.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractFormFacade.class);
 
     @Inject
     protected EntityDao<T> dao;

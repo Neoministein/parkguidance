@@ -1,5 +1,6 @@
 package com.neo.parkguidance.web.admin.pages.parkdata;
 
+import com.neo.parkguidance.parkdata.impl.data.ParkDataObject;
 import org.omnifaces.cdi.ViewScoped;
 
 import java.io.Serializable;
