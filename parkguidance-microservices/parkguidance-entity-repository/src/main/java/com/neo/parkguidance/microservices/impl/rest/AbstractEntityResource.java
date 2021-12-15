@@ -1,4 +1,4 @@
-package com.neo.parkguidance.microservices.impl.rest.v1;
+package com.neo.parkguidance.microservices.impl.rest;
 
 import com.neo.parkguidance.framework.api.dao.EntityDao;
 import com.neo.parkguidance.framework.api.wrapper.entity.JSONEntityWrapper;

@@ -1,4 +1,4 @@
-package com.neo.parkguidance.microservices.impl.rest.v1;
+package com.neo.parkguidance.microservices.impl.rest;
 
 import org.json.JSONArray;
 import org.json.JSONObject;

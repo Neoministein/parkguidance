@@ -1,11 +1,11 @@
-package com.neo.parkguidance.microservices.impl.rest.v1.parkgarage;
+package com.neo.parkguidance.microservices.impl.rest.parkgarage;
 
 import com.neo.parkguidance.framework.api.dao.EntityDao;
 import com.neo.parkguidance.framework.api.wrapper.entity.JSONEntityWrapper;
 import com.neo.parkguidance.framework.entity.ParkingGarage;
 import com.neo.parkguidance.microservices.api.v1.RestAction;
-import com.neo.parkguidance.microservices.impl.rest.v1.AbstractEntityResource;
-import com.neo.parkguidance.microservices.impl.rest.v1.DefaultV1Response;
+import com.neo.parkguidance.microservices.impl.rest.AbstractEntityResource;
+import com.neo.parkguidance.microservices.impl.rest.DefaultV1Response;
 import org.json.JSONArray;
 import org.json.JSONObject;
 

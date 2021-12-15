@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+  parkguidance-entity-repository:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+    - 8080:8080
+    - 5432:5432
+    env_file:
+    - container.env
