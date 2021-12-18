@@ -15,6 +15,7 @@ import javax.enterprise.event.Event;
 import javax.enterprise.event.ObserverException;
 import javax.inject.Inject;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -66,7 +67,7 @@ public class ParkDataSorter {
             int numberOfIterations = Math.toIntExact(interval);
 
             LOGGER.debug("Sorting bounds StartTime [{}] EndTime [{}] Interval [{}]", startDate, endDate, numberOfIterations);
-            JSONObject[] docToStore = new JSONObject[numberOfIterations+1];
+            List<JSONObject> docToStore = new ArrayList<>();
             for(int i = 0; i <= numberOfIterations; i++) {
                 long entryStart = startDate + MILLISECONDS_IN_HALF_AN_HOUR * i;
                 long entryEnd = startDate + MILLISECONDS_IN_HALF_AN_HOUR * (i + 1);
@@ -81,22 +82,15 @@ public class ParkDataSorter {
                 LOGGER.debug("Interval [{}] Occupied [{}]", i, occupied);
 
 
-                doc.put(ELASTIC_OCCUPIED,occupied);
-                docToStore[i] = doc;
+                doc.put(ELASTIC_OCCUPIED, occupied);
+                docToStore.add(doc);
 
                 elasticSearchProvider.save(ELASTIC_SORTED_INDEX, doc.toString());
             }
             updateAsSorted(parkingGarage.getKey(), startDate, endDate);
-            saveSorted(docToStore);
         }
         LOGGER.info("Finished sorting ParkingData");
         fireEvent(new ParkDataChangeEvent(ParkDataChangeEvent.SORTED_RESPONSE));
-    }
-
-    private void saveSorted(JSONObject[] docs) {
-        for (JSONObject doc: docs) {
-            elasticSearchProvider.save(ELASTIC_SORTED_INDEX, doc.toString());
-        }
     }
 
     private JSONObject generateInitialDoc(long time) {
