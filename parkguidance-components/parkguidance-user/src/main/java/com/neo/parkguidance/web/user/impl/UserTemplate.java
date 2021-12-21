@@ -1,4 +1,4 @@
-package com.neo.parkguidance.web.infra;
+package com.neo.parkguidance.web.user.impl;
 
 import com.neo.parkguidance.web.TemplateValues;
 

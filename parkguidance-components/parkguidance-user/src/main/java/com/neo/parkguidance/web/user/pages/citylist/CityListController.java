@@ -1,7 +1,7 @@
 package com.neo.parkguidance.web.user.pages.citylist;
 
 import com.neo.parkguidance.core.entity.ParkingGarage;
-import com.neo.parkguidance.web.infra.ColorGenerator;
+import com.neo.parkguidance.web.user.impl.utils.ColorGenerator;
 import com.neo.parkguidance.web.user.impl.UserConfig;
 import org.omnifaces.util.Messages;
 import org.slf4j.Logger;
