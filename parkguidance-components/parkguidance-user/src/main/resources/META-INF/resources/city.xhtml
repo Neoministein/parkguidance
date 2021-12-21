@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui" xmlns:adm="http://github.com/adminfaces"
+                template="#{layoutMB.template}">
+
+    <ui:define name="metadata">
+        <f:metadata>
+            <f:viewParam name="id" value="#{cityList.urlParam}"/>
+            <f:event type="preRenderView" listener="#{cityList.init}"/>
+        </f:metadata>
+        <adm:breadcrumb clear="true" title="Stadt #{cityList.cityName}" link="/index"/>
+    </ui:define>
+
+    <ui:param name="renderBreadCrumb" value="true"/>
+
+    <ui:define name="body">
+        <h1>Stadt <h:outputLabel value="#{cityList.cityName}"/></h1>
+        <p:panel styleClass="box-primary card">
+            <p:dataTable id="garageTable" var="parkingGarage" value="#{cityList.parkingGarage}" rowKey="#{cityList.key}">
+                <p:column headerText="Parkhäuser">
+                    <p:link value="#{parkingGarage.name}" outcome="/data" >
+                        <f:param name="key" value="#{parkingGarage.key}"/>
+                    </p:link>
+                </p:column>
+                <p:column headerText="Plätze">
+                    <h:panelGroup rendered="#{not parkingGarage.isEmpty()}">
+                        <h:outputText value="#{parkingGarage.occupied}" style="#{cityList.getStyleColorOfOccupied(parkingGarage)}"/>
+                        <h:outputText value="/#{parkingGarage.spaces}"/>
+                    </h:panelGroup>
+                    <h:panelGroup rendered="#{parkingGarage.isEmpty()}">
+                        <h:outputText value="#{parkingGarage.spaces}" />
+                    </h:panelGroup>
+                </p:column>
+            </p:dataTable>
+            <h:outputText value="Last update: "/>
+            <h:outputText value="#{cityList.model.lastUpdate}">
+                <f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss" type="date" />
+            </h:outputText>
+        </p:panel>
+    </ui:define>
+</ui:composition>
