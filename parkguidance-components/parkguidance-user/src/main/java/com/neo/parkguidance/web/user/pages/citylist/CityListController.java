@@ -1,8 +1,6 @@
 package com.neo.parkguidance.web.user.pages.citylist;
 
 import com.neo.parkguidance.core.entity.ParkingGarage;
-import com.neo.parkguidance.web.user.impl.utils.ColorGenerator;
-import com.neo.parkguidance.web.user.impl.UserConfig;
 import org.omnifaces.util.Messages;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,9 +33,6 @@ public class CityListController {
     @Inject
     CityListFacade facade;
 
-    @Inject
-    UserConfig config;
-
     public void init() {
         facade.initDataModel(model);
 
@@ -69,12 +64,5 @@ public class CityListController {
 
     public CityListModel getModel() {
         return model;
-    }
-
-    public String getStyleColorOfOccupied(ParkingGarage parkingGarage) {
-        return ColorGenerator.getStyleColor(
-                parkingGarage.getSpaces(),
-                parkingGarage.getOccupied(),
-                config.isColorBlind());
     }
 }

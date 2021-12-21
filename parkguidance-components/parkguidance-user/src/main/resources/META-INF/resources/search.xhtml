@@ -38,7 +38,13 @@
                 <h:outputText value="#{p.address.cityName}" />
             </p:column>
             <p:column headerText="Plätze">
-                <h:outputText value="#{p.occupied}/#{p.spaces}" />
+                <h:panelGroup rendered="#{not p.isEmpty()}">
+                    <h:outputText value="#{p.occupied}" style="#{colorBean.getStyleColorOfOccupied(p)}"/>
+                    <h:outputText value="/#{p.spaces}"/>
+                </h:panelGroup>
+                <h:panelGroup rendered="#{p.isEmpty()}">
+                    <h:outputText value="#{p.spaces}" />
+                </h:panelGroup>
             </p:column>
         </p:dataTable>
         </h:form>

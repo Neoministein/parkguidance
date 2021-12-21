@@ -25,7 +25,7 @@
                 </p:column>
                 <p:column headerText="Plätze">
                     <h:panelGroup rendered="#{not parkingGarage.isEmpty()}">
-                        <h:outputText value="#{parkingGarage.occupied}" style="#{cityList.getStyleColorOfOccupied(parkingGarage)}"/>
+                        <h:outputText value="#{parkingGarage.occupied}" style="#{colorBean.getStyleColorOfOccupied(parkingGarage)}"/>
                         <h:outputText value="/#{parkingGarage.spaces}"/>
                     </h:panelGroup>
                     <h:panelGroup rendered="#{parkingGarage.isEmpty()}">
