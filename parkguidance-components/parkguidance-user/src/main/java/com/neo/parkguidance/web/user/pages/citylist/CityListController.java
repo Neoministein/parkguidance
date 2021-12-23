@@ -1,15 +1,10 @@
 package com.neo.parkguidance.web.user.pages.citylist;
 
 import com.neo.parkguidance.core.entity.ParkingGarage;
-import org.omnifaces.util.Messages;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import java.net.URLDecoder;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,8 +14,6 @@ import java.util.List;
 @RequestScoped
 @Named(value = CityListController.BEAN_NAME)
 public class CityListController {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(CityListController.class);
 
     public static final String BEAN_NAME = "cityList";
 
@@ -33,22 +26,20 @@ public class CityListController {
     @Inject
     CityListFacade facade;
 
-    public void init() {
-        facade.initDataModel(model);
+    public void initUrl() {
+        cityName = facade.validateURLInput(urlParam, model.getGarageData().keySet());
+    }
 
-        try {
-            cityName = URLDecoder.decode(urlParam, StandardCharsets.UTF_8.toString());
-            if (model.getGarageData().containsKey(cityName)) {
-                return;
-            }
-        } catch (Exception ex) {
-            LOGGER.error("The provided city name isn't valid {}", urlParam);
-        }
-        Messages.addError(null, "Ungültige Stadt");
+    public void initData() {
+        facade.initDataModel(model);
     }
 
     public List<ParkingGarage> getParkingGarage() {
         return model.getGarageData().getOrDefault(getCityName(), new ArrayList<>());
+    }
+
+    public List<String> getCities() {
+        return model.getCities();
     }
 
     public String getCityName() {

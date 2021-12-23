@@ -1,5 +1,6 @@
 package com.neo.parkguidance.web.impl.utils;
 
+import com.neo.parkguidance.core.impl.utils.StringUtils;
 import org.omnifaces.util.Messages;
 
 import javax.faces.application.FacesMessage;
@@ -52,5 +53,9 @@ public class Utils {
         str = str.replace("\n","<br/>");
         str = str.replace("\r","<br/>");
         return str;
+    }
+
+    public String decodeUrl(String s) {
+        return StringUtils.decodeUrl(s);
     }
 }

@@ -2,6 +2,10 @@ package com.neo.parkguidance.web.user.pages.citylist;
 
 import com.neo.parkguidance.core.api.dao.EntityDao;
 import com.neo.parkguidance.core.entity.ParkingGarage;
+import com.neo.parkguidance.core.impl.utils.StringUtils;
+import org.omnifaces.util.Messages;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -13,6 +17,9 @@ import java.util.*;
 @Stateless
 public class CityListFacade {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(CityListFacade.class);
+
+
     private static final int TIME_BETWEEN_UPDATES = 5 * 1000; // 5 sec
 
     @Inject
@@ -22,8 +29,23 @@ public class CityListFacade {
         if(model.getLastUpdate().getTime() + TIME_BETWEEN_UPDATES < System.currentTimeMillis()) {
             model.setLastUpdate(new Date());
 
-            model.setGarageData(getGarageData());
+            Map<String, List<ParkingGarage>> garageData = getGarageData();
+            model.setGarageData(garageData);
+            model.setCities(getCities(garageData));
         }
+    }
+
+    public String validateURLInput(String urlInput, Collection<String> cities) {
+        try {
+            String cityName = StringUtils.decodeUrl(urlInput);
+            if (cities.contains(cityName)) {
+                return cityName;
+            }
+        } catch (Exception ex) {
+            LOGGER.error("The provided city name isn't valid {}", urlInput);
+        }
+        Messages.addError(null, "Ungültige Stadt");
+        return "";
     }
 
     public Map<String, List<ParkingGarage>> getGarageData(){
@@ -36,5 +58,13 @@ public class CityListFacade {
             garagesInCity.add(parkingGarage);
         }
         return data;
+    }
+
+    public List<String> getCities(Map<String, List<ParkingGarage>> garageData) {
+        List<String> cities = new ArrayList<>();
+        for (String city: garageData.keySet()) {
+            cities.add(StringUtils.encodeUrl(city));
+        }
+        return cities;
     }
 }

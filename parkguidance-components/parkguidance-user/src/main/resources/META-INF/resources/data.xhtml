@@ -10,6 +10,7 @@
             <f:viewParam name="key" value="#{data.model.key}"/>
             <f:event type="preRenderView" listener="#{data.init}"/>
         </f:metadata>
+        <adm:breadcrumb clear="true" title="Parkhaus #{data.model.parkingGarage.name}" link="/index"/>
         <ui:param name="renderFormAsterisks" value="true"/>
     </ui:define>
 

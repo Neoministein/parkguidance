@@ -7,9 +7,10 @@
     <ui:define name="metadata">
         <f:metadata>
             <f:viewParam name="id" value="#{cityList.urlParam}"/>
-            <f:event type="preRenderView" listener="#{cityList.init}"/>
+            <f:event type="preRenderView" listener="#{cityList.initData}"/>
+            <f:event type="preRenderView" listener="#{cityList.initUrl}"/>
         </f:metadata>
-        <adm:breadcrumb clear="true" title="Stadt #{cityList.cityName}" link="/index"/>
+        <adm:breadcrumb clear="true" title="Stadt #{cityList.cityName}" link="/city?id=#{cityList.urlParam}"/>
     </ui:define>
 
     <ui:param name="renderBreadCrumb" value="true"/>

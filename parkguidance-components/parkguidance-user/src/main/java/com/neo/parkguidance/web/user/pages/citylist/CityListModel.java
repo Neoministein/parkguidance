@@ -12,9 +12,18 @@ import java.util.*;
 @ApplicationScoped
 public class CityListModel implements Serializable {
 
+    private List<String> cities = new ArrayList<>();
     private Map<String, List<ParkingGarage>> garageData = new HashMap<>();
 
     private Date lastUpdate = new Date(0);
+
+    public List<String> getCities() {
+        return cities;
+    }
+
+    public void setCities(List<String> cities) {
+        this.cities = cities;
+    }
 
     public Map<String, List<ParkingGarage>> getGarageData() {
         return garageData;
