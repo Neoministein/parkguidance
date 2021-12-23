@@ -1,5 +1,9 @@
 package com.neo.parkguidance.core.impl.utils;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -46,6 +50,34 @@ public class StringUtils {
      */
     public static List<String> semicolonSeparatedStrToList(String s) {
         return characterSeparatedStrToList(s, ';');
+    }
+
+    /**
+     * Encodes the string to be use in a url
+     *
+     * @param s the string to encode
+     * @return UTF-8 url encoded string
+     */
+    public static String encodeUrl(String s) {
+        try {
+            return URLEncoder.encode(s, StandardCharsets.UTF_8.toString());
+        } catch (UnsupportedEncodingException e) {
+            return "";
+        }
+    }
+
+    /**
+     * Decodes the string
+     *
+     * @param s the string to decode
+     * @return UTF-8 url decode string
+     */
+    public static String decodeUrl(String s) {
+        try {
+            return URLDecoder.decode(s, StandardCharsets.UTF_8.toString());
+        } catch (UnsupportedEncodingException e) {
+            return "";
+        }
     }
 
     /**
