@@ -23,7 +23,7 @@ public class GarageNoReponseTimer extends AbstractApplicationTimer {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GarageNoReponseTimer.class);
 
-    private static final int TIME_TO_DEACTIVATE = 20 * 1000;
+    private static final int TIME_TO_DEACTIVATE = 20 * 60 * 1000;
 
     @Inject
     ParkDataService parkDataSorter;
@@ -44,7 +44,7 @@ public class GarageNoReponseTimer extends AbstractApplicationTimer {
             ParkDataObject parkDataObject = parkDataSorter.getMetaData(parkingGarage);
             LOGGER.debug("Garage {} has been last updated at {}", parkingGarage.getKey(),
                     parkDataObject.getLastUpdate() != null ? parkDataObject.getLastUpdate() : "Unknown");
-            if (TimeUtils.after(parkDataObject.getLastUpdate(), timeToDeactivate)) {
+            if (parkingGarage.getOccupied() < 0 && TimeUtils.after(parkDataObject.getLastUpdate(), timeToDeactivate)) {
                 garageList.add(parkingGarage);
                 parkingGarage.setOccupied(-1);
                 parkingGarageDao.edit(parkingGarage);
