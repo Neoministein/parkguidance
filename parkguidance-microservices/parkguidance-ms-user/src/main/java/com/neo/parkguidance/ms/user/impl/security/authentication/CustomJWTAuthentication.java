@@ -28,11 +28,16 @@ public class CustomJWTAuthentication extends SynchronousProvider implements Auth
     private Map<String, BlockedJWT> blockedJWTToken = new HashMap<>();
     private final JwtParser parser;
 
+    // For testing purposes
+    protected CustomJWTAuthentication(SigningKeyResolver signingKeyResolver) {
+        parser = Jwts.parserBuilder().setSigningKeyResolver(signingKeyResolver).build();
+    }
+
     public CustomJWTAuthentication(Config config) {
         String publicKeyEndpoint = config.get(KEY_ENDPOINT).as(String.class).get();
         Boolean isSecurityService = config.get(IS_SECURITY_SERVICE).asBoolean().orElse(false);
         parser = Jwts.parserBuilder()
-                .setSigningKeyResolver(new RotatingSigningKeyResolver(publicKeyEndpoint,isSecurityService))
+                .setSigningKeyResolver(new RotatingSigningKeyResolver(publicKeyEndpoint, isSecurityService))
                 .build();
 
         //TODO impl Websocket to get blcoked tockens
@@ -68,7 +73,6 @@ public class CustomJWTAuthentication extends SynchronousProvider implements Auth
         LOGGER.info("Authentication attempt");
         try {
             String jwtToken = getJWTToken(providerRequest.env().headers());
-            Jwts.parserBuilder().build();
             Jws<Claims> jws = parser.parseClaimsJws(jwtToken);
             Claims body = jws.getBody();
             checkForBlockedJWT(jws.getHeader(), body);
@@ -76,6 +80,18 @@ public class CustomJWTAuthentication extends SynchronousProvider implements Auth
             String uuid = body.getSubject();
             String name = body.get("username", String.class);
             List<String> roles = body.get("roles", List.class);
+
+            if (uuid == null) {
+                throw new MalformedJwtException("The provided token didn't have a uuid attached to it");
+            }
+
+            if (name == null) {
+                throw new MalformedJwtException("The provided token didn't have a username attached to it");
+            }
+
+            if (roles == null) {
+                throw new MalformedJwtException("The provided token didn't have a role attribute attached to it");
+            }
 
             Subject.Builder subjectBuilder = Subject.builder().addPrincipal(Principal.builder().id(uuid).name(name).build());
             for (String stringRole: roles) {
@@ -93,7 +109,7 @@ public class CustomJWTAuthentication extends SynchronousProvider implements Auth
         } catch (MalformedJwtException ex) {
             LOGGER.trace("Provided token is malformed {}", ex.getMessage());
             return AuthenticationResponse.failed("Not a valid token");
-        } catch (SignatureException ex)  {
+        } catch (SignatureException| UnsupportedJwtException ex)  {
             LOGGER.warn("Token signature {}", ex.getMessage());
             return AuthenticationResponse.failed("Token signature is invalid");
         } catch (InternalLogicException ex) {
@@ -132,7 +148,7 @@ public class CustomJWTAuthentication extends SynchronousProvider implements Auth
             throw new SecurityException("No JWT Token found");
         }
         String authorizationHeader = authorization.get(0);
-        if (!authorizationHeader.startsWith("Bearer") && authorizationHeader.length() < 7) {
+        if (!authorizationHeader.startsWith("Bearer") || authorizationHeader.length() < 7) {
             throw new MalformedJwtException("Authorization header malformed");
         }
         return authorizationHeader.substring(7);

@@ -19,7 +19,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.security.*;
 import java.security.spec.InvalidKeySpecException;
-import java.security.spec.PKCS8EncodedKeySpec;
+import java.security.spec.X509EncodedKeySpec;
 import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
@@ -30,7 +30,7 @@ public class RotatingSigningKeyResolver extends SigningKeyResolverAdapter {
     private static final Logger LOGGER =  LoggerFactory.getLogger(RotatingSigningKeyResolver.class);
 
     private static final int TEN_SECONDS = 10 * 1000;
-    private long lastUpdate;
+    private long lastUpdate = 0L;
 
     private final HttpGet publicKeyEndpoint;
     protected Map<String, JWTPublicKey> keyMap = new HashMap<>();
@@ -78,7 +78,7 @@ public class RotatingSigningKeyResolver extends SigningKeyResolverAdapter {
     }
 
     protected boolean checkForNewKey() {
-        //TODO IMPL retry pattern
+        //TODO IMPL lazy retry pattern
         boolean hasChanged;
         try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
             LOGGER.trace("Calling public key endpoint [{}]", publicKeyEndpoint.getURI());
@@ -144,7 +144,7 @@ public class RotatingSigningKeyResolver extends SigningKeyResolverAdapter {
 
     protected PublicKey parseToPublicKey(String key) {
         try {
-            PKCS8EncodedKeySpec spec = new PKCS8EncodedKeySpec(Base64.getDecoder().decode(key));
+            X509EncodedKeySpec spec = new X509EncodedKeySpec(Base64.getDecoder().decode(key));
             KeyFactory kf = KeyFactory.getInstance("RSA");
             return kf.generatePublic(spec);
         } catch (NoSuchAlgorithmException ex) {
@@ -154,6 +154,5 @@ public class RotatingSigningKeyResolver extends SigningKeyResolverAdapter {
         } catch (IllegalArgumentException ex) {
             throw new InternalLogicException("The public key provided by the PublicKey Endpoint is not Base64 encoded");
         }
-
     }
 }
