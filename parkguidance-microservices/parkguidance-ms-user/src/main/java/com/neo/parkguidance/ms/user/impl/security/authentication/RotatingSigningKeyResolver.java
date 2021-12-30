@@ -1,14 +1,13 @@
 package com.neo.parkguidance.ms.user.impl.security.authentication;
 
 import com.neo.parkguidance.common.impl.exception.InternalLogicException;
+import com.neo.parkguidance.common.impl.http.LazyHttpCaller;
+import com.neo.parkguidance.common.impl.http.verify.ParkguidanceSuccessResponse;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.SignatureException;
-import org.apache.http.HttpEntity;
-import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
-import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -78,35 +77,27 @@ public class RotatingSigningKeyResolver extends SigningKeyResolverAdapter {
     }
 
     protected boolean checkForNewKey() {
-        //TODO IMPL lazy retry pattern
         boolean hasChanged;
         try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
             LOGGER.trace("Calling public key endpoint [{}]", publicKeyEndpoint.getURI());
-            CloseableHttpResponse response = httpClient.execute(publicKeyEndpoint);
-            if (response.getStatusLine().getStatusCode() == 200) {
-                HttpEntity responseEntity = response.getEntity();
+            String response = LazyHttpCaller.call(
+                    httpClient, publicKeyEndpoint, new ParkguidanceSuccessResponse(), 5);
 
-                if (responseEntity != null) {
-                    Map<String, JWTPublicKey> newMap = parseEndpointResult(EntityUtils.toString(responseEntity));
-                    lastUpdate = System.currentTimeMillis();
-                    LOGGER.debug("Updated last public key refresh call time stamp to [{}]", lastUpdate);
-                    hasChanged = !newMap.keySet().equals(keyMap.keySet());
-                    if (hasChanged) {
-                        LOGGER.debug("Updating cached public keys removing keys {} adding keys {}",
-                                keyMap.keySet().removeAll(newMap.keySet()),
-                                newMap.keySet().removeAll(keyMap.keySet()));
-                        keyMap = newMap;
-                    } else {
-                        LOGGER.trace("No new keys have been found");
-                    }
-
-                    return hasChanged;
-                }
-                LOGGER.error("Public key endpoint response didn't have a body");
+            Map<String, JWTPublicKey> newMap = parseEndpointResult(response);
+            lastUpdate = System.currentTimeMillis();
+            LOGGER.debug("Updated last public key refresh call time stamp to [{}]", lastUpdate);
+            hasChanged = !newMap.keySet().equals(keyMap.keySet());
+            if (hasChanged) {
+                LOGGER.debug("Updating cached public keys removing keys {} adding keys {}",
+                        keyMap.keySet().removeAll(newMap.keySet()),
+                        newMap.keySet().removeAll(keyMap.keySet()));
+                keyMap = newMap;
+            } else {
+                LOGGER.trace("No new keys have been found");
             }
-            LOGGER.error("Cannot reach public key endpoint, response code [{}]", response.getStatusLine().getStatusCode());
-            throw new InternalLogicException("Error occurred when reaching out to PublicKey Endpoint");
-        } catch (IOException e) {
+
+            return hasChanged;
+        } catch (IOException | InternalLogicException e) {
             throw new InternalLogicException("Cannot reach PublicKey Endpoint");
         }
     }

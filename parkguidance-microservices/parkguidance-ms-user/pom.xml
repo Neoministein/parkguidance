@@ -99,12 +99,6 @@
             <version>20190722</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.apache.httpcomponents</groupId>
-            <artifactId>httpclient</artifactId>
-            <version>4.3.6</version>
-        </dependency>
-
         <!-- Security -->
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
