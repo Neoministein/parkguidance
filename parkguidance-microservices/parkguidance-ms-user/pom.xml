@@ -25,6 +25,12 @@
             <version>${parkguidance.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.neo.parkguidance</groupId>
+            <artifactId>parkguidance-ms-security</artifactId>
+            <version>${parkguidance.version}</version>
+        </dependency>
+
         <!-- Bean Discovery -->
         <dependency>
             <groupId>org.jboss</groupId>

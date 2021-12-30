@@ -1,4 +1,4 @@
-package com.neo.parkguidance.ms.user.impl.security.authentication;
+package com.neo.parkguidance.ms.security.impl.authentication;
 
 import io.helidon.config.Config;
 import io.helidon.security.spi.SecurityProvider;

@@ -1,10 +1,9 @@
-package com.neo.parkguidance.ms.user.impl.security.authentication;
+package com.neo.parkguidance.ms.security.impl.authentication;
 
 import com.neo.parkguidance.common.impl.exception.InternalLogicException;
 import com.neo.parkguidance.common.impl.util.StringUtils;
 import io.helidon.config.Config;
 import io.helidon.security.*;
-import io.helidon.security.SecurityException;
 import io.helidon.security.spi.AuthenticationProvider;
 import io.helidon.security.spi.OutboundSecurityProvider;
 import io.helidon.security.spi.ProviderConfig;
@@ -15,6 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 
+import java.lang.SecurityException;
 import java.lang.annotation.Annotation;
 import java.util.*;
 

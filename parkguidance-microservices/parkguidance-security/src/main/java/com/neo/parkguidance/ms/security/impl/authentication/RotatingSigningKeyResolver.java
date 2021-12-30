@@ -1,9 +1,12 @@
-package com.neo.parkguidance.ms.user.impl.security.authentication;
+package com.neo.parkguidance.ms.security.impl.authentication;
 
 import com.neo.parkguidance.common.impl.exception.InternalLogicException;
 import com.neo.parkguidance.common.impl.http.LazyHttpCaller;
 import com.neo.parkguidance.common.impl.http.verify.ParkguidanceSuccessResponse;
-import io.jsonwebtoken.*;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwsHeader;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.SigningKeyResolverAdapter;
 import io.jsonwebtoken.security.SignatureException;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -16,7 +19,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.security.*;
+import java.security.Key;
+import java.security.KeyFactory;
+import java.security.NoSuchAlgorithmException;
+import java.security.PublicKey;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.X509EncodedKeySpec;
 import java.util.Base64;
