@@ -1,17 +1,22 @@
 package com.neo.parkguidance.ms.security.impl.authentication;
 
+import com.neo.parkguidance.common.impl.http.LazyHttpCaller;
+import com.neo.parkguidance.common.impl.http.verify.ResponseFormatVerification;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwsHeader;
 import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.security.SignatureException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpUriRequest;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
+import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 
 import java.security.Key;
 import java.security.PublicKey;
+import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -23,9 +28,17 @@ class RotatingSigningKeyResolverTest {
 
     RotatingSigningKeyResolver subject;
 
+
+    static MockedStatic<LazyHttpCaller> httpCaller;
+
     @BeforeEach
     public void setUp() {
+        httpCaller = Mockito.mockStatic(LazyHttpCaller.class);
+    }
 
+    @AfterEach
+    public void close() {
+        httpCaller.close();
     }
 
     @Test
@@ -65,26 +78,71 @@ class RotatingSigningKeyResolverTest {
     }
 
     @Test
+    void resolveNoNewSigningKeyTest() {
+        //Arrange
+        httpCaller.when(() -> LazyHttpCaller.call(Mockito.any(HttpClient.class),Mockito.any(HttpUriRequest.class),Mockito.any(
+                ResponseFormatVerification.class),Mockito.anyInt()))
+                .thenReturn(defaultEndpointResponse("0"));
+
+        subject = new RotatingSigningKeyResolver("localhost", false);
+        subject = Mockito.spy(subject);
+        JwsHeader jwsHeader = Mockito.mock(JwsHeader.class);
+
+        Mockito.doReturn("1").when(jwsHeader).getKeyId();
+        //Act
+        Exception exception = Assertions.assertThrows(
+                SignatureException.class, () -> subject.resolveSigningKey(jwsHeader, (Claims) null));
+
+        //Assert
+        Assertions.assertEquals("Cannot find matching public key for kid", exception.getMessage());
+    }
+
+    @Test
+    void resolveNewSigningKeyTest() {
+        //Arrange
+        subject = new RotatingSigningKeyResolver("localhost", true);
+        subject = Mockito.spy(subject);
+        JwsHeader jwsHeader = Mockito.mock(JwsHeader.class);
+
+        Mockito.doReturn("1").when(jwsHeader).getKeyId();
+
+        httpCaller.when(() -> LazyHttpCaller.call(Mockito.any(HttpClient.class),Mockito.any(HttpUriRequest.class),Mockito.any(
+                ResponseFormatVerification.class),Mockito.anyInt()))
+                .thenReturn(defaultEndpointResponse("1"));
+        //Act
+        Key key = subject.resolveSigningKey(jwsHeader, (Claims) null);
+
+        //Assert
+        Assertions.assertEquals(PUBLIC_KEY, Base64.getEncoder().encodeToString(key.getEncoded()));
+    }
+
+    @Test
     void validateEndPointParsingTest() {
         //Arrange
         subject = new RotatingSigningKeyResolver("localhost", true);
         subject = Mockito.spy(subject);
 
-        JSONObject responseString = new JSONObject();
-        responseString.put("status",200);
+        String responseString = defaultEndpointResponse("0");
+
+        //Act
+
+        Map<String, JWTPublicKey> parsed = subject.parseEndpointResult(responseString);
+        //Assert
+        Assertions.assertNotNull(parsed.get("0"));
+    }
+
+    protected String defaultEndpointResponse(String kid) {
+        JSONObject response = new JSONObject();
+        response.put("status",200);
         JSONArray data = new JSONArray();
 
         JSONObject key = new JSONObject();
-        key.put("kid","0");
+        key.put("kid", kid);
         key.put("key", PUBLIC_KEY);
         key.put("exp",0l);
         data.put(key);
-        responseString.put("data",data);
-        //Act
-
-        Map<String, JWTPublicKey> parsed = subject.parseEndpointResult(responseString.toString());
-        //Assert
-        Assertions.assertNotNull(parsed.get("0"));
+        response.put("data",data);
+        return response.toString();
     }
 
     protected Map<String, JWTPublicKey> createKeyMap(String kid, PublicKey publicKey, Date date) {
