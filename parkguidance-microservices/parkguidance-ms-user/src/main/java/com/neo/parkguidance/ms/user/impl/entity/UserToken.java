@@ -1,7 +1,7 @@
 package com.neo.parkguidance.ms.user.impl.entity;
 
 import com.neo.parkguidance.ms.user.api.entity.DataBaseEntity;
-import com.neo.parkguidance.ms.user.impl.security.token.TokenType;
+import com.neo.parkguidance.ms.user.impl.security.TokenType;
 
 import javax.persistence.*;
 import java.util.Date;

@@ -1,4 +1,4 @@
-package com.neo.parkguidance.ms.user.impl.security.token;
+package com.neo.parkguidance.ms.user.impl.security;
 
 import com.neo.parkguidance.ms.user.impl.entity.UserToken;
 
