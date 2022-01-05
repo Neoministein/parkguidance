@@ -2,6 +2,8 @@ package com.neo.parkguidance.ms.security.impl.authentication;
 
 import com.neo.parkguidance.common.impl.http.LazyHttpCaller;
 import com.neo.parkguidance.common.impl.http.verify.ResponseFormatVerification;
+import com.neo.parkguidance.ms.security.impl.authentication.key.JWTKey;
+import com.neo.parkguidance.ms.security.impl.authentication.key.JWTPublicKey;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwsHeader;
 import io.jsonwebtoken.MalformedJwtException;
@@ -126,7 +128,7 @@ class RotatingSigningKeyResolverTest {
 
         //Act
 
-        Map<String, JWTPublicKey> parsed = subject.parseEndpointResult(responseString);
+        Map<String, JWTKey> parsed = subject.parseEndpointResult(responseString);
         //Assert
         Assertions.assertNotNull(parsed.get("0"));
     }
@@ -145,8 +147,8 @@ class RotatingSigningKeyResolverTest {
         return response.toString();
     }
 
-    protected Map<String, JWTPublicKey> createKeyMap(String kid, PublicKey publicKey, Date date) {
-        Map<String, JWTPublicKey> keyMap = new HashMap<>();
+    protected Map<String, JWTKey> createKeyMap(String kid, PublicKey publicKey, Date date) {
+        Map<String, JWTKey> keyMap = new HashMap<>();
         keyMap.put(kid, new JWTPublicKey(kid, publicKey , date));
         return keyMap;
     }

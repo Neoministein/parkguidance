@@ -1,15 +1,15 @@
-package com.neo.parkguidance.ms.security.impl.authentication;
+package com.neo.parkguidance.ms.security.impl.authentication.key;
 
-import java.security.PublicKey;
+import java.security.Key;
 import java.util.Date;
 
-public class JWTPublicKey {
+public abstract class JWTKey {
 
     private final String id;
-    private final PublicKey publicKey;
+    private final Key publicKey;
     private final Date expirationDate;
 
-    public JWTPublicKey(String id, PublicKey publicKey, Date expirationDate) {
+    protected JWTKey(String id, Key publicKey, Date expirationDate) {
         this.id = id;
         this.publicKey = publicKey;
         this.expirationDate = expirationDate;
@@ -19,7 +19,7 @@ public class JWTPublicKey {
         return id;
     }
 
-    public PublicKey getPublicKey() {
+    public Key getKey() {
         return publicKey;
     }
 

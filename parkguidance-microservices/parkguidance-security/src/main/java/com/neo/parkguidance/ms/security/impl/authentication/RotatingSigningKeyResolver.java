@@ -3,6 +3,8 @@ package com.neo.parkguidance.ms.security.impl.authentication;
 import com.neo.parkguidance.common.impl.exception.InternalLogicException;
 import com.neo.parkguidance.common.impl.http.LazyHttpCaller;
 import com.neo.parkguidance.common.impl.http.verify.ParkguidanceSuccessResponse;
+import com.neo.parkguidance.ms.security.impl.authentication.key.JWTKey;
+import com.neo.parkguidance.ms.security.impl.authentication.key.JWTPublicKey;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwsHeader;
 import io.jsonwebtoken.MalformedJwtException;
@@ -38,7 +40,7 @@ public class RotatingSigningKeyResolver extends SigningKeyResolverAdapter {
     private long lastUpdate = 0L;
 
     private final HttpGet publicKeyEndpoint;
-    protected Map<String, JWTPublicKey> keyMap = new HashMap<>();
+    protected Map<String, JWTKey> keyMap = new HashMap<>();
 
     public RotatingSigningKeyResolver(String publicKeyEndpoint, boolean isSecurityService) {
         this.publicKeyEndpoint = new HttpGet(publicKeyEndpoint);
@@ -55,11 +57,11 @@ public class RotatingSigningKeyResolver extends SigningKeyResolverAdapter {
             throw new MalformedJwtException("Kid header parameter is missing");
         }
 
-        JWTPublicKey jwtPublicKey =  keyMap.get(kid);
+        JWTKey jwtPublicKey =  keyMap.get(kid);
 
         if (jwtPublicKey != null) {
             LOGGER.trace("Public key found [{}]", kid);
-            return jwtPublicKey.getPublicKey();
+            return jwtPublicKey.getKey();
         }
 
         LOGGER.trace("Cannot find public key [{}] trying to update cache", kid);
@@ -67,7 +69,7 @@ public class RotatingSigningKeyResolver extends SigningKeyResolverAdapter {
             jwtPublicKey =  keyMap.get(kid);
 
             if (jwtPublicKey != null) {
-                return jwtPublicKey.getPublicKey();
+                return jwtPublicKey.getKey();
             }
         } else {
             LOGGER.trace("Last cache refresh call has been less then {} seconds ago refresh skipped", TEN_SECONDS/1000);
@@ -89,7 +91,7 @@ public class RotatingSigningKeyResolver extends SigningKeyResolverAdapter {
             String response = LazyHttpCaller.call(
                     httpClient, publicKeyEndpoint, new ParkguidanceSuccessResponse(), 5);
 
-            Map<String, JWTPublicKey> newMap = parseEndpointResult(response);
+            Map<String, JWTKey> newMap = parseEndpointResult(response);
             lastUpdate = System.currentTimeMillis();
             LOGGER.debug("Updated last public key refresh call time stamp to [{}]", lastUpdate);
             hasChanged = !newMap.keySet().equals(keyMap.keySet());
@@ -108,19 +110,19 @@ public class RotatingSigningKeyResolver extends SigningKeyResolverAdapter {
         }
     }
 
-    protected Map<String, JWTPublicKey> parseEndpointResult(String resultString) {
+    protected Map<String, JWTKey> parseEndpointResult(String resultString) {
         try {
             JSONObject result = new JSONObject(new JSONTokener(resultString));
             int status = result.getInt("status");
             LOGGER.trace("Repose body status [{}]", status);
             if (status == 200) {
-                Map<String, JWTPublicKey> newMap = new HashMap<>();
+                Map<String, JWTKey> newMap = new HashMap<>();
                 JSONArray data = result.getJSONArray("data");
                 for (int i = 0; i < data.length(); i++) {
                     JSONObject jwtPublicKeyObject = data.getJSONObject(i);
 
 
-                    JWTPublicKey jwtPublicKey = new JWTPublicKey(
+                    JWTKey jwtPublicKey = new JWTPublicKey(
                             jwtPublicKeyObject.getString("kid"),
                             parseToPublicKey(jwtPublicKeyObject.getString("key")),
                             new Date(jwtPublicKeyObject.getLong("exp"))
