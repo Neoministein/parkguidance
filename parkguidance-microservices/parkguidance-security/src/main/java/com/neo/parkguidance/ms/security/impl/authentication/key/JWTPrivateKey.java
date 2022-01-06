@@ -5,8 +5,8 @@ import java.util.Date;
 
 public class JWTPrivateKey extends JWTKey{
 
-    public JWTPrivateKey(String id, PrivateKey publicKey, Date expirationDate) {
-        super(id, publicKey, expirationDate);
+    public JWTPrivateKey(String id, PrivateKey privateKey, Date expirationDate) {
+        super(id, privateKey, expirationDate);
     }
 
     @Override
