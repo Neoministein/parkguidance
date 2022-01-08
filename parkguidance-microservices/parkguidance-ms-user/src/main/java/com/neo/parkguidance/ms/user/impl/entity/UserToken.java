@@ -25,7 +25,7 @@ public class UserToken implements DataBaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = C_KEY, nullable = false, updatable = false)
+    @Column(name = C_KEY, nullable = false, unique = true, updatable = false)
     private String key;
 
     @Column(name = C_DESCRIPTION, nullable = false)
@@ -43,6 +43,15 @@ public class UserToken implements DataBaseEntity {
 
     @ManyToOne
     private RegisteredUser registeredUser;
+
+    public UserToken() {}
+
+    public UserToken(String description, TokenType type, Date expirationDate, RegisteredUser registeredUser) {
+        this.description = description;
+        this.type = type;
+        this.expirationDate = expirationDate;
+        this.registeredUser = registeredUser;
+    }
 
     public Long getId() {
         return id;

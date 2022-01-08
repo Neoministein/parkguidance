@@ -9,8 +9,6 @@ import java.util.List;
  */
 public class StringUtils {
 
-    public static final int HASH_LENGTH = 128;
-
     private StringUtils() {}
 
     /**
@@ -62,5 +60,4 @@ public class StringUtils {
         }
         return Arrays.asList(s.trim().split("\\s*" + c + "\\s*"));
     }
-
 }

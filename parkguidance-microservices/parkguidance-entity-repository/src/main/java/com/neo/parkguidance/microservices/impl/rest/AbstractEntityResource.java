@@ -5,7 +5,7 @@ import com.neo.parkguidance.framework.api.wrapper.entity.JSONEntityWrapper;
 import com.neo.parkguidance.framework.entity.DataBaseEntity;
 import com.neo.parkguidance.framework.impl.utils.StringUtils;
 import com.neo.parkguidance.framework.impl.validation.EntityValueValidationException;
-import com.neo.parkguidance.microservices.api.v1.RestAction;
+import com.neo.parkguidance.microservices.api.rest.RestAction;
 import com.neo.parkguidance.microservices.impl.validation.EntityValidationException;
 import org.json.JSONArray;
 import org.json.JSONException;

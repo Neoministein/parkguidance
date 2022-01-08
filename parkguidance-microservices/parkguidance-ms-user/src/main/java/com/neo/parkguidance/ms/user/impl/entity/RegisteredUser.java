@@ -1,6 +1,7 @@
 package com.neo.parkguidance.ms.user.impl.entity;
 
 import com.neo.parkguidance.ms.user.api.entity.DataBaseEntity;
+import com.neo.parkguidance.ms.user.impl.security.UserStatus;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
@@ -23,7 +24,7 @@ public class RegisteredUser implements DataBaseEntity {
     public static final String C_EMAIL_VERIFIED = "email_verified";
     public static final String C_SALT = "salt";
     public static final String C_PASSWORD = "password";
-    public static final String C_DEACTIVATED = "deactivated";
+    public static final String C_STATUS = "status";
     public static final String C_CREATE_ON = "created_on";
     public static final String C_DEACTIVATED_ON = "deactivated_on";
     public static final String C_PICTURE = "picture";
@@ -31,7 +32,7 @@ public class RegisteredUser implements DataBaseEntity {
     @Id
     @Column(name = DataBaseEntity.C_ID)
     @Type(type = "uuid-char")
-    private final UUID id = UUID.randomUUID();
+    private UUID id = UUID.randomUUID();
 
     @Size(max = 50)
     @Column(name = C_USERNAME, unique = true, nullable = false)
@@ -50,8 +51,8 @@ public class RegisteredUser implements DataBaseEntity {
     @Column(name = C_PASSWORD)
     private String password;
 
-    @Column(name = C_DEACTIVATED, nullable = false)
-    private Boolean deactivated = false;
+    @Column(name = C_STATUS, nullable = false)
+    private UserStatus userStatus = UserStatus.OK;
 
     @Column(name = C_CREATE_ON, updatable = false)
     private Date createdOn;
@@ -76,6 +77,10 @@ public class RegisteredUser implements DataBaseEntity {
 
     @OneToMany(mappedBy = TABLE_NAME, orphanRemoval = true)
     private List<LoginAttempt> loginAttempts = new ArrayList<>();
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
 
     public String getId() {
         return id.toString();
@@ -121,12 +126,12 @@ public class RegisteredUser implements DataBaseEntity {
         this.password = password;
     }
 
-    public Boolean getDeactivated() {
-        return deactivated;
+    public UserStatus getUserStatus() {
+        return userStatus;
     }
 
-    public void setDeactivated(Boolean deactivated) {
-        this.deactivated = deactivated;
+    public void setUserStatus(UserStatus userStatus) {
+        this.userStatus = userStatus;
     }
 
     public Date getCreatedOn() {

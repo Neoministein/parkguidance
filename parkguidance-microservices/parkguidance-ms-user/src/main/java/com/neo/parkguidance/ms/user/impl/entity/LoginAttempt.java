@@ -14,7 +14,7 @@ import java.util.Objects;
 public class LoginAttempt implements DataBaseEntity {
 
     public static final String TABLE_NAME = "loginAttempt";
-    public static final String C_TIME = "time";
+    public static final String C_TIME = "timestamp";
     public static final String C_FAILED = "failed";
     public static final String C_IP_ADDRESS = "ip_address";
     public static final String C_END_POINT = "end_point";
@@ -41,10 +41,12 @@ public class LoginAttempt implements DataBaseEntity {
 
     public LoginAttempt() {}
 
-    public LoginAttempt(Date time, String ipAddress, Boolean failed) {
+    public LoginAttempt(Date time, String ipAddress, Boolean failed, String endpoint, RegisteredUser registeredUser) {
         this.time = time;
         this.ipAddress = ipAddress;
         this.failed = failed;
+        this.endPoint = endpoint;
+        this.registeredUser = registeredUser;
     }
 
     public Long getId() {

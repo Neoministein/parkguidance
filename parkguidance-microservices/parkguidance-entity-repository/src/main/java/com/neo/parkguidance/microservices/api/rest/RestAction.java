@@ -1,4 +1,4 @@
-package com.neo.parkguidance.microservices.api.v1;
+package com.neo.parkguidance.microservices.api.rest;
 
 import javax.ws.rs.core.Response;
 

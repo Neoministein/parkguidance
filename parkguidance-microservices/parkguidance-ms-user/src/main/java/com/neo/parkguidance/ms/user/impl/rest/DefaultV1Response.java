@@ -9,47 +9,54 @@ public class DefaultV1Response {
 
     private DefaultV1Response() {}
 
-    protected static JSONObject defaultResponse(String content) {
+    public static JSONObject defaultResponse(int code, String context) {
         JSONObject responseMessage = new JSONObject();
-        responseMessage.put("status", 200);
+        responseMessage.put("status", code);
         responseMessage.put("apiVersion", "1.0");
-        responseMessage.put("context", content);
+        responseMessage.put("context", context);
         return responseMessage;
     }
 
     public static Response success(String context) {
-        return Response.ok().entity(defaultResponse(context).toString()).build();
+        return Response.ok().entity(defaultResponse(200, context).toString()).build();
     }
 
-    public static Response success(JSONArray data, String context) {
-        JSONObject responseMessage = defaultResponse(context);
+    public static Response success(String context ,JSONArray data) {
+        JSONObject responseMessage = defaultResponse(200 ,context);
         responseMessage.put("data", data);
 
         return Response.ok().entity(responseMessage.toString()).build();
     }
 
-    public static Response error(String message, String context) {
-        JSONObject response = defaultResponse(context);
-        response.put("error", errorObject(500, message));
+    public static Response error(int code, String context, String errorCode, String message) {
+        JSONObject response = defaultResponse(code, context);
+        response.put("error", errorObject(errorCode, message));
 
         return Response.ok().entity(response.toString()).build();
     }
 
-    public static Response error(JSONObject error, String context) {
-        JSONObject response = defaultResponse(context);
-        response.put("error", error);
+    public static Response error(int code, JSONObject error, String context) {
+        JSONObject response = defaultResponse(code, context);
+        response.put("errors", error);
 
         return Response.ok().entity(response.toString()).build();
     }
 
-    public static JSONObject errorObject(int code, Exception ex) {
-        return errorObject(code, ex.getMessage());
+    public static JSONObject errorObject(String errorCode, Exception ex) {
+        return errorObject(errorCode, ex.getMessage());
     }
 
-    public static JSONObject errorObject(int code, String message) {
+    public static JSONObject errorObject(String errorCode, String message) {
         JSONObject errorObject = new JSONObject();
-        errorObject.put("code", code);
+        errorObject.put("error", errorCode);
         errorObject.put("message", message);
         return errorObject;
+    }
+
+    public static JSONArray errorArray(String errorCode, String message) {
+        JSONObject errorObject = new JSONObject();
+        errorObject.put("error", errorCode);
+        errorObject.put("message", message);
+        return new JSONArray().put(errorObject);
     }
 }

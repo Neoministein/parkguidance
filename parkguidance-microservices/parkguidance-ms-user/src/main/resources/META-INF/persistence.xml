@@ -13,6 +13,7 @@
         <class>com.neo.parkguidance.ms.user.impl.entity.Role</class>
         <class>com.neo.parkguidance.ms.user.impl.entity.UserCredentials</class>
         <class>com.neo.parkguidance.ms.user.impl.entity.UserToken</class>
+        <class>com.neo.parkguidance.ms.user.impl.entity.KeyPair</class>
         
 
      <properties>

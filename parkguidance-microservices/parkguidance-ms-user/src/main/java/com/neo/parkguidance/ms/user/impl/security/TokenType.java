@@ -13,6 +13,11 @@ public enum TokenType {
     PARTIAL,
 
     /**
+     * A token which will be used to verify 3rd party services like E-Mail
+     */
+    VERIFICATION,
+
+    /**
      * A one time token which will be deleted after one use
      */
     ONE_TIME,

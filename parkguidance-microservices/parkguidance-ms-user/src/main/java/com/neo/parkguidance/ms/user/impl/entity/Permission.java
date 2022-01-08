@@ -41,6 +41,12 @@ public class Permission implements DataBaseEntity {
         this.name = name;
     }
 
+    public Permission() {}
+
+    public Permission(String name) {
+        this.name = name;
+    }
+
     @Override
     public Object getPrimaryKey() {
         return getId();

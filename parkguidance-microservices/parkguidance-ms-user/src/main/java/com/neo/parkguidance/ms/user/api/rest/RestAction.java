@@ -1,4 +1,4 @@
-package com.neo.parkguidance.ms.user.api;
+package com.neo.parkguidance.ms.user.api.rest;
 
 import javax.ws.rs.core.Response;
 
