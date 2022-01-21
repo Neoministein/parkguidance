@@ -10,7 +10,7 @@ The branch [Release-0.1](https://github.com/Neoministein/parkguidance/tree/Relea
 The project was further developed for a second school project for the VA (Vertiefungs arbeit), independent in-depth work.  
 The branch [Release-0.2](https://github.com/Neoministein/parkguidance/tree/release/0.2) was submitted as the finished project.
 
-##Website
+## Website
 
 ![Current homepage](docs/images/IndexPage.png)
 
