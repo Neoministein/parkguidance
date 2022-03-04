@@ -4,13 +4,13 @@ security:
               publicKeyEndpoint: http://localhost:8080/api/key/activePublicKeys
               isSecurityService: true
 server:
-    port: 8081
+    port: 8080
 javax:
     sql:
         DataSource:
             parkguidanceDataSource:
                 dataSourceClassName: org.postgresql.ds.PGSimpleDataSource
                 dataSource:
-                    url: jdbc:postgresql://localhost:5432/parkguidance-ms
-                    user: DBACC
-                    password: DBACC
+                    url: ${javax.persistence.jdbc.url}
+                    user: ${javax.persistence.jdbc.user}
+                    password: ${javax.persistence.jdbc.password}

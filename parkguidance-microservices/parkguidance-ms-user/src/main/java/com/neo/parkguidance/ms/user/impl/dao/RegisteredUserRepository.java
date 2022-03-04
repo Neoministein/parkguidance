@@ -10,7 +10,7 @@ import javax.persistence.PersistenceContext;
 @RequestScoped
 public class RegisteredUserRepository extends AbstractEntityDao<RegisteredUser> implements EntityDao<RegisteredUser> {
 
-    @PersistenceContext(unitName = "parkguidanceTestPersistence")
+    @PersistenceContext(unitName = "parkguidancePersistence")
     private EntityManager em;
 
     @Override
