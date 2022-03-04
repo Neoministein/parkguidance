@@ -58,7 +58,7 @@ public class LazyHttpCaller {
             }
             return message;
         } catch (IOException | ParseException | InternalLogicException ex) {
-            LOGGER.warn("Error while during lazy http call reason: {}",  ex.getMessage());
+            LOGGER.warn("Error while during lazy http call reason [{}]",  ex.getMessage());
             if (retries <= count) {
                 throw new InternalLogicException("Lazy http client cannot fulfill request");
             }

@@ -34,14 +34,13 @@ public class UserToken implements DataBaseEntity {
     @Enumerated(EnumType.STRING)
     @Column(name = C_TYPE, nullable = false, updatable = false)
     private TokenType type;
-
     @Column(name = C_CREATED_ON, nullable = false , updatable = false)
     private Date creationDate;
 
     @Column(name = C_EXPIRATION_DATE, updatable = false)
     private Date expirationDate;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     private RegisteredUser registeredUser;
 
     public UserToken() {}

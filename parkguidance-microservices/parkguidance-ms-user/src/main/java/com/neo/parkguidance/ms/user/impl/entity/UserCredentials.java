@@ -15,7 +15,7 @@ public class UserCredentials implements DataBaseEntity {
 
     @Id
     @Column(name = DataBaseEntity.C_ID, columnDefinition = "serial")
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = C_TYPE, nullable = false, updatable = false)
@@ -24,7 +24,7 @@ public class UserCredentials implements DataBaseEntity {
     @Column(name = C_CLIENT_ID, updatable = false)
     private String clientId;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     private RegisteredUser registeredUser;
 
     public Long getId() {

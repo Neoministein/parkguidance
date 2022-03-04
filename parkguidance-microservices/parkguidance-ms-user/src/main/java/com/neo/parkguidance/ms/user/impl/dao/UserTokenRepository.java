@@ -7,6 +7,7 @@ import com.neo.parkguidance.ms.user.api.dao.EntityDao;
 import javax.enterprise.context.RequestScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceException;
 import java.util.Date;
 
 @RequestScoped
@@ -26,11 +27,16 @@ public class UserTokenRepository extends AbstractEntityDao<UserToken> implements
 
     @Override
     public void create(UserToken entity) {
-        do {
-            RandomString randomString = new RandomString();
-            entity.setKey(randomString.nextString());
-        } while (findByColumn(UserToken.C_KEY, entity.getKey()) != null);
+        RandomString randomString = new RandomString();
         entity.setCreationDate(new Date());
-        super.create(entity);
+        for(int i = 0; i < 10;i++) {
+            try {
+                entity.setKey(randomString.nextString());
+                super.create(entity);
+                return;
+            } catch (PersistenceException ex) {
+                //TODO IMPL BETTER RETRY
+            }
+        }
     }
 }

@@ -71,7 +71,7 @@ public class KeyServiceImpl implements KeyService {
                 return;
             }
 
-            if (keyPairs.get(0).getExpirationDate().after(new Date())) {
+            if (keyPairs.get(0).getExpirationDate().before(new Date())) {
                 generateNewKeyPair();
                 checkToUpdate();
                 return;

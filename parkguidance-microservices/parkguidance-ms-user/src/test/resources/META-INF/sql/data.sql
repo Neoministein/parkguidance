@@ -1,0 +1,4 @@
+INSERT INTO public.registereduser(id, username ,email, status ,created_on, email_verified, password, salt) VALUES ('9cf9de30-9004-11ec-b909-0242ac120002','defaultUser','email@email.com' ,0 ,CURRENT_TIMESTAMP(),	true,'dde4c77ab58b69d54cadd41dedcbf4665ad4f84af6879ce9dbb0a6e7c5d72f60069c80bc9edd2801de4193606bafe3faa9ffa7852748bca809be6b40fe079119','123456');
+/* Password = password*/
+INSERT INTO public.usertoken(id, created_on, description, key, type, registereduser_id) VALUES ('0', CURRENT_TIMESTAMP(), 'The default authentication key for defaultUser', 'jF3P4MC', 'REFRESH', '9cf9de30-9004-11ec-b909-0242ac120002');
+/* TOKEN = jF3P4MC */

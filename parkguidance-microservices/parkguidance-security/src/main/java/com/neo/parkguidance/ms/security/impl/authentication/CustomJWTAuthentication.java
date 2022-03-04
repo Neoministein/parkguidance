@@ -2,6 +2,7 @@ package com.neo.parkguidance.ms.security.impl.authentication;
 
 import com.neo.parkguidance.common.impl.exception.InternalLogicException;
 import com.neo.parkguidance.common.impl.util.StringUtils;
+import com.neo.parkguidance.common.impl.util.KeyUtils;
 import io.helidon.config.Config;
 import io.helidon.security.*;
 import io.helidon.security.spi.AuthenticationProvider;
@@ -10,35 +11,47 @@ import io.helidon.security.spi.ProviderConfig;
 import io.helidon.security.spi.SynchronousProvider;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.SignatureException;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.JSONTokener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 
+import java.io.*;
 import java.lang.SecurityException;
 import java.lang.annotation.Annotation;
+import java.nio.charset.StandardCharsets;
+import java.security.Key;
 import java.util.*;
 
 public class CustomJWTAuthentication extends SynchronousProvider implements AuthenticationProvider, OutboundSecurityProvider {
 
     private static final Logger LOGGER =  LoggerFactory.getLogger(CustomJWTAuthentication.class);
 
-    private static final String KEY_ENDPOINT = "publicKeyEndpoint";
-    private static final String IS_SECURITY_SERVICE = "isSecurityService";
+    protected static final String KEY_ENDPOINT = "publicKeyEndpoint";
+    protected static final String IS_SECURITY_SERVICE = "isSecurityService";
+    protected static final String IS_INTEGRATION_TEST = "isIntegrationsTest";
 
     private Map<String, BlockedJWT> blockedJWTToken = new HashMap<>();
     private final JwtParser parser;
 
-    // For testing purposes
+    // For unit testing purposes
     protected CustomJWTAuthentication(SigningKeyResolver signingKeyResolver) {
         parser = Jwts.parserBuilder().setSigningKeyResolver(signingKeyResolver).build();
     }
 
     public CustomJWTAuthentication(Config config) {
-        String publicKeyEndpoint = config.get(KEY_ENDPOINT).as(String.class).get();
-        Boolean isSecurityService = config.get(IS_SECURITY_SERVICE).asBoolean().orElse(false);
-        parser = Jwts.parserBuilder()
-                .setSigningKeyResolver(new RotatingSigningKeyResolver(publicKeyEndpoint, isSecurityService))
-                .build();
+        boolean isIntegrationTest = config.get(IS_INTEGRATION_TEST).asBoolean().orElse(false);
+        if (!isIntegrationTest) {
+            String publicKeyEndpoint = config.get(KEY_ENDPOINT).as(String.class).get();
+            Boolean isSecurityService = config.get(IS_SECURITY_SERVICE).asBoolean().orElse(false);
+            parser = Jwts.parserBuilder().setSigningKeyResolver(new RotatingSigningKeyResolver(publicKeyEndpoint, isSecurityService))
+                    .build();
+        } else {
+            LOGGER.warn("The CustomJWTAuthentication provider has been started in integration test mode");
+            parser = Jwts.parserBuilder().setSigningKey(retrievePrivateKeyFromFile()).build();
+        }
 
         //TODO impl Websocket to get blcoked tockens
     }
@@ -159,12 +172,14 @@ public class CustomJWTAuthentication extends SynchronousProvider implements Auth
             return Collections.emptyMap();
         }
         Map<String, String> cookieMap = new HashMap<>();
-        for (String cookieContent: cookieList) {
-            try {
-                String[] cookie = cookieContent.split("=");
-                cookieMap.put(cookie[0], cookie[1]);
-            } catch (IndexOutOfBoundsException ex) {
-                LOGGER.debug("Illegal cookie pattern provided");
+        for (String cookieListEntry: cookieList) {
+            for (String cookieContent : cookieListEntry.split(";")) {
+                try {
+                    String[] cookie = cookieContent.split("=");
+                    cookieMap.put(cookie[0], cookie[1]);
+                } catch (IndexOutOfBoundsException ex) {
+                    LOGGER.debug("Illegal cookie pattern provided");
+                }
             }
         }
         return cookieMap;
@@ -176,5 +191,23 @@ public class CustomJWTAuthentication extends SynchronousProvider implements Auth
             LOGGER.info("Provided JWT Token has been marked as invalid");
             throw new ExpiredJwtException(header, claims, "JWT Token is marked as blocked");
         }
+    }
+
+    protected Key retrievePrivateKeyFromFile() {
+        try {
+            StringBuilder sb = new StringBuilder();
+            InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream("jwt-keys.json");
+            InputStreamReader streamReader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
+            BufferedReader reader = new BufferedReader(streamReader);
+            for (String line; (line = reader.readLine()) != null;) {
+                sb.append(line);
+            }
+
+            JSONObject jsonObject = new JSONObject(new JSONTokener(sb.toString()));
+            return KeyUtils.parseRSAPrivateKey(jsonObject.getString("private"));
+        } catch (NullPointerException | IOException | JSONException ex) {
+            LOGGER.error("Unable to retrieve private key from resources");
+        }
+        throw new InternalLogicException();
     }
 }

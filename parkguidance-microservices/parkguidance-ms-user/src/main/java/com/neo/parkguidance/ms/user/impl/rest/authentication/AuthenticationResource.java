@@ -13,25 +13,32 @@ import com.neo.parkguidance.ms.user.impl.security.TokenType;
 import com.neo.parkguidance.ms.user.impl.security.UserStatus;
 import com.neo.parkguidance.ms.user.impl.security.credentail.RegisteredCredentials;
 import com.neo.parkguidance.ms.user.impl.security.credentail.TokenCredentials;
+import io.helidon.security.SecurityContext;
+import io.helidon.security.annotations.Authenticated;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
+import javax.transaction.Transactional;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 @RequestScoped
-@Path("/api/authenticate")
+@Path(AuthenticationResource.RESOURCE_LOCATION)
 @Produces(MediaType.APPLICATION_JSON + "; charset=UTF-8")
 public class AuthenticationResource extends AbstractRestEndpoint {
 
-    private static final String CREDENTIALS = "/credentials";
-    private static final String TOKEN = "/token";
+    public static final String RESOURCE_LOCATION = "/api/authenticate";
+
+    public static final String P_CREDENTIALS = "/credentials";
+    public static final String P_TOKEN = "/token";
 
     @Inject
     JWTGeneratorService jwtGeneratorService;
@@ -39,25 +46,36 @@ public class AuthenticationResource extends AbstractRestEndpoint {
     @Inject
     CredentialsManagerService credentialsManagerService;
 
+    @GET
+    @Authenticated(optional = true)
+    public Response get(@Context SecurityContext securityContext) {
+        if (securityContext.isAuthenticated()) {
+            return Response.ok().entity("{ \"status\": 200}").build();
+        }
+
+        return Response.ok().entity("{ \"status\": 401}").build();
+    }
+
+
     @POST
-    @Path(CREDENTIALS)
+    @Path(P_CREDENTIALS)
+    @Transactional
     public Response credentials(String x) {
         RestAction action = () -> {
             JSONObject body = new JSONObject(new JSONTokener(x));
             RegisteredCredentials registeredCredentials = new RegisteredCredentials(
                     body.getString("identification"),
                     body.getString("password"),
-                    requestDetails.getRemoteAddress(),
-                    CREDENTIALS
+                    requestDetails.getRemoteAddress(), P_CREDENTIALS
             );
             RegisteredUser registeredUser = credentialsManagerService.retrieveUser(registeredCredentials);
             if (registeredUser == null) {
                 return AuthenticationResponse.error(
                         AuthenticationResponse.CREDENTIALS_INVALID,
-                        getContext(HttpMethod.POST, CREDENTIALS));
+                        getContext(HttpMethod.POST, P_CREDENTIALS));
             }
 
-            Response statusResponse = checkUserStatus(registeredUser.getUserStatus(), CREDENTIALS);
+            Response statusResponse = checkUserStatus(registeredUser.getUserStatus(), P_CREDENTIALS);
             if (statusResponse != null) {
                 return statusResponse;
             }
@@ -68,35 +86,35 @@ public class AuthenticationResource extends AbstractRestEndpoint {
                                 registeredUser,
                                 true,
                                 true)),
-                        getContext(HttpMethod.POST, CREDENTIALS));
+                        getContext(HttpMethod.POST, P_CREDENTIALS));
             }
             return DefaultV1Response.success(
-                    getContext(HttpMethod.POST, CREDENTIALS),
+                    getContext(HttpMethod.POST, P_CREDENTIALS),
                     new JSONArray().put(jwtGeneratorService.generateJWTResponse(
                             registeredUser,
                             true,
                             false)));
         };
-        return super.restCall(action, HttpMethod.POST ,CREDENTIALS);
+        return super.restCall(action, HttpMethod.POST , P_CREDENTIALS);
     }
 
     @POST
-    @Path(TOKEN)
+    @Path(P_TOKEN)
+    @Transactional
     public Response token(String x) {
         RestAction action = () -> {
             JSONObject body = new JSONObject(new JSONTokener(x));
             TokenCredentials registeredCredentials = new TokenCredentials(
                     body.getString("token"),
-                    requestDetails.getRemoteAddress(),
-                    TOKEN
+                    requestDetails.getRemoteAddress(), P_TOKEN
             );
             UserToken userToken = credentialsManagerService.retrieveUser(registeredCredentials);
             if (userToken == null) {
-                return AuthenticationResponse.error(0, getContext(HttpMethod.POST, TOKEN));
+                return AuthenticationResponse.error(0, getContext(HttpMethod.POST, P_TOKEN));
             }
             RegisteredUser registeredUser = userToken.getRegisteredUser();
 
-            Response statusResponse = checkUserStatus(registeredUser.getUserStatus(), TOKEN);
+            Response statusResponse = checkUserStatus(registeredUser.getUserStatus(), P_TOKEN);
             if (statusResponse != null) {
                 return statusResponse;
             }
@@ -108,7 +126,7 @@ public class AuthenticationResource extends AbstractRestEndpoint {
                                 registeredUser,
                                 false,
                                 true)),
-                        getContext(HttpMethod.POST, TOKEN)
+                        getContext(HttpMethod.POST, P_TOKEN)
                 );
             }
             if (TokenType.PARTIAL.equals(userToken.getType())) {
@@ -118,18 +136,18 @@ public class AuthenticationResource extends AbstractRestEndpoint {
                                 registeredUser,
                                 false,
                                 true)),
-                        getContext(HttpMethod.POST, TOKEN)
+                        getContext(HttpMethod.POST, P_TOKEN)
                 );
             }
 
             return DefaultV1Response.success(
-                    getContext(HttpMethod.POST, TOKEN),
+                    getContext(HttpMethod.POST, P_TOKEN),
                     new JSONArray().put(jwtGeneratorService.generateJWTResponse(
                             registeredUser,
                             false,
                             false)));
         };
-        return super.restCall(action, HttpMethod.POST, TOKEN);
+        return super.restCall(action, HttpMethod.POST, P_TOKEN);
     }
 
     protected Response checkUserStatus(UserStatus userStatus, String context) {
@@ -155,6 +173,6 @@ public class AuthenticationResource extends AbstractRestEndpoint {
 
     @Override
     protected String getClassURI() {
-        return "/api/authenticate";
+        return RESOURCE_LOCATION;
     }
 }

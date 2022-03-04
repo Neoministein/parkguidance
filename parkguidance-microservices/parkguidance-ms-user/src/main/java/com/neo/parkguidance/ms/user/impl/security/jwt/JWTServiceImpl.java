@@ -34,6 +34,7 @@ public class JWTServiceImpl implements JWTGeneratorService {
     @Override
     public JSONObject generateJWTResponse(RegisteredUser registeredUser, boolean generateToken,
             boolean restricted) {
+
         JSONObject jsonObject = new JSONObject();
 
         JWTKey jwtKey = keyService.getCurrentPrivateKey();

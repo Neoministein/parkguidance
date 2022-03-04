@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 import javax.ws.rs.core.Response;
 
 public abstract class AbstractRestEndpoint {
@@ -20,11 +21,13 @@ public abstract class AbstractRestEndpoint {
     @Inject
     protected RequestDetails requestDetails;
 
+    @Transactional
     public Response restCall(RestAction restAction, HttpMethod method, String context) {
         MDC.put("traceId", requestDetails.getRequestId());
         try {
             return restAction.run();
         } catch (JSONException ex) {
+            LOGGER.info("Invalid json format in the request body");
             return DefaultV1Response.error(
                     400,
                     getContext(method, context),
@@ -35,16 +38,16 @@ public abstract class AbstractRestEndpoint {
             LOGGER.error("A exception occurred during a rest call", ex);
             return DefaultV1Response.error(
                     500,
-                    E_INTERNAL_LOGIC,
                     getContext(method, context),
+                    E_INTERNAL_LOGIC,
                     "Internal server error please try again later"
                     );
         } catch (Exception ex) {
             LOGGER.error("A unexpected exception occurred during a rest call", ex);
             return DefaultV1Response.error(
                     500,
-                    E_INTERNAL_LOGIC,
                     getContext(method, context),
+                    E_INTERNAL_LOGIC,
                     "Internal server error please try again later"
                     );
         }

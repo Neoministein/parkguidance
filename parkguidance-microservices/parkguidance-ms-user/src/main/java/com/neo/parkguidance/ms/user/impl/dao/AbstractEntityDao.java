@@ -2,8 +2,6 @@ package com.neo.parkguidance.ms.user.impl.dao;
 
 import com.neo.parkguidance.ms.user.api.entity.DataBaseEntity;
 import com.neo.parkguidance.ms.user.api.dao.EntityDao;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -17,11 +15,8 @@ import java.util.*;
 @Transactional
 public abstract class AbstractEntityDao<T extends DataBaseEntity> implements EntityDao<T> {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractEntityDao.class);
-
     protected final Class<T> entityClass;
 
-    @Inject
     protected AbstractEntityDao(Class<T> entityClass) {
         this.entityClass = entityClass;
     }

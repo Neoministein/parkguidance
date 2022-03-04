@@ -1,0 +1,13 @@
+security:
+    providers:
+        - custom-jwt:
+              isIntegrationsTest: true
+javax:
+    sql:
+        DataSource:
+            parkguidanceTestDataSource:
+                dataSourceClassName: org.h2.jdbcx.JdbcDataSource
+                dataSource:
+                    url: jdbc:h2:mem:parkguidance;
+                    user: sa
+                    password: ""

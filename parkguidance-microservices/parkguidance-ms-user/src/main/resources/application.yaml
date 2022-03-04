@@ -1,16 +1,16 @@
 security:
     providers:
         - custom-jwt:
-              publicKeyEndpoint: localhost:8080/api/publicKey
+              publicKeyEndpoint: http://localhost:8080/api/key/activePublicKeys
               isSecurityService: true
 server:
-    port: 8080
+    port: 8081
 javax:
     sql:
         DataSource:
             parkguidanceDataSource:
                 dataSourceClassName: org.postgresql.ds.PGSimpleDataSource
                 dataSource:
-                    url: ${javax.persistence.jdbc.url}
-                    user: ${javax.persistence.jdbc.user}
-                    password: ${javax.persistence.jdbc.password}
+                    url: jdbc:postgresql://localhost:5432/parkguidance-ms
+                    user: DBACC
+                    password: DBACC

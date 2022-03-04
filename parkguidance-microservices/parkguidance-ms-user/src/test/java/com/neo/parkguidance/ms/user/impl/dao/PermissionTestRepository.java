@@ -1,14 +1,13 @@
 package com.neo.parkguidance.ms.user.impl.dao;
 
-import com.neo.parkguidance.ms.user.impl.entity.*;
-import com.neo.parkguidance.ms.user.api.dao.EntityDao;
-
 import javax.enterprise.context.RequestScoped;
+import javax.enterprise.inject.Specializes;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+@Specializes
 @RequestScoped
-public class RegisteredUserRepository extends AbstractEntityDao<RegisteredUser> implements EntityDao<RegisteredUser> {
+public class PermissionTestRepository extends PermissionRepository {
 
     @PersistenceContext(unitName = "parkguidanceTestPersistence")
     private EntityManager em;
@@ -18,7 +17,4 @@ public class RegisteredUserRepository extends AbstractEntityDao<RegisteredUser> 
         return em;
     }
 
-    public RegisteredUserRepository() {
-        super(RegisteredUser.class);
-    }
 }

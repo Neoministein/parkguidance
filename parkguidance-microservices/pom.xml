@@ -24,6 +24,31 @@
         <mockito.core.version>3.12.4</mockito.core.version>
     </properties>
 
+    <profiles>
+        <profile>
+            <id>integration</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <configuration>
+                            <!-- the 2gb of memory are needed by the tests of resource optimization, since they load a 30mb xml file for testdata -->
+                            <argLine>-Xms384m -Xmx4g -XX:+HeapDumpOnOutOfMemoryError -XX:-OmitStackTraceInFastThrow</argLine>
+                            <includes>
+                                <include>**/Test*.java</include>
+                                <include>**/*Test.java</include>
+                                <include>**/*TestCase.java</include>
+                                <include>**/*IT.java</include>
+                            </includes>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
+
     <modules>
         <module>../parkguidance-components</module>
         <module>parkguidance-security</module>

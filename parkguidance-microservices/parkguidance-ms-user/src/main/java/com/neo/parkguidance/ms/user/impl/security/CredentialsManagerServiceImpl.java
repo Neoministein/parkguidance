@@ -42,12 +42,12 @@ public class CredentialsManagerServiceImpl implements CredentialsManagerService 
     @Override
     public RegisteredUser retrieveUser(RegisteredCredentials credentials) {
         LOGGER.info("Retrieving a registered user");
-        RegisteredUser registeredUser = userDao.findOneByColumn(RegisteredUser.C_USERNAME, credentials.getIdentification());
-
         if (StringUtils.isEmpty(credentials.getIdentification()) || StringUtils.isEmpty(credentials.getPassword())) {
             LOGGER.info("Retrieving registered user failed a provided string is null");
             return null;
         }
+
+        RegisteredUser registeredUser = userDao.findOneByColumn(RegisteredUser.C_USERNAME, credentials.getIdentification());
 
         if (registeredUser == null) {
             registeredUser = userDao.findOneByColumn(RegisteredUser.C_EMAIL, credentials.getIdentification());
@@ -98,18 +98,14 @@ public class CredentialsManagerServiceImpl implements CredentialsManagerService 
     }
 
     protected void createLoginAttempt(AbstractLoginCredentials loginCredentials, RegisteredUser registeredUser, boolean failed) {
-        LoginAttempt loginAttempt = new LoginAttempt(
-                loginCredentials.getTime(),
-                loginCredentials.getIpAddress(),
-                failed,
-                loginCredentials.getEndPoint(),
-                registeredUser
-        );
+        LoginAttempt loginAttempt = new LoginAttempt(loginCredentials.getTime(), loginCredentials.getIpAddress(),
+                failed, loginCredentials.getEndPoint(), registeredUser);
 
         if (failed && registeredUser != null && UserStatus.OK.equals(registeredUser.getUserStatus())) {
             checkForToManyAuth(registeredUser);
         }
         loginAttemptDao.create(loginAttempt);
+
     }
 
     protected void checkForToManyAuth(RegisteredUser registeredUser) {

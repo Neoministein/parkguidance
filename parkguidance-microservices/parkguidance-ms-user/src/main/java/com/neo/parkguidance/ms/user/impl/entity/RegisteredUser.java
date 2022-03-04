@@ -75,7 +75,7 @@ public class RegisteredUser implements DataBaseEntity {
     @OneToMany(mappedBy = TABLE_NAME, orphanRemoval = true)
     private List<UserCredentials> userCredentials = new ArrayList<>();
 
-    @OneToMany(mappedBy = TABLE_NAME, orphanRemoval = true)
+    @OneToMany(mappedBy = TABLE_NAME, orphanRemoval = true, cascade = CascadeType.MERGE)
     private List<LoginAttempt> loginAttempts = new ArrayList<>();
 
     public void setId(UUID id) {

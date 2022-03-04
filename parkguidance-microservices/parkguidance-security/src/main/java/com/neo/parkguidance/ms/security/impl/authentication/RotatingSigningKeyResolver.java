@@ -5,6 +5,7 @@ import com.neo.parkguidance.common.impl.http.LazyHttpCaller;
 import com.neo.parkguidance.common.impl.http.verify.ParkguidanceSuccessResponse;
 import com.neo.parkguidance.ms.security.impl.authentication.key.JWTKey;
 import com.neo.parkguidance.ms.security.impl.authentication.key.JWTPublicKey;
+import com.neo.parkguidance.common.impl.util.KeyUtils;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwsHeader;
 import io.jsonwebtoken.MalformedJwtException;
@@ -22,12 +23,6 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.security.Key;
-import java.security.KeyFactory;
-import java.security.NoSuchAlgorithmException;
-import java.security.PublicKey;
-import java.security.spec.InvalidKeySpecException;
-import java.security.spec.X509EncodedKeySpec;
-import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -124,7 +119,7 @@ public class RotatingSigningKeyResolver extends SigningKeyResolverAdapter {
 
                     JWTKey jwtPublicKey = new JWTPublicKey(
                             jwtPublicKeyObject.getString("kid"),
-                            parseToPublicKey(jwtPublicKeyObject.getString("key")),
+                            KeyUtils.parseRSAPublicKey(jwtPublicKeyObject.getString("key")),
                             new Date(jwtPublicKeyObject.getLong("exp"))
                     );
 
@@ -138,20 +133,6 @@ public class RotatingSigningKeyResolver extends SigningKeyResolverAdapter {
         } catch (JSONException ex) {
             LOGGER.error("Cannot parse json result from PublicKey Endpoint");
             throw new InternalLogicException("Cannot parse json result from PublicKey Endpoint");
-        }
-    }
-
-    protected PublicKey parseToPublicKey(String key) {
-        try {
-            X509EncodedKeySpec spec = new X509EncodedKeySpec(Base64.getDecoder().decode(key));
-            KeyFactory kf = KeyFactory.getInstance("RSA");
-            return kf.generatePublic(spec);
-        } catch (NoSuchAlgorithmException ex) {
-            throw new InternalLogicException("Invalid public key parsing key format");
-        } catch (InvalidKeySpecException ex) {
-            throw new InternalLogicException("The public key provided by the PublicKey Endpoint cannot be parsed to a key");
-        } catch (IllegalArgumentException ex) {
-            throw new InternalLogicException("The public key provided by the PublicKey Endpoint is not Base64 encoded");
         }
     }
 }

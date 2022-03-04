@@ -20,7 +20,7 @@ public class Role implements DataBaseEntity {
     public static final String C_NAME = "name";
 
     @Id
-    @Column(name = DataBaseEntity.C_ID, columnDefinition = "serial")
+    @Column(name = DataBaseEntity.C_ID/*,  columnDefinition = "serial" */)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 

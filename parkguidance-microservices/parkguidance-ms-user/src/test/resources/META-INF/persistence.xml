@@ -4,9 +4,10 @@
              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
              xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence
                                  http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd">
-    <persistence-unit name="parkguidancePersistence" transaction-type="JTA">
+
+    <persistence-unit name="parkguidanceTestPersistence" transaction-type="JTA">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
-        <jta-data-source>parkguidanceDataSource</jta-data-source>
+        <jta-data-source>parkguidanceTestDataSource</jta-data-source>
         <class>com.neo.parkguidance.ms.user.impl.entity.RegisteredUser</class>
         <class>com.neo.parkguidance.ms.user.impl.entity.LoginAttempt</class>
         <class>com.neo.parkguidance.ms.user.impl.entity.Permission</class>
@@ -15,12 +16,12 @@
         <class>com.neo.parkguidance.ms.user.impl.entity.UserToken</class>
         <class>com.neo.parkguidance.ms.user.impl.entity.KeyPair</class>
 
-
         <properties>
-            <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
-            <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL82Dialect" />
+            <property name="javax.persistence.jdbc.driver" value="org.h2.Driver"/>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect" />
 
-            <property name="hibernate.hbm2ddl.auto" value="update" />
+            <property name="javax.persistence.schema-generation.database.action" value="drop-and-create" />
+            <property name="javax.persistence.sql-load-script-source" value="/META-INF/sql/data.sql" />
             <property name="hibernate.show_sql" value="false"/>
             <property name="hibernate.format_sql" value="false"/>
         </properties>
