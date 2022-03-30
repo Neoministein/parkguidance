@@ -24,7 +24,6 @@ class AuthenticationResourceIT extends AbstractIntegrationTest {
 
     @Test
     void invalidJSONTest() {
-        System.out.println();
         Entity<String> content = Entity.entity("{}", MediaType.APPLICATION_JSON_TYPE);
         Response response = webTarget.path(AuthenticationResource.RESOURCE_LOCATION + AuthenticationResource.P_CREDENTIALS).request().method("POST", content);
 
