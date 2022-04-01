@@ -17,8 +17,8 @@
         <class>com.neo.parkguidance.ms.user.impl.entity.KeyPair</class>
 
         <properties>
-            <property name="javax.persistence.jdbc.driver" value="org.h2.Driver"/>
-            <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect" />
+            <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL82Dialect" />
 
             <property name="javax.persistence.schema-generation.database.action" value="drop-and-create" />
             <property name="javax.persistence.sql-load-script-source" value="/META-INF/sql/data.sql" />

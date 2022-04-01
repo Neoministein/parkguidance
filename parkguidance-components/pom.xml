@@ -55,11 +55,6 @@
 
     <modules>
         <module>parkguidance-common</module>
-        <module>parkguidance-framework</module>
-
-        <module>parkguidance-parkdata</module>
-        <module>parkguidance-gcs</module>
-        <module>parkguidance-elastic</module>
     </modules>
 
 </project>

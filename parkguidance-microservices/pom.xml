@@ -52,7 +52,6 @@
     <modules>
         <module>../parkguidance-components</module>
         <module>parkguidance-security</module>
-        <module>parkguidance-entity-repository</module>
         <module>parkguidance-ms-user</module>
     </modules>
 </project>

@@ -1,10 +1,10 @@
 version: '3'
 
 services:
-  parkguidance-entity-repository:
+  parkguidance-ms-user:
     build:
-      context: .
-      dockerfile: Dockerfile
+      context: ../..
+      dockerfile: parkguidance-microservices/parkguidance-ms-user/Dockerfile
     ports:
     - 8080:8080
     - 5432:5432

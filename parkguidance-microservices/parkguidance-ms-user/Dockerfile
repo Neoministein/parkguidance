@@ -22,9 +22,9 @@ FROM openjdk:11-jre-slim
 WORKDIR /parkguidance
 
 # Copy the binary built in the 1st stage
-COPY --from=build /parkguidance/parkguidance-microservices/parkguidance-entity-repository/target/parkguidance-user.jar ./
-COPY --from=build /parkguidance/parkguidance-microservices/parkguidance-entity-repository/target/libs ./libs
+COPY --from=build /parkguidance/parkguidance-microservices/parkguidance-ms-user/target/parkguidance-ms-user.jar ./
+COPY --from=build /parkguidance/parkguidance-microservices/parkguidance-ms-user/target/libs ./libs
 
-CMD ["java", "-jar", "parkguidance-user.jar"]
+CMD ["java", "-jar", "parkguidance-ms-user.jar"]
 
 EXPOSE 8080
