@@ -1,5 +1,6 @@
 package com.neo.parkguidance.common.impl.http.verify;
 
+import com.neo.parkguidance.common.api.http.ResponseFormatVerification;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;

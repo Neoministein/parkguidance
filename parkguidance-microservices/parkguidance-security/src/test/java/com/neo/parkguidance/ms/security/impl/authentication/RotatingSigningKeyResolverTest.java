@@ -1,7 +1,7 @@
 package com.neo.parkguidance.ms.security.impl.authentication;
 
 import com.neo.parkguidance.common.impl.http.LazyHttpCaller;
-import com.neo.parkguidance.common.impl.http.verify.ResponseFormatVerification;
+import com.neo.parkguidance.common.api.http.ResponseFormatVerification;
 import com.neo.parkguidance.ms.security.impl.authentication.key.JWTKey;
 import com.neo.parkguidance.ms.security.impl.authentication.key.JWTPublicKey;
 import io.jsonwebtoken.Claims;

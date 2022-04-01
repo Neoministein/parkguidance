@@ -2,7 +2,7 @@ package com.neo.parkguidance.common.impl.http;
 
 import com.neo.parkguidance.common.api.action.Action;
 import com.neo.parkguidance.common.impl.exception.InternalLogicException;
-import com.neo.parkguidance.common.impl.http.verify.ResponseFormatVerification;
+import com.neo.parkguidance.common.api.http.ResponseFormatVerification;
 import com.neo.parkguidance.common.impl.util.LazyAction;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -10,8 +10,6 @@ import org.apache.http.ParseException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.util.EntityUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 

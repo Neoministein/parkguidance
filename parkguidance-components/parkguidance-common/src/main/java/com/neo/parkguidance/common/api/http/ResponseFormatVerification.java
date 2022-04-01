@@ -1,4 +1,4 @@
-package com.neo.parkguidance.common.impl.http.verify;
+package com.neo.parkguidance.common.api.http;
 
 public interface ResponseFormatVerification {
 
