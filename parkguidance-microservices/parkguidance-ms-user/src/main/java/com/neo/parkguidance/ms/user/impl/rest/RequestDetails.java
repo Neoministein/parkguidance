@@ -23,4 +23,8 @@ public class RequestDetails {
     public String getRequestId() {
         return securityContext.id();
     }
+
+    public boolean isInRole(String role) {
+        return securityContext.isUserInRole(role);
+    }
 }

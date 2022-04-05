@@ -1,6 +1,8 @@
 package com.neo.parkguidance.ms.user.impl.utils;
 
 import com.neo.parkguidance.common.impl.exception.InternalLogicException;
+import com.neo.parkguidance.ms.security.impl.authentication.key.JWTPrivateKey;
+import com.neo.parkguidance.ms.security.impl.authentication.key.JWTPublicKey;
 import com.neo.parkguidance.ms.user.impl.entity.KeyPair;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
@@ -15,6 +17,20 @@ import java.util.Date;
 public class KeyPairUtils {
 
     private KeyPairUtils() {}
+
+    public static JWTPrivateKey parseToJWTPrivateKey(KeyPair keyPair) {
+        return new JWTPrivateKey(
+                keyPair.getId().toString(),
+                KeyPairUtils.getPrivateKey(keyPair),
+                keyPair.getExpirationDate());
+    }
+
+    public static JWTPublicKey parseToJWTPublicKey(KeyPair keyPair) {
+        return new JWTPublicKey(
+                keyPair.getId().toString(),
+                KeyPairUtils.getPublicKey(keyPair),
+                keyPair.getExpirationDate());
+    }
 
     public static KeyPair generateNewKeyPair(Date expirationDate) {
         java.security.KeyPair rsaKeyPair = Keys.keyPairFor(SignatureAlgorithm.RS256);

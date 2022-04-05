@@ -8,9 +8,14 @@ import java.util.List;
 public interface KeyService {
 
     /**
-     * Generates a new key pair
+     * Relieve current main key
      */
-    void generateNewKeyPair();
+    void relieveCurrentPrivateKey();
+
+    /**
+     * Revokes the current active private keys and generates a new key pair
+     */
+    void revokeActivePrivateKeys();
 
 
     /**

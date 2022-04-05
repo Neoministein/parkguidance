@@ -1,7 +1,7 @@
 security:
     providers:
         - custom-jwt:
-              publicKeyEndpoint: http://localhost:8080/api/key/activePublicKeys
+              publicKeyEndpoint: http://localhost:8080/api/key/active
               isSecurityService: true
 server:
     port: 8080

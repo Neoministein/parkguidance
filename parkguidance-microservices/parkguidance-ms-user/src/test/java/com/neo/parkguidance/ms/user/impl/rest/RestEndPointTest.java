@@ -8,6 +8,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
+
 class RestEndPointTest {
 
     AbstractRestEndpoint subject;
@@ -45,10 +46,10 @@ class RestEndPointTest {
     }
 
     @Test
-    void handlesIcExceptionTest() {
+    void handlesExceptionTest() {
         //Arrange
         RestAction restAction = () -> {
-            throw new IllegalArgumentException("");
+            throw new RuntimeException("");
         };
         //Act / Assert
         Assertions.assertDoesNotThrow(() -> subject.restCall(restAction, HttpMethod.POST,""));

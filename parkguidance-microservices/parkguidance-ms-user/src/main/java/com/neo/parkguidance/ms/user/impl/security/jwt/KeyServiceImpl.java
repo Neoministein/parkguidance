@@ -22,6 +22,10 @@ public class KeyServiceImpl implements KeyService {
             KeyPair.C_EXPIRATION_DATE, false
     );
 
+    private static final Map<String, Object> ENABLED_KEYS = Map.of(
+            KeyPair.C_DISABLED, false
+    );
+
     private long lastUpdate = 0;
     private JWTPrivateKey currentPrivateKey;
     private List<JWTPublicKey> currentPublicKey = new ArrayList<>();
@@ -35,12 +39,18 @@ public class KeyServiceImpl implements KeyService {
     }
 
     @Override
-    public void generateNewKeyPair() {
+    public void relieveCurrentPrivateKey() {
+        createKeyPair();
+        update();
+    }
+
+    @Override
+    public void revokeActivePrivateKeys() {
         for (KeyPair keyPair: keyPairDao.findByColumn(KeyPair.C_DISABLED, false)) {
-            keyPair.setDisabled(true);
-            keyPairDao.edit(keyPair);
+            revokeKey(keyPair);
         }
         createKeyPair();
+        update();
     }
 
     @Override
@@ -63,36 +73,40 @@ public class KeyServiceImpl implements KeyService {
 
     protected void checkToUpdate() {
         if (lastUpdate < System.currentTimeMillis()) {
-            List<KeyPair> keyPairs = keyPairDao.findByColumn(Collections.emptyMap() ,CHECK_UPDATE_SORT_ORDER,0,3);
-
-            if (keyPairs.isEmpty() || keyPairs.get(0).getDisabled().booleanValue()) {
-                createKeyPair();
-                checkToUpdate();
-                return;
-            }
-
-            if (keyPairs.get(0).getExpirationDate().before(new Date())) {
-                generateNewKeyPair();
-                checkToUpdate();
-                return;
-            }
-
-            List<JWTPublicKey> publicKeyList = new ArrayList<>();
-            for (KeyPair keyPair: keyPairs) {
-                publicKeyList.add(new JWTPublicKey(
-                        keyPair.getId().toString(),
-                        KeyPairUtils.getPublicKey(keyPair),
-                        keyPair.getExpirationDate()));
-            }
-
-            this.currentPublicKey = publicKeyList;
-            currentPrivateKey = new JWTPrivateKey(
-                    keyPairs.get(0).getId().toString(),
-                    KeyPairUtils.getPrivateKey(keyPairs.get(0)),
-                    keyPairs.get(0).getExpirationDate());
-
-
-            lastUpdate = System.currentTimeMillis() + TIME_TO_UPDATE;
+            update();
         }
+    }
+
+    protected void update() {
+        List<KeyPair> keyPairs = keyPairDao.findByColumn(ENABLED_KEYS, CHECK_UPDATE_SORT_ORDER,0,3);
+
+        if (keyPairs.isEmpty()) {
+            createKeyPair();
+            update();
+            return;
+        }
+
+        for (KeyPair keyPair: keyPairs) {
+            if (keyPair.getExpirationDate().before(new Date())) {
+                revokeKey(keyPair);
+                update();
+            }
+
+        }
+
+        List<JWTPublicKey> publicKeyList = new ArrayList<>();
+        for (KeyPair keyPair: keyPairs) {
+            publicKeyList.add(KeyPairUtils.parseToJWTPublicKey(keyPair));
+        }
+
+        this.currentPublicKey = publicKeyList;
+        currentPrivateKey = KeyPairUtils.parseToJWTPrivateKey(keyPairs.get(0));
+
+        lastUpdate = System.currentTimeMillis() + TIME_TO_UPDATE;
+    }
+
+    protected void revokeKey(KeyPair keyPair) {
+        keyPair.setDisabled(true);
+        keyPairDao.edit(keyPair);
     }
 }

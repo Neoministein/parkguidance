@@ -44,11 +44,9 @@ class AuthenticationResourceIT extends AbstractIntegrationTest {
         Entity<String> content = Entity.entity(requestBody.toString(), MediaType.APPLICATION_JSON_TYPE);
         Response response = webTarget.path(AuthenticationResource.RESOURCE_LOCATION + AuthenticationResource.P_CREDENTIALS).request().method("POST", content);
 
-        Assertions.assertEquals(200, response.getStatus());
-        JSONObject responseBody = new JSONObject(new JSONTokener(response.readEntity(String.class)));
+        JSONObject responseBody = validateResponse(response,401);
         JSONObject errorObject = responseBody.getJSONObject("error");
 
-        Assertions.assertEquals(401, responseBody.getInt("status"));
         Assertions.assertEquals("pgs/auth/001", errorObject.getString("error"));
     }
 
@@ -60,10 +58,7 @@ class AuthenticationResourceIT extends AbstractIntegrationTest {
         Entity<String> content = Entity.entity(requestBody.toString(), MediaType.APPLICATION_JSON_TYPE);
         Response response = webTarget.path(AuthenticationResource.RESOURCE_LOCATION + AuthenticationResource.P_CREDENTIALS).request().method("POST", content);
 
-
-        Assertions.assertEquals(200, response.getStatus());
-        JSONObject responseBody = new JSONObject(new JSONTokener(response.readEntity(String.class)));
-        Assertions.assertEquals(200, responseBody.getInt("status"));
+        JSONObject responseBody = validateResponse(response);
         JSONArray data = responseBody.getJSONArray("data");
         Assertions.assertNotNull(data.getJSONObject(0).getString("jwt"));
     }
@@ -76,9 +71,7 @@ class AuthenticationResourceIT extends AbstractIntegrationTest {
         Response response = webTarget.path(AuthenticationResource.RESOURCE_LOCATION + AuthenticationResource.P_TOKEN).request().method("POST", content);
 
 
-        Assertions.assertEquals(200, response.getStatus());
-        JSONObject responseBody = new JSONObject(new JSONTokener(response.readEntity(String.class)));
-        Assertions.assertEquals(200, responseBody.getInt("status"));
+        JSONObject responseBody = validateResponse(response);
         JSONArray data = responseBody.getJSONArray("data");
         Assertions.assertNotNull(data.getJSONObject(0).getString("jwt"));
     }
@@ -91,9 +84,7 @@ class AuthenticationResourceIT extends AbstractIntegrationTest {
         Response response = webTarget.path(AuthenticationResource.RESOURCE_LOCATION + AuthenticationResource.P_TOKEN).request().method("POST", content);
 
 
-        Assertions.assertEquals(200, response.getStatus());
-        JSONObject responseBody = new JSONObject(new JSONTokener(response.readEntity(String.class)));
-        Assertions.assertEquals(401, responseBody.getInt("status"));
+        JSONObject responseBody = validateResponse(response,401);
         JSONObject errorObject = responseBody.getJSONObject("error");
 
         Assertions.assertEquals(401, responseBody.getInt("status"));
@@ -108,9 +99,7 @@ class AuthenticationResourceIT extends AbstractIntegrationTest {
                 .header("Authorization", "Bearer " + jwt)
                 .method("GET");
 
-        Assertions.assertEquals(200, response.getStatus());
-        JSONObject responseBody = new JSONObject(new JSONTokener(response.readEntity(String.class)));
-        Assertions.assertEquals(200, responseBody.getInt("status"));
+       validateResponse(response);
     }
 
     @Test
@@ -121,9 +110,7 @@ class AuthenticationResourceIT extends AbstractIntegrationTest {
                 .cookie("JWT", jwt)
                 .method("GET");
 
-        Assertions.assertEquals(200, response.getStatus());
-        JSONObject responseBody = new JSONObject(new JSONTokener(response.readEntity(String.class)));
-        Assertions.assertEquals(200, responseBody.getInt("status"));
+        validateResponse(response);
     }
 
     @Test
@@ -132,8 +119,6 @@ class AuthenticationResourceIT extends AbstractIntegrationTest {
                 .header("Authorization", "jwt")
                 .method("GET");
 
-        Assertions.assertEquals(200, response.getStatus());
-        JSONObject responseBody = new JSONObject(new JSONTokener(response.readEntity(String.class)));
-        Assertions.assertEquals(401, responseBody.getInt("status"));
+        validateResponse(response,401);
     }
 }

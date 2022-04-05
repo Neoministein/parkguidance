@@ -9,10 +9,11 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.TestInstance;
 
 import javax.enterprise.context.RequestScoped;
+import javax.ws.rs.core.Response;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -29,14 +30,9 @@ import java.util.List;
 @AddBean( value = RoleTestRepository.class, scope = RequestScoped.class)
 @AddBean( value = UserCredentialsTestRepository.class, scope = RequestScoped.class)
 @AddBean( value = UserTokenTestRepository.class, scope = RequestScoped.class)
-
 public abstract class AbstractIntegrationTest {
 
     private static PrivateKey privateKey = null;
-
-    protected String getDefaultUserToken() {
-        return "jF3P4MC";
-    }
 
    @BeforeAll
     static void getPrivateKey() {
@@ -70,5 +66,16 @@ public abstract class AbstractIntegrationTest {
 
     protected String getValidJWTToken() {
         return getValidJWTToken(List.of());
+    }
+
+    protected JSONObject validateResponse(Response response) {
+        return validateResponse(response, 200);
+    }
+
+    protected JSONObject validateResponse(Response response, int code) {
+        Assertions.assertEquals(200, response.getStatus());
+        JSONObject responseBody = new JSONObject(new JSONTokener(response.readEntity(String.class)));
+        Assertions.assertEquals(code, responseBody.getInt("status"));
+        return responseBody;
     }
 }
