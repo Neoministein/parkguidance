@@ -8,7 +8,6 @@ import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 
 import javax.inject.Inject;
-import javax.transaction.Transactional;
 import javax.ws.rs.core.Response;
 import java.util.List;
 
@@ -22,14 +21,13 @@ public abstract class AbstractRestEndpoint {
     @Inject
     protected RequestDetails requestDetails;
 
-    @Transactional
     public Response restCall(RestAction restAction, HttpMethod method, String context) {
         return restCall(restAction, method, context, List.of());
     }
 
-    @Transactional
     public Response restCall(RestAction restAction, HttpMethod method, String context, List<String> requiredRoles) {
         MDC.put("traceId", requestDetails.getRequestId());
+        LOGGER.debug("{}", getContext(method, context));
 
         if (!authorized(requiredRoles)) {
             return DefaultV1Response.error(
@@ -41,7 +39,7 @@ public abstract class AbstractRestEndpoint {
         try {
             return restAction.run();
         } catch (JSONException ex) {
-            LOGGER.info("Invalid json format in the request body");
+            LOGGER.debug("Invalid json format in the request body");
             return DefaultV1Response.error(
                     400,
                     getContext(method, context),

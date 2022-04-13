@@ -40,6 +40,16 @@ public class AuthenticationResource extends AbstractRestEndpoint {
     public static final String P_CREDENTIALS = "/credentials";
     public static final String P_TOKEN = "/token";
 
+    protected static final JSONObject E_TOKEN_INVALID =         DefaultV1Response.errorObject("pgs/auth/000", "Provided token invalid");
+    protected static final JSONObject E_AUTH_FAILED =           DefaultV1Response.errorObject("pgs/auth/001", "Credentials authentication failed");
+    protected static final JSONObject E_ACC_DEACTIVATED =       DefaultV1Response.errorObject("pgs/auth/002", "This account is deactivated");
+    protected static final JSONObject E_TOO_MANY_AUTH =         DefaultV1Response.errorObject("pgs/auth/003", "To many failed authentication attempts");
+    protected static final JSONObject E_PASS_RESET_REQUIRED =   DefaultV1Response.errorObject("pgs/auth/004", "This account requires a password reset");
+
+    protected static final JSONObject E_UNVERIFIED_MAIL =       DefaultV1Response.errorObject("pgs/auth/005", "Unverified email");
+    protected static final JSONObject E_PARTIAL_LOGIN =         DefaultV1Response.errorObject("pgs/auth/006", "Provided partial login token");
+
+
     @Inject
     JWTGeneratorService jwtGeneratorService;
 
@@ -70,9 +80,7 @@ public class AuthenticationResource extends AbstractRestEndpoint {
             );
             RegisteredUser registeredUser = credentialsManagerService.retrieveUser(registeredCredentials);
             if (registeredUser == null) {
-                return AuthenticationResponse.error(
-                        AuthenticationResponse.CREDENTIALS_INVALID,
-                        getContext(HttpMethod.POST, P_CREDENTIALS));
+                return DefaultV1Response.error(401, E_AUTH_FAILED, getContext(HttpMethod.POST, P_CREDENTIALS));
             }
 
             Response statusResponse = checkUserStatus(registeredUser.getUserStatus(), P_CREDENTIALS);
@@ -80,12 +88,9 @@ public class AuthenticationResource extends AbstractRestEndpoint {
                 return statusResponse;
             }
             if (!registeredUser.getEmailVerified().booleanValue()) {
-                return AuthenticationResponse.partialSuccess(
-                        AuthenticationResponse.UNVERIFIED_EMAIL,
-                        new JSONArray().put(jwtGeneratorService.generateJWTResponse(
-                                registeredUser,
-                                true,
-                                true)),
+                return DefaultV1Response.partialSuccess(
+                        202, E_UNVERIFIED_MAIL,
+                        new JSONArray().put(jwtGeneratorService.generateJWTResponse(registeredUser,true,true)),
                         getContext(HttpMethod.POST, P_CREDENTIALS));
             }
             return DefaultV1Response.success(
@@ -110,7 +115,7 @@ public class AuthenticationResource extends AbstractRestEndpoint {
             );
             UserToken userToken = credentialsManagerService.retrieveUser(registeredCredentials);
             if (userToken == null) {
-                return AuthenticationResponse.error(0, getContext(HttpMethod.POST, P_TOKEN));
+                return DefaultV1Response.error(401, E_TOKEN_INVALID, getContext(HttpMethod.POST, P_TOKEN));
             }
             RegisteredUser registeredUser = userToken.getRegisteredUser();
 
@@ -120,24 +125,17 @@ public class AuthenticationResource extends AbstractRestEndpoint {
             }
 
             if (!registeredUser.getEmailVerified().booleanValue()) {
-                return AuthenticationResponse.partialSuccess(
-                        5,
-                        new JSONArray().put(jwtGeneratorService.generateJWTResponse(
-                                registeredUser,
-                                false,
-                                true)),
-                        getContext(HttpMethod.POST, P_TOKEN)
-                );
+                return DefaultV1Response.partialSuccess(
+                        202, E_UNVERIFIED_MAIL,
+                        new JSONArray().put(jwtGeneratorService.generateJWTResponse(registeredUser,false,true)),
+                        getContext(HttpMethod.POST, P_TOKEN));
             }
             if (TokenType.PARTIAL.equals(userToken.getType())) {
-                return AuthenticationResponse.partialSuccess(
-                        6,
-                        new JSONArray().put(jwtGeneratorService.generateJWTResponse(
-                                registeredUser,
-                                false,
-                                true)),
-                        getContext(HttpMethod.POST, P_TOKEN)
-                );
+                return DefaultV1Response.partialSuccess(
+                        202,
+                        E_PARTIAL_LOGIN,
+                        new JSONArray().put(jwtGeneratorService.generateJWTResponse(registeredUser,false,true)),
+                        getContext(HttpMethod.POST, P_TOKEN));
             }
 
             return DefaultV1Response.success(
@@ -153,17 +151,11 @@ public class AuthenticationResource extends AbstractRestEndpoint {
     protected Response checkUserStatus(UserStatus userStatus, String context) {
         switch (userStatus) {
             case DEACTIVATED:
-                return AuthenticationResponse.error(
-                        AuthenticationResponse.ACCOUNT_DEACTIVATED,
-                        context);
-            case LOCKT_TO_MANY_FAILED_AUTH:
-                return AuthenticationResponse.error(
-                        AuthenticationResponse.TO_MANY_LOGIN_ATTEMPTS,
-                        context);
-            case LOCKT_REQUIRE_PASSWORD_RESET:
-                return AuthenticationResponse.error(
-                        AuthenticationResponse.PASSWORD_REQUIRES_RESET,
-                        context);
+                return DefaultV1Response.error(401, E_ACC_DEACTIVATED, context);
+            case LOCKET_TO_MANY_FAILED_AUTH:
+                return DefaultV1Response.error(401, E_TOO_MANY_AUTH, context);
+            case LOCKET_REQUIRE_PASSWORD_RESET:
+                return DefaultV1Response.error(401, E_PASS_RESET_REQUIRED, context);
             case OK:
                 return null;
             default:

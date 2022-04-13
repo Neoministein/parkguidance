@@ -1,5 +1,9 @@
 package com.neo.parkguidance.ms.user.impl.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonView;
+import com.neo.parkguidance.common.api.json.Views;
+import com.neo.parkguidance.common.impl.util.RandomString;
 import com.neo.parkguidance.ms.user.api.entity.DataBaseEntity;
 import com.neo.parkguidance.ms.user.impl.security.UserStatus;
 import org.hibernate.annotations.Type;
@@ -27,55 +31,65 @@ public class RegisteredUser implements DataBaseEntity {
     public static final String C_STATUS = "status";
     public static final String C_CREATE_ON = "created_on";
     public static final String C_DEACTIVATED_ON = "deactivated_on";
-    public static final String C_PICTURE = "picture";
 
     @Id
-    @Column(name = DataBaseEntity.C_ID)
     @Type(type = "uuid-char")
+    @Column(name = DataBaseEntity.C_ID)
+      @JsonView(Views.Public.class)
     private UUID id = UUID.randomUUID();
 
     @Size(max = 50)
     @Column(name = C_USERNAME, unique = true, nullable = false)
+      @JsonView(Views.Public.class)
     private String username;
 
     @Email
     @Column(name = C_EMAIL, unique = true, nullable = false)
+      @JsonView(Views.Owner.class)
     private String email;
 
     @Column(name = C_EMAIL_VERIFIED, nullable = false)
+      @JsonView(Views.Owner.class)
     private Boolean emailVerified = false;
 
     @Column(name = C_SALT, nullable = false)
-    private String salt;
+      @JsonIgnore
+    private String salt = new RandomString().nextString();
 
     @Column(name = C_PASSWORD)
+      @JsonIgnore
     private String password;
 
     @Column(name = C_STATUS, nullable = false)
+      @JsonView(Views.Owner.class)
     private UserStatus userStatus = UserStatus.OK;
 
-    @Column(name = C_CREATE_ON, updatable = false)
-    private Date createdOn;
+    @Column(name = C_CREATE_ON, nullable = false, updatable = false)
+      @JsonView(Views.Owner.class)
+    private Date createdOn = new Date();
 
     @Column(name = C_DEACTIVATED_ON)
+      @JsonView(Views.Owner.class)
     private Date deactivatedOn;
 
-    @Column(name = C_PICTURE)
-    private String picture;
-
     @ManyToMany
+      @JsonView(Views.Internal.class)
     private List<Permission> permissions = new ArrayList<>();
 
     @ManyToMany
+      @JsonView(Views.Internal.class)
     private List<Role> roles = new ArrayList<>();
 
     @OneToMany(mappedBy = TABLE_NAME, orphanRemoval = true)
+      @JsonView(Views.OwnerRelations.class)
     private List<UserToken> tokens = new ArrayList<>();
 
     @OneToMany(mappedBy = TABLE_NAME, orphanRemoval = true)
+      @JsonView(Views.Internal.class)
     private List<UserCredentials> userCredentials = new ArrayList<>();
 
     @OneToMany(mappedBy = TABLE_NAME, orphanRemoval = true, cascade = CascadeType.MERGE)
+      @JsonView(Views.OwnerRelations.class)
     private List<LoginAttempt> loginAttempts = new ArrayList<>();
 
     public void setId(UUID id) {
@@ -150,14 +164,6 @@ public class RegisteredUser implements DataBaseEntity {
         this.deactivatedOn = deactivatedOn;
     }
 
-    public String getPicture() {
-        return picture;
-    }
-
-    public void setPicture(String picture) {
-        this.picture = picture;
-    }
-
     public List<Permission> getPermissions() {
         return permissions;
     }
@@ -199,6 +205,7 @@ public class RegisteredUser implements DataBaseEntity {
     }
 
     @Override
+    @JsonIgnore
     public Object getPrimaryKey() {
         return getId();
     }

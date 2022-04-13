@@ -14,6 +14,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
+import javax.transaction.RollbackException;
 import java.util.*;
 
 class JWTServiceImplTest {
@@ -127,7 +128,7 @@ class JWTServiceImplTest {
     }
 
     @Test
-    void createTokenRestrictedTest() {
+    void createTokenRestrictedTest() throws RollbackException {
         //Act
         UserToken userToken = subject.createToken(null, true);
         //Assert
@@ -137,7 +138,7 @@ class JWTServiceImplTest {
     }
 
     @Test
-    void createTokenTest() {
+    void createTokenTest() throws RollbackException {
         //Act
 
         UserToken userToken = subject.createToken(null, false);

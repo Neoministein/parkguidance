@@ -1,5 +1,6 @@
 package com.neo.parkguidance.ms.user.impl.security.jwt;
 
+import com.neo.parkguidance.common.impl.exception.InternalLogicException;
 import com.neo.parkguidance.ms.security.impl.authentication.key.JWTKey;
 import com.neo.parkguidance.ms.user.api.dao.EntityDao;
 import com.neo.parkguidance.ms.user.api.security.jwt.JWTGeneratorService;
@@ -8,19 +9,25 @@ import com.neo.parkguidance.ms.user.impl.entity.Permission;
 import com.neo.parkguidance.ms.user.impl.entity.RegisteredUser;
 import com.neo.parkguidance.ms.user.impl.entity.Role;
 import com.neo.parkguidance.ms.user.impl.entity.UserToken;
+import com.neo.parkguidance.ms.user.impl.rest.AbstractRestEndpoint;
 import com.neo.parkguidance.ms.user.impl.security.TokenType;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
+import javax.transaction.RollbackException;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
 @RequestScoped
 public class JWTServiceImpl implements JWTGeneratorService {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(JWTServiceImpl.class);
 
     public static final long REFRESH_TOKEN_LIFESPAN = 1000L * 60L * 60L * 24L * 100L; // 100 Days
     public static final long JWT_LIFE_SPAN = 1000 * 60 * 5L; // 5 MIN
@@ -68,7 +75,12 @@ public class JWTServiceImpl implements JWTGeneratorService {
                 tokenType,
                 new Date(System.currentTimeMillis() + REFRESH_TOKEN_LIFESPAN),
                 registeredUser);
-        userTokenDao.create(userToken);
+        try {
+            userTokenDao.create(userToken);
+        } catch (RollbackException ex) {
+            LOGGER.error("Unable to create a user token", ex);
+            throw new InternalLogicException("Unable to create a refresh token");
+        }
         return userToken;
     }
 

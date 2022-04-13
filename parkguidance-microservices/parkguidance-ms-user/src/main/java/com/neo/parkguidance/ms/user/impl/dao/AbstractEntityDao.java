@@ -3,16 +3,12 @@ package com.neo.parkguidance.ms.user.impl.dao;
 import com.neo.parkguidance.ms.user.api.entity.DataBaseEntity;
 import com.neo.parkguidance.ms.user.api.dao.EntityDao;
 
-import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
-import javax.persistence.Query;
-import javax.persistence.TypedQuery;
+import javax.persistence.*;
 import javax.persistence.criteria.*;
 import javax.transaction.Transactional;
 import java.util.*;
 
-@Transactional
+@Transactional( rollbackOn = PersistenceException.class)
 public abstract class AbstractEntityDao<T extends DataBaseEntity> implements EntityDao<T> {
 
     protected final Class<T> entityClass;
@@ -27,6 +23,7 @@ public abstract class AbstractEntityDao<T extends DataBaseEntity> implements Ent
         getEntityManager().persist(entity);
     }
 
+
     public void edit(T entity) {
         getEntityManager().merge(entity);
     }
@@ -36,7 +33,11 @@ public abstract class AbstractEntityDao<T extends DataBaseEntity> implements Ent
     }
 
     public T find(Object primaryKey) {
-        return getEntityManager().find(entityClass, primaryKey);
+        try {
+            return getEntityManager().find(entityClass, primaryKey);
+        } catch (NoResultException | IllegalArgumentException  ex) {
+            return null;
+        }
     }
 
     public List<T> findAll() {
@@ -84,7 +85,7 @@ public abstract class AbstractEntityDao<T extends DataBaseEntity> implements Ent
     public T findOneByColumn(Map<String, Object> column) {
         try {
             return getTypedQueryByColumn(column, Collections.emptyMap()).getSingleResult();
-        } catch (NoResultException ex) {
+        } catch (NoResultException | IllegalArgumentException ex) {
             return null;
         }
     }
@@ -98,7 +99,7 @@ public abstract class AbstractEntityDao<T extends DataBaseEntity> implements Ent
     public List<T> findByColumn(Map<String, Object> column, Map<String, Boolean> order) {
         try {
             return getTypedQueryByColumn(column, order).getResultList();
-        } catch (NoResultException ex) {
+        } catch (NoResultException | IllegalArgumentException  ex) {
             return Collections.emptyList();
         }
     }
@@ -106,7 +107,7 @@ public abstract class AbstractEntityDao<T extends DataBaseEntity> implements Ent
     public List<T> findByColumn(Map<String, Object> column, Map<String, Boolean> order, int offset ,int maxReturn) {
         try {
             return getTypedQueryByColumn(column, order).setFirstResult(offset).setMaxResults(maxReturn).getResultList();
-        } catch (NoResultException ex) {
+        } catch (NoResultException | IllegalArgumentException  ex) {
             return Collections.emptyList();
         }
     }

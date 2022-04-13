@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
+import javax.transaction.RollbackException;
 import java.util.*;
 
 /**
@@ -81,14 +82,23 @@ public class CredentialsManagerServiceImpl implements CredentialsManagerService 
         UserToken userToken = userTokenDao.findOneByColumn(UserToken.C_KEY, token.getToken());
         if (userToken != null) {
             if (userToken.getExpirationDate() != null && new Date().after(userToken.getExpirationDate())) {
-                userTokenDao.remove(userToken);
+                try {
+                    userTokenDao.remove(userToken);
+                } catch (RollbackException ex) {
+                    LOGGER.warn("Unable to remove expired token {}", userToken.getId(), ex);
+                }
                 return null;
             }
 
             LOGGER.info("Retrieval success, token acknowledged [{}]", token);
             if (TokenType.ONE_TIME.equals(userToken.getType())) {
                 LOGGER.debug("Retrieved token is designated as a one time use");
-                userTokenDao.remove(userToken);
+                try {
+                    userTokenDao.remove(userToken);
+                } catch (RollbackException e) {
+                    LOGGER.error("Unable to remove ");
+                    return null;
+                }
             }
 
             return userToken;
@@ -104,8 +114,11 @@ public class CredentialsManagerServiceImpl implements CredentialsManagerService 
         if (failed && registeredUser != null && UserStatus.OK.equals(registeredUser.getUserStatus())) {
             checkForToManyAuth(registeredUser);
         }
-        loginAttemptDao.create(loginAttempt);
-
+        try {
+            loginAttemptDao.create(loginAttempt);
+        } catch (RollbackException ex) {
+            LOGGER.warn("Unable to create an login attempt for user", ex);
+        }
     }
 
     protected void checkForToManyAuth(RegisteredUser registeredUser) {
@@ -120,8 +133,13 @@ public class CredentialsManagerServiceImpl implements CredentialsManagerService 
                 }
             }
             if (!hasSuccessfulLogin) {
-                registeredUser.setUserStatus(UserStatus.LOCKT_TO_MANY_FAILED_AUTH);
-                userDao.edit(registeredUser);
+                registeredUser.setUserStatus(UserStatus.LOCKET_TO_MANY_FAILED_AUTH);
+                try {
+                    userDao.edit(registeredUser);
+                } catch (RollbackException ex) {
+                    LOGGER.error("Unable to lock user {}", registeredUser.getId(), ex);
+                }
+
             }
         }
     }

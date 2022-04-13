@@ -17,6 +17,13 @@ public class DefaultV1Response {
         return responseMessage;
     }
 
+    public static Response partialSuccess(int code, JSONObject error ,JSONArray data, String context) {
+        JSONObject response = DefaultV1Response.defaultResponse(code, context);
+        response.put("data", data);
+        response.put("error", error);
+        return Response.ok().entity(response).build();
+    }
+
     public static Response success(String context) {
         return Response.ok().entity(defaultResponse(200, context).toString()).build();
     }
@@ -37,7 +44,7 @@ public class DefaultV1Response {
 
     public static Response error(int code, JSONObject error, String context) {
         JSONObject response = defaultResponse(code, context);
-        response.put("errors", error);
+        response.put("error", error);
 
         return Response.ok().entity(response.toString()).build();
     }

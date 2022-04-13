@@ -58,7 +58,7 @@ public abstract class AbstractIntegrationTest {
 
     protected String getValidJWTToken(List<String> roles) {
         return Jwts.builder()
-                .setSubject("uuid")
+                .setSubject("9cf9de30-9004-11ec-b909-0242ac120002")
                 .claim("username", "Testing-User")
                 .claim("roles", roles)
                 .signWith(privateKey, SignatureAlgorithm.RS256).compact();

@@ -2,6 +2,7 @@ package com.neo.parkguidance.ms.user.api.dao;
 
 import com.neo.parkguidance.ms.user.api.entity.DataBaseEntity;
 
+import javax.transaction.RollbackException;
 import java.util.List;
 import java.util.Map;
 
@@ -15,21 +16,21 @@ public interface EntityDao<T extends DataBaseEntity> {
      *
      * @param entity the entity to be created
      */
-    void create(T entity);
+    void create(T entity) throws RollbackException;
 
     /**
      * Edits the given entry in the table for the given entity {@link T}
      *
      * @param entity the entity to be edited
      */
-    void edit(T entity);
+    void edit(T entity) throws RollbackException;
 
     /**
      * Removes the entry in the table for the given entity {@link T}
      *
      * @param entity the entity to remove
      */
-    void remove(T entity);
+    void remove(T entity) throws RollbackException;
 
     /**
      * Counts the number of entries in the table {@link T}

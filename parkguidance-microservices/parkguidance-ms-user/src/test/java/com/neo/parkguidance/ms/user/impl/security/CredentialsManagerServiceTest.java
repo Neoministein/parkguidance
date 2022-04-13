@@ -12,6 +12,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
+import javax.transaction.RollbackException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -163,7 +164,7 @@ class CredentialsManagerServiceTest {
     }
 
     @Test
-    void loginAttemptLoginFailedTest() {
+    void loginAttemptLoginFailedTest() throws RollbackException {
         //Arrange
         RegisteredUser registeredUser = new RegisteredUser();
 
@@ -224,7 +225,7 @@ class CredentialsManagerServiceTest {
         subject.createLoginAttempt(loginCredentials, registeredUser, true);
 
         //Assert
-        Assertions.assertEquals(UserStatus.LOCKT_TO_MANY_FAILED_AUTH, registeredUser.getUserStatus());
+        Assertions.assertEquals(UserStatus.LOCKET_TO_MANY_FAILED_AUTH, registeredUser.getUserStatus());
     }
 
     @Test

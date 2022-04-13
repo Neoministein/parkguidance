@@ -4,6 +4,7 @@ import com.neo.parkguidance.ms.user.api.security.CredentialsManagerService;
 import com.neo.parkguidance.ms.user.api.security.jwt.JWTGeneratorService;
 import com.neo.parkguidance.ms.user.impl.entity.RegisteredUser;
 import com.neo.parkguidance.ms.user.impl.entity.UserToken;
+import com.neo.parkguidance.ms.user.impl.rest.DefaultV1Response;
 import com.neo.parkguidance.ms.user.impl.rest.HttpMethod;
 import com.neo.parkguidance.ms.user.impl.rest.RequestDetails;
 import com.neo.parkguidance.ms.user.impl.security.TokenType;
@@ -79,11 +80,13 @@ class AuthenticationResourceTest {
 
         Response response = subject.credentials(input);
         //Assert
+
         Assertions.assertEquals(
-                AuthenticationResponse.error(
-                        AuthenticationResponse.CREDENTIALS_INVALID,
-                        subject.getContext(HttpMethod.POST, "/credentials"))
-                        .getEntity().toString(),
+                DefaultV1Response.error(
+                        401,
+                        AuthenticationResource.E_AUTH_FAILED,
+                        subject.getContext(HttpMethod.POST, AuthenticationResource.P_CREDENTIALS)
+                ).getEntity().toString(),
                 response.getEntity().toString());
     }
 
@@ -104,11 +107,12 @@ class AuthenticationResourceTest {
         //Assert
         Mockito.verify(jwtGeneratorService).generateJWTResponse(registeredUser,true,true);
         Assertions.assertEquals(
-                AuthenticationResponse.partialSuccess(
-                        5,
+                DefaultV1Response.partialSuccess(
+                        202,
+                        AuthenticationResource.E_UNVERIFIED_MAIL,
                         new JSONArray().put((Object) null),
-                        subject.getContext(HttpMethod.POST,"/credentials"))
-                        .getEntity().toString(),
+                        subject.getContext(HttpMethod.POST, AuthenticationResource.P_CREDENTIALS)
+                ).getEntity().toString(),
                 response.getEntity().toString());
     }
 
@@ -168,10 +172,11 @@ class AuthenticationResourceTest {
         //Assert
 
         Assertions.assertEquals(
-                AuthenticationResponse.error(
-                        AuthenticationResponse.INVALID_TOKEN,
-                        subject.getContext(HttpMethod.POST, "/token"))
-                        .getEntity().toString(),
+                DefaultV1Response.error(
+                        401,
+                        AuthenticationResource.E_TOKEN_INVALID,
+                        subject.getContext(HttpMethod.POST, AuthenticationResource.P_TOKEN)
+                ).getEntity().toString(),
                 response.getEntity().toString());
     }
 
@@ -195,12 +200,14 @@ class AuthenticationResourceTest {
         //Assert
 
         Mockito.verify(jwtGeneratorService).generateJWTResponse(registeredUser,false,true);
+
         Assertions.assertEquals(
-                AuthenticationResponse.partialSuccess(
-                        AuthenticationResponse.PARTIAL_LOGIN_TOKEN,
-                        new JSONArray().put((Object) null),
-                        subject.getContext(HttpMethod.POST,"/token"))
-                        .getEntity().toString(),
+                DefaultV1Response.partialSuccess(
+                        202,
+                        AuthenticationResource.E_PARTIAL_LOGIN,
+                        new JSONArray().put(jwtGeneratorService.generateJWTResponse(registeredUser,true,true)),
+                        subject.getContext(HttpMethod.POST, AuthenticationResource.P_TOKEN)
+                ).getEntity().toString(),
                 response.getEntity().toString());
     }
 

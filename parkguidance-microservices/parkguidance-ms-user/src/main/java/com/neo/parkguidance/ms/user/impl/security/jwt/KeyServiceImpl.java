@@ -1,19 +1,25 @@
 package com.neo.parkguidance.ms.user.impl.security.jwt;
 
+import com.neo.parkguidance.common.impl.exception.InternalLogicException;
 import com.neo.parkguidance.ms.security.impl.authentication.key.JWTPrivateKey;
 import com.neo.parkguidance.ms.security.impl.authentication.key.JWTPublicKey;
 import com.neo.parkguidance.ms.user.api.dao.EntityDao;
 import com.neo.parkguidance.ms.user.api.security.jwt.KeyService;
 import com.neo.parkguidance.ms.user.impl.entity.KeyPair;
 import com.neo.parkguidance.ms.user.impl.utils.KeyPairUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.transaction.RollbackException;
 import java.util.*;
 
 @ApplicationScoped
 public class KeyServiceImpl implements KeyService {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(KeyServiceImpl.class);
 
     private static final long THREE_MONTHS = 1000L * 60L * 60L * 24L * 90L;
     private static final long TIME_TO_UPDATE = 1000L * 10L;
@@ -68,7 +74,13 @@ public class KeyServiceImpl implements KeyService {
     protected void createKeyPair() {
         Date expirationDate = new Date(THREE_MONTHS + System.currentTimeMillis());
         KeyPair keyPair = KeyPairUtils.generateNewKeyPair(expirationDate);
-        keyPairDao.create(keyPair);
+        try {
+            keyPairDao.create(keyPair);
+        } catch (RollbackException ex) {
+            LOGGER.error("Unable to create new keypair", ex);
+            throw new InternalLogicException("Unable to create new keypair");
+        }
+
     }
 
     protected void checkToUpdate() {
@@ -107,6 +119,12 @@ public class KeyServiceImpl implements KeyService {
 
     protected void revokeKey(KeyPair keyPair) {
         keyPair.setDisabled(true);
-        keyPairDao.edit(keyPair);
+        try {
+            keyPairDao.edit(keyPair);
+        } catch (RollbackException ex) {
+            LOGGER.error("Unable to revoke private key", ex);
+            throw new InternalLogicException("Unable to revoke private key");
+        }
+
     }
 }
